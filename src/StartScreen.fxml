@@ -39,9 +39,9 @@
             <Font name="OCR A Extended" size="24.0" />
          </font>
       </Text>
-      <ImageView fitHeight="56.0" fitWidth="79.0" layoutX="22.0" layoutY="580.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="83.0" fitWidth="130.0" layoutX="22.0" layoutY="567.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@resources/bird_logo.png" />
+            <Image url="@resources/bird%20logo.PNG" />
          </image>
       </ImageView>
       <Text layoutX="255.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™">
