@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="470.0" fitWidth="619.0" layoutX="116.0" layoutY="-28.0" pickOnBounds="true">
+         <image>
+            <Image url="@resources/bird%20logo.PNG" />
+         </image>
+      </ImageView>
+      <Text fill="WHITE" layoutX="191.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BIRDSTUFZ GamesMaster" textAlignment="CENTER" wrappingWidth="488.8034362792969">
+         <font>
+            <Font name="OCR A Extended" size="73.0" />
+         </font>
+      </Text>
+      <Text layoutX="284.0" layoutY="555.0" strokeType="OUTSIDE" strokeWidth="0.0" text="© Copyright 2018 CECS 491A" wrappingWidth="302.90185546875">
+         <font>
+            <Font name="OCR A Extended" size="19.0" />
+         </font>
+      </Text>
+   </children>
+</Pane>
