@@ -53,8 +53,13 @@ public class ConcentrationController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		rootPane.setStyle("-fx-background-color: #a50000");
 		root.setStyle("-fx-background-color: #42cbf4");
+
+	
+		//Initialize Array of Images and random generation for game
+
         byte[] imgs = new byte[10];
         Random rnd = new Random();
 
@@ -74,13 +79,15 @@ public class ConcentrationController implements Initializable {
                     if(card.isFlipped())
                         return;
                     
+                    //If the selected card exists and it's not already flipped
                     if(selectedCard != null && !selectedCard.isFlipped()) {
+                    	//If the selected card is not the same card, but has the same image
                         if (selectedCard != card && selectedCard.equals(card)) {
-                            selectedCard.flip();
+                            selectedCard.flip(); //Flip card
                             card.flip();
                         } else {
                         	
-                            selectedCard.hide();
+                            //selectedCard.hide();
                             selectedCard.setEffect(null);
                             selectedCard = null;
                            
