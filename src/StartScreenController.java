@@ -51,8 +51,16 @@ public class StartScreenController implements Initializable {
     }  
 	// Event Listener on Button[#MazeButton].onAction
 	@FXML
-	public void MazeButtonClick(ActionEvent event) {
-		
+	public void MazeButtonClick(ActionEvent event) throws IOException {
+		Parent loginParent = FXMLLoader.load(getClass().getResource("Maze.fxml"));
+        Scene LoginScene = new Scene(loginParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setResizable(false);
+        window.setScene(LoginScene);
+       
+
+        window.setResizable(false); 
+        window.show();
 	}
 	// Event Listener on Button[#ConcentrationButton].onAction
 	@FXML
