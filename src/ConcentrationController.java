@@ -1,4 +1,5 @@
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,12 +8,16 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import javafx.animation.FadeTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -30,8 +35,21 @@ public class ConcentrationController implements Initializable {
 	private GridPane root;
 	@FXML
 	private Pane rootPane;
+	@FXML
+	private Button homeButton;
 
 	private Card selectedCard;
+	
+	@FXML
+	public void goHome(ActionEvent event) throws IOException {
+		Parent loginParent = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+		loginParent.setStyle("-fx-background-color: #a50000");
+        Scene LoginScene = new Scene(loginParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setResizable(false);
+        window.setScene(LoginScene);
+	}
+       
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -49,7 +67,7 @@ public class ConcentrationController implements Initializable {
                 while(imgs[num = rnd.nextInt(10)] == 2);
                 imgs[num]++;
 
-                Card card = new Card( String.format("file:src/birds/%s.png", num) );
+                Card card = new Card( String.format("file:src/birds/%s.png", num + 1) );
 
                 card.setOnMouseClicked(x -> {
                     if(card.isFlipped())
@@ -75,7 +93,8 @@ public class ConcentrationController implements Initializable {
                     }
 
                     if (allFlipped(root))
-                        alertWin(); // win
+                    	homeButton.setVisible(true);
+                        
                 });
 
                 card.setOnMouseEntered(x -> {
@@ -95,7 +114,6 @@ public class ConcentrationController implements Initializable {
 
         // TODO: now flip a few
 
-    
 		
 	}
 	
@@ -106,15 +124,5 @@ public class ConcentrationController implements Initializable {
         return true;
     }
 
-    public void alertWin()  {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("You Win!");
-        alert.setHeaderText("You Win!");
-        alert.setContentText("Congratulations!");
-
-        alert.showAndWait();
-
-     
-    }
 	
 }
