@@ -53,7 +53,8 @@ public class ConcentrationController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-	
+		rootPane.setStyle("-fx-background-color: #a50000");
+		root.setStyle("-fx-background-color: #42cbf4");
         byte[] imgs = new byte[10];
         Random rnd = new Random();
 

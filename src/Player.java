@@ -8,8 +8,8 @@ public class Player {
     private int row, col;
     
     public void render(GraphicsContext gc) {
-        gc.setFill(Color.SKYBLUE);
-        gc.setStroke(Color.AQUA);
+        gc.setFill(Color.WHITE);
+        gc.setStroke(Color.WHITE);
         gc.fillOval(x, y, RADIUS, RADIUS);
     }
     

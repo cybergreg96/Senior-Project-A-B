@@ -1,6 +1,6 @@
 
 import javafx.fxml.FXML;
-
+import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
 
 import javafx.scene.layout.Pane;
@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.layout.Pane;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,6 +26,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -43,7 +46,17 @@ public class MazeController implements Initializable {
 	private Pane root;
 	@FXML
 	private static Canvas canvas;
-	
+	@FXML
+	private Button homeButton;
+	@FXML
+	public void goHome(ActionEvent event) throws IOException {
+		Parent loginParent = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+		loginParent.setStyle("-fx-background-color: #a50000");
+        Scene LoginScene = new Scene(loginParent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setResizable(false);
+        window.setScene(LoginScene);
+	}
 	public static final int CANVAS_WIDTH = 850;
     public static final int CANVAS_HEIGHT = 650;
     public static final int GRID_SIZE = 20;
@@ -81,7 +94,9 @@ public class MazeController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		
-	 	
+		root.setStyle("-fx-background-color: #a50000");
+		
+		
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.getChildren().add(canvas);  
         
@@ -498,6 +513,8 @@ public class MazeController implements Initializable {
     	 * flash next maze button
     	 */
     	Wall.setWallColor(1);
+    	homeButton.setVisible(true);
+    	
     	
     }
 

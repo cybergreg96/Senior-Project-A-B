@@ -8,7 +8,7 @@
 
 <Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ConcentrationController">
    <children>
-      <GridPane fx:id="root" layoutX="120.0" layoutY="92.0" prefHeight="467.0" prefWidth="611.0">
+      <GridPane fx:id="root" layoutX="176.0" layoutY="135.0" prefHeight="380.0" prefWidth="498.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
