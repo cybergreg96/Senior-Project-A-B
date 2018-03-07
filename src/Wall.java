@@ -12,8 +12,8 @@ public class Wall {
     private boolean isHalfWall;
     private boolean isBorderWall;
     private static Color currentColor;
-    public static final Color UNSOLVED_COLOR = Color.ORANGERED;
-    public static final Color SOLVED_COLOR = Color.DODGERBLUE;
+    public static final Color UNSOLVED_COLOR = Color.DODGERBLUE;
+    public static final Color SOLVED_COLOR = Color.GREENYELLOW;
     private List<Line> outlineEdges;
     
     public Wall(WallAnchor p1, WallAnchor p2) {

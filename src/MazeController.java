@@ -48,15 +48,7 @@ public class MazeController implements Initializable {
 	private static Canvas canvas;
 	@FXML
 	private Button homeButton;
-	@FXML
-	public void goHome(ActionEvent event) throws IOException {
-		Parent loginParent = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
-		loginParent.setStyle("-fx-background-color: #a50000");
-        Scene LoginScene = new Scene(loginParent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setResizable(false);
-        window.setScene(LoginScene);
-	}
+	
 	public static final int CANVAS_WIDTH = 850;
     public static final int CANVAS_HEIGHT = 650;
     public static final int GRID_SIZE = 20;
@@ -115,6 +107,30 @@ public class MazeController implements Initializable {
         		mazeGraph.renderSolution(false);
         		showSolution.setText("Show Solution");
         	}
+        });
+        
+        Button goHome = new Button("Go home");
+        Scene home = new Scene(goHome);
+        home.snapshot(null);       
+        goHome.setTranslateX((CANVAS_WIDTH / 2) - showSolution.getWidth() / 2);
+        goHome.setTranslateY(GRID_SIZE * 2 * SPACING + 150); 
+        root.getChildren().add(goHome);
+        goHome.setOnAction((ActionEvent e) -> {
+        	
+        	
+			try {
+				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+				x.setStyle("-fx-background-color: #a50000");
+	            Scene y = new Scene(x);
+	            Stage w = (Stage)((Node)e.getSource()).getScene().getWindow();
+	            w.setResizable(false);
+	            w.setScene(y);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		
+            
         });
         
         
@@ -513,7 +529,6 @@ public class MazeController implements Initializable {
     	 * flash next maze button
     	 */
     	Wall.setWallColor(1);
-    	homeButton.setVisible(true);
     	
     	
     }

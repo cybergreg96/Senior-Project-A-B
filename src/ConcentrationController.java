@@ -1,4 +1,6 @@
-
+/*
+ * citations: https://github.com/ThriftyNick/maze_generator
+ */
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,9 +37,6 @@ public class ConcentrationController implements Initializable {
 	private GridPane root;
 	@FXML
 	private Pane rootPane;
-	@FXML
-	private Button homeButton;
-
 	private Card selectedCard;
 	
 	@FXML
@@ -55,9 +54,9 @@ public class ConcentrationController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		rootPane.setStyle("-fx-background-color: #a50000");
-		root.setStyle("-fx-background-color: #42cbf4");
-
-	
+		root.setStyle("-fx-background-color: #FFFFFF");
+		
+		 
 		//Initialize Array of Images and random generation for game
 
         byte[] imgs = new byte[10];
@@ -87,7 +86,7 @@ public class ConcentrationController implements Initializable {
                             card.flip();
                         } else {
                         	
-                            //selectedCard.hide();
+                            selectedCard.hide();
                             selectedCard.setEffect(null);
                             selectedCard = null;
                            
@@ -100,8 +99,10 @@ public class ConcentrationController implements Initializable {
                         selectedCard.show();
                     }
 
-                    if (allFlipped(root))
-                    	homeButton.setVisible(true);
+                    if (allFlipped(root)) {
+                    	
+                    }
+                    	
                         
                 });
 
@@ -120,8 +121,31 @@ public class ConcentrationController implements Initializable {
             }
         }
 
-        // TODO: now flip a few
+        Button goHome = new Button("Go home");
+        Scene home = new Scene(goHome);
+        home.snapshot(null);       
+        goHome.setTranslateX(382);
+        goHome.setTranslateY(582); 
+        rootPane.getChildren().add(goHome);
+        goHome.setOnAction((ActionEvent e) -> {
+        	
+        	
+			try {
+				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+				x.setStyle("-fx-background-color: #a50000");
+	            Scene y = new Scene(x);
+	            Stage w = (Stage)((Node)e.getSource()).getScene().getWindow();
+	            w.setResizable(false);
+	            w.setScene(y);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		
+            
+        });
 
+      
 		
 	}
 	
