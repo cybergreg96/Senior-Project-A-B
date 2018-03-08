@@ -15,7 +15,7 @@
             <Font name="Courier New" size="28.0" />
          </font>
       </Text>
-      <Pane layoutX="99.0" layoutY="89.0" prefHeight="422.0" prefWidth="702.0">
+      <Pane fx:id="chessPane" layoutX="99.0" layoutY="89.0" prefHeight="422.0" prefWidth="702.0">
          <children>
             <GridPane fx:id="chessBoard" prefHeight="422.0" prefWidth="702.0">
               <columnConstraints>

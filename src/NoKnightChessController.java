@@ -30,6 +30,8 @@ public class NoKnightChessController implements Initializable {
 	private Text titleTxt;
 	@FXML
 	private GridPane chessBoard;
+	@FXML
+	private Pane chessPane;
 
 	@FXML
 	public void goHome(ActionEvent event) throws IOException {
