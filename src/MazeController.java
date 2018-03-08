@@ -563,30 +563,6 @@ public class MazeController implements Initializable {
 	        }
 	    }, 1000,1000);
 	}
-    
-    public void setTimer2() {
-	    timer = new java.util.Timer();
-	    timer.scheduleAtFixedRate(new TimerTask() {
-	        public void run() {
-	            if(interval >= 0)
-	            {
-	              timerText.setText(String.valueOf(interval));
-	                interval++;
-	            }
-	            else
-
-	                timer.cancel();
-	            if(interval == 0) {
-	            	for(Node c: root.getChildren()) {
-	                  	 ((Card) c).reveal();
-	                   }
-	            }
-                
-	           
-	        }
-	    }, 1000,1000);
-	}
-
 }
 
 
