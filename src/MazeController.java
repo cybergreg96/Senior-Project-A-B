@@ -19,7 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
-
+import java.util.TimerTask;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -35,11 +35,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class MazeController implements Initializable {
@@ -56,12 +54,14 @@ public class MazeController implements Initializable {
     public static final int SPACING = 10;
     public static final int EXIT_COLUMN = GRID_SIZE * 2 - 3;
     private static final double WALL_DENSITY = 0.55;
-
+    private int interval = 0;
     
     private boolean rendered, congratulated;
     private WallAnchor[][] anchorPoints;
     private static List<Wall> walls;
-    
+    private java.util.Timer timer;
+    @FXML
+    private Text timerText;
     private double[] doorwayInfo;
     
     private MPlayer player;
@@ -88,7 +88,7 @@ public class MazeController implements Initializable {
 
 		
 		root.setStyle("-fx-background-color: #a50000");
-		
+		setTimer();
 		
         canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
         root.getChildren().add(canvas);  
@@ -541,6 +541,51 @@ public class MazeController implements Initializable {
             value = v;
         }
     }
+    public void setTimer() {
+	    timer = new java.util.Timer();
+	    timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	            if(interval >= 0)
+	            {
+	              timerText.setText(String.valueOf(interval));
+	                interval++;
+	            }
+	            else
+
+	                timer.cancel();
+	            if(interval == 0) {
+	            	for(Node c: root.getChildren()) {
+	                  	 ((Card) c).reveal();
+	                   }
+	            }
+                
+	           
+	        }
+	    }, 1000,1000);
+	}
+    
+    public void setTimer2() {
+	    timer = new java.util.Timer();
+	    timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	            if(interval >= 0)
+	            {
+	              timerText.setText(String.valueOf(interval));
+	                interval++;
+	            }
+	            else
+
+	                timer.cancel();
+	            if(interval == 0) {
+	            	for(Node c: root.getChildren()) {
+	                  	 ((Card) c).reveal();
+	                   }
+	            }
+                
+	           
+	        }
+	    }, 1000,1000);
+	}
 
 }
 
