@@ -51,7 +51,7 @@ public class ConcentrationController implements Initializable {
 	 private int numberOfMoves = 0;
 	 private int howManyMatches = 0;
 	 private java.util.Timer timer;
-	 private int interval = 10;
+	 private int interval = 60;
 
 
 
