@@ -129,16 +129,6 @@ public class ConcentrationController implements Initializable {
                 });
 
 
-                	
-                	
-                	
-                	
-                	
-                	
-                	
-                	
-                	
-
                 card.setOnMouseEntered(x -> {
                     if(selectedCard != card && !card.isFlipped())
                         card.setEffect(adjust);
