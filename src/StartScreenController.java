@@ -87,7 +87,6 @@ public class StartScreenController implements Initializable {
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setResizable(false);
         window.setScene(LoginScene);
-       
 
         window.setResizable(false); 
         window.show();

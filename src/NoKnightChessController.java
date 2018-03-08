@@ -68,8 +68,8 @@ public class NoKnightChessController implements Initializable {
         
         int cellColorSwitch = 0;
         
-        for(int i = 0; i < 5; i++) {
-            for(int j = 0; j < 5; j++) {
+        for(int i = 0; i < 6; i++) {
+            for(int j = 0; j < 6; j++) {
 
             	Pane boardCell = new Pane();
             	
@@ -91,39 +91,9 @@ public class NoKnightChessController implements Initializable {
         }
         
         rootPane.getChildren().add(chessBoard);
-
-        Button goHome = new Button("Go home");
-        Scene home = new Scene(goHome);
-        home.snapshot(null);       
-        goHome.setTranslateX(382);
-        goHome.setTranslateY(550); 
-        rootPane.getChildren().add(goHome);
-        goHome.setOnAction((ActionEvent e) -> {
-        	
-        	
-			try {
-				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
-				x.setStyle("-fx-background-color: #a50000");
-	            Scene y = new Scene(x);
-	            Stage w = (Stage)((Node)e.getSource()).getScene().getWindow();
-	            w.setResizable(false);
-	            w.setScene(y);
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-    		
-            
-        });
+          
 
       
 		
 	}
-	
-	public boolean allFlipped(GridPane g) {
-        for(Node x : g.getChildren())
-            if(!((Card)x).isFlipped())
-                return false;
-        return true;
-    }
 }
