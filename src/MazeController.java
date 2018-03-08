@@ -1,4 +1,5 @@
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
@@ -63,7 +64,7 @@ public class MazeController implements Initializable {
     
     private double[] doorwayInfo;
     
-    private Player player;
+    private MPlayer player;
     private MazeGraph mazeGraph;
    
     private  ArrayList<String> input;
@@ -148,7 +149,7 @@ public class MazeController implements Initializable {
         
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        player = new Player();
+        player = new MPlayer();
         
         input = new ArrayList<String>();
         
