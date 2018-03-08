@@ -529,9 +529,7 @@ public class MazeController implements Initializable {
     	 * play sound effect
     	 * flash next maze button
     	 */
-    	Wall.setWallColor(1);
-    	
-    	
+    	Wall.setWallColor(1);    	
     }
 
     private static class TimeValue {
