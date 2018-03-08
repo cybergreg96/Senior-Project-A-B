@@ -10,17 +10,17 @@
 
 <Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
-      <Button fx:id="MazeButton" layoutX="14.0" layoutY="436.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="103.0" prefWidth="198.0" text="Maze Master">
+      <Button fx:id="MazeButton" layoutX="14.0" layoutY="436.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="89.0" prefWidth="171.0" text="Maze Master">
          <font>
             <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="ConcentrationButton" layoutX="325.0" layoutY="436.0" mnemonicParsing="false" onAction="#ConcentrationButtonClick" prefHeight="103.0" prefWidth="198.0" text="Concentration" textAlignment="CENTER" textOverrun="CLIP">
+      <Button fx:id="ConcentrationButton" layoutX="217.0" layoutY="436.0" mnemonicParsing="false" onAction="#ConcentrationButtonClick" prefHeight="89.0" prefWidth="171.0" text="Concentration" textAlignment="CENTER" textOverrun="CLIP">
          <font>
             <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="MancalaButton" layoutX="638.0" layoutY="436.0" mnemonicParsing="false" onAction="#MancalaButtonClick" prefHeight="103.0" prefWidth="198.0" text="Mancala" textAlignment="CENTER">
+      <Button fx:id="MancalaButton" layoutX="638.0" layoutY="436.0" mnemonicParsing="false" onAction="#MancalaButtonClick" prefHeight="89.0" prefWidth="171.0" text="Mancala" textAlignment="CENTER">
          <font>
             <Font name="Courier New Bold" size="20.0" />
          </font>
@@ -55,5 +55,10 @@
             </Text>
          </items>
       </ToolBar>
+      <Button fx:id="ChessButton" layoutX="429.0" layoutY="436.0" mnemonicParsing="false" onAction="#ChessButtonClick" prefHeight="89.0" prefWidth="171.0" text="Chess" textAlignment="CENTER">
+         <font>
+            <Font name="Courier New Bold" size="20.0" />
+         </font>
+      </Button>
    </children>
 </Pane>

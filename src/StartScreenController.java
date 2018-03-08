@@ -35,6 +35,8 @@ public class StartScreenController implements Initializable {
 	@FXML
 	private Button MazeButton;
 	@FXML
+	private Button ChessButton;
+	@FXML
 	private Button ConcentrationButton;
 	@FXML
 	private Button MancalaButton;
@@ -57,16 +59,26 @@ public class StartScreenController implements Initializable {
 	// Event Listener on Button[#MazeButton].onAction
 	@FXML
 	public void MazeButtonClick(ActionEvent event) throws IOException {
-		Parent loginParent = FXMLLoader.load(getClass().getResource("Maze.fxml"));
-        Scene LoginScene = new Scene(loginParent);
+		Parent maze = FXMLLoader.load(getClass().getResource("Maze.fxml"));
+        Scene mazeScene = new Scene(maze);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setResizable(false);
-        window.setScene(LoginScene);
-       
-
+        window.setScene(mazeScene);
         window.setResizable(false); 
         window.show();
 	}
+	
+	// Event Listener on Button[#MazeButton].onAction
+		@FXML
+		public void ChessButtonClick(ActionEvent event) throws IOException {
+			Parent chess = FXMLLoader.load(getClass().getResource("NoKnightChess.fxml"));
+	        Scene chessScene = new Scene(chess);
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        window.setResizable(false);
+	        window.setScene(chessScene);
+	        window.setResizable(false); 
+	        window.show();
+		}
 	// Event Listener on Button[#ConcentrationButton].onAction
 	@FXML
 	public void ConcentrationButtonClick(ActionEvent event) throws IOException {
