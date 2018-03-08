@@ -113,6 +113,7 @@ public class ConcentrationController implements Initializable {
                                  
                              }
                          } else {
+                        	 if(interval != 0) {
                         	 javax.swing.Timer time = new javax.swing.Timer(500, null);
                              time.addActionListener(e -> {
                                  //for cards to be compared, flip all cards
@@ -124,6 +125,7 @@ public class ConcentrationController implements Initializable {
                                  time.stop();
                              });
                              time.start();
+                         }
                          }
                      }
                 });
