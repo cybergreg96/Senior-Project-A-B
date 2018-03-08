@@ -562,11 +562,6 @@ public class MazeController implements Initializable {
 	        }
 	    }, 1000,1000);
 	}
-    
-    
-    public void setTimer2() {
-	    
-	}
 
 }
 
