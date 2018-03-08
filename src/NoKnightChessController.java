@@ -30,8 +30,7 @@ public class NoKnightChessController implements Initializable {
 	private Text titleTxt;
 	@FXML
 	private GridPane chessBoard;
-	@FXML
-	private Pane chessPane;
+
 
 	@FXML
 	public void goHome(ActionEvent event) throws IOException {
@@ -47,24 +46,6 @@ public class NoKnightChessController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-		rootPane.setStyle("-fx-background-color: #a50000");
-		chessBoard.setStyle("-fx-background-color: #FFFFFF");
-		
-		 
-		//Initialize Array of Images and random generation for game
-
-        ColorAdjust adjust = new ColorAdjust();
-        adjust.setBrightness(-0.25);
-
-        //sets width and height dimensions for gridpane in chessBoard
-        for (int i = 0; i < 6; i++) {
-            RowConstraints rowSize = new RowConstraints(90);
-           
-            ColumnConstraints columnSize = new ColumnConstraints(90);
-           
-            chessBoard.getRowConstraints().add(rowSize);
-            chessBoard.getColumnConstraints().add(columnSize);
-        }
         
         int cellColorSwitch = 0;
         
@@ -89,9 +70,6 @@ public class NoKnightChessController implements Initializable {
                 cellColorSwitch++;
             }
         }
-        
-        rootPane.getChildren().add(chessBoard);
-          
 
       
 		
