@@ -10,7 +10,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-
+import javafx.scene.control.ToolBar;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -40,9 +40,14 @@ public class StartScreenController implements Initializable {
 	private Button MancalaButton;
 	@FXML
 	private Text WelcomeText;
+	@FXML
+	private ToolBar birdstufzBanner;
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
+		//set banner background color
+		birdstufzBanner.setStyle("-fx-background-color: #FFFFFF");
+		
         //load the splashscreen if not loaded yet
 		if(!StartScreen.isSplashLoaded) {
 			loadSplashScreen();

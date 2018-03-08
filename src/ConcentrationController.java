@@ -9,7 +9,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+import java.util.TimerTask;
+
+
+
 import javafx.animation.FadeTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -37,7 +42,19 @@ public class ConcentrationController implements Initializable {
 	private GridPane root;
 	@FXML
 	private Pane rootPane;
+	@FXML
+	private Text timerText;
+	
 	private Card selectedCard;
+	private Card aCard;
+	 private int selectNum = 0;
+	 private int numberOfMoves = 0;
+	 private int howManyMatches = 0;
+	 private java.util.Timer timer;
+	 private int interval = 10;
+
+
+
 	
 	@FXML
 	public void goHome(ActionEvent event) throws IOException {
@@ -52,9 +69,10 @@ public class ConcentrationController implements Initializable {
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-
+		
 		rootPane.setStyle("-fx-background-color: #a50000");
 		root.setStyle("-fx-background-color: #FFFFFF");
+		setTimer();
 		
 		 
 		//Initialize Array of Images and random generation for game
@@ -75,36 +93,51 @@ public class ConcentrationController implements Initializable {
                 Card card = new Card( String.format("file:src/birds/%s.png", num + 1) );
 
                 card.setOnMouseClicked(x -> {
-                    if(card.isFlipped())
-                        return;
-                    
-                    //If the selected card exists and it's not already flipped
-                    if(selectedCard != null && !selectedCard.isFlipped()) {
-                    	//If the selected card is not the same card, but has the same image
-                        if (selectedCard != card && selectedCard.equals(card)) {
-                            selectedCard.flip(); //Flip card
-                            card.flip();
-                        } else {
-                        	
-                            selectedCard.hide();
-                            selectedCard.setEffect(null);
-                            selectedCard = null;
-                           
-                            /* TODO: alert player too */
-                        }
-                        
-                    } else {
-                    	card.show();
-                        selectedCard = card;
-                        selectedCard.show();
-                    }
-
-                    if (allFlipped(root)) {
-                    	
-                    }
-                    	
-                        
+                	
+                	 if (selectNum == 2) {
+                         return;
+                     }
+                	 card.flipIt();
+                	 selectNum++;
+                	 if (selectNum == 1) {
+                         aCard = card;
+                     } else if (selectNum == 2) {
+                         selectedCard = card;
+                         numberOfMoves++;
+                         if (aCard.equals(selectedCard)) {
+                             aCard.isMatched();
+                             selectedCard.isMatched();
+                             selectNum = 0;
+                             howManyMatches++;
+                             if (allFlipped(root)) {
+                                 
+                             }
+                         } else {
+                        	 javax.swing.Timer time = new javax.swing.Timer(500, null);
+                             time.addActionListener(e -> {
+                                 //for cards to be compared, flip all cards
+                                 aCard.flipIt();
+                                 aCard.setEffect(null);
+                                 selectedCard.flipIt();
+                                 selectedCard.setEffect(null);
+                                 selectNum = 0;
+                                 time.stop();
+                             });
+                             time.start();
+                         }
+                     }
                 });
+
+
+                	
+                	
+                	
+                	
+                	
+                	
+                	
+                	
+                	
 
                 card.setOnMouseEntered(x -> {
                     if(selectedCard != card && !card.isFlipped())
@@ -125,7 +158,7 @@ public class ConcentrationController implements Initializable {
         Scene home = new Scene(goHome);
         home.snapshot(null);       
         goHome.setTranslateX(382);
-        goHome.setTranslateY(582); 
+        goHome.setTranslateY(550); 
         rootPane.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	
@@ -155,6 +188,30 @@ public class ConcentrationController implements Initializable {
                 return false;
         return true;
     }
+	
+	public void setTimer() {
+	    timer = new java.util.Timer();
+	    timer.scheduleAtFixedRate(new TimerTask() {
+	        public void run() {
+	            if(interval >= 0)
+	            {
+	              timerText.setText(String.valueOf(interval));
+	                System.out.println(interval);
+	                interval--;
+	            }
+	            else
+
+	                timer.cancel();
+	            if(interval == 0) {
+	            	for(Node c: root.getChildren()) {
+	                  	 ((Card) c).reveal();
+	                   }
+	            }
+                
+	           
+	        }
+	    }, 1000,1000);
+	}
 
 	
 }

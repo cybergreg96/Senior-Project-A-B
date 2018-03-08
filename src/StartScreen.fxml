@@ -1,53 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.161" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
-      <Button fx:id="MazeButton" layoutX="14.0" layoutY="459.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="103.0" prefWidth="198.0" text="Maze Master">
+      <Button fx:id="MazeButton" layoutX="14.0" layoutY="436.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="103.0" prefWidth="198.0" text="Maze Master">
          <font>
-            <Font name="OCR A Extended" size="23.0" />
+            <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="ConcentrationButton" layoutX="326.0" layoutY="459.0" mnemonicParsing="false" onAction="#ConcentrationButtonClick" prefHeight="103.0" prefWidth="198.0" text="Concentration" textOverrun="CLIP">
+      <Button fx:id="ConcentrationButton" layoutX="325.0" layoutY="436.0" mnemonicParsing="false" onAction="#ConcentrationButtonClick" prefHeight="103.0" prefWidth="198.0" text="Concentration" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font name="OCR A Extended" size="21.0" />
+            <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Button fx:id="MancalaButton" layoutX="638.0" layoutY="459.0" mnemonicParsing="false" onAction="#MancalaButtonClick" prefHeight="103.0" prefWidth="198.0" text="Mancala">
+      <Button fx:id="MancalaButton" layoutX="638.0" layoutY="436.0" mnemonicParsing="false" onAction="#MancalaButtonClick" prefHeight="103.0" prefWidth="198.0" text="Mancala" textAlignment="CENTER">
          <font>
-            <Font name="OCR A Extended" size="23.0" />
+            <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Text fx:id="WelcomeText" fill="#32a3ff" layoutX="22.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to BirdStufz GamesMaster!" wrappingWidth="806.3072509765625">
+      <Text fx:id="WelcomeText" fill="#32a3ff" layoutX="22.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to BirdStufz GamesMaster!" textAlignment="CENTER" wrappingWidth="806.3072509765625">
          <font>
-            <Font name="Rockwell" size="48.0" />
+            <Font name="Bernard MT Condensed" size="55.0" />
          </font>
       </Text>
-      <ImageView fitHeight="356.0" fitWidth="509.0" layoutX="171.0" layoutY="-12.0" pickOnBounds="true">
+      <ImageView fitHeight="356.0" fitWidth="509.0" layoutX="171.0" layoutY="-31.0" pickOnBounds="true">
          <image>
             <Image url="@resources/bird%20logo.PNG" />
          </image>
       </ImageView>
-      <Text fill="WHITE" layoutX="157.0" layoutY="413.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What game would you like to play?" wrappingWidth="536.838623046875">
+      <Text fill="WHITE" layoutX="157.0" layoutY="390.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What game would you like to play?" wrappingWidth="536.838623046875">
          <font>
-            <Font name="OCR A Extended" size="24.0" />
+            <Font name="Courier New Bold" size="24.0" />
          </font>
       </Text>
-      <ImageView fitHeight="83.0" fitWidth="130.0" layoutX="22.0" layoutY="567.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@resources/bird%20logo.PNG" />
-         </image>
-      </ImageView>
-      <Text layoutX="255.0" layoutY="626.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™">
-         <font>
-            <Font name="Century Gothic Bold Italic" size="32.0" />
-         </font>
-      </Text>
+      <ToolBar fx:id="birdstufzBanner" layoutX="-8.0" layoutY="601.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="874.0">
+         <items>
+            <Pane prefHeight="56.0" prefWidth="260.0" />
+            <ImageView fitHeight="56.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@resources/bird%20logo.PNG" />
+               </image>
+            </ImageView>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™" textAlignment="CENTER">
+               <font>
+                  <Font name="Bernard MT Condensed" size="25.0" />
+               </font>
+            </Text>
+         </items>
+      </ToolBar>
    </children>
 </Pane>
