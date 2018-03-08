@@ -188,7 +188,6 @@ public class ConcentrationController implements Initializable {
 	            if(interval >= 0)
 	            {
 	              timerText.setText(String.valueOf(interval));
-	                System.out.println(interval);
 	                interval--;
 	            }
 	            else
