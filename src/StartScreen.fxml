@@ -25,9 +25,9 @@
             <Font name="Courier New Bold" size="20.0" />
          </font>
       </Button>
-      <Text fx:id="WelcomeText" fill="#32a3ff" layoutX="22.0" layoutY="321.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to BirdStufz GamesMaster!" textAlignment="CENTER" wrappingWidth="806.3072509765625">
+      <Text fx:id="WelcomeText" fill="#32a3ff" layoutX="26.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to BirdStufz GamesMaster!" textAlignment="CENTER" wrappingWidth="806.3072509765625">
          <font>
-            <Font name="Bernard MT Condensed" size="55.0" />
+            <Font name="Courier New Bold" size="37.0" />
          </font>
       </Text>
       <ImageView fitHeight="356.0" fitWidth="509.0" layoutX="171.0" layoutY="-31.0" pickOnBounds="true">
@@ -42,7 +42,7 @@
       </Text>
       <ToolBar fx:id="birdstufzBanner" layoutX="-8.0" layoutY="601.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="874.0">
          <items>
-            <Pane prefHeight="56.0" prefWidth="260.0" />
+            <Pane prefHeight="56.0" prefWidth="252.0" />
             <ImageView fitHeight="56.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@resources/bird%20logo.PNG" />
@@ -50,7 +50,7 @@
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™" textAlignment="CENTER">
                <font>
-                  <Font name="Bernard MT Condensed" size="25.0" />
+                  <Font name="Courier New Bold" size="19.0" />
                </font>
             </Text>
          </items>
