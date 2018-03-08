@@ -1,4 +1,5 @@
 
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
@@ -63,7 +64,7 @@ public class MazeController implements Initializable {
     private Text timerText;
     private double[] doorwayInfo;
     
-    private Player player;
+    private MPlayer player;
     private MazeGraph mazeGraph;
    
     private  ArrayList<String> input;
@@ -148,7 +149,7 @@ public class MazeController implements Initializable {
         
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        player = new Player();
+        player = new MPlayer();
         
         input = new ArrayList<String>();
         
@@ -528,9 +529,7 @@ public class MazeController implements Initializable {
     	 * play sound effect
     	 * flash next maze button
     	 */
-    	Wall.setWallColor(1);
-    	
-    	
+    	Wall.setWallColor(1);    	
     }
 
     private static class TimeValue {
@@ -562,7 +561,6 @@ public class MazeController implements Initializable {
 	        }
 	    }, 1000,1000);
 	}
-
 }
 
 

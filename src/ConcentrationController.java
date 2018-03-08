@@ -1,3 +1,4 @@
+
 /*
  * citations: https://github.com/ThriftyNick/maze_generator
  */
@@ -10,8 +11,6 @@ import java.util.Random;
 import java.util.ResourceBundle;
 
 import java.util.TimerTask;
-
-
 
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;

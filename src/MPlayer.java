@@ -1,8 +1,9 @@
+
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class Player {
+public class MPlayer {
     public static final double RADIUS = 7D;
     private double x, y;
     private int row, col;
