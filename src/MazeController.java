@@ -113,8 +113,8 @@ public class MazeController implements Initializable {
         Button goHome = new Button("Go home");
         Scene home = new Scene(goHome);
         home.snapshot(null);       
-        goHome.setTranslateX((CANVAS_WIDTH / 2) - showSolution.getWidth() / 2);
-        goHome.setTranslateY(GRID_SIZE * 2 * SPACING + 150); 
+        goHome.setTranslateX((CANVAS_WIDTH / 2) - (showSolution.getWidth() / 2) +15);
+        goHome.setTranslateY(GRID_SIZE * 2 * SPACING + 100); 
         root.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	
@@ -136,6 +136,7 @@ public class MazeController implements Initializable {
         
         
         Button reset = new Button("New Maze");
+        
         snapScene = new Scene(reset);
         snapScene.snapshot(null);
         reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2);
@@ -143,6 +144,7 @@ public class MazeController implements Initializable {
         root.getChildren().add(reset);
         reset.setOnAction((ActionEvent e) -> {         		
         	generateMaze();
+        	setTimer();
         	rendered = false; 
         	showSolution.setText("Show Solution"); 
         });        
@@ -211,6 +213,7 @@ public class MazeController implements Initializable {
                 //check for win
                 if (player.getCol() == EXIT_COLUMN && !congratulated) {
                 	congratulate();
+                	timer.cancel();
                 	congratulated = true;
                 }
                 /*END GAME LOGIC*/
@@ -540,6 +543,7 @@ public class MazeController implements Initializable {
         }
     }
     public void setTimer() {
+    	interval = 0;
 	    timer = new java.util.Timer();
 	    timer.scheduleAtFixedRate(new TimerTask() {
 	        public void run() {
