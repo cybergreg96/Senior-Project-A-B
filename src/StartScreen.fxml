@@ -12,17 +12,17 @@
    <children>
       <Button fx:id="MazeButton" layoutX="14.0" layoutY="436.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="89.0" prefWidth="171.0" text="Maze Master">
          <font>
-            <Font name="Courier New Bold" size="20.0" />
+            <Font name="Courier New Bold" size="18.0" />
          </font>
       </Button>
       <Button fx:id="ConcentrationButton" layoutX="217.0" layoutY="436.0" mnemonicParsing="false" onAction="#ConcentrationButtonClick" prefHeight="89.0" prefWidth="171.0" text="Concentration" textAlignment="CENTER" textOverrun="CLIP">
          <font>
-            <Font name="Courier New Bold" size="20.0" />
+            <Font name="Courier New Bold" size="18.0" />
          </font>
       </Button>
       <Button fx:id="MancalaButton" layoutX="638.0" layoutY="436.0" mnemonicParsing="false" onAction="#MancalaButtonClick" prefHeight="89.0" prefWidth="171.0" text="Mancala" textAlignment="CENTER">
          <font>
-            <Font name="Courier New Bold" size="20.0" />
+            <Font name="Courier New Bold" size="18.0" />
          </font>
       </Button>
       <Text fx:id="WelcomeText" fill="#32a3ff" layoutX="26.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to BirdStufz GamesMaster!" textAlignment="CENTER" wrappingWidth="806.3072509765625">
@@ -57,7 +57,7 @@
       </ToolBar>
       <Button fx:id="ChessButton" layoutX="429.0" layoutY="436.0" mnemonicParsing="false" onAction="#ChessButtonClick" prefHeight="89.0" prefWidth="171.0" text="Chess" textAlignment="CENTER">
          <font>
-            <Font name="Courier New Bold" size="20.0" />
+            <Font name="Courier New Bold" size="18.0" />
          </font>
       </Button>
    </children>
