@@ -46,7 +46,8 @@ public class NoKnightChessController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		
-        
+		rootPane.setStyle("-fx-background-color: #a50000");
+
         int cellColorSwitch = 0;
         
         for(int i = 0; i < 6; i++) {
@@ -57,18 +58,21 @@ public class NoKnightChessController implements Initializable {
             	//determines color of the board cell to be added
             	if(cellColorSwitch % 2 == 0)
             	{
-                	boardCell.setStyle("-fx-background-color: #eec98a");
+            		//light color 
+                	boardCell.setStyle("-fx-background-color: #c2a470");
             	}
             	else
             	{
+            		//dark color
                 	boardCell.setStyle("-fx-background-color: #754201");
-
             	}            	
             	
                 chessBoard.add(boardCell, j, i); // node, col, row
                 
                 cellColorSwitch++;
             }
+            //alternate color when going to next row
+            cellColorSwitch++;
         }
 
       
