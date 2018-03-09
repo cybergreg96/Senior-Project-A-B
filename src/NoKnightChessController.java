@@ -30,6 +30,8 @@ public class NoKnightChessController implements Initializable {
 	private Text titleTxt;
 	@FXML
 	private GridPane chessBoard;
+	@FXML
+	private GridPane chessPieces;
 
 
 	@FXML
@@ -74,6 +76,30 @@ public class NoKnightChessController implements Initializable {
             //alternate color when going to next row
             cellColorSwitch++;
         }
+        
+        Button goHome = new Button("Go home");
+        Scene home = new Scene(goHome);
+        home.snapshot(null);       
+        goHome.setTranslateX(10);
+        goHome.setTranslateY(50); 
+        rootPane.getChildren().add(goHome);
+        goHome.setOnAction((ActionEvent e) -> {
+        	
+        	
+			try {
+				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+				x.setStyle("-fx-background-color: #a50000");
+	            Scene y = new Scene(x);
+	            Stage w = (Stage)((Node)e.getSource()).getScene().getWindow();
+	            w.setResizable(false);
+	            w.setScene(y);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+    		
+            
+        });
 
       
 		
