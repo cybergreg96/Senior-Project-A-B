@@ -13,7 +13,7 @@
 
 <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="NoKnightChessController">
    <children>
-      <Text fx:id="titleTxt" layoutX="338.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Knight Chess" textAlignment="CENTER" wrappingWidth="223.7367172241211">
+      <Text fx:id="titleTxt" layoutX="311.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No Knight Chess" textAlignment="CENTER" wrappingWidth="278.93672943115234">
          <font>
             <Font name="Courier New" size="28.0" />
          </font>
@@ -36,7 +36,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
-      <GridPane fx:id="chessPieces" layoutX="210.0" layoutY="85.0" prefHeight="480.0" prefWidth="480.0">
+      <GridPane fx:id="chessPieces" gridLinesVisible="true" layoutX="210.0" layoutY="85.0" prefHeight="480.0" prefWidth="480.0">
          <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

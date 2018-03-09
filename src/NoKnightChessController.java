@@ -77,6 +77,7 @@ public class NoKnightChessController implements Initializable {
             cellColorSwitch++;
         }
         
+        
         Button goHome = new Button("Go home");
         Scene home = new Scene(goHome);
         home.snapshot(null);       
