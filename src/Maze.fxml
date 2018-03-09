@@ -14,12 +14,12 @@
 		<Canvas fx:id="canvas" height="650.0" width="850.0" />
 		<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressEvent" onKeyReleased="#keyReleaseEvent" prefHeight="650.0" prefWidth="850.0">
          <children>
-            <Text layoutX="37.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
+            <Text fill="WHITE" layoutX="30.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
-            <Text fx:id="timerText" layoutX="145.0" layoutY="80.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="1.0">
+            <Text fx:id="timerText" fill="WHITE" layoutX="135.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="70.00000901520252">
                <font>
                   <Font name="Courier New" size="29.0" />
                </font>
