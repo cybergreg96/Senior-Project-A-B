@@ -204,7 +204,9 @@ public class MazeController implements Initializable {
                 
                 if (destRow != -2 && destCol != -2) { //if new move
 	                Point2D destinationPos = mazeGraph.getVertPos(destRow, destCol);
-	            	if (destinationPos != null) {
+	            	
+	                //checks to see if the destination is valid and the maze has not yet been solved
+	                if (destinationPos != null && !congratulated) {
 	            		player.setPosition(destinationPos.getX(), destinationPos.getY());
 	            		player.setGraphLoc(destRow, destCol);
 	            	}
