@@ -50,7 +50,7 @@
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™" textAlignment="CENTER">
                <font>
-                  <Font name="Courier New Bold" size="19.0" />
+                  <Font name="Courier New Bold" size="20.0" />
                </font>
             </Text>
          </items>

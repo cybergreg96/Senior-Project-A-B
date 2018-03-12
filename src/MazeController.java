@@ -113,8 +113,8 @@ public class MazeController implements Initializable {
         Button goHome = new Button("Go home");
         Scene home = new Scene(goHome);
         home.snapshot(null);       
-        goHome.setTranslateX((CANVAS_WIDTH / 2) - (showSolution.getWidth() / 2) +15);
-        goHome.setTranslateY(GRID_SIZE * 2 * SPACING + 100); 
+        goHome.setTranslateX(200);
+        goHome.setTranslateY(10); 
         root.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	

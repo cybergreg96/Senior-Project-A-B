@@ -81,8 +81,8 @@ public class NoKnightChessController implements Initializable {
         Button goHome = new Button("Go home");
         Scene home = new Scene(goHome);
         home.snapshot(null);       
-        goHome.setTranslateX(10);
-        goHome.setTranslateY(50); 
+        goHome.setTranslateX(200);
+        goHome.setTranslateY(10); 
         rootPane.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	

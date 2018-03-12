@@ -12,7 +12,7 @@
 
 <Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ConcentrationController">
    <children>
-      <GridPane fx:id="root" layoutX="125.0" layoutY="125.0" prefHeight="400.0" prefWidth="600.0">
+      <GridPane fx:id="root" layoutX="125.0" layoutY="75.0" prefHeight="500.0" prefWidth="600.0">
         <columnConstraints>
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
           <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" />
@@ -37,19 +37,19 @@
             </ImageView>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="BirdStufz GameMaster™" textAlignment="CENTER">
                <font>
-                  <Font name="Bernard MT Condensed" size="25.0" />
+                  <Font name="Courier New Bold" size="20.0" />
                </font>
             </Text>
          </items>
       </ToolBar>
-      <Text layoutX="187.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
+      <Text layoutX="188.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
          <font>
             <Font name="Courier New Bold" size="29.0" />
          </font>
       </Text>
-      <Text fx:id="timerText" layoutX="312.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0">
+      <Text fx:id="timerText" layoutX="292.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="60">
          <font>
-            <Font name="Courier New" size="29.0" />
+            <Font name="Courier New Bold" size="29.0" />
          </font>
       </Text>
    </children>

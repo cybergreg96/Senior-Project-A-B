@@ -115,13 +115,14 @@ public class ConcentrationController implements Initializable {
                         	 if(interval != 0) {
                         	 javax.swing.Timer time = new javax.swing.Timer(500, null);
                              time.addActionListener(e -> {
-                                 //for cards to be compared, flip all cards
+                                if(interval != 0) {
                                  aCard.flipIt();
                                  aCard.setEffect(null);
                                  selectedCard.flipIt();
                                  selectedCard.setEffect(null);
                                  selectNum = 0;
                                  time.stop();
+                                } 
                              });
                              time.start();
                          }
@@ -192,6 +193,7 @@ public class ConcentrationController implements Initializable {
 	            else
 
 	                timer.cancel();
+	                timer.purge();
 	            if(interval == 0) {
 	            	for(Node c: root.getChildren()) {
 	                  	 ((Card) c).reveal();
