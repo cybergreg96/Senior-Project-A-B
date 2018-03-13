@@ -97,7 +97,7 @@ public class MazeController implements Initializable {
         Scene snapScene = new Scene(showSolution);
         snapScene.snapshot(null);       
         showSolution.setTranslateX((CANVAS_WIDTH / 2) - showSolution.getWidth() / 2);
-        showSolution.setTranslateY(GRID_SIZE * 2 * SPACING + 50); 
+        showSolution.setTranslateY(10); 
         root.getChildren().add(showSolution);
         showSolution.setOnAction((ActionEvent e) -> {
         	if (showSolution.getText().contains("Show")) {
@@ -139,8 +139,8 @@ public class MazeController implements Initializable {
         
         snapScene = new Scene(reset);
         snapScene.snapshot(null);
-        reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2);
-        reset.setTranslateY(15);
+        reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2+(CANVAS_WIDTH / 4));
+        reset.setTranslateY(10);
         root.getChildren().add(reset);
         reset.setOnAction((ActionEvent e) -> {         		
         	generateMaze();
@@ -268,7 +268,7 @@ public class MazeController implements Initializable {
     
     private void initWallAnchors(int size) {
         int startX = CANVAS_WIDTH / 2 - (((MazeWallAnchor.SIZE + SPACING) * GRID_SIZE) - SPACING) / 2;
-        int startY = 50;
+        int startY = 100;
         int xPos = startX;
         int yPos = startY;
         for (int row = 0; row < GRID_SIZE; row++) {
