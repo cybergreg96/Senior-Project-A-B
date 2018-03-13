@@ -1,24 +1,18 @@
+/*
+ * citation: https://github.com/GuiBon/ChessGame
+ */
 
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 public class ChessBoard extends Pane {
 
@@ -98,19 +92,19 @@ public class ChessBoard extends Pane {
 
 		
 		//WHITE Pieces
-		rook_1_1 = new ChessPieceRook(1, 0, 4);
-		bishop_1_1 = new ChessPieceBishop(1, 1, 4);
-		queen_1 = new ChessPieceQueen(1, 2, 4);
-		king_1 = new ChessPieceKing(1, 3, 4);
-		bishop_1_2 = new ChessPieceBishop(1, 4, 4);
+		rook_1_1 = new ChessPieceRook(1, 0, 5);
+		bishop_1_1 = new ChessPieceBishop(1, 1, 5);
+		queen_1 = new ChessPieceQueen(1, 2, 5);
+		king_1 = new ChessPieceKing(1, 3, 5);
+		bishop_1_2 = new ChessPieceBishop(1, 4, 5);
 		
 		rook_1_2 = new ChessPieceRook(1, 5, 5);
-		pawn_1_1 = new ChessPiecePawn(1, 0, 5);
-		pawn_1_2 = new ChessPiecePawn(1, 1, 5);
-		pawn_1_3 = new ChessPiecePawn(1, 2, 5);
-		pawn_1_4 = new ChessPiecePawn(1, 3, 5);
-		pawn_1_5 = new ChessPiecePawn(1, 4, 5);
-		pawn_1_6 = new ChessPiecePawn(1, 5, 5);
+		pawn_1_1 = new ChessPiecePawn(1, 0, 4);
+		pawn_1_2 = new ChessPiecePawn(1, 1, 4);
+		pawn_1_3 = new ChessPiecePawn(1, 2, 4);
+		pawn_1_4 = new ChessPiecePawn(1, 3, 4);
+		pawn_1_5 = new ChessPiecePawn(1, 4, 4);
+		pawn_1_6 = new ChessPiecePawn(1, 5, 4);
 
 		
 		chessPieces[0][0] = rook_2_1;
@@ -220,7 +214,7 @@ public class ChessBoard extends Pane {
 			chessPieces[i][0].resetPiece();
 			chessPieces[i][1].resetPiece();
 			chessPieces[i][4].resetPiece();
-			chessPieces[i][4].resetPiece();
+			chessPieces[i][5].resetPiece();
 		}
 		unhighlightWindow();
 		chessStatusBar.whitePlayerAlert.setText("White Player turn");
@@ -562,7 +556,6 @@ public class ChessBoard extends Pane {
 	private final int EMPTY = 0;
 	private final int PlayerWhite = 1;
 	private final int PlayerBlack = 2;
-	
 	
 	private ChessTimer chessTimer;
 }
