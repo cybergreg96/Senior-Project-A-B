@@ -44,8 +44,8 @@ public class ConcentrationController implements Initializable {
 	@FXML
 	private Text timerText;
 	
-	private Card selectedCard;
-	private Card aCard;
+	private ConcentrationCard selectedCard;
+	private ConcentrationCard aCard;
 	 private int selectNum = 0;
 	 private int numberOfMoves = 0;
 	 private int howManyMatches = 0;
@@ -89,19 +89,19 @@ public class ConcentrationController implements Initializable {
                 while(imgs[num = rnd.nextInt(10)] == 2);
                 imgs[num]++;
 
-                Card card = new Card( String.format("file:src/birds/%s.png", num + 1) );
+                ConcentrationCard concentrationCard = new ConcentrationCard( String.format("file:src/birds/%s.png", num + 1) );
 
-                card.setOnMouseClicked(x -> {
+                concentrationCard.setOnMouseClicked(x -> {
                 	
                 	 if (selectNum == 2) {
                          return;
                      }
-                	 card.flipIt();
+                	 concentrationCard.flipIt();
                 	 selectNum++;
                 	 if (selectNum == 1) {
-                         aCard = card;
+                         aCard = concentrationCard;
                      } else if (selectNum == 2) {
-                         selectedCard = card;
+                         selectedCard = concentrationCard;
                          numberOfMoves++;
                          if (aCard.equals(selectedCard)) {
                              aCard.isMatched();
@@ -131,17 +131,17 @@ public class ConcentrationController implements Initializable {
                 });
 
 
-                card.setOnMouseEntered(x -> {
-                    if(selectedCard != card && !card.isFlipped())
-                        card.setEffect(adjust);
+                concentrationCard.setOnMouseEntered(x -> {
+                    if(selectedCard != concentrationCard && !concentrationCard.isFlipped())
+                        concentrationCard.setEffect(adjust);
                 });
 
-                card.setOnMouseExited(x -> {
-                    if(selectedCard != card && !card.isFlipped())
-                        card.setEffect(null);
+                concentrationCard.setOnMouseExited(x -> {
+                    if(selectedCard != concentrationCard && !concentrationCard.isFlipped())
+                        concentrationCard.setEffect(null);
                 });
 
-                root.add(card, j, i); // node, col, row
+                root.add(concentrationCard, j, i); // node, col, row
                 
             }
         }
@@ -176,7 +176,7 @@ public class ConcentrationController implements Initializable {
 	
 	public boolean allFlipped(GridPane g) {
         for(Node x : g.getChildren())
-            if(!((Card)x).isFlipped())
+            if(!((ConcentrationCard)x).isFlipped())
                 return false;
         return true;
     }
@@ -196,7 +196,7 @@ public class ConcentrationController implements Initializable {
 	                timer.purge();
 	            if(interval == 0) {
 	            	for(Node c: root.getChildren()) {
-	                  	 ((Card) c).reveal();
+	                  	 ((ConcentrationCard) c).reveal();
 	                   }
 	            }
                 

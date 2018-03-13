@@ -7,8 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class Wall {
-    private WallAnchor p1, p2;
+public class MazeWall {
+    private MazeWallAnchor p1, p2;
     private Rectangle2D boundingRect;
     private boolean isHalfWall;
     private boolean isBorderWall;
@@ -17,13 +17,13 @@ public class Wall {
     public static final Color SOLVED_COLOR = Color.GREENYELLOW;
     private List<Line> outlineEdges;
     
-    public Wall(WallAnchor p1, WallAnchor p2) {
+    public MazeWall(MazeWallAnchor p1, MazeWallAnchor p2) {
         this.p1 = p1;
         this.p2 = p2;
         
         if (p2 == null) {
             isHalfWall = true;
-            boundingRect = new Rectangle2D(p1.getX(), p1.getY(), WallAnchor.SIZE, WallAnchor.SIZE);
+            boundingRect = new Rectangle2D(p1.getX(), p1.getY(), MazeWallAnchor.SIZE, MazeWallAnchor.SIZE);
         }
         else {
             isHalfWall = false;
@@ -38,7 +38,7 @@ public class Wall {
         int width, height;
         
         //set rx and width
-        width = WallAnchor.SIZE * 2 + MazeController.SPACING;
+        width = MazeWallAnchor.SIZE * 2 + MazeController.SPACING;
         if (p1.getX() < p2.getX()) {
             rx = p1.getX();     
         }
@@ -48,11 +48,11 @@ public class Wall {
         else {
             //assert p1.getX() == p2.getX()
             rx = p1.getX();
-            width = WallAnchor.SIZE;
+            width = MazeWallAnchor.SIZE;
         }
         
         //set ry and height
-        height = WallAnchor.SIZE * 2 + MazeController.SPACING;
+        height = MazeWallAnchor.SIZE * 2 + MazeController.SPACING;
         if (p1.getY() < p2.getY()) {
             ry = p1.getY();
         }
@@ -62,7 +62,7 @@ public class Wall {
         else {
             //assert p1.getY() == p2.getY()
             ry = p1.getY();
-            height = WallAnchor.SIZE;
+            height = MazeWallAnchor.SIZE;
         }
         
         return new Rectangle2D(rx, ry, width, height); 
@@ -100,11 +100,11 @@ public class Wall {
         isBorderWall = true;        
     }
     
-    public WallAnchor getP1() {
+    public MazeWallAnchor getP1() {
         return p1;
     }
     
-    public WallAnchor getP2() {
+    public MazeWallAnchor getP2() {
         return p2;
     }
     
@@ -126,7 +126,7 @@ public class Wall {
     }
     
     public boolean equals(Object other) {
-        Wall otherWall = (Wall) other;
+        MazeWall otherWall = (MazeWall) other;
         if (this.isHalfWall  || otherWall.isHalfWall) {
             return super.equals(other);
         }

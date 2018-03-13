@@ -3,13 +3,13 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class WallAnchor {
+public class MazeWallAnchor {
     public static final int SIZE = 10;
     private int x, y;
     private int row, col;
     private Rectangle2D boundingRect;
     
-    public WallAnchor(int x, int y, int row, int col) {
+    public MazeWallAnchor(int x, int y, int row, int col) {
         this.x = x;
         this.y = y;
         this.row = row;

@@ -57,14 +57,14 @@ public class MazeController implements Initializable {
     private int interval = 0;
     
     private boolean rendered, congratulated;
-    private WallAnchor[][] anchorPoints;
-    private static List<Wall> walls;
+    private MazeWallAnchor[][] anchorPoints;
+    private static List<MazeWall> mazeWalls;
     private java.util.Timer timer;
     @FXML
     private Text timerText;
     private double[] doorwayInfo;
     
-    private MPlayer player;
+    private MazePlayer player;
     private MazeGraph mazeGraph;
    
     private  ArrayList<String> input;
@@ -151,13 +151,13 @@ public class MazeController implements Initializable {
         
         GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        player = new MPlayer();
+        player = new MazePlayer();
         
         input = new ArrayList<String>();
         
         
         
-        anchorPoints = new WallAnchor[GRID_SIZE][GRID_SIZE];
+        anchorPoints = new MazeWallAnchor[GRID_SIZE][GRID_SIZE];
         generateMaze();
         rendered = false;
         congratulated = false;
@@ -231,7 +231,7 @@ public class MazeController implements Initializable {
                 }*/
                 
                 //render walls
-                for (Wall w : walls) {
+                for (MazeWall w : mazeWalls) {
                     w.render(gc);
                 }                                
                                                                 
@@ -267,13 +267,13 @@ public class MazeController implements Initializable {
     }
     
     private void initWallAnchors(int size) {
-        int startX = CANVAS_WIDTH / 2 - (((WallAnchor.SIZE + SPACING) * GRID_SIZE) - SPACING) / 2;
+        int startX = CANVAS_WIDTH / 2 - (((MazeWallAnchor.SIZE + SPACING) * GRID_SIZE) - SPACING) / 2;
         int startY = 50;
         int xPos = startX;
         int yPos = startY;
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
-                anchorPoints[row][col] = new WallAnchor(xPos, yPos, row, col);
+                anchorPoints[row][col] = new MazeWallAnchor(xPos, yPos, row, col);
                 xPos += SPACING * 2;
             }
             xPos = startX;
@@ -283,32 +283,32 @@ public class MazeController implements Initializable {
     }
 
     private void setWalls() {
-        walls = new ArrayList<Wall>();                 
+        mazeWalls = new ArrayList<MazeWall>();                 
         
         //top & bottom walls
         for (int col = 0; col < GRID_SIZE - 1; col++) {
             //top wall
-        	Wall w = new Wall(anchorPoints[0][col], anchorPoints[0][col + 1]);
+        	MazeWall w = new MazeWall(anchorPoints[0][col], anchorPoints[0][col + 1]);
             w.markBorderWall();
-            walls.add(w);            
+            mazeWalls.add(w);            
             
             //bottom wall
-            w = new Wall(anchorPoints[GRID_SIZE - 1][col], anchorPoints[GRID_SIZE - 1][col + 1]);
+            w = new MazeWall(anchorPoints[GRID_SIZE - 1][col], anchorPoints[GRID_SIZE - 1][col + 1]);
             w.markBorderWall();
-            walls.add(w);                       
+            mazeWalls.add(w);                       
         }
         
         //left & right walls
         for (int row = 0; row < GRID_SIZE - 1; row++) {
         	//left wall
-            Wall w = new Wall(anchorPoints[row][0], anchorPoints[row + 1][0]);
+            MazeWall w = new MazeWall(anchorPoints[row][0], anchorPoints[row + 1][0]);
             w.markBorderWall();
-            walls.add(w);            
+            mazeWalls.add(w);            
             
             //right wall
-            w = new Wall(anchorPoints[row][GRID_SIZE - 1], anchorPoints[row + 1][GRID_SIZE - 1]);
+            w = new MazeWall(anchorPoints[row][GRID_SIZE - 1], anchorPoints[row + 1][GRID_SIZE - 1]);
             w.markBorderWall();
-            walls.add(w);
+            mazeWalls.add(w);
         }
         
         //two possible configurations for entry/exit locations
@@ -335,8 +335,8 @@ public class MazeController implements Initializable {
         doorwayInfo = new double[4];
         
         //create Entry point
-        Wall doorway = null;
-        for (Wall w : walls) {
+        MazeWall doorway = null;
+        for (MazeWall w : mazeWalls) {
             if (w.getP1().getRow() == entryLoc && w.getP1().getCol() == 0) {
                 doorway = w;
                 break;
@@ -350,7 +350,7 @@ public class MazeController implements Initializable {
        
         //create Exit point
         doorway = null;
-        for (Wall w : walls) {
+        for (MazeWall w : mazeWalls) {
             if (w.getP1().getRow() == exitLoc && w.getP1().getCol() == GRID_SIZE - 1) {
                 doorway = w;
                 break;
@@ -363,30 +363,30 @@ public class MazeController implements Initializable {
         }
         
         //place inner walls
-        Set<Wall> placedWalls = new HashSet<Wall>();
+        Set<MazeWall> placedWalls = new HashSet<MazeWall>();
         //Takes two anchor points for one full wall position
         double totalAvailablePositions = 2 * ((GRID_SIZE - 2) * (GRID_SIZE - 2));
         double percentComplete = 0.0;
         while (percentComplete < WALL_DENSITY) {
         	//horizontal wall
-        	Wall w = null;
+        	MazeWall w = null;
         	do {
                 int row = (int) (Math.random() * (GRID_SIZE - 2) + 1);
                 int col = (int) (Math.random() * (GRID_SIZE - 1));
-                w = new Wall(anchorPoints[row][col], anchorPoints[row][col + 1]);
+                w = new MazeWall(anchorPoints[row][col], anchorPoints[row][col + 1]);
             } while (placedWalls.contains(w));
             placedWalls.add(w);
-            walls.add(w);
+            mazeWalls.add(w);
             
             //vertical wall
             w = null;
             do {
                 int row = (int) (Math.random() * (GRID_SIZE - 1));
                 int col = (int) (Math.random() * (GRID_SIZE - 2) + 1);
-                w = new Wall(anchorPoints[row][col], anchorPoints[row + 1][col]);
+                w = new MazeWall(anchorPoints[row][col], anchorPoints[row + 1][col]);
             } while (placedWalls.contains(w));
             placedWalls.add(w);
-            walls.add(w);
+            mazeWalls.add(w);
             percentComplete = placedWalls.size() / totalAvailablePositions;
         }
         
@@ -402,8 +402,8 @@ public class MazeController implements Initializable {
         mazeGraph = new MazeGraph();        
         PixelReader reader = getPixelReader();
         
-        double startX = anchorPoints[0][0].getX() + WallAnchor.SIZE / 2;
-        double startY = anchorPoints[0][0].getY() + WallAnchor.SIZE / 2;
+        double startX = anchorPoints[0][0].getX() + MazeWallAnchor.SIZE / 2;
+        double startY = anchorPoints[0][0].getY() + MazeWallAnchor.SIZE / 2;
         startX += SPACING;
         startY += SPACING;
         double xPos = startX;
@@ -419,7 +419,7 @@ public class MazeController implements Initializable {
         //add inner vertices
         for (int row = 0; row < GRID_SIZE + GRID_SIZE - 1 - 2; row++) {
             for (int col = 0; col < GRID_SIZE + GRID_SIZE - 1 - 2; col++) {
-            	if (!reader.getColor((int) xPos, (int) yPos).equals(Wall.UNSOLVED_COLOR)) {                
+            	if (!reader.getColor((int) xPos, (int) yPos).equals(MazeWall.UNSOLVED_COLOR)) {                
             		mazeGraph.addVert(xPos, yPos, row, col, reader);
                 }                
                 xPos += SPACING;
@@ -446,10 +446,10 @@ public class MazeController implements Initializable {
     		for (int col = -1; col <= EXIT_COLUMN; col++) {
     			Point2D pt = mazeGraph.getVertPos(row, col);
     			if (pt != null) {
-    				Wall[] surroundingWalls = detectSurroundingWalls(pt);
+    				MazeWall[] surroundingWalls = detectSurroundingWalls(pt);
     				for (int direction = 0; direction < 4; direction++) {
     					if (surroundingWalls[direction] != null) {
-    						Wall w = surroundingWalls[direction];
+    						MazeWall w = surroundingWalls[direction];
     						Line l = null;
     						double lineSpacing = SPACING / 2.0;
     						switch (direction) {
@@ -471,13 +471,13 @@ public class MazeController implements Initializable {
     	}
     }
     
-    public static Wall[] detectSurroundingWalls(Point2D loc) {
-    	Wall[] surroundingWalls = {null, null, null, null};
+    public static MazeWall[] detectSurroundingWalls(Point2D loc) {
+    	MazeWall[] surroundingWalls = {null, null, null, null};
     	Point2D above = new Point2D(loc.getX(), loc.getY() - SPACING);
         Point2D right = new Point2D(loc.getX() + SPACING, loc.getY());
         Point2D below = new Point2D(loc.getX(), loc.getY() + SPACING);
         Point2D left = new Point2D(loc.getX() - SPACING, loc.getY());
-        for (Wall w : walls) {
+        for (MazeWall w : mazeWalls) {
             Rectangle2D wallRect = w.getBoundingRect();
             if (wallRect.contains(above)) {
             	surroundingWalls[0] = w;            	
@@ -497,17 +497,17 @@ public class MazeController implements Initializable {
     
     /**
      * Knocks down a wall
-     * @param wall the wall to breach
+     * @param mazeWall the wall to breach
      * @return Center point of wall which was breached
      */
-    public static Point2D breachWall(Wall wall) {
-    	Rectangle2D r = wall.getBoundingRect();
+    public static Point2D breachWall(MazeWall mazeWall) {
+    	Rectangle2D r = mazeWall.getBoundingRect();
     	double centerX = r.getMaxX() - r.getWidth() / 2.0;
     	double centerY = r.getMaxY() - r.getHeight() / 2.0;
     	Point2D centerPoint = new Point2D(centerX, centerY);
-        walls.remove(wall);
-        walls.add(new Wall(wall.getP1(), null));
-        walls.add(new Wall(wall.getP2(), null));
+        mazeWalls.remove(mazeWall);
+        mazeWalls.add(new MazeWall(mazeWall.getP1(), null));
+        mazeWalls.add(new MazeWall(mazeWall.getP2(), null));
         return centerPoint;
     }
 
@@ -534,7 +534,7 @@ public class MazeController implements Initializable {
     	 * play sound effect
     	 * flash next maze button
     	 */
-    	Wall.setWallColor(1);    	
+    	MazeWall.setWallColor(1);    	
     }
 
     private static class TimeValue {
@@ -559,7 +559,7 @@ public class MazeController implements Initializable {
 	                timer.cancel();
 	            if(interval == 0) {
 	            	for(Node c: root.getChildren()) {
-	                  	 ((Card) c).reveal();
+	                  	 ((ConcentrationCard) c).reveal();
 	                   }
 	            }
                 

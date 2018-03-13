@@ -57,16 +57,16 @@ public class MazeGraph {
     		adjs.add(row + "_" + (col - 1));
     	}
     	else {
-	        if (!pReader.getColor((int) vertX, (int) (vertY - MazeController.SPACING)).equals(Wall.UNSOLVED_COLOR)) {
+	        if (!pReader.getColor((int) vertX, (int) (vertY - MazeController.SPACING)).equals(MazeWall.UNSOLVED_COLOR)) {
 	            adjs.add((row - 1) + "_" + col);
 	        }
-	        if (!pReader.getColor((int) vertX, (int) (vertY + MazeController.SPACING)).equals(Wall.UNSOLVED_COLOR)) {
+	        if (!pReader.getColor((int) vertX, (int) (vertY + MazeController.SPACING)).equals(MazeWall.UNSOLVED_COLOR)) {
 	            adjs.add((row + 1) + "_" + col);
 	        }
-	        if (!pReader.getColor((int) (vertX - MazeController.SPACING), (int) vertY).equals(Wall.UNSOLVED_COLOR)) {
+	        if (!pReader.getColor((int) (vertX - MazeController.SPACING), (int) vertY).equals(MazeWall.UNSOLVED_COLOR)) {
 	            adjs.add(row + "_" + (col - 1));
 	        }
-	        if (!pReader.getColor((int) (vertX + MazeController.SPACING), (int) vertY).equals(Wall.UNSOLVED_COLOR)) {
+	        if (!pReader.getColor((int) (vertX + MazeController.SPACING), (int) vertY).equals(MazeWall.UNSOLVED_COLOR)) {
 	            adjs.add(row + "_" + (col + 1));
 	        }
     	}
@@ -99,7 +99,7 @@ public class MazeGraph {
                     //even number columns and rows
                     Point2D newVertLoc = null;
                     if (vert.row % 2 == 0 && vert.col % 2 == 0) {
-                    	Wall[] localWalls = MazeController.detectSurroundingWalls(new Point2D(vert.x, vert.y));
+                    	MazeWall[] localWalls = MazeController.detectSurroundingWalls(new Point2D(vert.x, vert.y));
                     	for (int i = 0; i < 4; i++) {
                     		if (localWalls[i] != null && !localWalls[i].isBorderWall() && !localWalls[i].isHalfWall()) {
                     			newVertLoc = MazeController.breachWall(localWalls[i]);

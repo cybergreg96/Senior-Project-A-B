@@ -3,7 +3,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class MPlayer {
+public class MazePlayer {
     public static final double RADIUS = 7D;
     private double x, y;
     private int row, col;

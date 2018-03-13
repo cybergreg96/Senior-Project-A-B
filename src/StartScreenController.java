@@ -27,6 +27,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 
 public class StartScreenController implements Initializable {
@@ -45,6 +46,10 @@ public class StartScreenController implements Initializable {
 	@FXML
 	private ToolBar birdstufzBanner;
 	
+	// private fields for chess class
+		private StackPane sp_mainlayout;	//layout which allows items to be positioned on top of each other
+		private ChessCustomControl cc_custom;	//control which has a board and detects mouse and keyboard events
+	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
 		//set banner background color
@@ -54,6 +59,7 @@ public class StartScreenController implements Initializable {
 		if(!StartScreen.isSplashLoaded) {
 			loadSplashScreen();
 		}
+		
 
     }  
 	// Event Listener on Button[#MazeButton].onAction
@@ -68,16 +74,22 @@ public class StartScreenController implements Initializable {
         window.show();
 	}
 	
-	// Event Listener on Button[#MazeButton].onAction
+	// Event Listener on Button[#ChessButton].onAction
 		@FXML
 		public void ChessButtonClick(ActionEvent event) throws IOException {
-			Parent chess = FXMLLoader.load(getClass().getResource("NoKnightChess.fxml"));
-	        Scene chessScene = new Scene(chess);
-	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        window.setResizable(false);
-	        window.setScene(chessScene);
-	        window.setResizable(false); 
-	        window.show();
+			
+			// initialize the chess layout, create a CustomControl and it to the layout
+			sp_mainlayout = new StackPane(); 
+			cc_custom = new ChessCustomControl();
+			sp_mainlayout.getChildren().add(cc_custom);
+			
+			// set the title and scene, and show the stage
+			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+			primaryStage.setTitle("Chess game");
+			primaryStage.setScene(new Scene(sp_mainlayout, 850, 650));
+			primaryStage.setMinWidth(300);
+			primaryStage.setMinHeight(300);
+			primaryStage.show();
 		}
 	// Event Listener on Button[#ConcentrationButton].onAction
 	@FXML

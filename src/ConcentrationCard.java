@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
 
-public class Card extends ImageView {
+public class ConcentrationCard extends ImageView {
 
     private static final String emptyCard = "file:src/birds/unknown.png";
 
@@ -15,7 +15,7 @@ public class Card extends ImageView {
 
     private Boolean isMatched;
 
-    public Card(String url) {
+    public ConcentrationCard(String url) {
         super(new Image(emptyCard, 100, 100, true, true));
         this.url = url;
         
@@ -55,7 +55,7 @@ public class Card extends ImageView {
 
 
     public boolean equals(Object obj) {
-        return obj instanceof Card
-                && ((Card)obj).url.equals(url);
+        return obj instanceof ConcentrationCard
+                && ((ConcentrationCard)obj).url.equals(url);
     }
 }
