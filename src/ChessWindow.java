@@ -1,13 +1,22 @@
 
+import java.io.IOException;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.transform.Translate;
+import javafx.stage.Stage;
 
 public class ChessWindow extends Group{
 
-	
+	 
 	// constructor for the class
 		public ChessWindow(int i) {
 			// Make a new Rectangle and Translate, add the Translate to the Rectangle, add the Rectagle to the Group
@@ -20,6 +29,7 @@ public class ChessWindow extends Group{
 			r.setFill(Color.web("#c2a470"));
 			
 			getChildren().add(r);
+		
 		}
 
 		// overridden version of the resize method

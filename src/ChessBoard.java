@@ -1,16 +1,24 @@
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 public class ChessBoard extends Pane {
 
@@ -554,6 +562,7 @@ public class ChessBoard extends Pane {
 	private final int EMPTY = 0;
 	private final int PlayerWhite = 1;
 	private final int PlayerBlack = 2;
+	
 	
 	private ChessTimer chessTimer;
 }
