@@ -51,6 +51,8 @@ public class ConcentrationController implements Initializable {
 	 private int howManyMatches = 0;
 	 private java.util.Timer timer;
 	 private int interval = 60;
+	 public static final int CANVAS_WIDTH = 850;
+	public static final int CANVAS_HEIGHT = 650;
 
 
 
@@ -149,8 +151,8 @@ public class ConcentrationController implements Initializable {
         Button goHome = new Button("Go home");
         Scene home = new Scene(goHome);
         home.snapshot(null);       
-        goHome.setTranslateX(382);
-        goHome.setTranslateY(550); 
+        goHome.setTranslateX((CANVAS_WIDTH / 2) - goHome.getWidth() / 2);
+        goHome.setTranslateY(5);  
         rootPane.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	

@@ -97,7 +97,7 @@ public class MazeController implements Initializable {
         Scene snapScene = new Scene(showSolution);
         snapScene.snapshot(null);       
         showSolution.setTranslateX((CANVAS_WIDTH / 2) - showSolution.getWidth() / 2);
-        showSolution.setTranslateY(10); 
+        showSolution.setTranslateY(5); 
         root.getChildren().add(showSolution);
         showSolution.setOnAction((ActionEvent e) -> {
         	if (showSolution.getText().contains("Show")) {
@@ -114,7 +114,7 @@ public class MazeController implements Initializable {
         Scene home = new Scene(goHome);
         home.snapshot(null);       
         goHome.setTranslateX(200);
-        goHome.setTranslateY(10); 
+        goHome.setTranslateY(5); 
         root.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
         	
@@ -140,11 +140,11 @@ public class MazeController implements Initializable {
         snapScene = new Scene(reset);
         snapScene.snapshot(null);
         reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2+(CANVAS_WIDTH / 4));
-        reset.setTranslateY(10);
+        reset.setTranslateY(5);
         root.getChildren().add(reset);
         reset.setOnAction((ActionEvent e) -> {         		
         	generateMaze();
-        	setTimer();
+        	interval = 0;
         	rendered = false; 
         	showSolution.setText("Show Solution"); 
         });        
@@ -534,6 +534,7 @@ public class MazeController implements Initializable {
     	 * play sound effect
     	 * flash next maze button
     	 */
+    	
     	MazeWall.setWallColor(1);    	
     }
 
