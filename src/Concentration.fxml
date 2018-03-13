@@ -42,7 +42,7 @@
             </Text>
          </items>
       </ToolBar>
-      <Text fx:id="timerText" fill="WHITE" layoutX="100.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="60">
+      <Text fx:id="timerText" fill="WHITE" layoutX="100.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" text="90">
          <font>
             <Font name="Courier New Bold" size="29.0" />
          </font>

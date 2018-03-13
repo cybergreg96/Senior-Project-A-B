@@ -50,7 +50,7 @@ public class ConcentrationController implements Initializable {
 	 private int numberOfMoves = 0;
 	 private int howManyMatches = 0;
 	 private java.util.Timer timer;
-	 private int interval = 60;
+	 private int interval = 89;
 	 public static final int CANVAS_WIDTH = 850;
 	public static final int CANVAS_HEIGHT = 650;
 
@@ -155,9 +155,7 @@ public class ConcentrationController implements Initializable {
         goHome.setTranslateY(5);  
         rootPane.getChildren().add(goHome);
         goHome.setOnAction((ActionEvent e) -> {
-        	
-        	
-			try {
+        	try {
 				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 				x.setStyle("-fx-background-color: #a50000");
 	            Scene y = new Scene(x);

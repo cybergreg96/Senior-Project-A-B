@@ -13,8 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
-
-
 public class StartScreen extends Application {
 	
 	//boolean for the program to know when to stop loading the splashscreen
