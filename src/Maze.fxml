@@ -14,17 +14,17 @@
 		<Canvas fx:id="canvas" height="650.0" width="850.0" />
 		<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressEvent" onKeyReleased="#keyReleaseEvent" prefHeight="650.0" prefWidth="850.0">
          <children>
-            <Text fill="WHITE" layoutX="30.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
+            <Text fill="WHITE" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
-            <Text fx:id="timerText" fill="WHITE" layoutX="135.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="70.00000901520252">
+            <Text fx:id="timerText" fill="WHITE" layoutX="104.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="70.00000901520252">
                <font>
                   <Font name="Courier New" size="29.0" />
                </font>
             </Text>
-            <ToolBar fx:id="birdstufzBanner1" layoutX="-12.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="41.0" prefWidth="874.0">
+            <ToolBar fx:id="birdstufzBanner1" layoutX="-12.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="874.0">
                <items>
                   <ImageView fitHeight="26.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -33,7 +33,6 @@
                   </ImageView>
                </items>
             </ToolBar>
-            <Pane layoutX="-7.0" layoutY="38.0" prefHeight="56.0" prefWidth="252.0" />
          </children></Pane>
 		<ToolBar fx:id="birdstufzBanner" layoutX="-8.0" layoutY="601.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="874.0">
 			<items>
@@ -48,6 +47,7 @@
 						<Font name="Courier New Bold" size="20.0" />
 					</font>
 				</Text>
+            <Pane prefHeight="56.0" prefWidth="252.0" />
 			</items>
 		</ToolBar>
 	</children>
