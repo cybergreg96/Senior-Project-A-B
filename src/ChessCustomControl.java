@@ -58,17 +58,7 @@ public class ChessCustomControl extends Control {
 			}
 			
 	        
-	    });
-
-		// Add a key listener that will reset the game
-		setOnKeyPressed(new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.SPACE)
-					chessBoard.resetGame();
-			}
-		});
-		
+	    });	
 		
 		
 		chessStatusBar.getResetButton().setOnAction(new EventHandler<ActionEvent>(){

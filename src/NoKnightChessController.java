@@ -1,5 +1,6 @@
 
 
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -17,6 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -98,11 +100,6 @@ public class NoKnightChessController implements Initializable {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-    		
-            
         });
-
-      
-		
-	}
+	}	
 }

@@ -19,7 +19,7 @@ public class ChessWindow extends Group{
 	 
 	// constructor for the class
 		public ChessWindow(int i) {
-			// Make a new Rectangle and Translate, add the Translate to the Rectangle, add the Rectagle to the Group
+			// Make a new Rectangle and Translate, add the Translate to the Rectangle, add the Rectangle to the Group
 			pos = new Translate();
 			r = new Rectangle();
 			r.getTransforms().add(pos);
@@ -29,7 +29,6 @@ public class ChessWindow extends Group{
 			r.setFill(Color.web("#c2a470"));
 			
 			getChildren().add(r);
-		
 		}
 
 		// overridden version of the resize method
