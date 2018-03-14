@@ -59,9 +59,9 @@ public class ConcentrationController implements Initializable {
 	
 	@FXML
 	public void goHome(ActionEvent event) throws IOException {
-		Parent loginParent = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
-		loginParent.setStyle("-fx-background-color: #a50000");
-        Scene LoginScene = new Scene(loginParent);
+		Parent root = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+		root.setStyle("-fx-background-color: #a50000");
+        Scene LoginScene = new Scene(root);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setResizable(false);
         window.setScene(LoginScene);

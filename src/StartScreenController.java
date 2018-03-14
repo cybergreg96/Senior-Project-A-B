@@ -46,9 +46,7 @@ public class StartScreenController implements Initializable {
 	@FXML
 	private ToolBar birdstufzBanner;
 	
-	// private fields for chess class
-		private StackPane sp_mainlayout;	//layout which allows items to be positioned on top of each other
-		private ChessCustomControl cc_custom;	//control which has a board and detects mouse and keyboard events
+	
 	
 	@Override
 	public void initialize(URL url, ResourceBundle rb) {
@@ -78,27 +76,23 @@ public class StartScreenController implements Initializable {
 		@FXML
 		public void ChessButtonClick(ActionEvent event) throws IOException {
 			
-			// initialize the chess layout, create a CustomControl and it to the layout
-			sp_mainlayout = new StackPane(); 
-			cc_custom = new ChessCustomControl();
-			sp_mainlayout.getChildren().add(cc_custom);
-			
-			// set the title and scene, and show the stage
-			Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-			primaryStage.setTitle("Chess game");
-			primaryStage.setScene(new Scene(sp_mainlayout, 850, 650));
-			primaryStage.setMinWidth(300);
-			primaryStage.setMinHeight(300);
-			primaryStage.show();
+			Parent chess = FXMLLoader.load(getClass().getResource("Chess.fxml"));
+	        Scene chessScene = new Scene(chess);
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        window.setResizable(false);
+	        window.setScene(chessScene);
+
+	        window.setResizable(false); 
+	        window.show();
 		}
 	// Event Listener on Button[#ConcentrationButton].onAction
 	@FXML
 	public void ConcentrationButtonClick(ActionEvent event) throws IOException {
-		Parent loginParent = FXMLLoader.load(getClass().getResource("Concentration.fxml"));
-        Scene LoginScene = new Scene(loginParent);
+		Parent concentration = FXMLLoader.load(getClass().getResource("Concentration.fxml"));
+        Scene concentrationScene = new Scene(concentration);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setResizable(false);
-        window.setScene(LoginScene);
+        window.setScene(concentrationScene);
 
         window.setResizable(false); 
         window.show();
