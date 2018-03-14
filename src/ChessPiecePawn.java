@@ -59,16 +59,6 @@ public class ChessPiecePawn extends ChessPiece{
 					else
 						chessBoard.colorSquare(this.xPos, this.yPos - 1, false);
 				}
-				if (this.isFirstTime == true && chessBoard.getBoardPosition(this.xPos, this.yPos - 2) == 0)
-				{
-					if (chessBoard.checkState)
-					{
-						if (chessGameLogic.isThisProtecting(chessBoard, this.xPos, this.yPos - 2, this.type))
-							chessBoard.colorSquare(this.xPos, this.yPos - 2, false);
-					}
-					else
-						chessBoard.colorSquare(this.xPos, this.yPos - 2, false);
-				}
 			}
 			if (!chessGameLogic.verticalProtection(chessBoard, this.xPos, this.yPos, this.type))
 			{
