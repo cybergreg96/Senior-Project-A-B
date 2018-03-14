@@ -24,8 +24,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.TimerTask;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -44,7 +42,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import sun.misc.IOUtils;
 
 public class MazeController implements Initializable {
 	@FXML

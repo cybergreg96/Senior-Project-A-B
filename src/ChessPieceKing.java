@@ -52,8 +52,6 @@ public class ChessPieceKing extends ChessPiece{
 			{
 				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth() && chessBoard.getBoardPosition(x, y) != this.type)
 				{
-					if (!chessBoard.checkState)
-						this.canCastle(chessBoard);
 					// Check si echec et mat sur cette case
 					if (!chessGameLogic.isCheck(chessBoard, x, y, this.type, true))
 						chessBoard.colorSquare(x, y, false);
@@ -64,33 +62,5 @@ public class ChessPieceKing extends ChessPiece{
 		// cliquer sur l'autre pièce pour faire le roque 
 		// use canCastle 
 		
-	}
-	
-	
-	public int canCastle(ChessBoard chessBoard){
-		int canCastle =0;
-		//Black 
-		//shortCastle (5 and 6 empty) 
-		if(type==2 && this.isFirstTime && chessBoard.getBoardPosition(3, 0) == 0 && chessBoard.getBoardPosition(4, 0) == 0 && chessBoard.getPiece(5, 0) != null && chessBoard.getPiece(5, 0).isFirstTime){
-			canCastle = 1;
-			chessBoard.colorSquare(5, 0, false);
-		}
-		//longCastle (1 2 3 empty)
-		if(type==2 && this.isFirstTime && chessBoard.getBoardPosition(1, 0) == 0 && chessBoard.getBoardPosition(2, 0) == 0 && chessBoard.getBoardPosition(3, 0) == 0 && chessBoard.getPiece(0, 0) != null && chessBoard.getPiece(0, 0).isFirstTime){
-			canCastle = 2;
-			chessBoard.colorSquare(0, 0, false);
-		}
-		// White
-		//shortCastle (5 and 6 empty) 
-		if(type==1 && this.isFirstTime && chessBoard.getBoardPosition(3, 5) == 0 && chessBoard.getBoardPosition(4, 5) == 0 && chessBoard.getPiece(5, 5) != null && chessBoard.getPiece(5, 5).isFirstTime){
-			canCastle = 3;
-			chessBoard.colorSquare(5, 5, false);
-		}
-		//longCastle (1 2 3 empty)
-		if(type==1 && this.isFirstTime && chessBoard.getBoardPosition(1, 5) == 0 && chessBoard.getBoardPosition(2, 5) == 0 && chessBoard.getBoardPosition(3, 5) == 0 && chessBoard.getPiece(0, 5) != null && chessBoard.getPiece(0, 5).isFirstTime){
-			canCastle = 4;
-			chessBoard.colorSquare(0, 5, false);
-		}
-		return canCastle; 
 	}
 }

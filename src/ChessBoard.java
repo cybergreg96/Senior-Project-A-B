@@ -353,11 +353,10 @@ public class ChessBoard extends Pane {
 		alert.setContentText("Choose one of the following piece");
 
 		ButtonType buttonRook = new ButtonType("Rook");
-		ButtonType buttonKnight = new ButtonType("Knight");
 		ButtonType buttonBishop = new ButtonType("Bishop");
 		ButtonType buttonQueen = new ButtonType("Queen");
 
-		alert.getButtonTypes().setAll(buttonRook, buttonKnight, buttonBishop, buttonQueen);
+		alert.getButtonTypes().setAll(buttonRook, buttonBishop, buttonQueen);
 
 		Optional<ButtonType> result = alert.showAndWait();
 		if (result.get() == buttonRook){
