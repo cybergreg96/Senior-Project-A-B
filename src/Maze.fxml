@@ -14,20 +14,20 @@
 		<Canvas fx:id="canvas" height="650.0" width="850.0" />
 		<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressEvent" onKeyReleased="#keyReleaseEvent" prefHeight="650.0" prefWidth="850.0">
          <children>
-            <Text fill="WHITE" layoutX="9.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
+            <Text fill="WHITE" layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
-            <Text fx:id="timerText" fill="WHITE" layoutX="114.0" layoutY="62.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="70.00000901520252">
+            <Text fx:id="timerText" fill="WHITE" layoutX="118.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="70.00000901520252">
                <font>
-                  <Font name="Courier New" size="29.0" />
+                  <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
             
-             <Text fx:id="best" fill="WHITE" layoutX="785.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="50.00000901520252">
+             <Text fx:id="best" fill="WHITE" layoutX="791.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="50.00000901520252">
                <font>
-                  <Font name="Courier New" size="29.0" />
+                  <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
             <ToolBar fx:id="birdstufzBanner1" layoutX="-12.0" layoutY="-4.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="874.0">
