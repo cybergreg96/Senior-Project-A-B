@@ -57,10 +57,6 @@ public class ChessPieceKing extends ChessPiece{
 						chessBoard.colorSquare(x, y, false);
 				}
 			}
-		}
-		// Mouvement Roque (castling)
-		// cliquer sur l'autre pièce pour faire le roque 
-		// use canCastle 
-		
+		}	
 	}
 }

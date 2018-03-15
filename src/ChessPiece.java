@@ -21,8 +21,6 @@ public abstract class ChessPiece extends Group{
 	protected Translate pos;
 	// GameLogic
 	protected ChessGameLogic chessGameLogic = new ChessGameLogic();
-	// True if it's the first time that the Piece is used.
-	protected boolean isFirstTime;
 	// Variable to know if the piece can move in a check situation
 	protected boolean isASavior = false;
 	
@@ -30,7 +28,6 @@ public abstract class ChessPiece extends Group{
 		this.type = type;
 		this.xPos = xPos;
 		this.yPos = yPos;
-		isFirstTime = true;
 	}
 	
 	// Select method: When a piece is selected by a first click
@@ -43,63 +40,19 @@ public abstract class ChessPiece extends Group{
 	public void MovePiece(ChessBoard chessBoard, int x, int y) {
 		chessBoard.setBoard(this.xPos, this.yPos, 0);
 		chessBoard.setPiece(this.xPos, this.yPos, null);
-		if (!chessBoard.checkState && this.canCastle(chessBoard)!=0){
-			if(this.canCastle(chessBoard)==1){
-				chessBoard.setBoard(x-1, y, this.type);
-				chessBoard.setPiece(x-1, y, this);
-				this.xPos = x - 1;
-				chessBoard.setBoard(3, y, chessBoard.getPiece(5, y).type);
-				chessBoard.setPiece(3, y, chessBoard.getPiece(5, y));
-				chessBoard.getPiece(5, y).xPos = 5;
-				chessBoard.setBoard(5, y, 0);
-				chessBoard.setPiece(5, y, null);
-			}
-			if(this.canCastle(chessBoard)==2){
-				chessBoard.setBoard(x+2, y, this.type);
-				chessBoard.setPiece(x+2, y, this);
-				this.xPos = x + 2;
-				chessBoard.setBoard(1, y, chessBoard.getPiece(0, y).type);
-				chessBoard.setPiece(1, y, chessBoard.getPiece(0, y)); 
-				chessBoard.getPiece(1, y).xPos = 1;
-				chessBoard.setBoard(0, y, 0);
-				chessBoard.setPiece(0, y, null);
-			}
-			if(this.canCastle(chessBoard)==3){
-				chessBoard.setBoard(x-1, y, this.type);
-				chessBoard.setPiece(x-1, y, this);
-				this.xPos = x - 1;
-				chessBoard.setBoard(3, y, chessBoard.getPiece(5, y).type);
-				chessBoard.setPiece(3, y, chessBoard.getPiece(5, y)); 
-				chessBoard.getPiece(3, y).xPos = 3;
-				chessBoard.setBoard(5, y, 0);
-				chessBoard.setPiece(5, y, null);
-			}
-			if(this.canCastle(chessBoard)==4){
-				chessBoard.setBoard(x+2, y, this.type);
-				chessBoard.setPiece(x+2, y, this);
-				this.xPos = x + 2;
-				chessBoard.setBoard(3, y, chessBoard.getPiece(0, y).type);
-				chessBoard.setPiece(3, y, chessBoard.getPiece(0, y)); 
-				chessBoard.getPiece(3, y).xPos = 3;
-				chessBoard.setBoard(0, y, 0);
-				chessBoard.setPiece(0, y, null);
-			}
-		}
-		else{
-			this.xPos = x;
-			this.yPos = y;
-			if (chessBoard.getPiece(x, y) != null)
-				chessBoard.getPiece(x, y).capture(chessBoard);
-			chessBoard.setBoard(x, y, this.type);
-			chessBoard.setPiece(x, y, this);
-			if (this.name == "Pawn" && ((this.type == 1 && this.yPos == 0) || (this.type == 2 && this.yPos == 5)))
-			{
-				chessBoard.createPromotePiece(this);
-				if (this.type == 1)
-					chessBoard.playerOnePawn--;
-				else
-					chessBoard.playerTwoPawn--;
-			}
+		this.xPos = x;
+		this.yPos = y;
+		if (chessBoard.getPiece(x, y) != null)
+			chessBoard.getPiece(x, y).capture(chessBoard);
+		chessBoard.setBoard(x, y, this.type);
+		chessBoard.setPiece(x, y, this);
+		if (this.name == "Pawn" && ((this.type == 1 && this.yPos == 0) || (this.type == 2 && this.yPos == 5)))
+		{
+			chessBoard.createPromotePiece(this);
+			if (this.type == 1)
+				chessBoard.playerOnePawn--;
+			else
+				chessBoard.playerTwoPawn--;
 		}
 	}
 	
@@ -163,10 +116,6 @@ public abstract class ChessPiece extends Group{
 		}
 		chessBoard.getChildren().remove(this.getImage());
 	}
-	
-	public int canCastle(ChessBoard chessBoard){
-		return 0;
-	}
 
 	public void resize(double width, double height) {
 		imageView.setFitWidth(width);
@@ -182,17 +131,9 @@ public abstract class ChessPiece extends Group{
 	
 	public void resetPiece()
 	{
-		this.isFirstTime = true;
 		this.isASavior = false;
 	}
 
-	public boolean isFirstTime() {
-		return isFirstTime;
-	}
-
-	public void setFirstTime(boolean isFirstTime) {
-		this.isFirstTime = isFirstTime;
-	}
 	
 	public int getX(){
 		return this.xPos;

@@ -645,8 +645,6 @@ public class ChessGameLogic {
 			{
 				if (enemyType == 2 && protect == true && y == yPos - 1 && chessBoard.getPiece(xPos, y) != null && chessBoard.getPiece(xPos, y).name == "Pawn")
 					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
-				if (enemyType == 2 && protect == true && y == yPos - 2 && chessBoard.getPiece(xPos, y) != null && chessBoard.getPiece(xPos, y).name == "Pawn" && chessBoard.getPiece(xPos, y).isFirstTime())
-					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
 				if (chessBoard.getPiece(xPos, y) != null && (chessBoard.getPiece(xPos, y).name == "Queen" || chessBoard.getPiece(xPos, y).name == "Rook"))
 					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
 				else
@@ -661,8 +659,6 @@ public class ChessGameLogic {
 			else if (chessBoard.getBoardPosition(xPos, y) == enemyType)
 			{
 				if (enemyType == 1 && protect == true && y == yPos + 1 && chessBoard.getPiece(xPos, y) != null && chessBoard.getPiece(xPos, y).name == "Pawn")
-					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
-				if (enemyType == 1 && protect == true && y == yPos + 2 && chessBoard.getPiece(xPos, y) != null && chessBoard.getPiece(xPos, y).name == "Pawn" && chessBoard.getPiece(xPos, y).isFirstTime())
 					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
 				if (chessBoard.getPiece(xPos, y) != null && (chessBoard.getPiece(xPos, y).name == "Queen" || chessBoard.getPiece(xPos, y).name == "Rook"))
 					chessBoard.saviorPieces.add(chessBoard.getPiece(xPos, y));
