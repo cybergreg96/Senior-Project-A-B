@@ -24,9 +24,9 @@ public class ChessWindow extends Group{
 			r = new Rectangle();
 			r.getTransforms().add(pos);
 			if(i==0)
-			r.setFill(Color.web("#754201"));
+			r.setFill(Color.web("#b2b2b2"));
 			else
-			r.setFill(Color.web("#c2a470"));
+			r.setFill(Color.web("#ffffff"));
 			
 			getChildren().add(r);
 		}
