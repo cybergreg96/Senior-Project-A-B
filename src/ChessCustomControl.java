@@ -41,7 +41,7 @@ public class ChessCustomControl extends Control {
 		Button goHome = new Button("Go home");
 	    Scene home = new Scene(goHome);
 	    home.snapshot(null);       
-	    goHome.setTranslateX((CANVAS_WIDTH / 2) - goHome.getWidth() / 2);
+	    goHome.setTranslateX((675/ 2) - goHome.getWidth()/2);
 	    goHome.setTranslateY(-50);  
 	    chessBoard.getChildren().add(goHome);
 	    goHome.setOnAction((ActionEvent e) -> {
