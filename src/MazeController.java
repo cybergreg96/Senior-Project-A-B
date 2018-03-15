@@ -50,7 +50,8 @@ public class MazeController implements Initializable {
 	private static Canvas canvas;
 	@FXML
 	private Button homeButton;
-
+	private int count = 0;
+	private boolean solution = false;
 	public static final int CANVAS_WIDTH = 850;
 	public static final int CANVAS_HEIGHT = 650;
 	public static final int GRID_SIZE = 20;
@@ -67,7 +68,7 @@ public class MazeController implements Initializable {
 	private Text timerText;
 	@FXML
 	private Text best;
-	
+
 	private double[] doorwayInfo;
 
 	private MazePlayer player;
@@ -99,10 +100,7 @@ public class MazeController implements Initializable {
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		root.getChildren().add(canvas);
 		best();
-		
-		
-		
-		
+
 		Button showSolution = new Button("Show Solution");
 		Scene snapScene = new Scene(showSolution);
 		snapScene.snapshot(null);
@@ -110,6 +108,10 @@ public class MazeController implements Initializable {
 		showSolution.setTranslateY(5);
 		root.getChildren().add(showSolution);
 		showSolution.setOnAction((ActionEvent e) -> {
+			count++;
+			if (count == 1) {
+				solution = true;
+			}
 			if (showSolution.getText().contains("Show")) {
 				mazeGraph.renderSolution(true);
 				showSolution.setText("Hide Solution");
@@ -143,13 +145,13 @@ public class MazeController implements Initializable {
 		});
 
 		Button reset = new Button("New Maze");
-
 		snapScene = new Scene(reset);
 		snapScene.snapshot(null);
 		reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2 + (CANVAS_WIDTH / 4));
 		reset.setTranslateY(5);
 		root.getChildren().add(reset);
 		reset.setOnAction((ActionEvent e) -> {
+			solution = false;
 			timer.cancel();
 			interval = 0;
 			setTimer();
@@ -173,7 +175,7 @@ public class MazeController implements Initializable {
 
 		gc.setStroke(Color.BLACK);
 		gc.setLineWidth(1);
-		
+
 		TimeValue lastNanoTime = new TimeValue(System.nanoTime());
 		// main game loop
 		new AnimationTimer() {
@@ -273,19 +275,20 @@ public class MazeController implements Initializable {
 	}
 
 	private void generateMaze() {
+		count = 0;
 		initWallAnchors(GRID_SIZE);
 		setWalls();
 	}
-	
-	private void best(){
-		String inputName = "the-file-name.txt";
+
+	private void best() {
+		String inputName = "maze_best_score.txt";
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testfile = new File(workingDirFile, inputName);
-		if(testfile.exists()) {
+		if (testfile.exists()) {
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File("the-file-name.txt"));
+				scanner = new Scanner(new File("maze_best_score.txt"));
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -300,8 +303,8 @@ public class MazeController implements Initializable {
 			for (int j = 0; j < i; j++) {
 				value += tall[j];
 			}
-				best.setText(value);
-		}else{
+			best.setText(value);
+		} else {
 			best.setText("0");
 		}
 	}
@@ -593,14 +596,14 @@ public class MazeController implements Initializable {
 		 * button
 		 */
 		int someInt = 100000;
-		String inputName = "the-file-name.txt";
+		String inputName = "maze_best_score.txt";
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testfile = new File(workingDirFile, inputName);
 		if (!testfile.exists()) {
 			PrintWriter writer;
 			try {
-				writer = new PrintWriter("the-file-name.txt", "UTF-8");
+				writer = new PrintWriter("maze_best_score.txt", "UTF-8");
 				writer.println(interval - 1);
 				writer.close();
 			} catch (FileNotFoundException e2) {
@@ -613,7 +616,7 @@ public class MazeController implements Initializable {
 		} else {
 			Scanner scanner = null;
 			try {
-				scanner = new Scanner(new File("the-file-name.txt"));
+				scanner = new Scanner(new File("maze_best_score.txt"));
 			} catch (FileNotFoundException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -629,13 +632,16 @@ public class MazeController implements Initializable {
 				value += tall[j];
 			}
 
-				someInt = Integer.parseInt(value);
-			
+			someInt = Integer.parseInt(value);
+
+		}
+		if (solution == true) {
+			interval = 100000;
 		}
 		if (someInt >= interval) {
 			PrintWriter writer2 = null;
 			try {
-				writer2 = new PrintWriter("the-file-name.txt", "UTF-8");
+				writer2 = new PrintWriter("maze_best_score.txt", "UTF-8");
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -665,8 +671,12 @@ public class MazeController implements Initializable {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			public void run() {
 				if (interval >= 0) {
-					timerText.setText(String.valueOf(interval));
-					interval++;
+					if (solution == true) {
+						timerText.setText(String.valueOf(1000000));
+					} else {
+						timerText.setText(String.valueOf(interval));
+						interval++;
+					}
 				} else
 					timer.cancel();
 

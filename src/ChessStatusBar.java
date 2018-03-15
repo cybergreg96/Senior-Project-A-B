@@ -24,13 +24,13 @@ public class ChessStatusBar extends HBox{
 
 //	    statusBarGp.setGridLinesVisible(true);
 		ColumnConstraints column = new ColumnConstraints();
-		column.setPercentWidth(30);
+		column.setPercentWidth(33.33);
 		statusBarGp.getColumnConstraints().add(column);
 		column = new ColumnConstraints();
-		column.setPercentWidth(30);
+		column.setPercentWidth(33.33);
 		statusBarGp.getColumnConstraints().add(column);
 		column = new ColumnConstraints();
-		column.setPercentWidth(30);
+		column.setPercentWidth(33.33);
 		statusBarGp.getColumnConstraints().add(column);
 		statusBarGp.setPrefSize(2000, 100);
 		statusBarGp.getRowConstraints().add(new RowConstraints(70/2));
