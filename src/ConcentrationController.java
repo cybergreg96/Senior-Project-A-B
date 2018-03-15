@@ -2,14 +2,18 @@
 /*
  * citations: https://github.com/ThriftyNick/maze_generator
  */
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
-
+import java.util.Scanner;
 import java.util.TimerTask;
 
 import javafx.animation.FadeTransition;
@@ -44,6 +48,9 @@ public class ConcentrationController implements Initializable {
 	@FXML
 	private Text timerText;
 	
+	@FXML
+	private Text best;
+	
 	private ConcentrationCard selectedCard;
 	private ConcentrationCard aCard;
 	 private int selectNum = 0;
@@ -77,7 +84,7 @@ public class ConcentrationController implements Initializable {
 		
 		 
 		//Initialize Array of Images and random generation for game
-
+		best();
         byte[] imgs = new byte[10];
         Random rnd = new Random();
 
@@ -178,6 +185,64 @@ public class ConcentrationController implements Initializable {
         for(Node x : g.getChildren())
             if(!((ConcentrationCard)x).isFlipped())
                 return false;
+        timer.cancel();
+        
+        int someInt = 100000;
+		String inputName = "concentration_best_score.txt";
+		String workingDir = System.getProperty("user.dir");
+		File workingDirFile = new File(workingDir);
+		File testfile = new File(workingDirFile, inputName);
+		if (!testfile.exists()) {
+			PrintWriter writer;
+			try {
+				writer = new PrintWriter("concentration_best_score.txt", "UTF-8");
+				writer.println(interval + 1);
+				writer.close();
+			} catch (FileNotFoundException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			} catch (UnsupportedEncodingException e2) {
+				// TODO Auto-generated catch block
+				e2.printStackTrace();
+			}
+		} else {
+			Scanner scanner = null;
+			try {
+				scanner = new Scanner(new File("concentration_best_score.txt"));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			int[] tall = new int[100];
+			int i = 0;
+			while (scanner.hasNextInt()) {
+				tall[i++] = scanner.nextInt();
+			}
+
+			String value = "";
+			for (int j = 0; j < i; j++) {
+				value += tall[j];
+			}
+
+				someInt = Integer.parseInt(value);
+			
+		}
+		if (someInt <= interval) {
+			PrintWriter writer2 = null;
+			try {
+				writer2 = new PrintWriter("concentration_best_score.txt", "UTF-8");
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			writer2.println(interval + 1);
+			writer2.close();
+		}
+		interval = 0;
+		best();
         return true;
     }
 	
@@ -204,6 +269,34 @@ public class ConcentrationController implements Initializable {
 	        }
 	    }, 1000,1000);
 	}
+	
+	private void best(){
+		String inputName = "concentration_best_score.txt";
+		String workingDir = System.getProperty("user.dir");
+		File workingDirFile = new File(workingDir);
+		File testfile = new File(workingDirFile, inputName);
+		if(testfile.exists()) {
+			Scanner scanner = null;
+			try {
+				scanner = new Scanner(new File("concentration_best_score.txt"));
+			} catch (FileNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			int[] tall = new int[100];
+			int i = 0;
+			while (scanner.hasNextInt()) {
+				tall[i++] = scanner.nextInt();
+			}
 
+			String value = "";
+			for (int j = 0; j < i; j++) {
+				value += tall[j];
+			}
+				best.setText(value);
+		}else{
+			best.setText("90");
+		}
+	}
 	
 }
