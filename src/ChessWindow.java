@@ -51,7 +51,7 @@ public class ChessWindow extends Group{
 		
 		public void highlightWindow(Color color) {
 			r.setStrokeType(StrokeType.INSIDE);
-			r.setStrokeWidth(4);
+			r.setStrokeWidth(6);
 			r.setStroke(color);
 			if (color == Color.GREEN)
 				isHighlighted = true;
