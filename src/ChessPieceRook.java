@@ -47,6 +47,7 @@ public class ChessPieceRook extends ChessPiece {
 			return;
 		if (!chessGameLogic.horizontalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
+			// sets valid moves going down up board
 			for (int y = this.yPos - 1; y >= this.yPos - 2 && y >= 0; y--)
 			{
 				if (chessBoard.getBoardPosition(this.xPos, y) == 0)
@@ -73,6 +74,8 @@ public class ChessPieceRook extends ChessPiece {
 					break;
 				}
 			}
+			
+			// sets valid moves going down the board
 			for (int y = this.yPos + 1; y <= this.yPos + 2 && y < chessBoard.getBoardHeight(); y++)
 			{
 				if (chessBoard.getBoardPosition(this.xPos, y) == 0)
@@ -102,6 +105,7 @@ public class ChessPieceRook extends ChessPiece {
 		}
 		if (!chessGameLogic.verticalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
+			// sets valid moves going left
 			for (int x = this.xPos - 1; x >= 0 && x >= this.xPos - 2; x--)
 			{
 				if (chessBoard.getBoardPosition(x, this.yPos) == 0)
@@ -128,6 +132,8 @@ public class ChessPieceRook extends ChessPiece {
 					break;
 				}
 			}
+			
+			// sets valid moves going right
 			for (int x = this.xPos + 1; x < chessBoard.getBoardWidth() && x <= this.xPos + 2; x++)
 			{
 				if (chessBoard.getBoardPosition(x, this.yPos) == 0)
