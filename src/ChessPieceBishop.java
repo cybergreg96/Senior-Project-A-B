@@ -52,7 +52,8 @@ public class ChessPieceBishop extends ChessPiece{
 			return;
 		if (!chessGameLogic.slashDiagonalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
-			for(int x = this.xPos + 1; x < chessBoard.getBoardWidth() && y < chessBoard.getBoardHeight(); x++, y++)
+			// sets valid moves going diagonally down and right
+			for(int x = this.xPos + 1; x < chessBoard.getBoardWidth() && y < chessBoard.getBoardHeight() && x <= this.xPos + 2; x++, y++)
 			{
 				if (chessBoard.getBoardPosition(x, y) == 0)
 				{
@@ -79,7 +80,9 @@ public class ChessPieceBishop extends ChessPiece{
 				}
 			}
 			y = this.yPos - 1;
-			for(int x = this.xPos - 1; x >= 0 && y >= 0; x--, y--)
+			
+			// sets valid moves going diagonally up and left
+			for(int x = this.xPos - 1; x >= 0 && y >= 0 && x >= this.xPos - 2; x--, y--)
 			{
 				if (chessBoard.getBoardPosition(x, y) == 0)
 				{
@@ -109,7 +112,9 @@ public class ChessPieceBishop extends ChessPiece{
 		if (!chessGameLogic.backslashDiagonalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
 			y = this.yPos + 1;
-			for (int x = this.xPos - 1; x >= 0 && y < chessBoard.getBoardHeight(); x--, y++)
+			
+			// sets valid moves going diagonally down and left
+			for (int x = this.xPos - 1; x >= 0 && y < chessBoard.getBoardHeight() && x >= this.xPos - 2; x--, y++)
 			{
 				if (chessBoard.getBoardPosition(x, y) == 0)
 				{
@@ -136,7 +141,9 @@ public class ChessPieceBishop extends ChessPiece{
 				}
 			}
 			y = this.yPos - 1;
-			for (int x = this.xPos + 1; x < chessBoard.getBoardWidth() && y >= 0; x++, y--)
+			
+			// sets valid moves going diagonally up and right
+			for (int x = this.xPos + 1; x < chessBoard.getBoardWidth() && y >= 0 && x <= this.xPos + 2; x++, y--)
 			{
 				if (chessBoard.getBoardPosition(x, y) == 0)
 				{
