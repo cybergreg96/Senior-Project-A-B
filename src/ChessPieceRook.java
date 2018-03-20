@@ -47,7 +47,7 @@ public class ChessPieceRook extends ChessPiece {
 			return;
 		if (!chessGameLogic.horizontalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
-			for (int y = this.yPos - 1; y >= 0; y--)
+			for (int y = this.yPos - 1; y >= this.yPos - 2 && y >= 0; y--)
 			{
 				if (chessBoard.getBoardPosition(this.xPos, y) == 0)
 				{
@@ -73,7 +73,7 @@ public class ChessPieceRook extends ChessPiece {
 					break;
 				}
 			}
-			for (int y = this.yPos + 1; y < chessBoard.getBoardHeight(); y++)
+			for (int y = this.yPos + 1; y <= this.yPos + 2 && y < chessBoard.getBoardHeight(); y++)
 			{
 				if (chessBoard.getBoardPosition(this.xPos, y) == 0)
 				{
@@ -102,7 +102,7 @@ public class ChessPieceRook extends ChessPiece {
 		}
 		if (!chessGameLogic.verticalProtection(chessBoard, this.xPos, this.yPos, this.type))
 		{
-			for (int x = this.xPos - 1; x >= 0; x--)
+			for (int x = this.xPos - 1; x >= 0 && x >= this.xPos - 2; x--)
 			{
 				if (chessBoard.getBoardPosition(x, this.yPos) == 0)
 				{
@@ -128,7 +128,7 @@ public class ChessPieceRook extends ChessPiece {
 					break;
 				}
 			}
-			for (int x = this.xPos + 1; x < chessBoard.getBoardWidth(); x++)
+			for (int x = this.xPos + 1; x < chessBoard.getBoardWidth() && x <= this.xPos + 2; x++)
 			{
 				if (chessBoard.getBoardPosition(x, this.yPos) == 0)
 				{

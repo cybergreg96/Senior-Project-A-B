@@ -654,7 +654,7 @@ public class MazeController implements Initializable {
 		}
 		interval = 0;
 		best();
-		MazeWall.setWallColor(1);
+		MazeWall.setWallColor(1); 
 
 	}
 
