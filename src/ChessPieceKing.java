@@ -52,7 +52,6 @@ public class ChessPieceKing extends ChessPiece{
 			{
 				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth() && chessBoard.getBoardPosition(x, y) != this.type)
 				{
-					if (!chessGameLogic.isCheck(chessBoard, x, y, this.type, true))
 						chessBoard.colorSquare(x, y, false);
 				}
 			}

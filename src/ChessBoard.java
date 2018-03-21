@@ -43,7 +43,7 @@ public class ChessBoard extends Pane {
 		// to the board
 		for (int i = 0; i < 6; i++) {
 			if(i%2 == 0 || i ==0){
-				isBlack =false;
+				isBlack = false;
 			}
 			else 
 				isBlack = true;
@@ -69,20 +69,20 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.play();
 		chessTimer.playerTurn = current_player;
 	}
-		
+
 	public void initPiece()
 	{
 		// Initialize the pieces and put it on the board
 		// BLACK Pieces
 		rook_2_1 = new ChessPieceRook(2, 0, 0); 
-		
+
 		bishop_2_1 = new ChessPieceBishop(2, 1, 0);
 		queen_2 = new ChessPieceQueen(2, 2, 0); 
 		king_2 = new ChessPieceKing(2, 3, 0);
 		bishop_2_2 = new ChessPieceBishop(2, 4, 0);
-		
+
 		rook_2_2 = new ChessPieceRook(2, 5, 0);
-		
+
 		pawn_2_1 = new ChessPiecePawn(2, 0, 1);
 		pawn_2_2 = new ChessPiecePawn(2, 1, 1);
 		pawn_2_3 = new ChessPiecePawn(2, 2, 1);
@@ -90,14 +90,14 @@ public class ChessBoard extends Pane {
 		pawn_2_5 = new ChessPiecePawn(2, 4, 1);
 		pawn_2_6 = new ChessPiecePawn(2, 5, 1);
 
-		
+
 		//WHITE Pieces
 		rook_1_1 = new ChessPieceRook(1, 0, 5);
 		bishop_1_1 = new ChessPieceBishop(1, 1, 5);
 		queen_1 = new ChessPieceQueen(1, 2, 5);
 		king_1 = new ChessPieceKing(1, 3, 5);
 		bishop_1_2 = new ChessPieceBishop(1, 4, 5);
-		
+
 		rook_1_2 = new ChessPieceRook(1, 5, 5);
 		pawn_1_1 = new ChessPiecePawn(1, 0, 4);
 		pawn_1_2 = new ChessPiecePawn(1, 1, 4);
@@ -106,7 +106,7 @@ public class ChessBoard extends Pane {
 		pawn_1_5 = new ChessPiecePawn(1, 4, 4);
 		pawn_1_6 = new ChessPiecePawn(1, 5, 4);
 
-		
+
 		chessPieces[0][0] = rook_2_1;
 
 		chessPieces[1][0] = bishop_2_1;
@@ -115,7 +115,7 @@ public class ChessBoard extends Pane {
 		chessPieces[4][0] = bishop_2_2;
 
 		chessPieces[5][0] = rook_2_2;
-		
+
 		chessPieces[0][1] = pawn_2_1;
 		chessPieces[1][1] = pawn_2_2;
 		chessPieces[2][1] = pawn_2_3;
@@ -123,7 +123,7 @@ public class ChessBoard extends Pane {
 		chessPieces[4][1] = pawn_2_5;
 		chessPieces[5][1] = pawn_2_6;
 
-		
+
 		for (int y = 2; y < 6; y++)
 		{
 			for (int x = 0; x < boardWidth; x++)
@@ -131,7 +131,7 @@ public class ChessBoard extends Pane {
 				chessPieces[x][y] = null;
 			}
 		}
-		
+
 		chessPieces[0][4] = pawn_1_1;
 		chessPieces[1][4] = pawn_1_2;
 		chessPieces[2][4] = pawn_1_3;
@@ -140,14 +140,14 @@ public class ChessBoard extends Pane {
 		chessPieces[5][4] = pawn_1_6;
 
 		chessPieces[0][5] = rook_1_1;
-		
+
 		chessPieces[1][5] = bishop_1_1;
 		chessPieces[2][5] = queen_1;
 		chessPieces[3][5] = king_1;
 		chessPieces[4][5] = bishop_1_2;
 
 		chessPieces[5][5] = rook_1_2;
-		
+
 		for (int y = 0; y < boardHeight; y++)
 		{
 			for (int x = 0; x < boardWidth; x++)
@@ -210,21 +210,12 @@ public class ChessBoard extends Pane {
 		}
 		current_player = PlayerWhite;
 		initPiece();
-		for(int i = 0; i < 6; i++){
-			chessPieces[i][0].resetPiece();
-			chessPieces[i][1].resetPiece();
-			chessPieces[i][4].resetPiece();
-			chessPieces[i][5].resetPiece();
-		}
 		unhighlightWindow();
 		chessStatusBar.whitePlayerAlert.setText("White Player turn");
 		chessStatusBar.blackPlayerAlert.setText("");
 		chessStatusBar.whitePlayerTimer.setText("White timer: 15:00");
 		chessStatusBar.blackPlayerTimer.setText("Black timer: 15:00");
 		chessStatusBar.winner.setText("");
-		checkmate = false;
-		checkState = false;
-		stalemate = false;
 		selectedPiece = null;
 		playerOneRook = 2;
 		playerOneBishopLightSquare = 1;
@@ -239,20 +230,19 @@ public class ChessBoard extends Pane {
 		playerTwoQueen = 1;
 		playerTwoPawn = 6;
 		checkPieces.clear();
-		saviorPieces.clear();
 		chessTimer.timeIsOver = false;
 		chessTimer.whiteTimer = 900;
 		chessTimer.blackTimer = 900;
 		chessTimer.playerTurn = current_player;
 		chessTimer.timeline.play();
 	}
-	
+
 	// select piece method
 	public void selectPiece(final double x, final double y){
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
-		
-		if (!checkmate && !stalemate && !chessTimer.timeIsOver)
+
+		if (!chessTimer.timeIsOver)
 		{
 			if (chessWindows[indexX][indexY].isHighlighted())
 			{
@@ -271,12 +261,12 @@ public class ChessBoard extends Pane {
 			}
 		}
 	}
-	
+
 	// move piece method
 	public void movePiece(final double x, final double y){
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
-		
+
 		// add a condition to know if the player can put his piece there
 		selectedPiece.MovePiece(this, indexX, indexY);
 		// don't forget to change the player
@@ -284,67 +274,23 @@ public class ChessBoard extends Pane {
 		{
 			current_player = PlayerBlack;
 			chessStatusBar.whitePlayerAlert.setText("");
-			checkState = false;
-			for(Iterator<ChessPiece> chessPiece = saviorPieces.iterator(); chessPiece.hasNext(); ) {
-			    ChessPiece item = chessPiece.next();
-			    item.isASavior = false;
-			}
-			if (chessGameLogic.isCheck(this, king_2.xPos, king_2.yPos, current_player, true))
-			{
-				checkPieces.clear();
-				saviorPieces.clear();
-				checkState = true;
-				chessGameLogic.findAllCheckPieces(this, king_2.xPos, king_2.yPos, current_player);
-				if (chessGameLogic.isCheckmate(this, king_2.xPos, king_2.yPos, current_player))
-				{
-					checkmate = true;
-					chessStatusBar.blackPlayerAlert.setText("Black player is in checkmate");
-					chessStatusBar.winner.setText("White player won !");
-				}
-				else
-					chessStatusBar.blackPlayerAlert.setText("Black player is in check");
-			}
-			else if (chessGameLogic.isStalemate(this, king_2, current_player))
-				chessStatusBar.winner.setText("Stalemate !");
-			else
-				chessStatusBar.blackPlayerAlert.setText("Black Player turn");
+
+			chessStatusBar.blackPlayerAlert.setText("Black Player turn");
 		}
 		else
 		{
 			current_player = PlayerWhite;
 			chessStatusBar.blackPlayerAlert.setText("");
-			checkState = false;
-			for(Iterator<ChessPiece> chessPiece = saviorPieces.iterator(); chessPiece.hasNext(); ) {
-			    ChessPiece item = chessPiece.next();
-			    item.isASavior = false;
-			}
-			if (chessGameLogic.isCheck(this, king_1.xPos, king_1.yPos, current_player, true))
-			{
-				checkPieces.clear();
-				saviorPieces.clear();
-				checkState = true;
-				chessGameLogic.findAllCheckPieces(this, king_1.xPos, king_1.yPos, current_player);
-				if (chessGameLogic.isCheckmate(this, king_1.xPos, king_1.yPos, current_player))
-				{
-					checkmate = true;
-					chessStatusBar.whitePlayerAlert.setText("White player is in checkmate");
-					chessStatusBar.winner.setText("Black player won !");
-				}
-				else
-					chessStatusBar.whitePlayerAlert.setText("White player is in check");
-			}
-			else if (chessGameLogic.isStalemate(this, king_1, current_player))
-				chessStatusBar.winner.setText("Stalemate !");
-			else
-				chessStatusBar.whitePlayerAlert.setText("White Player turn");
+
+			chessStatusBar.whitePlayerAlert.setText("White Player turn");
 		}
 		chessTimer.playerTurn = current_player;
 	}
-	
+
 	public void createPromotePiece(ChessPiece chessPiece)
 	{
 		ChessPiece promotedPiece;
-		        
+
 		alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Promote a piece");
 		alert.setHeaderText("You can promote your pawn into another piece");
@@ -367,7 +313,7 @@ public class ChessBoard extends Pane {
 			else
 				playerTwoRook++;
 		}
-		
+
 		else if (result.get() == buttonBishop) {
 			promotedPiece = new ChessPieceBishop(chessPiece.type, chessPiece.xPos, chessPiece.yPos);
 			getChildren().remove(chessPiece.getImage());
@@ -399,14 +345,14 @@ public class ChessBoard extends Pane {
 				playerTwoQueen++;
 		}
 	}
-	
+
 	public void colorSquare(int x, int y, boolean selectedPiece) {
 		if (selectedPiece)
 			chessWindows[x][y].highlightWindow(Color.ORANGE);
 		else
 			chessWindows[x][y].highlightWindow(Color.GREEN);			
 	}
-	
+
 	public void unhighlightWindow()
 	{
 		for (int y = 0; y < boardHeight; y++)
@@ -418,7 +364,7 @@ public class ChessBoard extends Pane {
 			}
 		}
 	}
-	
+
 	public void timerOver(int playerOutOfTime)
 	{
 		chessTimer.timeline.stop();
@@ -433,9 +379,9 @@ public class ChessBoard extends Pane {
 			chessStatusBar.winner.setText("White player won !");
 		}
 	}
-	
+
 	// Getter and setter method
-	
+
 	public ChessPiece getKing(int type)
 	{
 		if (type == 1)
@@ -447,38 +393,38 @@ public class ChessBoard extends Pane {
 	{
 		return (this.boardHeight);
 	}
-	
+
 	public int getBoardWidth()
 	{
 		return (this.boardWidth);
 	}
-	
+
 	public int getBoardPosition(int x, int y)
 	{
 		return (this.board[x][y]);
 	}
-	
+
 	public void setBoard(int x, int y, int type)
 	{
 		this.board[x][y] = type;
 	}
-	
+
 	public ChessPiece getPiece(int x, int y)
 	{
 		return (chessPieces[x][y]);
 	}
-	
+
 	public void setPiece(int x, int y, ChessPiece chessPiece)
 	{
 		this.chessPieces[x][y] = chessPiece;
 	}
-	
+
 	public ChessStatusBar getStatusBar()
 	{
 		return (chessStatusBar);
 	}
-	
-		// private fields
+
+	// private fields
 	private int boardWidth = 6;
 	private int boardHeight = 6;
 	private int[][] board;
@@ -502,7 +448,7 @@ public class ChessBoard extends Pane {
 	private ChessPiecePawn pawn_2_5;
 	private ChessPiecePawn pawn_2_6;
 
-	
+
 	private ChessPieceRook rook_1_1; 
 
 	private ChessPieceBishop bishop_1_1;
@@ -518,15 +464,12 @@ public class ChessBoard extends Pane {
 	private ChessPiecePawn pawn_1_5;
 	private ChessPiecePawn pawn_1_6;
 
-		
+
 	private ChessPiece selectedPiece = null;
 
 	private ChessStatusBar chessStatusBar = null;
-	
-	// GameLogic linked variable
-	private ChessGameLogic chessGameLogic = new ChessGameLogic();
-	public List<ChessPiece> checkPieces = new ArrayList<ChessPiece>();
-	public List<ChessPiece> saviorPieces = new ArrayList<ChessPiece>();
+
+	public List<ChessPiece> checkPieces = new ArrayList<ChessPiece>(); //TODO remove?
 	public int	playerOneRook = 2;
 	public int	playerOneBishopLightSquare = 1;
 	public int	playerOneBishopDarkSquare = 1;
@@ -540,19 +483,17 @@ public class ChessBoard extends Pane {
 	public int	playerTwoQueen = 1;
 	public int	playerTwoPawn = 6;
 	private Alert alert;
-		
+
 	private Rectangle background;
 	private double cell_width;
 	private double cell_height;
 	private int current_player;
 	private boolean isBlack = false; 
-	public boolean checkmate = false;
-	public boolean checkState = false;
-	public boolean stalemate = false;
-	
+	//public boolean checkState = false; //TODO remove?
+
 	private final int EMPTY = 0;
 	private final int PlayerWhite = 1;
 	private final int PlayerBlack = 2;
-	
+
 	private ChessTimer chessTimer;
 }

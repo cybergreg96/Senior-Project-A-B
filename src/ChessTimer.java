@@ -20,7 +20,7 @@ public class ChessTimer {
 	public Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
-			if (playerTurn == 1 && !timeIsOver && !chessboard.checkmate && !chessboard.stalemate)
+			if (playerTurn == 1 && !timeIsOver)
 			{
 				whiteTimer -= 1;
 				chessboard.getStatusBar().whitePlayerTimer.setText("White timer: " + TimeUnit.SECONDS.toMinutes(whiteTimer) + ":" + (whiteTimer % 60));

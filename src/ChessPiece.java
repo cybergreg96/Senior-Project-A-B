@@ -19,10 +19,6 @@ public abstract class ChessPiece extends Group{
 	protected ImageView imageView = new ImageView();
 	// Position 
 	protected Translate pos;
-	// GameLogic
-	protected ChessGameLogic chessGameLogic = new ChessGameLogic();
-	// Variable to know if the piece can move in a check situation
-	protected boolean isASavior = false;
 	
 	public ChessPiece(int type, int xPos, int yPos) {
 		this.type = type;
@@ -128,12 +124,6 @@ public abstract class ChessPiece extends Group{
 		imageView.setTranslateY(y);	
 		centerImage();
 	}
-	
-	public void resetPiece()
-	{
-		this.isASavior = false;
-	}
-
 	
 	public int getX(){
 		return this.xPos;
