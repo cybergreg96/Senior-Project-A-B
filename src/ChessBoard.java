@@ -7,7 +7,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
@@ -15,12 +19,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ChessBoard extends Pane {
-
+	
+	public ChessBoard(){
+		
+	}
 	public ChessBoard(ChessStatusBar newStatusBar) {
 		// initalize the board: background, data structures, inital layout of
 		// pieces
 		chessStatusBar = newStatusBar;
-		chessStatusBar.whitePlayerAlert.setText("White Player turn");
+		chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		chessStatusBar.blackPlayerAlert.setText("");
 		chessStatusBar.whitePlayerTimer.setText("White timer: 15:00");
 		chessStatusBar.blackPlayerTimer.setText("Black timer: 15:00");
@@ -68,6 +75,9 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.setCycleCount(Timeline.INDEFINITE);
 		chessTimer.timeline.play();
 		chessTimer.playerTurn = current_player;
+		
+		
+		
 	}
 
 	public void initPiece()
@@ -211,7 +221,7 @@ public class ChessBoard extends Pane {
 		current_player = PlayerWhite;
 		initPiece();
 		unhighlightWindow();
-		chessStatusBar.whitePlayerAlert.setText("White Player turn");
+		chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		chessStatusBar.blackPlayerAlert.setText("");
 		chessStatusBar.whitePlayerTimer.setText("White timer: 15:00");
 		chessStatusBar.blackPlayerTimer.setText("Black timer: 15:00");
@@ -275,14 +285,14 @@ public class ChessBoard extends Pane {
 			current_player = PlayerBlack;
 			chessStatusBar.whitePlayerAlert.setText("");
 
-			chessStatusBar.blackPlayerAlert.setText("Black Player turn");
+			chessStatusBar.blackPlayerAlert.setText("Black Player's turn");
 		}
 		else
 		{
 			current_player = PlayerWhite;
 			chessStatusBar.blackPlayerAlert.setText("");
 
-			chessStatusBar.whitePlayerAlert.setText("White Player turn");
+			chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		}
 		chessTimer.playerTurn = current_player;
 	}

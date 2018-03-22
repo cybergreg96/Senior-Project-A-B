@@ -12,16 +12,25 @@ import javafx.scene.layout.RowConstraints;
 
 public class ChessStatusBar extends HBox{
 
+	private Button 	resetButton;
+	public Label	whitePlayerAlert;
+	public Label	blackPlayerAlert;
+	public Label	whitePlayerTimer;
+	public Label	blackPlayerTimer;
+	public Label	winner;
+	public Label	loser;
+	private GridPane statusBarGp;
+	
 	
 	public ChessStatusBar(){
 		statusBarGp = new GridPane();
-		resetButton = new Button("Reset");
+		//resetButton = new Button("Reset");
 		whitePlayerAlert = new Label("");
 		blackPlayerAlert = new Label("");
 		whitePlayerTimer = new Label("");
 		blackPlayerTimer = new Label("");
 		winner = new Label("");
-
+		loser = new Label("");
 //	    statusBarGp.setGridLinesVisible(true);
 		ColumnConstraints column = new ColumnConstraints();
 		column.setPercentWidth(33.33);
@@ -35,20 +44,19 @@ public class ChessStatusBar extends HBox{
 		statusBarGp.setPrefSize(2000, 100);
 		statusBarGp.getRowConstraints().add(new RowConstraints(70/2));
 		statusBarGp.getRowConstraints().add(new RowConstraints(70/2));
-		statusBarGp.addRow(0, whitePlayerAlert, resetButton, blackPlayerAlert);
+		statusBarGp.addRow(0, whitePlayerAlert, loser, blackPlayerAlert);
 		statusBarGp.addRow(1, whitePlayerTimer, winner, blackPlayerTimer);
 		for (Node n: statusBarGp.getChildren()) {
 			GridPane.setHalignment(n, HPos.CENTER);
 			GridPane.setValignment(n, VPos.CENTER);
 			if (n instanceof Label) {
-				n.setStyle("-fx-font-size: 10pt; -fx-font-weight: bold; -fx-opacity: 1.0;");
+				n.setStyle("-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: white; -fx-opacity: 10.0;");
 			}
 		}
 		statusBarGp.setVgap(10);
 		statusBarGp.setHgap(10);
 		statusBarGp.setPadding(new Insets(10, 10, 10, 10));
-		
-		statusBarGp.setStyle("-fx-background-color: burlyWood; -fx-effect: innershadow(gaussian, rgba(0,0,0,0.4), 75, 0.5, 0, 10);");
+		statusBarGp.setStyle("-fx-background-color: #a50000; ");
 		statusBarGp.setSnapToPixel(false);		
 		getChildren().add(statusBarGp);
 	}
@@ -59,14 +67,6 @@ public class ChessStatusBar extends HBox{
 		setHeight(height);
 	}
 	
-	private Button 	resetButton;
-	public Label	whitePlayerAlert;
-	public Label	blackPlayerAlert;
-	public Label	whitePlayerTimer;
-	public Label	blackPlayerTimer;
-	public Label	winner;
-	private GridPane statusBarGp;
-
 	public Button getResetButton() {
 		return resetButton;
 	}
