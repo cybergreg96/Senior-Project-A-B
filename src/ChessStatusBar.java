@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ */
 
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;

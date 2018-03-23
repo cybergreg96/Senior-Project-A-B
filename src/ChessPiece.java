@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ */
 
 import javafx.scene.Group;
 import javafx.scene.image.Image;

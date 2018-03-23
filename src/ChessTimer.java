@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ */
 
 import java.util.concurrent.TimeUnit;
 import javafx.animation.KeyFrame;
@@ -23,12 +26,29 @@ public class ChessTimer {
 			if (playerTurn == 1 && !timeIsOver)
 			{
 				whiteTimer -= 1;
-				chessboard.getStatusBar().whitePlayerTimer.setText("White timer: " + TimeUnit.SECONDS.toMinutes(whiteTimer) + ":" + (whiteTimer % 60));
+				
+				if(whiteTimer % 60 < 10)
+				{
+					chessboard.getStatusBar().whitePlayerTimer.setText("White timer: " + TimeUnit.SECONDS.toMinutes(whiteTimer) + ":0" + (whiteTimer % 60));
+				}
+				else
+				{
+					chessboard.getStatusBar().whitePlayerTimer.setText("White timer: " + TimeUnit.SECONDS.toMinutes(whiteTimer) + ":" + (whiteTimer % 60));
+				}
 			}
 			else if (playerTurn == 2 && !timeIsOver)
 			{
 				blackTimer -= 1;
-				chessboard.getStatusBar().blackPlayerTimer.setText("Black timer: " + TimeUnit.SECONDS.toMinutes(blackTimer) + ":" + (blackTimer % 60));
+				
+				if(blackTimer % 60 < 10)
+				{
+					chessboard.getStatusBar().blackPlayerTimer.setText("Black timer: " + TimeUnit.SECONDS.toMinutes(blackTimer) + ":0" + (blackTimer % 60));
+
+				}
+				else
+				{
+					chessboard.getStatusBar().blackPlayerTimer.setText("Black timer: " + TimeUnit.SECONDS.toMinutes(blackTimer) + ":" + (blackTimer % 60));
+				}
 			}
 			if (!timeIsOver && (whiteTimer == 0 || blackTimer == 0))
 			{
