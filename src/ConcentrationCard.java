@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/EvanTich/Memory
+ */
 
 import javafx.animation.FadeTransition;
 import javafx.scene.image.Image;

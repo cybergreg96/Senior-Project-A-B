@@ -1,7 +1,7 @@
-
 /*
- * citations: https://github.com/ThriftyNick/maze_generator
+ * This class references the project at this link: https://github.com/EvanTich/Memory
  */
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
