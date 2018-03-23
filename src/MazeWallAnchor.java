@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/ThriftyNick/maze_generator
+ */
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;

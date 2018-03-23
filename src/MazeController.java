@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/ThriftyNick/maze_generator
+ */
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

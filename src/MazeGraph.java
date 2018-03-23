@@ -1,3 +1,6 @@
+/*
+ * This class references the project at this link: https://github.com/ThriftyNick/maze_generator
+ */
 
 import java.util.ArrayList;
 import java.util.HashMap;
