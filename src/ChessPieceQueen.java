@@ -57,7 +57,7 @@ public class ChessPieceQueen extends ChessPiece {
 					chessBoard.colorSquare(x, y, false);
 				}
 
-				// end x loop after coloring the second valid space
+				// end x loop after coloring the second valid space (helps implement knight movement)
 				if((currentY - y) % 2 == 0 && x == this.xPos + 1)
 				{
 					x += 2;

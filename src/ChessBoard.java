@@ -1,5 +1,5 @@
 /*
- * citation: https://github.com/GuiBon/ChessGame
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
  */
 
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ public class ChessBoard extends Pane {
 	public ChessBoard(){
 		
 	}
+	
 	public ChessBoard(ChessStatusBar newStatusBar) {
-		// initalize the board: background, data structures, inital layout of
-		// pieces
+		// initalize the board: background, data structures, initial layout of pieces
 		chessStatusBar = newStatusBar;
 		chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		chessStatusBar.blackPlayerAlert.setText("");
@@ -75,9 +75,6 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.setCycleCount(Timeline.INDEFINITE);
 		chessTimer.timeline.play();
 		chessTimer.playerTurn = current_player;
-		
-		
-		
 	}
 
 	public void initPiece()
