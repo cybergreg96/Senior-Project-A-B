@@ -1,5 +1,5 @@
 /*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * citation: https://github.com/GuiBon/ChessGame
  */
 
 import java.util.ArrayList;
@@ -23,9 +23,9 @@ public class ChessBoard extends Pane {
 	public ChessBoard(){
 		
 	}
-	
 	public ChessBoard(ChessStatusBar newStatusBar) {
-		// initalize the board: background, data structures, initial layout of pieces
+		// initalize the board: background, data structures, inital layout of
+		// pieces
 		chessStatusBar = newStatusBar;
 		chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		chessStatusBar.blackPlayerAlert.setText("");
@@ -75,6 +75,9 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.setCycleCount(Timeline.INDEFINITE);
 		chessTimer.timeline.play();
 		chessTimer.playerTurn = current_player;
+		
+		
+		
 	}
 
 	public void initPiece()
@@ -249,7 +252,7 @@ public class ChessBoard extends Pane {
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
 
-		if (!chessTimer.timeIsOver)
+		if (!chessTimer.timeIsOver && !kingTaken(1) && !kingTaken(2))
 		{
 			if (chessWindows[indexX][indexY].isHighlighted())
 			{
@@ -281,14 +284,12 @@ public class ChessBoard extends Pane {
 		{
 			current_player = PlayerBlack;
 			chessStatusBar.whitePlayerAlert.setText("");
-
 			chessStatusBar.blackPlayerAlert.setText("Black Player's turn");
 		}
 		else
 		{
 			current_player = PlayerWhite;
 			chessStatusBar.blackPlayerAlert.setText("");
-
 			chessStatusBar.whitePlayerAlert.setText("White Player's turn");
 		}
 		chessTimer.playerTurn = current_player;
@@ -386,16 +387,72 @@ public class ChessBoard extends Pane {
 			chessStatusBar.winner.setText("White player won !");
 		}
 	}
+	public boolean kingTaken(int player) 
+	{
+		if(player == 1) {
+			if(kingPosition(player) != null) {
+				return false;
+			}
+			noKing(player);
+			return true;
+		}
+		else {
+			if(kingPosition(player) != null) {
+				return false;
+			}
+			noKing(player);
+			return true;
+		}
+	}
+	public void noKing(int losingPlayer)
+	{
+		chessTimer.timeline.stop();
+		if(losingPlayer == 1)
+		{
+			chessStatusBar.whitePlayerAlert.setText("White player had their King taken!");
+			chessStatusBar.winner.setText("Black player won!");
+		}
+		else if(losingPlayer == 2) {
+			chessStatusBar.blackPlayerAlert.setText("Black Player had their King Taken!");
+			chessStatusBar.winner.setText("White player won!");
+		}
+	}
 
 	// Getter and setter method
-
 	public ChessPiece getKing(int type)
 	{
 		if (type == 1)
 			return (king_1);
 		return (king_2);
 	}
-
+	
+	public int[] kingPosition(int player) {
+		int[] kpos = new int[2];
+		if(player == 1){
+			for(int x=0;x<6;x++) {
+				for(int y=0;y<6;y++) {
+					if(chessPieces[x][y] == king_1) {
+						kpos[0] = x;
+						kpos[1] = y;
+						return kpos;
+					}
+				}
+			}
+			return null;
+		}
+		else {
+			for(int x=0;x<6;x++) {
+				for(int y=0;y<6;y++) {
+					if(chessPieces[x][y] == king_1) {
+						kpos[0] = x;
+						kpos[1] = y;
+						return kpos;
+					}
+				}
+			}
+			return null;
+		}
+	}
 	public int getBoardHeight()
 	{
 		return (this.boardHeight);
