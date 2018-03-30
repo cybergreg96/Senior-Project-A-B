@@ -53,9 +53,12 @@ public class ChessPieceKing extends ChessPiece{
 		{
 			for (x = this.xPos - 1; x <= this.xPos + 1; x++)
 			{
-				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth() && chessBoard.getBoardPosition(x, y) != this.type)
+				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth())
 				{
-					chessBoard.colorSquare(x, y, false);
+					if(chessBoard.getBoardPosition(x, y) != this.type)
+					{
+						chessBoard.colorSquare(x, y, false);
+					}
 				}
 			}
 		}	
@@ -68,11 +71,14 @@ public class ChessPieceKing extends ChessPiece{
 		{
 			for (int x = this.xPos - 1; x <= this.xPos + 1; x++)
 			{
-				// checks y values for validity
-				if(y >= 0 && y != this.yPos && y < chessBoard.getBoardHeight() && chessBoard.getBoardPosition(x, y) != this.type)
+				// checks x and y values for validity
+				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth())
 				{
-					//checks x values for validity
-					if(x >= 0 && x != this.xPos && x < chessBoard.getBoardWidth())
+					//checks space is not the original position and is not inhabited by a friendly piece
+					
+					int test = chessBoard.getBoardPosition(x, y); //TODO remove after tests
+					
+					if((x != this.xPos || y != this.yPos) && chessBoard.getBoardPosition(x, y) != this.type )
 					{
 						// there is at least one valid move
 						return true;
