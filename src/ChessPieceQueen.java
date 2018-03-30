@@ -44,6 +44,20 @@ public class ChessPieceQueen extends ChessPiece {
 
 		int currentX = this.xPos;
 		int currentY = this.yPos;
+		
+		// if the player is in check
+		if(chessBoard.checkState)
+		{
+			// receives the correct king piece
+			ChessPieceKing king = (ChessPieceKing) chessBoard.getKing(this.type);
+
+			if(king.canMove(chessBoard))
+			{
+				// player cannot move this piece if the king can move
+				return;
+			}
+		}
+		
 		for (int y = this.yPos - 2; y <= this.yPos + 2; y++)
 		{
 			for (int x = this.xPos - 2; x <= this.xPos + 2; x++)
