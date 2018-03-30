@@ -45,9 +45,9 @@ public class ChessTimer {
 				chessboard.timerOver(playerTurn);
 				timeIsOver = true;
 			}
-			if(!timeIsOver && (chessboard.kingTaken(1) || chessboard.kingTaken(2))) 
+			if(!timeIsOver && chessboard.kingTaken()) 
 			{
-				chessboard.kingTaken(playerTurn);
+				chessboard.kingTaken();
 				kingGone = true;
 			}
 		}

@@ -248,7 +248,7 @@ public class ChessBoard extends Pane {
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
 
-		if (!chessTimer.timeIsOver && !kingTaken(1) && !kingTaken(2))
+		if (!chessTimer.timeIsOver && !kingTaken())
 		{
 			if (chessWindows[indexX][indexY].isHighlighted())
 			{
@@ -385,25 +385,24 @@ public class ChessBoard extends Pane {
 			chessStatusBar.winner.setText("White player won !");
 		}
 	}
-	public boolean kingTaken(int player) 
+	public boolean kingTaken() 
 	{
-		if(player == 1) {
-			if(kingPosition(player) != null) {
+		if(current_player == PlayerWhite) {
+			if(kingPosition(1) != null) {
 				return false;
 			}
 			chessTimer.timeline.stop();
-			noKing(player);
+			noKing(1);
 			return true;
 		}
-		else if(player == 2){
-			if(kingPosition(player) != null) {
+		else{
+			if(kingPosition(2) != null) {
 				return false;
 			}
 			chessTimer.timeline.stop();
-			noKing(player);
+			noKing(2);
 			return true;
 		}
-		return true;
 	}
 	public void noKing(int losingPlayer)
 	{
@@ -443,7 +442,7 @@ public class ChessBoard extends Pane {
 		else {
 			for(int x=0;x<6;x++) {
 				for(int y=0;y<6;y++) {
-					if(chessPieces[x][y] == king_1) {
+					if(chessPieces[x][y] == king_2) {
 						kpos[0] = x;
 						kpos[1] = y;
 						return kpos;
