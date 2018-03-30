@@ -393,20 +393,22 @@ public class ChessBoard extends Pane {
 			if(kingPosition(player) != null) {
 				return false;
 			}
+			chessTimer.timeline.stop();
 			noKing(player);
 			return true;
 		}
-		else {
+		else if(player == 2){
 			if(kingPosition(player) != null) {
 				return false;
 			}
+			chessTimer.timeline.stop();
 			noKing(player);
 			return true;
 		}
+		return true;
 	}
 	public void noKing(int losingPlayer)
 	{
-		chessTimer.timeline.stop();
 		if(losingPlayer == 1)
 		{
 			chessStatusBar.whitePlayerAlert.setText("White player had their King taken!");
