@@ -24,6 +24,13 @@ public class ChessTimer {
 	public Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
 		@Override
 		public void handle(ActionEvent event) {
+			if(chessboard.checkState)
+			{
+				if(chessboard.isCheck(1))
+					chessboard.getStatusBar().whitePlayerAlert.setText("White is in check.");
+				else if(chessboard.isCheck(2))
+					chessboard.getStatusBar().blackPlayerAlert.setText("Black is in check.");
+			}
 			if (playerTurn == 1 && !timeIsOver && !kingGone)
 			{
 				whiteTimer -= 1;
