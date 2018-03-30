@@ -17,7 +17,6 @@ public class ChessPieceKing extends ChessPiece{
 	public ChessPieceKing(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);
 		name = "King";
-		// TODO Auto-generated constructor stub
 
 		if(type==1){
 			image = new Image("file:src/ChessPiece/White_King.png");
@@ -74,10 +73,7 @@ public class ChessPieceKing extends ChessPiece{
 				// checks x and y values for validity
 				if(y >= 0 && y < chessBoard.getBoardHeight() && x >= 0 && x < chessBoard.getBoardWidth())
 				{
-					//checks space is not the original position and is not inhabited by a friendly piece
-					
-					int test = chessBoard.getBoardPosition(x, y); //TODO remove after tests
-					
+					//checks space is not the original position and is not inhabited by a friendly piece					
 					if((x != this.xPos || y != this.yPos) && chessBoard.getBoardPosition(x, y) != this.type )
 					{
 						// there is at least one valid move

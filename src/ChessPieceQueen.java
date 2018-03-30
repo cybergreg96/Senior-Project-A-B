@@ -13,7 +13,7 @@ public class ChessPieceQueen extends ChessPiece {
 	public ChessPieceQueen(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);
 		name = "Queen";
-		// TODO Auto-generated constructor stub
+		
 		if(type==1){
 			image = new Image("file:src/ChessPiece/White_Queen.png");
 			imageView.setImage(image);

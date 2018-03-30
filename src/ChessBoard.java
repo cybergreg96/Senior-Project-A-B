@@ -258,7 +258,6 @@ public class ChessBoard extends Pane {
 			}
 			else
 			{
-				//TODO add condition to know if the player is in check
 				if(board[indexX][indexY] == current_player){
 					unhighlightWindow();
 
