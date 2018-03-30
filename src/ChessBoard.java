@@ -277,6 +277,21 @@ public class ChessBoard extends Pane {
 
 		// add a condition to know if the player can put his piece there
 		selectedPiece.MovePiece(this, indexX, indexY);
+		if (current_player == PlayerWhite) {
+			isCheck(2);
+			if (checkState) {
+				chessStatusBar.loser.setText("Black King in check");
+			} else {
+				chessStatusBar.loser.setText("");
+			}
+		} else if(current_player == PlayerBlack){
+			isCheck(1);
+			if (checkState) {
+				chessStatusBar.loser.setText("White King in check");
+			} else {
+				chessStatusBar.loser.setText("");
+			}
+		}
 		// don't forget to change the player
 		if (current_player == PlayerWhite)
 		{
