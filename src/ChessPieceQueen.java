@@ -13,7 +13,7 @@ public class ChessPieceQueen extends ChessPiece {
 	public ChessPieceQueen(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);
 		name = "Queen";
-		// TODO Auto-generated constructor stub
+		
 		if(type==1){
 			image = new Image("file:src/ChessPiece/White_Queen.png");
 			imageView.setImage(image);
@@ -44,6 +44,20 @@ public class ChessPieceQueen extends ChessPiece {
 
 		int currentX = this.xPos;
 		int currentY = this.yPos;
+		
+		// if the player is in check
+		if(chessBoard.checkState)
+		{
+			// receives the correct king piece
+			ChessPieceKing king = (ChessPieceKing) chessBoard.getKing(this.type);
+
+			if(king.canMove(chessBoard))
+			{
+				// player cannot move this piece if the king can move
+				return;
+			}
+		}
+		
 		for (int y = this.yPos - 2; y <= this.yPos + 2; y++)
 		{
 			for (int x = this.xPos - 2; x <= this.xPos + 2; x++)

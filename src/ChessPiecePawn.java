@@ -44,6 +44,20 @@ public class ChessPiecePawn extends ChessPiece{
 	@Override
 	public void SelectPiece(ChessBoard chessBoard) {
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
+		
+		// if the player is in check
+		if(chessBoard.checkState)
+		{
+			// receives the correct king piece
+			ChessPieceKing king = (ChessPieceKing) chessBoard.getKing(this.type);
+
+			if(king.canMove(chessBoard))
+			{
+				// player cannot move this piece if the king can move
+				return;
+			}
+		}
+		
 		if (this.type == 1)
 		{
 			
