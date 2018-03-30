@@ -44,6 +44,19 @@ public class ChessPieceRook extends ChessPiece {
 	@Override
 	public void SelectPiece(ChessBoard chessBoard) {
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
+		
+		// if the player is in check
+		if(chessBoard.checkState)
+		{
+			// receives the correct king piece
+			ChessPieceKing king = (ChessPieceKing) chessBoard.getKing(this.type);
+
+			if(king.canMove(chessBoard))
+			{
+				// player cannot move this piece if the king can move
+				return;
+			}
+		}
 
 		// sets valid moves going down up board
 		for (int y = this.yPos - 1; y >= this.yPos - 2 && y >= 0; y--)

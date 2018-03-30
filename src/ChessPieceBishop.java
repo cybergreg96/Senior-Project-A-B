@@ -50,6 +50,19 @@ public class ChessPieceBishop extends ChessPiece{
 		int y = this.yPos + 1;
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
 
+		// if the player is in check
+		if(chessBoard.checkState)
+		{
+			// receives the correct king piece
+			ChessPieceKing king = (ChessPieceKing) chessBoard.getKing(this.type);
+
+			if(king.canMove(chessBoard))
+			{
+				// player cannot move this piece if the king can move
+				return;
+			}
+		}
+
 		// sets valid moves going diagonally down and right
 		for(int x = this.xPos + 1; x < chessBoard.getBoardWidth() && y < chessBoard.getBoardHeight() && x <= this.xPos + 2; x++, y++)
 		{

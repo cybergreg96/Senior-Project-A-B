@@ -19,9 +19,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class ChessBoard extends Pane {
-	
+
 	public ChessBoard(){
-		
+
 	}
 	public ChessBoard(ChessStatusBar newStatusBar) {
 		// initalize the board: background, data structures, inital layout of
@@ -75,9 +75,6 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.setCycleCount(Timeline.INDEFINITE);
 		chessTimer.timeline.play();
 		chessTimer.playerTurn = current_player;
-		
-		
-		
 	}
 
 	public void initPiece()
@@ -239,7 +236,6 @@ public class ChessBoard extends Pane {
 
 		playerTwoQueen = 1;
 		playerTwoPawn = 6;
-		checkPieces.clear();
 		chessTimer.timeIsOver = false;
 		chessTimer.whiteTimer = 900;
 		chessTimer.blackTimer = 900;
@@ -262,9 +258,11 @@ public class ChessBoard extends Pane {
 			}
 			else
 			{
-				//add condition to know if the player is in check
 				if(board[indexX][indexY] == current_player){
 					unhighlightWindow();
+
+					this.isCheck(current_player);
+
 					chessPieces[indexX][indexY].SelectPiece(this);
 					selectedPiece = chessPieces[indexX][indexY];
 				}
@@ -427,7 +425,7 @@ public class ChessBoard extends Pane {
 			return (king_1);
 		return (king_2);
 	}
-	
+
 	public int[] kingPosition(int player) {
 		int[] kpos = new int[2];
 		if(player == 1){
@@ -455,6 +453,7 @@ public class ChessBoard extends Pane {
 			return null;
 		}
 	}
+
 	public int getBoardHeight()
 	{
 		return (this.boardHeight);
@@ -490,6 +489,156 @@ public class ChessBoard extends Pane {
 		return (chessStatusBar);
 	}
 
+	//checks if the king of a given type is in check
+	public boolean isCheck(int type)
+	{
+		// reset check state
+		checkState = false;
+
+		// get correct king piece
+		ChessPieceKing king = (ChessPieceKing) this.getKing(type);
+
+		// original position of the king
+		int kingX = king.xPos;
+		int kingY = king.yPos;
+
+
+		// tests if there are valid check pieces within a one space radius of the king
+		for(int x = king.xPos - 1; x <= king.xPos + 1; x++)
+		{
+			// ensures that x is a valid value
+			if(x < this.boardWidth && x >= 0)
+			{
+				for(int y = king.yPos - 1; y <= king.yPos + 1; y++)
+				{
+					// ensures y is a valid value
+					if(y < this.boardHeight && y >= 0)
+					{
+						ChessPiece piece = this.getPiece(x, y);
+
+						// checks if there is a piece at the given coordinate
+						if(piece != null)
+						{
+							// checks if the piece at a given location is an enemy piece
+							if(piece.type != type)
+							{
+								// checks pieces vertically and horizontally
+								if(x - kingX == 0 || y - kingY == 0)
+								{
+
+									if(piece.name.equals("Rook"))
+									{
+										checkState = true;
+										return true;
+									}
+
+								}
+								//checks diagonal pieces
+								else
+								{
+									//checks for bishops
+									if(piece.name.equals("Bishop"))
+									{
+										checkState = true;
+										return true;
+									}
+
+									if(((y < kingY && type == 1) || (y > kingY && type == 2)) && piece.name.equals("Pawn"))
+									{
+										checkState = true;
+										return true;
+									}
+
+								}
+
+								//check for king and queen
+								if(piece.name.equals("King") || piece.name.equals("Queen"))
+								{
+									checkState = true;
+									return true;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// tests if there are valid check pieces within a two space radius of the king
+		for(int x = king.xPos - 2; x <= king.xPos + 2; x++)
+		{
+			// ensures that x is a valid value and is two spaces left or right of the king
+			if(x < this.boardWidth && x >= 0)
+			{
+				for(int y = king.yPos - 2; y <= king.yPos + 2; y++)
+				{
+					// ensures y is a valid value
+					if(y < this.boardHeight && y >= 0)
+					{
+						ChessPiece piece = this.getPiece(x, y);
+
+						if(piece != null)
+						{
+							// checks that the piece at the coordinate is an enemy piece
+							if(piece.type != type)
+							{
+								// if y is two spaces above or below the king
+								if(Math.abs(kingY - y) == 2)
+								{
+									// checks if the piece is an unimpeded attacking bishop
+									if(piece.name.equals("Bishop") && Math.abs(kingX - x) == 2 && this.getBoardPosition(kingX - ((kingX - x) / 2), kingY - ((kingY - y) / 2)) == 0)
+									{
+										// bishop is unimpeded
+										checkState = true;
+										return true;
+									}
+									// checks if piece is an unimpeded attacking rook
+									else if(piece.name.equals("Rook") && kingX == x && this.getBoardPosition(kingX, kingY - ((kingY - y) / 2)) == 0)
+									{
+										// rook is unimpeded
+										checkState = true;
+										return true;
+									}
+									// checks if piece is an attacking queen
+									else if(piece.name.equals("Queen") && Math.abs(kingX - x) == 1)
+									{
+										// queen can attack king
+										checkState = true;
+										return true;
+									}
+								}
+								// if y is the same as the king
+								else if(kingY == y)
+								{
+									// checks if piece is an unimpeded rook
+									if(piece.name.equals("Rook") && this.getBoardPosition(kingX - ((kingX - x) / 2), kingY) == 0)
+									{
+										//rook is unimpeded
+										checkState = true;
+										return true;
+									}
+								}
+								// if y is one space above or below the king
+								else
+								{
+									// checks if piece is an attacking queen
+									if(piece.name.equals("Queen") && Math.abs(kingX - x) == 2)
+									{
+										// queen can attack king
+										checkState = true;
+										return true;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 	// private fields
 	private int boardWidth = 6;
 	private int boardHeight = 6;
@@ -519,7 +668,7 @@ public class ChessBoard extends Pane {
 
 	private ChessPieceBishop bishop_1_1;
 	private ChessPieceQueen queen_1; 
-	private ChessPieceKing king_1; 
+	private ChessPieceKing king_1;
 	private ChessPieceBishop bishop_1_2;
 
 	private ChessPieceRook rook_1_2;
@@ -535,7 +684,6 @@ public class ChessBoard extends Pane {
 
 	private ChessStatusBar chessStatusBar = null;
 
-	public List<ChessPiece> checkPieces = new ArrayList<ChessPiece>(); //TODO remove?
 	public int	playerOneRook = 2;
 	public int	playerOneBishopLightSquare = 1;
 	public int	playerOneBishopDarkSquare = 1;
@@ -555,7 +703,7 @@ public class ChessBoard extends Pane {
 	private double cell_height;
 	private int current_player;
 	private boolean isBlack = false; 
-	//public boolean checkState = false; //TODO remove?
+	public boolean checkState = false;
 
 	private final int EMPTY = 0;
 	private final int PlayerWhite = 1;
