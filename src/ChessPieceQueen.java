@@ -8,7 +8,6 @@ import javafx.scene.image.ImageView;
 public class ChessPieceQueen extends ChessPiece {
 
 	private Image image;
-	//	private ImageView imageView = new ImageView(); 
 
 	public ChessPieceQueen(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);

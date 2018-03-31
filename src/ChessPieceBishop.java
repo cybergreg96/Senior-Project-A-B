@@ -7,19 +7,12 @@ import javafx.scene.image.ImageView;
 
 public class ChessPieceBishop extends ChessPiece{
 
-	//	private int xPos;
-	//	private int yPos;
-	//	private int type;
 	private Image image;
-	//	private ImageView imageView = new ImageView();
 
 	public ChessPieceBishop(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);
 		name = "Bishop";
-		//		this.type = type;
-		//		this.xPos = xPos;
-		//		this.yPos = yPos;
-		// TODO Auto-generated constructor stub
+
 		if(type==1){
 			image = new Image("file:src/ChessPiece/White_Bishop.png");
 			imageView.setImage(image);

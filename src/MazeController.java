@@ -141,7 +141,6 @@ public class MazeController implements Initializable {
 				w.setResizable(false);
 				w.setScene(y);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -240,13 +239,6 @@ public class MazeController implements Initializable {
 				/* RENDERING */
 				gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-				// render anchor points
-				/*
-				 * for (int row = 0; row < GRID_SIZE; row++) { for (int col = 0;
-				 * col < GRID_SIZE; col++) { anchorPoints[row][col].render(gc);
-				 * } }
-				 */
-
 				// render walls
 				for (MazeWall w : mazeWalls) {
 					w.render(gc);
@@ -293,7 +285,6 @@ public class MazeController implements Initializable {
 			try {
 				scanner = new Scanner(new File("maze_best_score.txt"));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			int[] tall = new int[100];
@@ -610,10 +601,8 @@ public class MazeController implements Initializable {
 				writer.println(interval - 1);
 				writer.close();
 			} catch (FileNotFoundException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			} catch (UnsupportedEncodingException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 		} else {
@@ -621,7 +610,6 @@ public class MazeController implements Initializable {
 			try {
 				scanner = new Scanner(new File("maze_best_score.txt"));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			int[] tall = new int[100];
@@ -646,10 +634,8 @@ public class MazeController implements Initializable {
 			try {
 				writer2 = new PrintWriter("maze_best_score.txt", "UTF-8");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			writer2.println(interval - 1);

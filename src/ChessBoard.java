@@ -292,7 +292,7 @@ public class ChessBoard extends Pane {
 				chessStatusBar.loser.setText("");
 			}
 		}
-		// don't forget to change the player
+		// switches the player
 		if (current_player == PlayerWhite)
 		{
 			current_player = PlayerBlack;

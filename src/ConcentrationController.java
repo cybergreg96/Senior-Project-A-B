@@ -166,7 +166,6 @@ public class ConcentrationController implements Initializable {
 				w.setResizable(false);
 				w.setScene(y);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -189,15 +188,12 @@ public class ConcentrationController implements Initializable {
 				window.setResizable(false);
 				window.show();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
 		});
 	}
 
-	
-	
 	public boolean allFlipped(GridPane g) {
 		for (Node x : g.getChildren())
 			if (!((ConcentrationCard) x).isFlipped())
@@ -216,10 +212,8 @@ public class ConcentrationController implements Initializable {
 				writer.println(interval + 1);
 				writer.close();
 			} catch (FileNotFoundException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			} catch (UnsupportedEncodingException e2) {
-				// TODO Auto-generated catch block
 				e2.printStackTrace();
 			}
 		} else {
@@ -227,7 +221,6 @@ public class ConcentrationController implements Initializable {
 			try {
 				scanner = new Scanner(new File("concentration_best_score.txt"));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			int[] tall = new int[100];
@@ -249,10 +242,8 @@ public class ConcentrationController implements Initializable {
 			try {
 				writer2 = new PrintWriter("concentration_best_score.txt", "UTF-8");
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			writer2.println(interval + 1);
@@ -295,7 +286,6 @@ public class ConcentrationController implements Initializable {
 			try {
 				scanner = new Scanner(new File("concentration_best_score.txt"));
 			} catch (FileNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			int[] tall = new int[100];

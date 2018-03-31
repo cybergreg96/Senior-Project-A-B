@@ -7,16 +7,11 @@ import javafx.scene.image.ImageView;
 
 public class ChessPieceRook extends ChessPiece {
 
-	//	private int xPos;
-	//	private int yPos;
-	//	private int type;
 	private Image image;
-	//	private ImageView imageView = new ImageView(); 
 
 	public ChessPieceRook(int type, int xPos, int yPos) {
 		super(type, xPos, yPos);
 		name = "Rook";
-		// TODO Auto-generated constructor stub
 		if(type==1){
 			image = new Image("file:src/ChessPiece/White_Rook.png");
 			imageView.setImage(image);

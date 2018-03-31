@@ -27,16 +27,7 @@ public class MazeGraph {
         solutionPath = new LinkedList<Vertex>();
     }
     
-    public void render(GraphicsContext gc) {
-        //render vertices
-        /*if (verts != null && !verts.isEmpty()) {
-            Set<String> ks = verts.keySet();
-            for (String key : ks) {
-                Vertex v = verts.get(key);
-                v.render(gc);
-            }
-        }*/
-        
+    public void render(GraphicsContext gc) {        
         //render solution path
         if (renderSolution) {
         	//draw edges between all vertices in solutionPath
@@ -150,7 +141,6 @@ public class MazeGraph {
             }
             
             subGraphs = getSubGraphs();
-            //System.out.println(subGraphs.size());
         }
         
         
@@ -201,7 +191,6 @@ public class MazeGraph {
     		return new Point2D(v.x, v.y);
     	}
     	
-    	//throw new NoSuchElementException("Could not find vertex at row: " + row + " col: " + col);
     	return null;
     }
     

@@ -35,22 +35,10 @@ public class ChessCustomControl extends Control {
 		setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				// TODO Auto-generated method stub
 				chessBoard.selectPiece(event.getX(), event.getY() - (statusBarSize / 2));
 			}
 			
-		});
-	
-		/*chessStatusBar.getResetButton().setOnAction(new EventHandler<ActionEvent>(){
-
-			@Override
-			public void handle(ActionEvent event) {
-				// TODO Auto-generated method stub
-				chessBoard.resetGame();
-			}
-			
-		});*/
-		
+		});		
 	}
 	
 	public void resize(double width, double height){

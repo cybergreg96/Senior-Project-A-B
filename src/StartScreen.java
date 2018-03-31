@@ -15,7 +15,7 @@ import javafx.scene.layout.BorderPane;
 
 public class StartScreen extends Application {
 	
-	//boolean for the program to know when to stop loading the splashscreen
+	//boolean for the program to know when to stop loading the splash screen
 	public static Boolean isSplashLoaded = false;
 	
 	@Override

@@ -53,7 +53,6 @@ public class ChessController implements Initializable {
 	            w.setResizable(false);
 	            w.setScene(y);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -71,7 +70,6 @@ public class ChessController implements Initializable {
 			try {
 				chess = FXMLLoader.load(getClass().getResource("Chess.fxml"));
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 	        Scene chessScene = new Scene(chess);
