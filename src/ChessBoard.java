@@ -292,6 +292,17 @@ public class ChessBoard extends Pane {
 				chessStatusBar.loser.setText("");
 			}
 		}
+		if (current_player == PlayerWhite) {
+			isCheck(1);
+			if (checkState) {
+				chessStatusBar.loser.setText("White King in check");
+			} 
+		} else if(current_player == PlayerBlack){
+			isCheck(2);
+			if (checkState) {
+				chessStatusBar.loser.setText("Black King in check");
+			} 
+		}
 		// switches the player
 		if (current_player == PlayerWhite)
 		{
