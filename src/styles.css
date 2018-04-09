@@ -1,0 +1,42 @@
+.button {
+	-fx-background-color: rgba(230,199,111);
+    -fx-background-radius: 20, 5;
+    -fx-background-insets: 0, 1;
+}
+
+.button:hover{
+    -fx-background-color: rgba(250,223,151);
+    -fx-background-radius: 20, 5;
+    -fx-background-insets: 0, 1;
+}
+
+#top {
+	-fx-background-color: rgba(230,199,111);
+    -fx-background-radius: 10, 5;
+    -fx-background-insets: 0, 1;
+}
+
+#bot {
+	-fx-background-color: rgba(123,176,215);
+    -fx-background-radius: 10, 5;
+    -fx-background-insets: 0, 1;
+}
+
+.button:disabled {
+	-fx-background-color: rgba(185,125,3);
+    -fx-background-radius: 20, 5;
+    -fx-background-insets: 0, 1;
+    -fx-color: rgba(0,0,0);
+}
+
+#btnLeftKalahMancala {
+	-fx-background-color: rgba(185,125,3);
+    -fx-background-radius: 20, 5;
+    -fx-background-insets: 0, 1;
+}
+
+#btnRightKalahMancala {
+	-fx-background-color: rgba(185,125,3);
+    -fx-background-radius: 20, 5;
+    -fx-background-insets: 0, 1;
+}
