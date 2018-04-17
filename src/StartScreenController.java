@@ -39,6 +39,8 @@ public class StartScreenController implements Initializable {
 	@FXML
 	private Button ChessButton;
 	@FXML
+	private Button TankButton;
+	@FXML
 	private Button ConcentrationButton;
 	@FXML
 	private Button MancalaButton;
@@ -72,6 +74,18 @@ public class StartScreenController implements Initializable {
         window.setResizable(false); 
         window.show();
 	}
+	
+	// Event Listener on Button[#TankButton].onAction
+		@FXML
+		public void TankButtonClick(ActionEvent event) throws IOException {
+			
+	        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        TankGameController tankC = new TankGameController();
+	        tankC.setStage(window);
+	        final TankGame tankGame = new TankGame(window);
+            tankGame.start();
+	        
+		}
 	
 	// Event Listener on Button[#ChessButton].onAction
 		@FXML
