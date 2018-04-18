@@ -1,8 +1,10 @@
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
@@ -11,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Optional;
 
 // Game represents the state of the game and acts as the glue class between all of the other components.
@@ -126,7 +129,17 @@ class TankGame {
 
                 // If the alert had no result, then we default to showing the main menu.
                 if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
-                    TankMainMenu.display(stage);
+        			
+                	try {
+        				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+        				x.setStyle("-fx-background-color: #a50000");
+        				Scene y = new Scene(x);
+        				Stage w = stage;
+        				w.setResizable(false);
+        				w.setScene(y);
+        			} catch (IOException e1) {
+        				e1.printStackTrace();
+        			}
                     return;
                 }
 
