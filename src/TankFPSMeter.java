@@ -15,7 +15,6 @@ class TankFPSMeter {
             nextSecond = nanos + SECOND;
         } else if (nanos >= nextSecond) {
             nextSecond = nanos + SECOND;
-            System.err.println(framesInSecond);
             framesInSecond = 0;
         }
     }
