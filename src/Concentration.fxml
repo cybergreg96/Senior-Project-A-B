@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ConcentrationController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ConcentrationController">
    <children>
       <GridPane fx:id="root" layoutX="125.0" layoutY="75.0" prefHeight="500.0" prefWidth="600.0">
         <columnConstraints>
@@ -47,7 +47,7 @@
             <Font name="Courier New Bold" size="29.0" />
          </font>
       </Text>
-      <ToolBar fx:id="birdstufzBanner1" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="874.0">
+      <ToolBar fx:id="birdstufzBanner1" layoutX="-8.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="36.0" prefWidth="865.0">
          <items>
             <ImageView fitHeight="26.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                <image>

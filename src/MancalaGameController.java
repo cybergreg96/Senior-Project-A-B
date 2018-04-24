@@ -72,15 +72,19 @@ public class MancalaGameController implements Initializable {
     private Button btnPit12;
     @FXML
     private Label lblTurn;
+    @FXML
+	private Button goHome = new Button("Go home");
+    
+    
 
     //Starts the next screen
     public void initialize(URL fxmlFileLocation, ResourceBundle resources) {
     	
     	paneMancala.setStyle("-fx-background-color: #a50000");
-    	Button goHome = new Button("Go home");
+    	
 	    Scene home = new Scene(goHome);
 	    home.snapshot(null);       
-	    goHome.setTranslateX((850 / 2) - (goHome.getWidth() / 2)  - 50);
+	    goHome.setTranslateX((850/2) - (goHome.getWidth()/2));
 	    goHome.setTranslateY(4);  
 	    paneMancala.getChildren().add(goHome);
 	    goHome.setOnAction((ActionEvent e) -> {
@@ -200,7 +204,8 @@ public class MancalaGameController implements Initializable {
             btnPit10.setDisable(true);
             btnPit11.setDisable(true);
             btnPit12.setDisable(true);
-
+            btnLeftKalahMancala.setStyle("-fx-background-color: rgba(0, 0, 0)");
+            btnLeftKalahMancala.setOpacity(1);
             btnPit1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent e) {
                     goagain = player1.selectHouse(h1);
@@ -279,7 +284,7 @@ public class MancalaGameController implements Initializable {
             btnPit10.setDisable(false);
             btnPit11.setDisable(false);
             btnPit12.setDisable(false);
-
+            btnLeftKalahMancala.setOpacity(.5);
             btnPit7.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent e) {
                     goagain = player2.selectHouse(h7);

@@ -34,7 +34,7 @@ public class ChessController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		root.setStyle("-fx-background-color: #a50000");
-		
+		root.getStylesheets().add("styles.css");
 		// initialize the chess layout, create a CustomControl and it to the layout
 		cc_custom = new ChessCustomControl();
 		sp_mainlayout.getChildren().add(cc_custom);
