@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="paneMancala" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MancalaGameController">
+<Pane fx:id="paneMancala" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MancalaGameController">
    <children>
       <HBox fx:id="hboxLeftKalahMancala" layoutY="216.0" prefHeight="350.0" prefWidth="100.0" />
       <HBox fx:id="hboxRightKalahMancala" layoutX="741.0" layoutY="216.0" prefHeight="350.0" prefWidth="100.0">
@@ -36,7 +36,6 @@
                <font>
                   <Font name="Courier New Bold" size="12.0" />
                </font></Button>
-
             <Button fx:id="btnPit3" layoutX="381.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
@@ -104,7 +103,7 @@
             <Pane prefHeight="56.0" prefWidth="252.0" />
          </items>
       </ToolBar>
-      <ToolBar fx:id="birdstufzBanner1" layoutX="-12.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="23.0" prefWidth="874.0">
+      <ToolBar fx:id="birdstufzBanner1" layoutX="-8.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="36.0" prefWidth="865.0">
          <items>
             <ImageView fitHeight="26.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                <image>

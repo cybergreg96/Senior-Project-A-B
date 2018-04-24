@@ -76,6 +76,7 @@ public class ConcentrationController implements Initializable {
 
 		rootPane.setStyle("-fx-background-color: #a50000");
 		root.setStyle("-fx-background-color: #FFFFFF");
+		rootPane.getStylesheets().add("styles.css");
 		setTimer();
 
 		// Initialize Array of Images and random generation for game

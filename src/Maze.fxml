@@ -9,23 +9,23 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MazeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MazeController">
 	<children>
 		<Canvas fx:id="canvas" height="650.0" width="850.0" />
 		<Pane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#keyPressEvent" onKeyReleased="#keyReleaseEvent" prefHeight="650.0" prefWidth="850.0">
          <children>
-            <Text fill="WHITE" layoutX="131.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:" wrappingWidth="110.0">
+            <Text fill="WHITE" layoutX="160.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Timer:" wrappingWidth="110.0">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
-            <Text fx:id="timerText" fill="WHITE" layoutX="235.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.0">
+            <Text fx:id="timerText" fill="WHITE" layoutX="264.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.0">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
             </Text>
             
-             <Text fx:id="best" fill="WHITE" layoutX="626.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.0">
+             <Text fx:id="best" fill="WHITE" layoutX="641.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="161.0">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>
@@ -39,7 +39,7 @@
                   </ImageView>
                </items>
             </ToolBar>
-            <Text fill="WHITE" layoutX="540.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best:" wrappingWidth="104.0">
+            <Text fill="WHITE" layoutX="555.0" layoutY="71.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Best:" wrappingWidth="104.0">
                <font>
                   <Font name="Courier New Bold" size="29.0" />
                </font>

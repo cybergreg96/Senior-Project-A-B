@@ -1,25 +1,17 @@
 .button {
-	-fx-background-color: rgba(230,199,111);
+	-fx-background-color: rgba(193,66,66);
     -fx-background-radius: 20, 5;
     -fx-background-insets: 0, 1;
+    -fx-color:#000000;
+    -fx-font: 14 arial;
 }
 
 .button:hover{
     -fx-background-color: rgba(250,223,151);
     -fx-background-radius: 20, 5;
     -fx-background-insets: 0, 1;
-}
-
-#top {
-	-fx-background-color: rgba(230,199,111);
-    -fx-background-radius: 10, 5;
-    -fx-background-insets: 0, 1;
-}
-
-#bot {
-	-fx-background-color: rgba(123,176,215);
-    -fx-background-radius: 10, 5;
-    -fx-background-insets: 0, 1;
+    -fx-color:#FFFFFF;
+    -fx-font: 14 arial;
 }
 
 .button:disabled {

@@ -98,8 +98,8 @@ public class MazeController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		root.setStyle("-fx-background-color: #a50000");
+		root.getStylesheets().add("styles.css");
 		setTimer();
-
 		canvas = new Canvas(CANVAS_WIDTH, CANVAS_HEIGHT);
 		root.getChildren().add(canvas);
 		best();
@@ -147,8 +147,8 @@ public class MazeController implements Initializable {
 		});
 
 		Button reset = new Button("New Maze");
-		snapScene = new Scene(reset);
-		snapScene.snapshot(null);
+		Scene snapS= new Scene(reset);
+		snapS.snapshot(null);
 		reset.setTranslateX((CANVAS_WIDTH / 2) - reset.getWidth() / 2 + (CANVAS_WIDTH / 4));
 		reset.setTranslateY(5);
 		root.getChildren().add(reset);
