@@ -1,5 +1,7 @@
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
 // Rectangle class represents a rectangle like the javafx Rectangle class but allows access/modification of arbitrary
