@@ -13,9 +13,9 @@ class Maze {
     // This is twice the bullet velocity to prevent the bullet from moving through any of the walls without a collision being detected.
     // Given the bullet velocity itself is defined to be greater than the tank velocity, this also ensures that the tank does not
     // punch through any walls without the collision being detected.
-    static final double THICKNESS = TankBullet.VELOCITY * 2;
-    static final int ROWS = 7;
-    static final int COLUMNS = 10;
+    static final double THICKNESS = TankBullet.VELOCITY;
+    static final int ROWS = 15;
+    static final int COLUMNS = 15;
 
     private final Group group = new Group();
     private final TankRectangle[][] horizontalSegments = new TankRectangle[COLUMNS][ROWS + 1];

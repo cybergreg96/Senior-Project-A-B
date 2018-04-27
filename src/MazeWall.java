@@ -21,7 +21,7 @@ public class MazeWall {
     private List<Line> outlineEdges;
     
     public MazeWall(MazeWallAnchor p1, MazeWallAnchor p2) {
-        this.p1 = p1;
+        this.p1 = p1; 
         this.p2 = p2;
         
         if (p2 == null) {

@@ -14,14 +14,14 @@ import java.util.Random;
 // Tank represents the tanks in the game.
 class Tank {
     static final int VELOCITY = 3; // exported for use in Bullet.
-    static final double BODY_HEIGHT = 30; // exported for use in Cell.
+    static final double BODY_HEIGHT = 15; // exported for use in Cell.
     static final double HEAD_HEIGHT = BODY_HEIGHT / 4; // exported for use in Bullet.
 
     static final HashMap<KeyCode, Op> KEY_CODES_1 = new HashMap<>();
     static final HashMap<KeyCode, Op> KEY_CODES_2 = new HashMap<>();
 
     private static final double TURNING_ANGLE = Math.PI / 36;
-    private static final double BODY_WIDTH = 40;
+    private static final double BODY_WIDTH = 20;
     private static final double HEAD_WIDTH = BODY_WIDTH / 2;
     private static final Color DEATH_COLOR = Color.BLACK;
 

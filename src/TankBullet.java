@@ -1,6 +1,8 @@
 
 import javafx.geometry.Point2D;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
@@ -12,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 class TankBullet {
     static final double VELOCITY = Tank.VELOCITY * 1.5; // exported for use in Maze.
 
-    private static final double RADIUS = Tank.HEAD_HEIGHT / 2;
+    private static final double RADIUS = Tank.HEAD_HEIGHT * 2;
     private static final Paint COLOR = Color.RED;
     private static final long DURATION = TimeUnit.SECONDS.toNanos(15);
 
@@ -26,8 +28,9 @@ class TankBullet {
         // as the tank cannot move into it.
         final Point2D radiusForward = TankPhysics.decomposeVector(RADIUS + VELOCITY, theta);
         launchPoint = launchPoint.add(radiusForward);
-
+        Image carrot = new Image("/resources/carrot.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
+        circle.setFill(new ImagePattern(carrot));
         velocity = TankPhysics.decomposeVector(VELOCITY, theta);
 
         expiry = nanos + DURATION;
