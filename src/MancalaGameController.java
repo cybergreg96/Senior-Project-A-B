@@ -204,8 +204,9 @@ public class MancalaGameController implements Initializable {
             btnPit10.setDisable(true);
             btnPit11.setDisable(true);
             btnPit12.setDisable(true);
-            btnLeftKalahMancala.setStyle("-fx-background-color: rgba(0, 0, 0)");
+            btnLeftKalahMancala.setStyle("-fx-background-color: rgba(230,199,111);");
             btnLeftKalahMancala.setOpacity(1);
+            btnRightKalahMancala.setOpacity(.5);
             btnPit1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent e) {
                     goagain = player1.selectHouse(h1);
@@ -284,7 +285,10 @@ public class MancalaGameController implements Initializable {
             btnPit10.setDisable(false);
             btnPit11.setDisable(false);
             btnPit12.setDisable(false);
+            btnRightKalahMancala.setStyle("-fx-background-color: rgba(123,176,215);");
+            btnRightKalahMancala.setOpacity(1);
             btnLeftKalahMancala.setOpacity(.5);
+            
             btnPit7.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
                 public void handle(MouseEvent e) {
                     goagain = player2.selectHouse(h7);
@@ -452,6 +456,9 @@ public class MancalaGameController implements Initializable {
         btnPit12.setStyle("-fx-background-color: rgba(123,176,215);" +
                 "    -fx-background-radius: 10, 5;" +
                 "    -fx-background-insets: 0, 1;");
+        
+        btnRightKalahMancala.setStyle("-fx-background-color: rgba(123,176,215);");
+        btnLeftKalahMancala.setStyle("-fx-background-color: rgba(230,199,111);");
     }
 
 }

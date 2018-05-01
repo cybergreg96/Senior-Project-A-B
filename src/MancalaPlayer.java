@@ -51,7 +51,7 @@ public class MancalaPlayer{
     public boolean selectHouse(MancalaHouse mancalaHouse){
         if(mancalaHouse == null){return false;}
         if(mancalaHouse.getPlayer() != this){
-           throw new IllegalArgumentException("You must choose a house you own!");
+           //throw new IllegalArgumentException("You must choose a house you own!");
         }
         if(mancalaHouse.getIsStore()){
             throw new IllegalArgumentException("You cannot redistribute from your store!");
