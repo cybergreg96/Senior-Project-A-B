@@ -81,11 +81,20 @@ class Tank {
         body.getPolygon().setFill(bodyColor);
 
         rotate(initialAngle);
-
         // Move to the middle of some random cell.
         final Random rand = new Random();
-        final int col = rand.nextInt(Maze.COLUMNS);
-        final int row = rand.nextInt(Maze.ROWS);
+        int row = 0;
+        int col = 0;
+        if(mainColorName.equals("blue"))
+        {        
+        	col = 0;
+            row = 0;
+        }
+        else
+        {
+        	col = Maze.COLUMNS - 1;
+            row = Maze.ROWS - 1;
+        }
         moveBy(new Point2D(col * TankCell.LENGTH, row * TankCell.LENGTH));
         moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
         moveBy(new Point2D((TankCell.LENGTH - Maze.THICKNESS) / 2, (TankCell.LENGTH - Maze.THICKNESS) / 2));
