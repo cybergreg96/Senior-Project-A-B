@@ -12,8 +12,15 @@
 
 <Pane fx:id="paneMancala" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="MancalaGameController">
    <children>
-      <HBox fx:id="hboxLeftKalahMancala" layoutY="216.0" prefHeight="350.0" prefWidth="100.0" />
-      <HBox fx:id="hboxRightKalahMancala" layoutX="741.0" layoutY="216.0" prefHeight="350.0" prefWidth="100.0">
+      <HBox fx:id="hboxLeftKalahMancala" layoutX="14.0" layoutY="135.0" prefHeight="350.0" prefWidth="100.0">
+         <children>
+            <Button fx:id="btnLeftKalahMancala" mnemonicParsing="false" prefHeight="350.0" prefWidth="100.0" stylesheets="styles.css" text="Kalah">
+               <font>
+                  <Font name="Courier New Bold" size="15.0" />
+               </font>
+            </Button>
+         </children></HBox>
+      <HBox fx:id="hboxRightKalahMancala" layoutX="736.0" layoutY="135.0" prefHeight="350.0" prefWidth="100.0">
          <children>
             <Button fx:id="btnRightKalahMancala" mnemonicParsing="false" prefHeight="350.0" prefWidth="100.0" stylesheets="styles.css" text="Kalah">
                <font>
@@ -22,71 +29,78 @@
             </Button>
          </children>
       </HBox>
-      <Pane fx:id="panePitsMancala" layoutX="93.0" layoutY="191.0" prefHeight="400.0" prefWidth="665.0">
+      <Pane fx:id="panePitsMancala" layoutX="93.0" layoutY="110.0" prefHeight="400.0" prefWidth="665.0">
          <children>
             <Button fx:id="btnPit6" layoutX="34.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit5" layoutX="123.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit4" layoutX="216.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit3" layoutX="381.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit2" layoutX="470.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit1" layoutX="563.0" layoutY="21.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
 
-            <Button fx:id="btnPit7" layoutX="32.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
+                  <Button fx:id="btnPit7" layoutX="32.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit8" layoutX="121.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit9" layoutX="214.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
 
-            <Button fx:id="btnPit10" layoutX="379.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
+                  <Button fx:id="btnPit10" layoutX="379.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit11" layoutX="468.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Button fx:id="btnPit12" layoutX="561.0" layoutY="224.0" mnemonicParsing="false" prefHeight="147.0" prefWidth="69.0" stylesheets="styles.css" text="Pit, Count">
                <font>
                   <Font name="Courier New Bold" size="12.0" />
-               </font></Button>
+               </font>
+            </Button>
             <Label fx:id="lblTurn" alignment="CENTER" layoutX="5.0" layoutY="186.0" prefHeight="17.0" prefWidth="666.0" text="Player Turn">
                <font>
                   <Font name="Courier New Bold" size="20.0" />
                </font>
             </Label>
 
-         </children>
+               </children>
       </Pane>
-      <Button fx:id="btnLeftKalahMancala" layoutX="8.0" layoutY="216.0" mnemonicParsing="false" prefHeight="350.0" prefWidth="100.0" stylesheets="styles.css" text="Kalah">
-         <font>
-            <Font name="Courier New Bold" size="15.0" />
-         </font>
-      </Button>
       <ToolBar fx:id="birdstufzBanner" layoutX="-8.0" layoutY="601.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="874.0">
          <items>
             <Pane prefHeight="56.0" prefWidth="245.0" />
