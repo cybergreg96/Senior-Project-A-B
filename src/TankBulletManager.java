@@ -67,7 +67,7 @@ class TankBulletManager {
         	hit = TankPhysics.isIntersecting(tankBullet.getShape(), tank.getShape());
             if (hit) 
             {
-            	tankHealth -= 0.25;
+            	tankHealth -= 0.2;
             	hit = false;
             	tankBullets.remove(tankBullet);
             	group.getChildren().remove(tankBullet.getShape());
