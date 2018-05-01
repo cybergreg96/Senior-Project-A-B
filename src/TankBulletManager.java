@@ -14,10 +14,11 @@ class TankBulletManager {
     private final Group group = new Group();
     private final Maze maze;
 
+    private double tankHealth = 1.0;
     // lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
     // allowing another bullet to fire in Game.
     boolean lock;
-
+    boolean hit;
     TankBulletManager(final Maze maze) {
         this.maze = maze;
     }
@@ -63,13 +64,24 @@ class TankBulletManager {
     // isDeadTank returns true if at least one bullet intersects with the tank.
     boolean isDeadTank(final Tank tank) {
         for (final TankBullet tankBullet : tankBullets) {
-            if (TankPhysics.isIntersecting(tankBullet.getShape(), tank.getShape())) {
-                return true;
+        	hit = TankPhysics.isIntersecting(tankBullet.getShape(), tank.getShape());
+            if (hit) 
+            {
+            	tankHealth -= 0.25;
+            	hit = false;
+            	tankBullets.remove(tankBullet);
+            	group.getChildren().remove(tankBullet.getShape());
+            	if(tankHealth == 0)
+            		return true;
             }
         }
         return false;
     }
-
+    
+    double getTankHealth() 
+    {
+    	return tankHealth;
+    }
     boolean isReloading() {
         return tankBullets.size() == MAX_BULLETS;
     }

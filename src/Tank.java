@@ -117,7 +117,8 @@ class Tank {
         final TankRectangle headCopy = new TankRectangle(head);
         final TankRectangle bodyCopy = new TankRectangle(body);
 
-        // TODO should the tank be pointing out or into the alert ¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿¿ needs more thought. right now it faces inward. feels more symmetric
+        // TODO should the tank be pointing out or into the alert needs more thought. right now it faces inward. 
+        // feels more symmetric
         headCopy.rotate(pivot, -theta + Math.PI);
         bodyCopy.rotate(pivot, -theta + Math.PI);
 
@@ -139,8 +140,8 @@ class Tank {
         this.theta += theta;
         body.rotate(pivot, theta);
         head.rotate(pivot, theta);
-        decomposedVelocity = TankPhysics.decomposeVector(VELOCITY, this.theta);
-        negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY, this.theta);
+        decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*getBulletManager().getTankHealth(), this.theta);
+        negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*getBulletManager().getTankHealth(), this.theta);
         syncShape();
     }
 
@@ -150,11 +151,13 @@ class Tank {
 
     private void forward() {
         lastMovementOp = Op.FORWARD;
+        //multiply by tankHealth to reduce speed
         moveBy(decomposedVelocity);
     }
 
     private void back() {
         lastMovementOp = Op.REVERSE;
+        //multiply by tankHealth to reduce speed
         moveBy(negativeDecomposedVelocity);
     }
 
@@ -215,11 +218,11 @@ class Tank {
         final Point2D decomposedVelocity;
         switch (lastMovementOp) {
             case FORWARD:
-                decomposedVelocity = TankPhysics.decomposeVector(-1, theta);
+                decomposedVelocity = TankPhysics.decomposeVector(-1*getBulletManager().getTankHealth(), theta);
                 reverseOp = () -> tank.moveBy(decomposedVelocity);
                 break;
             case REVERSE:
-                decomposedVelocity = TankPhysics.decomposeVector(1, theta);
+                decomposedVelocity = TankPhysics.decomposeVector(1*getBulletManager().getTankHealth(), theta);
                 reverseOp = () -> tank.moveBy(decomposedVelocity);
                 break;
             case RIGHT:
