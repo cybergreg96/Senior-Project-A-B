@@ -53,7 +53,7 @@ class Tank {
     // Keys pressed since the last frame.
     private final HashSet<Op> activeOps = new HashSet<>();
     // Shape holds the union between the body and head. It is used for collision detection.
-    private Shape shape;
+    private static Shape shape;
     // Middle of body.
     private Point2D pivot = new Point2D(body.getWidth() / 2, body.getHeight() / 2);
     private double theta;
@@ -61,11 +61,12 @@ class Tank {
     private Point2D negativeDecomposedVelocity;
     private Op lastMovementOp;
     private boolean dead;
-
-    Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle) {
+    private double currentHealth;
+    Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
         this.maze = maze;
         this.keycodes = keycodes;
         this.mainColorName = mainColorName;
+        this.currentHealth = maxHealth;
 
         tankBulletManager = new TankBulletManager(maze);
 
@@ -99,7 +100,6 @@ class Tank {
         moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
         moveBy(new Point2D((TankCell.LENGTH - Maze.THICKNESS) / 2, (TankCell.LENGTH - Maze.THICKNESS) / 2));
         moveBy(new Point2D(-body.getWidth() / 2, -body.getHeight() / 2));
-
         syncShape();
     }
 
@@ -140,8 +140,8 @@ class Tank {
         this.theta += theta;
         body.rotate(pivot, theta);
         head.rotate(pivot, theta);
-        decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*getBulletManager().getTankHealth(), this.theta);
-        negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*getBulletManager().getTankHealth(), this.theta);
+        decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
+        negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
         syncShape();
     }
 
@@ -182,7 +182,7 @@ class Tank {
         return pivot;
     }
 
-    Shape getShape() {
+    static Shape getShape() {
         return shape;
     }
 
@@ -218,11 +218,11 @@ class Tank {
         final Point2D decomposedVelocity;
         switch (lastMovementOp) {
             case FORWARD:
-                decomposedVelocity = TankPhysics.decomposeVector(-1*getBulletManager().getTankHealth(), theta);
+                decomposedVelocity = TankPhysics.decomposeVector(-1*currentHealth, theta);
                 reverseOp = () -> tank.moveBy(decomposedVelocity);
                 break;
             case REVERSE:
-                decomposedVelocity = TankPhysics.decomposeVector(1*getBulletManager().getTankHealth(), theta);
+                decomposedVelocity = TankPhysics.decomposeVector(1*currentHealth, theta);
                 reverseOp = () -> tank.moveBy(decomposedVelocity);
                 break;
             case RIGHT:
@@ -260,13 +260,13 @@ class Tank {
     // handle updates the state of the tank and the tank's bullets.
     void handle(final long nanos) {
         tankBulletManager.update(nanos);
-
         if (activeOps.contains(Op.FIRE)) {
             tankBulletManager.addBullet(
                     getBulletLaunchPoint(),
                     getTheta(),
                     nanos
             );
+            //tankBulletManager.BulletsLeft();
             tankBulletManager.lock = true;
         }
         tankBulletManager.handleMazeCollisions();
@@ -307,7 +307,12 @@ class Tank {
     String getMainColorName() {
         return mainColorName;
     }
-
+    void subtractHealth() {
+    	this.currentHealth-=.2;
+    }
+    double getCurrentHealth() {
+    	return currentHealth;
+    }
     private enum Op {
         FORWARD,
         RIGHT,

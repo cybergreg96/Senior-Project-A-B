@@ -54,7 +54,6 @@ class TankBullet {
     Shape getShape() {
         return circle;
     }
-
     private void horizontalBounce() {
         velocity = new Point2D(velocity.getX(), -velocity.getY());
     }
@@ -147,7 +146,11 @@ class TankBullet {
         final Point2D normal = center.subtract(corner).normalize();
         velocity = reflect(velocity, normal);
     }
-
+    boolean hitTank() {
+    	if(TankPhysics.isIntersecting(circle,  Tank.getShape()))
+    		return true;
+    	return false;
+    }
     // reflect reflects the velocity across the normal.
     private Point2D reflect(final Point2D velocity, final Point2D normal) {
         return velocity.subtract(normal.multiply(velocity.dotProduct(normal)).multiply(2));

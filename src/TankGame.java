@@ -49,9 +49,9 @@ class TankGame {
 
 	private final Maze maze = new Maze();
 	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1,
-			0);
+			0, 1.0);
 	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2,
-			Math.PI);
+			Math.PI, 1.0);
 	private final Stage stage;
 	private final TankFPSMeter fpsMeter = new TankFPSMeter();
 
@@ -227,6 +227,10 @@ class TankGame {
 		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2)) {
 			tank2.kill();
 		}
+		if(tank1.getBulletManager().hit(tank1) || tank2.getBulletManager().hit(tank1))
+			tank1.subtractHealth();
+		if(tank1.getBulletManager().hit(tank2) || tank2.getBulletManager().hit(tank2))
+			tank2.subtractHealth();
 		if (tank1.isDead() || tank2.isDead()) {
 			// We draw the dead tanks before we announce to the players.
 			// Otherwise if we try and prompt in this pulse, then there is a

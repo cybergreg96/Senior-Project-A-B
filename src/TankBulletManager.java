@@ -9,16 +9,13 @@ import java.util.Iterator;
 // BulletManager manages the creation and removal of the bullets of a tank.
 class TankBulletManager {
     private static final int MAX_BULLETS = 5;
-
     private final ArrayList<TankBullet> tankBullets = new ArrayList<>(MAX_BULLETS);
     private final Group group = new Group();
     private final Maze maze;
-
-    private double tankHealth = 1.0;
     // lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
     // allowing another bullet to fire in Game.
+    static int bulletsLeft = 50;
     boolean lock;
-    boolean hit;
     TankBulletManager(final Maze maze) {
         this.maze = maze;
     }
@@ -44,7 +41,7 @@ class TankBulletManager {
         final Iterator<TankBullet> it = tankBullets.iterator();
         while (it.hasNext()) {
             final TankBullet tankBullet = it.next();
-            if (nanos > tankBullet.getExpiry()) {
+            if (nanos > tankBullet.getExpiry() || tankBullet.hitTank()) {
                 it.remove();
                 group.getChildren().remove(tankBullet.getShape());
             } else {
@@ -52,7 +49,6 @@ class TankBulletManager {
             }
         }
     }
-
     // handleMazeCollisions handles collisions between all of the manager's bullets and the maze.
     void handleMazeCollisions() {
         tankBullets.forEach(bullet -> {
@@ -60,28 +56,23 @@ class TankBulletManager {
             bullet.handleMazeCollision(segs);
         });
     }
-
+    
+    
     // isDeadTank returns true if at least one bullet intersects with the tank.
     boolean isDeadTank(final Tank tank) {
-        for (final TankBullet tankBullet : tankBullets) {
-        	hit = TankPhysics.isIntersecting(tankBullet.getShape(), tank.getShape());
-            if (hit) 
-            {
-            	tankHealth -= 0.2;
-            	hit = false;
-            	tankBullets.remove(tankBullet);
-            	group.getChildren().remove(tankBullet.getShape());
-            	if(tankHealth == 0)
-            		return true;
-            }
-        }
+    	if(tank.getCurrentHealth() <= .1)
+    		return true;
         return false;
     }
-    
-    double getTankHealth() 
-    {
-    	return tankHealth;
+    boolean hit(final Tank tank) {
+    	for(TankBullet t : tankBullets) {
+    		if(TankPhysics.isIntersecting(tank.getShape(), t.getShape())) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
+
     boolean isReloading() {
         return tankBullets.size() == MAX_BULLETS;
     }
