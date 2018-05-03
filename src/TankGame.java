@@ -39,7 +39,7 @@ class TankGame {
     private final Maze maze = new Maze();
     private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1, Math.PI);
     private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2, 0);
-    private final BunnyFritzManager bunnyManager = new BunnyFritzManager(maze, WIDTH, HEIGHT);
+    private final TankBunnyFritzManager bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 
     private final Stage stage;
     private final TankFPSMeter fpsMeter = new TankFPSMeter();

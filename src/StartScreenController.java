@@ -84,7 +84,6 @@ public class StartScreenController implements Initializable {
 	        tankC.setStage(window);
 	        final TankGame tankGame = new TankGame(window);
             tankGame.start();
-	        
 		}
 	
 	// Event Listener on Button[#ChessButton].onAction
