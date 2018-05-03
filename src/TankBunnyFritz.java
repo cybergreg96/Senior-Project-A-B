@@ -13,10 +13,13 @@ import java.util.concurrent.TimeUnit;
 // Bullet represents a bullet emitted by a tank.
 class TankBunnyFritz {
 	static final double VELOCITY = Tank.VELOCITY * 0.5; // exported for use in Maze.
+	
+	//bunny life random time between 5 and 10 seconds
+	private static final int durationSeconds = (int) ((Math.random() * 6) + 5);
 
 	private static final double RADIUS = Tank.HEAD_HEIGHT * 5;
 	private static final Paint COLOR = Color.RED;
-	private static final long DURATION = TimeUnit.SECONDS.toNanos(6);
+	private static final long DURATION = TimeUnit.SECONDS.toNanos(durationSeconds);
 
 	private final Circle circle;
 	private final long expiry;
@@ -32,7 +35,7 @@ class TankBunnyFritz {
 		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
 		circle.setFill(new ImagePattern(bunnyFace));
 		velocity = TankPhysics.decomposeVector(VELOCITY, theta);
-
+		
 		expiry = nanos + DURATION;
 	}
 

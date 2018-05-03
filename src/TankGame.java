@@ -39,7 +39,7 @@ class TankGame {
     private final Maze maze = new Maze();
     private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1, Math.PI);
     private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2, 0);
-    private final TankBunnyFritzManager bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
+    private TankBunnyFritzManager bunnyManager;
 
     private final Stage stage;
     private final TankFPSMeter fpsMeter = new TankFPSMeter();
@@ -50,6 +50,7 @@ class TankGame {
         this.stage = stage;
         final Group root = new Group();
         final Scene scene = new Scene(root, WIDTH, HEIGHT);
+        bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 
         root.getChildren().addAll(
                 maze.getNode(),

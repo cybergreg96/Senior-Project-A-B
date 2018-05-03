@@ -74,7 +74,18 @@ class TankBunnyFritzManager {
 		else if(nanos >= bunnySpawnTime + delay)
 		{
 			int theta = (int) (Math.random() * 360);
-			Point2D launchPoint = new Point2D(width * 0.1, height * 0.9);
+			Point2D launchPoint;
+			
+			// randomly selects a neutral corner to spawn
+			if(Math.random() > 0.5)
+			{
+				launchPoint = new Point2D(width * 0.1, height * 0.9);
+			}
+			else
+			{
+				launchPoint = new Point2D(width * 0.9, height * 0.1);
+			}
+
 			this.addBunny(launchPoint, theta, nanos);
 		}
 	}
