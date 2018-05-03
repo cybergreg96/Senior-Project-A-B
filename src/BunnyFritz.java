@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 class BunnyFritz {
     static final double VELOCITY = Tank.VELOCITY * 0.5; // exported for use in Maze.
 
-    private static final double RADIUS = Tank.HEAD_HEIGHT * 2;
+    private static final double RADIUS = Tank.HEAD_HEIGHT * 4;
     private static final Paint COLOR = Color.RED;
     private static final long DURATION = TimeUnit.SECONDS.toNanos(10);
 
@@ -28,9 +28,9 @@ class BunnyFritz {
         // as the tank cannot move into it.
         final Point2D radiusForward = TankPhysics.decomposeVector(RADIUS + VELOCITY, theta);
         launchPoint = launchPoint.add(radiusForward);
-        Image carrot = new Image("/resources/bunny face.png");
+        Image bunnyFace = new Image("/resources/bunny face.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
-        circle.setFill(new ImagePattern(carrot));
+        circle.setFill(new ImagePattern(bunnyFace));
         velocity = TankPhysics.decomposeVector(VELOCITY, theta);
 
         expiry = nanos + DURATION;

@@ -87,14 +87,15 @@ class Tank {
         int col = 0;
         if(mainColorName.equals("blue"))
         {        
-        	col = 0;
-            row = 0;
-        }
-        else
-        {
         	col = Maze.COLUMNS - 1;
             row = Maze.ROWS - 1;
         }
+        else
+        {
+        	col = 0;
+            row = 0;
+        }
+        
         moveBy(new Point2D(col * TankCell.LENGTH, row * TankCell.LENGTH));
         moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
         moveBy(new Point2D((TankCell.LENGTH - Maze.THICKNESS) / 2, (TankCell.LENGTH - Maze.THICKNESS) / 2));

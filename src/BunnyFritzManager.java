@@ -5,73 +5,84 @@ import javafx.scene.Node;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.TimeUnit;
+
 
 // BulletManager manages the creation and removal of the bullets of a tank.
 class BunnyFritzManager {
-    private static final int MAX_BULLETS = 5;
+	private static final int MAX_BUNNIES = 1;
 
-    private final ArrayList<TankBullet> tankBullets = new ArrayList<>(MAX_BULLETS);
-    private final Group group = new Group();
-    private final Maze maze;
+	private static final long SECOND = TimeUnit.SECONDS.toNanos(1);
+	
+	// bunny will be spawned every 15 seconds
+	private static final long delay = SECOND * 15;
 
-    // lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
-    // allowing another bullet to fire in Game.
-    boolean lock;
+	private final ArrayList<BunnyFritz> bunnies = new ArrayList<>();
 
-    BunnyFritzManager(final Maze maze) {
-        this.maze = maze;
-    }
+	private long startTime = 0;
+	
+	private final double width;
+	private final double height;
 
-    // Used for adding the bullets to the scene.
-    Node getNode() {
-        return group;
-    }
+	private final Group group = new Group();
+	private final Maze maze;
 
-    // addBullet creates a bullet at the launchPoint moving in the direction theta. nanos is the current time and used
-    // for removing the bullet when it has expired.
-    void addBullet(final Point2D launchPoint, final double theta, final long nanos) {
-        if (lock || tankBullets.size() >= MAX_BULLETS) {
-            return;
-        }
-        final TankBullet tankBullet = new TankBullet(launchPoint, theta, nanos);
-        group.getChildren().add(tankBullet.getShape());
-        tankBullets.add(tankBullet);
-    }
+	BunnyFritzManager(final Maze maze, final long start, double w, double h) {
+		this.maze = maze;
+		this.startTime = start;
+		width = w;
+		height = h;		
+	}
 
-    // update updates the position of the bullets and removes expired ones.
-    void update(final long nanos) {
-        final Iterator<TankBullet> it = tankBullets.iterator();
-        while (it.hasNext()) {
-            final TankBullet tankBullet = it.next();
-            if (nanos > tankBullet.getExpiry()) {
-                it.remove();
-                group.getChildren().remove(tankBullet.getShape());
-            } else {
-                tankBullet.update();
-            }
-        }
-    }
+	// Used for adding the bunnies to the scene.
+	Node getNode() {
+		return group;
+	}
 
-    // handleMazeCollisions handles collisions between all of the manager's bullets and the maze.
-    void handleMazeCollisions() {
-        tankBullets.forEach(bullet -> {
-            final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(bullet.getCenter());
-            bullet.handleMazeCollision(segs);
-        });
-    }
+	// addBunny creates a bunny at the launchPoint moving in the direction theta. nanos is the current time and used
+	// for removing the bullet when it has expired.
+	void addBunny(final Point2D launchPoint, final double theta, final long nanos) {
+		if (!bunnies.isEmpty()) {
+			return;
+		}
+		final BunnyFritz bunny = new BunnyFritz(launchPoint, theta, nanos); //TODO change launch point to neutral corner
+		group.getChildren().add(bunny.getShape());
+		bunnies.add(bunny);
+	}
 
-    // isDeadTank returns true if at least one bullet intersects with the tank.
-    boolean isDeadTank(final Tank tank) {
-        for (final TankBullet tankBullet : tankBullets) {
-            if (TankPhysics.isIntersecting(tankBullet.getShape(), tank.getShape())) {
-                return true;
-            }
-        }
-        return false;
-    }
+	// update updates the position of the bullets and removes expired ones.
+	void update(final long nanos) 
+	{
+		if(!bunnies.isEmpty())
+		{
+			BunnyFritz bunny = bunnies.get(0);
 
-    boolean isReloading() {
-        return tankBullets.size() == MAX_BULLETS;
-    }
+			if (nanos > bunny.getExpiry()) {
+				group.getChildren().remove(bunny.getShape());
+			} else {
+				bunny.update();
+			}
+		}
+		else if(nanos >= startTime + delay)
+		{
+			Point2D launchPoint = new Point2D(width * 0.1, height * 0.9);
+			this.addBunny(launchPoint, 90, nanos);
+		}
+	}
+
+	// handleMazeCollisions handles collisions between all of the manager's bullets and the maze.
+	void handleMazeCollisions() {
+		bunnies.forEach(bullet -> {
+			final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(bullet.getCenter());
+			bullet.handleMazeCollision(segs);
+		});
+	}
+
+	// handle updates the state of the tank and the tank's bullets.
+	void handle(final long nanos) {
+		this.update(nanos);
+
+		this.handleMazeCollisions();
+	}
 }
 

@@ -5,10 +5,10 @@ import java.util.concurrent.TimeUnit;
 // I am not sure if this works absolutely correctly because its using javafx's pulses to calculate
 // the FPS and I do not think that pulses are one to one with frames. But whatever, it works well enough.
 class TankFPSMeter {
-    private static final long SECOND = TimeUnit.SECONDS.toNanos(1);
+    public final long SECOND = TimeUnit.SECONDS.toNanos(1);
     private long framesInSecond = 0;
     private long nextSecond = 0;
-
+        
     void handle(final long nanos) {
         framesInSecond++;
         if (nextSecond == 0) {
