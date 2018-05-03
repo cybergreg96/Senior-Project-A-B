@@ -37,11 +37,15 @@ class TankGame {
     private static final ButtonType MAIN_MENU_BUTTON_TYPE = new ButtonType("MAIN MENU", ButtonBar.ButtonData.NO);
 
     private final Maze maze = new Maze();
-    private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1, 0);
-    private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2, Math.PI);
+    private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1, Math.PI);
+    private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2, 0);
     private final Stage stage;
     private final TankFPSMeter fpsMeter = new TankFPSMeter();
-
+    
+    private long startTime = 0;
+    
+    private BunnyFritzManager bunnyManager;
+    
     private AnimationTimer timer;
 
     TankGame(final Stage stage) {
@@ -77,6 +81,7 @@ class TankGame {
         timer = new AnimationTimer() {
             @Override
             public void handle(final long now) {
+            	bunnyManager = new BunnyFritzManager(maze, now, WIDTH, HEIGHT);
                 g.handle(now);
             }
         };
@@ -166,6 +171,7 @@ class TankGame {
 
         tank1.handle(nanos);
         tank2.handle(nanos);
+        bunnyManager.handle(nanos);
     }
 
     private void handlePressed(final KeyEvent e) {
