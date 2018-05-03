@@ -145,7 +145,6 @@ class TankGame {
 		};
 		timer.start();
 		Timer timerr = new Timer();
-		System.out.println(timerr.toString());
 		ArrayList<String> time = new ArrayList<>();
 		time.add("0");time.add("1");time.add("2");time.add("3");time.add("4");time.add("5");time.add("6");time.add("7");time.add("8");time.add("9");time.add("10");
 		while(time.contains(timer.toString())){
@@ -236,7 +235,6 @@ class TankGame {
 		
 		if(tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
 			tank1.subtractHealth();
-			System.out.println(tank1.getCurrentHealth());
 		}
 		if(tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
 			tank2.subtractHealth();
