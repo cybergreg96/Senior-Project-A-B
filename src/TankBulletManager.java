@@ -64,15 +64,9 @@ class TankBulletManager {
     		return true;
         return false;
     }
-    boolean hit(final Tank tank) {
-    	for(TankBullet t : tankBullets) {
-    		if(TankPhysics.isIntersecting(tank.getShape(), t.getShape())) {
-    			return true;
-    		}
-    	}
-    	return false;
+    ArrayList<TankBullet> tankShots(){
+    	return tankBullets;
     }
-
     boolean isReloading() {
         return tankBullets.size() == MAX_BULLETS;
     }

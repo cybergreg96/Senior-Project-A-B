@@ -227,10 +227,12 @@ class TankGame {
 		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2)) {
 			tank2.kill();
 		}
-		if(tank1.getBulletManager().hit(tank1) || tank2.getBulletManager().hit(tank1))
+		if(tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
 			tank1.subtractHealth();
-		if(tank1.getBulletManager().hit(tank2) || tank2.getBulletManager().hit(tank2))
+		}
+		if(tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
 			tank2.subtractHealth();
+		}
 		if (tank1.isDead() || tank2.isDead()) {
 			// We draw the dead tanks before we announce to the players.
 			// Otherwise if we try and prompt in this pulse, then there is a

@@ -147,7 +147,7 @@ class TankBullet {
         velocity = reflect(velocity, normal);
     }
     boolean hitTank() {
-    	if(TankPhysics.isIntersecting(circle,  Tank.getShape()))
+    	if(TankPhysics.isIntersecting(circle,  Tank.getTankShape()))
     		return true;
     	return false;
     }

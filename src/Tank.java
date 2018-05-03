@@ -53,7 +53,8 @@ class Tank {
     // Keys pressed since the last frame.
     private final HashSet<Op> activeOps = new HashSet<>();
     // Shape holds the union between the body and head. It is used for collision detection.
-    private static Shape shape;
+    private Shape shape;
+    private static Shape shapeOfTank;
     // Middle of body.
     private Point2D pivot = new Point2D(body.getWidth() / 2, body.getHeight() / 2);
     private double theta;
@@ -147,6 +148,7 @@ class Tank {
 
     private void syncShape() {
         shape = Shape.union(head.getPolygon(), body.getPolygon());
+        shapeOfTank = Shape.union(head.getPolygon(), body.getPolygon());
     }
 
     private void forward() {
@@ -182,14 +184,24 @@ class Tank {
         return pivot;
     }
 
-    static Shape getShape() {
+    Shape getShape() {
         return shape;
+    }
+    static Shape getTankShape() {
+    	return shapeOfTank;
     }
 
     private boolean checkCollision(final Shape shape) {
         return TankPhysics.isIntersecting(getShape(), shape);
     }
-
+    boolean isHit(TankBulletManager tbm) {
+    	for(TankBullet t : tbm.tankShots()) {
+    		if(TankPhysics.isIntersecting(getShape(), t.getShape())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
     // TODO add edge mechanics, e.g. instead of just stopping the tank, we lower velocity/slide.
     // The way this works is that we first grab possible collision candidates from the maze.
     // Then we ensure there is actually a collision. Once we know there is a collision, we
