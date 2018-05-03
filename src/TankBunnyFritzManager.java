@@ -10,6 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 // BulletManager manages the creation and removal of the bullets of a tank.
 class TankBunnyFritzManager {
+	
+	public boolean bunnyExists;
+	
 	private static final int MAX_BUNNIES = 1;
 
 	// bunny will be spawned every 5 to 10 seconds
@@ -30,6 +33,7 @@ class TankBunnyFritzManager {
 		this.maze = maze;
 		width = w;
 		height = h;
+		bunnyExists = false;
 		
 		delaySeconds = (int) ((Math.random() * 6) + 5);
 		delay = TimeUnit.SECONDS.toNanos(delaySeconds);
@@ -49,6 +53,7 @@ class TankBunnyFritzManager {
 		final TankBunnyFritz bunny = new TankBunnyFritz(launchPoint, theta, nanos); //TODO change launch point to neutral corner
 		group.getChildren().add(bunny.getShape());
 		bunnies.add(bunny);
+		bunnyExists = true;
 	}
 
 	// update updates the position of the bullets and removes expired ones.
@@ -63,6 +68,7 @@ class TankBunnyFritzManager {
 				group.getChildren().remove(bunny.getShape());
 				bunnies.remove(0);
 				bunnySpawnTime = nanos;
+				bunnyExists = false;
 				
 				// reset delay time with a value between 5 and 10 seconds
 				delaySeconds = (int) ((Math.random() * 6) + 5);

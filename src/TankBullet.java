@@ -110,8 +110,8 @@ class TankBullet {
         assert seg != null;
         final Point2D topLeft = seg.getTopLeft();
         final Point2D topRight = seg.getTopRight();
-        final Point2D botRight = seg.getBotRight();
-        final Point2D botLeft = seg.getBotLeft();
+        final Point2D botRight = seg.getBottomRight();
+        final Point2D botLeft = seg.getBottomLeft();
 
         if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX()) {
             horizontalBounce();

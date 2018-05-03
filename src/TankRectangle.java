@@ -91,11 +91,11 @@ class TankRectangle {
         return points[1];
     }
 
-    Point2D getBotRight() {
+    Point2D getBottomRight() {
         return points[2];
     }
 
-    Point2D getBotLeft() {
+    Point2D getBottomLeft() {
         return points[3];
     }
 

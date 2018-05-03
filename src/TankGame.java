@@ -169,6 +169,9 @@ class TankGame {
             return;
         }
 
+        tank1.bunnyExists = bunnyManager.bunnyExists;
+        tank2.bunnyExists = bunnyManager.bunnyExists;
+
         tank1.handle(nanos);
         tank2.handle(nanos);
         bunnyManager.handle(nanos);
