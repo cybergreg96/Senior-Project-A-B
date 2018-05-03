@@ -13,25 +13,25 @@ class BunnyFritzManager {
 	private static final int MAX_BUNNIES = 1;
 
 	private static final long SECOND = TimeUnit.SECONDS.toNanos(1);
-	
+
 	// bunny will be spawned every 15 seconds
-	private static final long delay = SECOND * 15;
+	private static final long delay = SECOND * 3;
 
 	private final ArrayList<BunnyFritz> bunnies = new ArrayList<>();
 
-	private long startTime = 0;
-	
+	private long bunnySpawnTime;
+
 	private final double width;
 	private final double height;
 
 	private final Group group = new Group();
 	private final Maze maze;
 
-	BunnyFritzManager(final Maze maze, final long start, double w, double h) {
+	BunnyFritzManager(final Maze maze, double w, double h) {
 		this.maze = maze;
-		this.startTime = start;
 		width = w;
 		height = h;		
+		bunnySpawnTime = System.currentTimeMillis();
 	}
 
 	// Used for adding the bunnies to the scene.
@@ -58,12 +58,15 @@ class BunnyFritzManager {
 			BunnyFritz bunny = bunnies.get(0);
 
 			if (nanos > bunny.getExpiry()) {
+				//remove bunny after expiration
 				group.getChildren().remove(bunny.getShape());
+				bunnies.remove(0);
+				bunnySpawnTime = System.currentTimeMillis();
 			} else {
 				bunny.update();
 			}
 		}
-		else if(nanos >= startTime + delay)
+		else if(nanos >= bunnySpawnTime + delay)
 		{
 			Point2D launchPoint = new Point2D(width * 0.1, height * 0.9);
 			this.addBunny(launchPoint, 90, nanos);

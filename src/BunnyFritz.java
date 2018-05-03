@@ -34,6 +34,8 @@ class BunnyFritz {
         velocity = TankPhysics.decomposeVector(VELOCITY, theta);
 
         expiry = nanos + DURATION;
+        
+		System.out.println("Bunny Created");
     }
 
     private void moveBy(final Point2D velocity) {

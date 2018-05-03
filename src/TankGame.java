@@ -39,13 +39,11 @@ class TankGame {
     private final Maze maze = new Maze();
     private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1, Math.PI);
     private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2, 0);
+    private final BunnyFritzManager bunnyManager = new BunnyFritzManager(maze, WIDTH, HEIGHT);
+
     private final Stage stage;
     private final TankFPSMeter fpsMeter = new TankFPSMeter();
-    
-    private long startTime = 0;
-    
-    private BunnyFritzManager bunnyManager;
-    
+        
     private AnimationTimer timer;
 
     TankGame(final Stage stage) {
@@ -58,7 +56,8 @@ class TankGame {
                 tank1.getNode(),
                 tank2.getNode(),
                 tank1.getBulletManager().getNode(),
-                tank2.getBulletManager().getNode()
+                tank2.getBulletManager().getNode(),
+                bunnyManager.getNode()
         );
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
@@ -81,10 +80,10 @@ class TankGame {
         timer = new AnimationTimer() {
             @Override
             public void handle(final long now) {
-            	bunnyManager = new BunnyFritzManager(maze, now, WIDTH, HEIGHT);
                 g.handle(now);
             }
         };
+        
         timer.start();
     }
 
