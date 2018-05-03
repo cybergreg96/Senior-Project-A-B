@@ -320,7 +320,7 @@ class Tank {
         return mainColorName;
     }
     void subtractHealth() {
-    	this.currentHealth-=.2;
+    	this.currentHealth -= .2;
     }
     double getCurrentHealth() {
     	return currentHealth;

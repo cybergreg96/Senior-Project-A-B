@@ -13,6 +13,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -48,10 +49,19 @@ class TankGame {
 	private static final ButtonType CONT_BUTTON_TYPE = new ButtonType("CONTINUE", ButtonBar.ButtonData.NO);
 
 	private final Maze maze = new Maze();
-	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_1,
-			0, 1.0);
-	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_2,
-			Math.PI, 1.0);
+	Circle h1 = new Circle(17, 18, 8, Color.GREEN);
+	Circle h2 = new Circle(17, 43, 8, Color.GREEN);
+	Circle h3 = new Circle(17, 68, 8, Color.GREEN);
+	Circle h4 = new Circle(17, 93, 8, Color.GREEN);
+	Circle h5 = new Circle(17, 118, 8, Color.GREEN);
+	
+	Circle h11 = new Circle(774, 675, 8, Color.RED);
+	Circle h21 = new Circle(774, 700, 8, Color.RED);
+	Circle h31 = new Circle(774, 725, 8, Color.RED);
+	Circle h41 = new Circle(774, 750, 8, Color.RED);
+	Circle h51 = new Circle(774, 775, 8, Color.RED);
+	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_2, 0, 1);
+	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_1, Math.PI, 1);
 	private final Stage stage;
 	private final TankFPSMeter fpsMeter = new TankFPSMeter();
 
@@ -61,8 +71,10 @@ class TankGame {
 		this.stage = stage;
 		final Group root = new Group();
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
-
-		root.getChildren().addAll(maze.getNode(), tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
+		root.getChildren().add(maze.getNode());
+		root.getChildren().addAll(h1,h2,h3,h4,h5);
+		root.getChildren().addAll(h11,h21,h31,h41,h51);
+		root.getChildren().addAll(tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
 				tank2.getBulletManager().getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
@@ -221,17 +233,56 @@ class TankGame {
 		// limiter.
 		// TODO in the future another possibility would be to allow the winning
 		// tank to move. Not a big deal right now.
+		
+		if(tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
+			tank1.subtractHealth();
+			System.out.println(tank1.getCurrentHealth());
+		}
+		if(tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
+			tank2.subtractHealth();
+		}
+		
+		String health1 = Double.toString(tank1.getCurrentHealth());
+		
+		if(health1.contains(".8")){
+			h5.setVisible(false);
+		}
+		if(health1.contains(".6")){
+			h4.setVisible(false);
+		}
+		if(health1.contains(".4")){
+			h3.setVisible(false);
+		}
+		if(health1.contains(".2")){
+			h2.setVisible(false);
+		}
+		if(tank1.getCurrentHealth()<.01){
+			h1.setVisible(false);
+		}
+		
+		String health2 = Double.toString(tank2.getCurrentHealth());
+		if(health2.contains(".8")){
+			h11.setVisible(false);
+		}
+		if(health2.contains(".6")){
+			h21.setVisible(false);
+		}
+		if(health2.contains(".4")){
+			h31.setVisible(false);
+		}
+		if(health2.contains(".2")){
+			h41.setVisible(false);
+		}
+		if(tank2.getCurrentHealth()<.01){
+			h51.setVisible(false);
+		}
+		
+		
 		if (tank1.getBulletManager().isDeadTank(tank1) || tank2.getBulletManager().isDeadTank(tank1)) {
 			tank1.kill();
 		}
 		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2)) {
 			tank2.kill();
-		}
-		if(tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
-			tank1.subtractHealth();
-		}
-		if(tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
-			tank2.subtractHealth();
 		}
 		if (tank1.isDead() || tank2.isDead()) {
 			// We draw the dead tanks before we announce to the players.
