@@ -2,6 +2,7 @@
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 
 // Rectangle class represents a rectangle like the javafx Rectangle class but allows access/modification of arbitrary
@@ -21,7 +22,7 @@ class TankRectangle {
         this.origin = rect.origin; // ok because Point2D is immutable.
         this.width = rect.width;
         this.height = rect.height;
-        this.polygon.getPoints().setAll(getDoubles());
+        this.polygon.getPoints().setAll(getDoubles());		
         this.polygon.setFill(rect.polygon.getFill());
     }
 

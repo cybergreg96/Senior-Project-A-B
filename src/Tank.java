@@ -2,8 +2,10 @@
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Shape;
 
 import java.util.ArrayList;
@@ -80,6 +82,7 @@ class Tank {
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
+		
 		head.getPolygon().setFill(this.headColor);
 		body.getPolygon().setFill(bodyColor);
 
