@@ -86,6 +86,7 @@ class Maze {
 		ArrayList<TankCell> yummyCells = getYummyCells();
 		TankCell tankCell = yummyCells.get(rand.nextInt(yummyCells.size()));
 		while (true) {
+			
 			final int i = rand.nextInt(tankCell.getYummySegments().size());
 			final TankCell.MutableBoolean seg = tankCell.getYummySegments().get(i);
 
@@ -101,7 +102,7 @@ class Maze {
 			} else if (tankCell.getLeft() == seg) {
 				tankCell = grid[tankCell.getColumn() - 1][tankCell.getRow()];
 			}
-
+			
 			if (!tankCell.isYummy()) {
 				yummyCells = getYummyCells();
 				if (yummyCells.size() == 0) {
@@ -121,12 +122,30 @@ class Maze {
 					
 				}else if(((j == ROWS-1 || j == ROWS-2 || j == ROWS-3) && (i == COLUMNS-1))){
 					
+				}else if((j == 7 || j ==8|| j ==6 || j==9 ||j==5) && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+					
 				}else{
 					final TankRectangle rightSeg = tankCell.getRightSeg();
 					verticalSegments[i + 1][j] = rightSeg;
 				
 					final TankRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
+				}
+				if(j==5 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+					final TankRectangle upSeg = tankCell.getUpSeg();
+					horizontalSegments[i][j] = upSeg;
+				}
+				if(j==9 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+					final TankRectangle downSeg = tankCell.getDownSeg();
+					horizontalSegments[i][j + 1] = downSeg;
+				}
+				if(i==4 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5)){
+					final TankRectangle leftSeg = tankCell.getLeftSeg();
+					verticalSegments[i][j] = leftSeg;
+				}
+				if(i==10 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5)){
+					final TankRectangle rightSeg = tankCell.getRightSeg();
+					verticalSegments[i + 1][j] = rightSeg;
 				}
 				
 				// We are in the first column and so we need to grab the left
@@ -145,14 +164,14 @@ class Maze {
 				
 				if (i == COLUMNS-1) {
 					final TankRectangle rightSeg = tankCell.getRightSeg();
-					verticalSegments[i][j] = rightSeg;
+					verticalSegments[i+1][j] = rightSeg;
 				}
 
 				// We are in the first row and so we need to grab the up seg
 				// too.
 				if (j == ROWS-1) {
 					final TankRectangle downSeg = tankCell.getDownSeg();
-					horizontalSegments[i][j] = downSeg;
+					horizontalSegments[i][j+1] = downSeg;
 				}
 
 			}
