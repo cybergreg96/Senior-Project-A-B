@@ -148,8 +148,7 @@ class TankBullet {
     }
     
     boolean hitTank(Tank tank) {
-        System.out.println(tank.getMainColorName());
-
+    	
     	if(TankPhysics.isIntersecting(circle,  tank.getTankShape()))
     	{
     		return true;
