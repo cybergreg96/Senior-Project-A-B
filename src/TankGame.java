@@ -68,8 +68,11 @@ class TankGame {
 
 	private AnimationTimer timer;
 
+	private final TankFrogManager frogManager;
+	
 	TankGame(final Stage stage) 
 	{
+		frogManager = new TankFrogManager(maze, WIDTH, HEIGHT);
 		tank1.getBulletManager().setEnemyTank(tank2);
 		tank2.getBulletManager().setEnemyTank(tank1);
 		
@@ -81,7 +84,7 @@ class TankGame {
 		root.getChildren().addAll(h1,h2,h3,h4,h5);
 		root.getChildren().addAll(h11,h21,h31,h41,h51);
 		root.getChildren().addAll(tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
-				tank2.getBulletManager().getNode(), bunnyManager.getNode());
+				tank2.getBulletManager().getNode(), bunnyManager.getNode(), frogManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
@@ -246,18 +249,47 @@ class TankGame {
 			tank2.subtractHealth();
 		}
 		
+		if(frogManager.isHit(tank1)) {
+			tank1.addHealth();
+			System.out.println(tank1.getCurrentHealth());
+		}
+		
+		if(frogManager.isHit(tank2)) {
+			tank2.addHealth();
+			System.out.println(tank2.getCurrentHealth());
+		}
+		
 		String health1 = Double.toString(tank1.getCurrentHealth());
 		
+
+		if(health1.contains("1.0")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+		}
+		
 		if(health1.contains(".8")){
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
 			h5.setVisible(false);
 		}
 		if(health1.contains(".6")){
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
 			h4.setVisible(false);
 		}
 		if(health1.contains(".4")){
+			h1.setVisible(true);
+			h2.setVisible(true);
 			h3.setVisible(false);
 		}
 		if(health1.contains(".2")){
+			h1.setVisible(true);
 			h2.setVisible(false);
 		}
 		if(tank1.getCurrentHealth()<.01){
@@ -265,16 +297,34 @@ class TankGame {
 		}
 		
 		String health2 = Double.toString(tank2.getCurrentHealth());
+		if(health2.contains("1.0")) {
+			h51.setVisible(true);
+			h41.setVisible(true);
+			h31.setVisible(true);
+			h21.setVisible(true);
+			h11.setVisible(true);
+		}
+		
 		if(health2.contains(".8")){
+			h51.setVisible(true);
+			h41.setVisible(true);
+			h31.setVisible(true);
+			h21.setVisible(true);
 			h11.setVisible(false);
 		}
 		if(health2.contains(".6")){
+			h51.setVisible(true);
+			h41.setVisible(true);
+			h31.setVisible(true);
 			h21.setVisible(false);
 		}
 		if(health2.contains(".4")){
+			h51.setVisible(true);
+			h41.setVisible(true);
 			h31.setVisible(false);
 		}
 		if(health2.contains(".2")){
+			h51.setVisible(true);
 			h41.setVisible(false);
 		}
 		if(tank2.getCurrentHealth()<.01){
@@ -302,6 +352,7 @@ class TankGame {
         tank1.handle(nanos);
         tank2.handle(nanos);
         bunnyManager.handle(nanos);
+        frogManager.handle(nanos);
 	}
 
 	private void handlePressed(final KeyEvent e) {

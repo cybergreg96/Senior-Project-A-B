@@ -64,6 +64,7 @@ class Tank {
 	private boolean dead;
 	private double currentHealth;
 	public boolean bunnyExists;
+	 public boolean frogExists;
 
 	Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
 		this.maze = maze;
@@ -71,6 +72,7 @@ class Tank {
 		this.mainColorName = mainColorName;
 		this.currentHealth = maxHealth;
 		this.bunnyExists = false;
+		this.frogExists = false;
 
 		tankBulletManager = new TankBulletManager(maze, this);
 
@@ -215,6 +217,16 @@ class Tank {
 		}
 		return false;
 	}
+	
+	boolean isHit(TankFrogManager frogs) {
+    	for(TankFrog f : frogs.getTankFrogs()) {
+    		if(TankPhysics.isIntersecting(getShape(), f.getShape())) {
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+	
 	// TODO add edge mechanics, e.g. instead of just stopping the tank, we lower velocity/slide.
 	// The way this works is that we first grab possible collision candidates from the maze.
 	// Then we ensure there is actually a collision. Once we know there is a collision, we
@@ -368,6 +380,11 @@ class Tank {
 	void subtractHealth() {
 		this.currentHealth -= .2;
 	}
+	void addHealth() {
+    	if(this.getCurrentHealth() < 1) {
+    		this.currentHealth += .2;
+    	}
+    }
 	double getCurrentHealth() {
 		return currentHealth;
 	}
