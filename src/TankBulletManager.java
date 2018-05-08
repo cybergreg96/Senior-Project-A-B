@@ -17,7 +17,7 @@ class TankBulletManager {
 	private boolean enemyTankCreated;
 	// lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
 	// allowing another bullet to fire in Game.
-	static int bulletsLeft = 50;
+	private int ammoCount = 50;
 	boolean lock;
 	TankBulletManager(final Maze maze, Tank t) {
 		this.maze = maze;
@@ -39,12 +39,13 @@ class TankBulletManager {
 	// addBullet creates a bullet at the launchPoint moving in the direction theta. nanos is the current time and used
 	// for removing the bullet when it has expired.
 	void addBullet(final Point2D launchPoint, final double theta, final long nanos) {
-		if (lock || tankBullets.size() >= MAX_BULLETS) {
+		if (lock || tankBullets.size() >= MAX_BULLETS || ammoCount == 0) {
 			return;
 		}
 		final TankBullet tankBullet = new TankBullet(launchPoint, theta, nanos);
 		group.getChildren().add(tankBullet.getShape());
 		tankBullets.add(tankBullet);
+		ammoCount--;
 	}
 
 	// update updates the position of the bullets and removes expired ones.
@@ -86,5 +87,16 @@ class TankBulletManager {
 	}
 	boolean isReloading() {
 		return tankBullets.size() == MAX_BULLETS;
+	}
+	int getAmmo() {
+		return ammoCount;
+	}
+	void decAmmo() {
+		ammoCount--;
+	}
+	boolean outOfAmmo() {
+		if(ammoCount <= 0)
+			return true;
+		return false;
 	}
 }

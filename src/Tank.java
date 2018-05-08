@@ -297,7 +297,8 @@ class Tank {
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) {
 		tankBulletManager.update(nanos);
-		if (activeOps.contains(Op.FIRE)) 
+		//prevents even attempting to fire if out of ammo
+		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
 		{
 			//shoots backwards if bunny exists
 			if(!bunnyExists)
@@ -316,11 +317,13 @@ class Tank {
 						nanos
 						);
 			}
+			//ammo check
+			//System.out.println(mainColorName + " AmmoCount: " + tankBulletManager.getAmmo());
 			tankBulletManager.lock = true;
 		}
 		tankBulletManager.handleMazeCollisions();
 
-		if (tankBulletManager.isReloading()) {
+		if (tankBulletManager.isReloading() || tankBulletManager.outOfAmmo()) {
 			head.getPolygon().setFill(outOfAmmoHeadColor);
 		} else {
 			head.getPolygon().setFill(headColor);
