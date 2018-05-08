@@ -64,10 +64,12 @@ class TankGame {
 	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_1, Math.PI, 1);
 	private final Stage stage;
 	private final TankFPSMeter fpsMeter = new TankFPSMeter();
+	private final TankBunnyFritzManager bunnyManager;
 
 	private AnimationTimer timer;
 
 	TankGame(final Stage stage) {
+        bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 		this.stage = stage;
 		final Group root = new Group();
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
@@ -75,7 +77,7 @@ class TankGame {
 		root.getChildren().addAll(h1,h2,h3,h4,h5);
 		root.getChildren().addAll(h11,h21,h31,h41,h51);
 		root.getChildren().addAll(tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
-				tank2.getBulletManager().getNode());
+				tank2.getBulletManager().getNode(), bunnyManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
@@ -290,8 +292,12 @@ class TankGame {
 			return;
 		}
 
-		tank1.handle(nanos);
-		tank2.handle(nanos);
+        tank1.bunnyExists = bunnyManager.bunnyExists;
+        tank2.bunnyExists = bunnyManager.bunnyExists;
+
+        tank1.handle(nanos);
+        tank2.handle(nanos);
+        bunnyManager.handle(nanos);
 	}
 
 	private void handlePressed(final KeyEvent e) {
