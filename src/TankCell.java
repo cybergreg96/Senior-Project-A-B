@@ -34,6 +34,9 @@ class TankCell {
 
     private void setYummySides() {
         // If up is true and this cell is not at the top row then it is yummy.
+        if(up.value && (this.getColumn()==7 && this.getRow()==7)){
+        	
+        }else{
         if (up.value && row != 0) {
             yummySegments.add(up);
         }
@@ -51,6 +54,7 @@ class TankCell {
         // If left is true and this cell is not at the left edge then it is yummy.
         if (left.value && column != 0) {
             yummySegments.add(left);
+        }
         }
     }
 

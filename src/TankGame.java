@@ -98,7 +98,7 @@ class TankGame {
 					timer.stop();
 
 					final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("Tank Tank Menu");
+					alert.setTitle("TANK TANK Menu");
 					alert.setHeaderText("Paused");
 
 					alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE, CONT_BUTTON_TYPE);
@@ -153,14 +153,6 @@ class TankGame {
 			}
 		};
 		timer.start();
-		Timer timerr = new Timer();
-		ArrayList<String> time = new ArrayList<>();
-		time.add("0");time.add("1");time.add("2");time.add("3");time.add("4");time.add("5");time.add("6");time.add("7");time.add("8");time.add("9");time.add("10");
-		while(time.contains(timer.toString())){
-			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Tank Tank Menu");
-			alert.setHeaderText("Paused");
-		}
 	}
 
 	private void handle(final long nanos) {
@@ -170,8 +162,8 @@ class TankGame {
 			timer.stop();
 
 			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("Tank Tank");
-			alert.setHeaderText("Game Over!");
+			alert.setTitle("TANK TANK");
+			alert.setHeaderText("Game Over! TANK You Very Much For Playing!!!");
 
 			String alertContent = "Wow, what a close game. It's a tie!";
 			// If later we allow the game to keep continuing in the background,
