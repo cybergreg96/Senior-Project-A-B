@@ -68,7 +68,11 @@ class TankGame {
 
 	private AnimationTimer timer;
 
-	TankGame(final Stage stage) {
+	TankGame(final Stage stage) 
+	{
+		tank1.getBulletManager().setEnemyTank(tank2);
+		tank2.getBulletManager().setEnemyTank(tank1);
+		
         bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 		this.stage = stage;
 		final Group root = new Group();
