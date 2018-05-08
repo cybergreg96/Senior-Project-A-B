@@ -46,7 +46,7 @@ class Tank {
 	private final String mainColorName;
 	private final TankRectangle head = new TankRectangle(HEAD_WIDTH, HEAD_HEIGHT);
 	private final TankRectangle body = new TankRectangle(BODY_WIDTH, BODY_HEIGHT);
-	private final TankBulletManager tankBulletManager;
+	private TankBulletManager tankBulletManager;
 	private final Maze maze;
 	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the handle method.
 	private final HashMap<KeyCode, Op> keycodes;
@@ -54,7 +54,7 @@ class Tank {
 	private final HashSet<Op> activeOps = new HashSet<>();
 	// Shape holds the union between the body and head. It is used for collision detection.
 	private Shape shape;
-	private static Shape shapeOfTank;
+	private Shape shapeOfTank;
 	// Middle of body.
 	private Point2D pivot = new Point2D(body.getWidth() / 2, body.getHeight() / 2);
 	private double theta;
@@ -72,7 +72,7 @@ class Tank {
 		this.currentHealth = maxHealth;
 		this.bunnyExists = false;
 
-		tankBulletManager = new TankBulletManager(maze);
+		tankBulletManager = new TankBulletManager(maze, this);
 
 		final Point2D headPoint = new Point2D(
 				body.getWidth() - head.getWidth() / 2, // half of head sticks out.
@@ -199,7 +199,8 @@ class Tank {
 	Shape getShape() {
 		return shape;
 	}
-	static Shape getTankShape() {
+	
+	public Shape getTankShape() {
 		return shapeOfTank;
 	}
 
@@ -297,7 +298,6 @@ class Tank {
 			}
 			else
 			{
-				//TODO make this fire backwards
 				tankBulletManager.addBullet(
 						getBulletLaunchPoint(),
 						getTheta() + Math.PI,

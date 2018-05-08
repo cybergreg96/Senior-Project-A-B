@@ -146,8 +146,9 @@ class TankBullet {
         final Point2D normal = center.subtract(corner).normalize();
         velocity = reflect(velocity, normal);
     }
-    boolean hitTank() {
-    	if(TankPhysics.isIntersecting(circle,  Tank.getTankShape()))
+    
+    boolean hitTank(Tank tank) {
+    	if(TankPhysics.isIntersecting(circle,  tank.getTankShape()))
     		return true;
     	return false;
     }

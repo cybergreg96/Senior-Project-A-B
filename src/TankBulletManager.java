@@ -12,13 +12,15 @@ class TankBulletManager {
     private final ArrayList<TankBullet> tankBullets = new ArrayList<>(MAX_BULLETS);
     private final Group group = new Group();
     private final Maze maze;
+    private Tank playerTank;
     // lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
     // allowing another bullet to fire in Game.
     static int bulletsLeft = 50;
     boolean lock;
-    TankBulletManager(final Maze maze) {
+    TankBulletManager(final Maze maze, Tank t) {
         this.maze = maze;
-    }
+        playerTank = t;
+}
 
     // Used for adding the bullets to the scene.
     Node getNode() {
@@ -41,7 +43,7 @@ class TankBulletManager {
         final Iterator<TankBullet> it = tankBullets.iterator();
         while (it.hasNext()) {
             final TankBullet tankBullet = it.next();
-            if (nanos > tankBullet.getExpiry() || tankBullet.hitTank()) {
+            if (nanos > tankBullet.getExpiry() || tankBullet.hitTank(playerTank)) {
                 it.remove();
                 group.getChildren().remove(tankBullet.getShape());
             } else {
