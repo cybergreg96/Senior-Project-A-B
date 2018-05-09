@@ -243,12 +243,10 @@ class TankGame {
 		
 		if(frogManager.isHit(tank1)) {
 			tank1.addHealth();
-			System.out.println(tank1.getCurrentHealth());
 		}
 		
 		if(frogManager.isHit(tank2)) {
 			tank2.addHealth();
-			System.out.println(tank2.getCurrentHealth());
 		}
 		
 		String health1 = Double.toString(tank1.getCurrentHealth());
