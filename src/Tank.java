@@ -158,12 +158,16 @@ class Tank {
 
 	private void forward() {
 		lastMovementOp = Op.FORWARD;
+		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
+		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
 		//multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
 
 	private void back() {
 		lastMovementOp = Op.REVERSE;
+		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
+		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
 		//multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
@@ -255,11 +259,11 @@ class Tank {
 		final Point2D decomposedVelocity;
 		switch (lastMovementOp) {
 		case FORWARD:
-			decomposedVelocity = TankPhysics.decomposeVector(-1*currentHealth, theta);
+			decomposedVelocity = TankPhysics.decomposeVector(-1, theta);
 			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		case REVERSE:
-			decomposedVelocity = TankPhysics.decomposeVector(1*currentHealth, theta);
+			decomposedVelocity = TankPhysics.decomposeVector(1, theta);
 			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		case RIGHT:
