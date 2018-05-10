@@ -27,7 +27,7 @@ public class StartScreen extends Application {
 			primaryStage.setTitle("BIRDSTUFZ GamesMaster");
 			primaryStage.setScene(new Scene(root, 850, 650));
 			primaryStage.setResizable(false);
-		    primaryStage.getIcons().add(new Image("resources/bird logo.PNG"));
+		    primaryStage.getIcons().add(new Image("resources/bird logo.PNG"));		    
 			primaryStage.show();
 			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			       @Override

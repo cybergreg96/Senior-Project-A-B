@@ -10,12 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -69,16 +73,26 @@ class TankGame {
 	private AnimationTimer timer;
 
 	private final TankFrogManager frogManager;
+	final Group root = new Group();
+	TankGame(final Stage stage) {
+		
+	ImageView selectedImage = new ImageView(); 
+	Image image1 = new Image("/resources/vs-transparent-background-1.png", 300, 200, false, false);
+	//Image image1 = new Image("/resources/VS.png", 300, 300, false, false);
 	
-	TankGame(final Stage stage) 
-	{
+    selectedImage.setImage(image1);
+    selectedImage.setTranslateX(250);
+    //selectedImage.setTranslateX(280);
+    selectedImage.setTranslateY(290);
+    selectedImage.setOpacity(.5);
+    root.getChildren().addAll(selectedImage);
 		frogManager = new TankFrogManager(maze, WIDTH, HEIGHT);
 		tank1.getBulletManager().setEnemyTank(tank2);
 		tank2.getBulletManager().setEnemyTank(tank1);
 		
         bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 		this.stage = stage;
-		final Group root = new Group();
+		
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
 		root.getChildren().addAll(h1,h2,h3,h4,h5);
@@ -88,7 +102,9 @@ class TankGame {
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
-
+		
+        
+        
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -128,7 +144,7 @@ class TankGame {
 
 			}
 		});
-
+		scene.setRoot(root);
 		stage.setScene(scene);
 		// Must be called after the scene is set.
 		stage.centerOnScreen();
@@ -243,12 +259,10 @@ class TankGame {
 		
 		if(frogManager.isHit(tank1)) {
 			tank1.addHealth();
-			System.out.println(tank1.getCurrentHealth());
 		}
 		
 		if(frogManager.isHit(tank2)) {
 			tank2.addHealth();
-			System.out.println(tank2.getCurrentHealth());
 		}
 		
 		String health1 = Double.toString(tank1.getCurrentHealth());
