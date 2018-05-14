@@ -1,6 +1,3 @@
-/*
- * citation: https://github.com/GuiBon/ChessGame
- */
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,12 +15,25 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class ChessBoard extends Pane {
+/*
+ * citation: https://github.com/GuiBon/ChessGame
+ * 
+ * This class allows the user to play a mini-chess game with slightly modified rules based on our professor's specification
+ * (No Knight Chess)
+ */
+public class ChessBoard extends Pane 
+{
 
-	public ChessBoard(){
-
+	public ChessBoard()
+	{
 	}
-	public ChessBoard(ChessStatusBar newStatusBar) {
+	
+	/**
+	 * This class initializes the chess game
+	 * @param newStatusBar	The status bar used for the chess game
+	 */
+	public ChessBoard(ChessStatusBar newStatusBar) 
+	{
 		// initalize the board: background, data structures, inital layout of
 		// pieces
 		chessStatusBar = newStatusBar;
@@ -48,13 +58,15 @@ public class ChessBoard extends Pane {
 
 		// for loop to populate all arrays to default values and add the windows
 		// to the board
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; i++) 
+		{
 			if(i%2 == 0 || i ==0){
 				isBlack = false;
 			}
 			else 
 				isBlack = true;
-			for (int j = 0; j < 6; j++) {
+			for (int j = 0; j < 6; j++) 
+			{
 				board[i][j] = EMPTY;
 				if(isBlack){
 					chessWindows[i][j] = new ChessWindow(0); //Black 
@@ -130,7 +142,7 @@ public class ChessBoard extends Pane {
 		chessPieces[4][1] = pawn_2_5;
 		chessPieces[5][1] = pawn_2_6;
 
-
+		
 		for (int y = 2; y < 6; y++)
 		{
 			for (int x = 0; x < boardWidth; x++)
@@ -139,6 +151,7 @@ public class ChessBoard extends Pane {
 			}
 		}
 
+		//set starting positions for all chess pieces
 		chessPieces[0][4] = pawn_1_1;
 		chessPieces[1][4] = pawn_1_2;
 		chessPieces[2][4] = pawn_1_3;
@@ -155,6 +168,7 @@ public class ChessBoard extends Pane {
 
 		chessPieces[5][5] = rook_1_2;
 
+		//populates array that keeps track of which team each piece is on
 		for (int y = 0; y < boardHeight; y++)
 		{
 			for (int x = 0; x < boardWidth; x++)
@@ -167,15 +181,18 @@ public class ChessBoard extends Pane {
 					board[x][y] = 0;
 			}
 		}
-
-		for(int i = 0; i < 6; i++){
+		
+		//adds each piece's assigned image to the board
+		for(int i = 0; i < 6; i++)
+		{
 			getChildren().addAll(chessPieces[i][0].getImage(), chessPieces[i][1].getImage(), chessPieces[i][4].getImage(), chessPieces[i][5].getImage());
 		}
 	}
 
 	// resize method
 	@Override
-	public void resize(double width, double height) {
+	public void resize(double width, double height) 
+	{
 		// call the superclass resize method
 		super.resize(width, height);
 
@@ -191,9 +208,12 @@ public class ChessBoard extends Pane {
 		// nested for loop to reset the sizes and positions of all pieces that
 		// were already placed
 		// and update the position of the windows in the board
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
-				if (board[i][j] != 0) {
+		for (int i = 0; i < 6; i++) 
+		{
+			for (int j = 0; j < 6; j++) 
+			{
+				if (board[i][j] != 0) 
+				{
 					chessPieces[i][j].relocate(i * cell_width, j * cell_height);
 					chessPieces[i][j].resize(cell_width, cell_height);
 				}
@@ -204,10 +224,13 @@ public class ChessBoard extends Pane {
 	}
 
 	// reset game method
-	public void resetGame() {
+	public void resetGame() 
+	{
 		chessTimer.playerTurn = 0;
-		for (int i = 0; i < 6; i++) {
-			for (int j = 0; j < 6; j++) {
+		for (int i = 0; i < 6; i++) 
+		{
+			for (int j = 0; j < 6; j++) 
+			{
 				board[i][j] = 0;
 				if (chessPieces[i][j] != null)
 					getChildren().remove(chessPieces[i][j].getImage());
@@ -215,6 +238,7 @@ public class ChessBoard extends Pane {
 				chessPieces[i][j] = null;
 			}
 		}
+		
 		current_player = PlayerWhite;
 		initPiece();
 		unhighlightWindow();
@@ -243,8 +267,9 @@ public class ChessBoard extends Pane {
 		chessTimer.timeline.play();
 	}
 
-	// select piece method
-	public void selectPiece(final double x, final double y){
+	//select a piece given the coordinate on the board
+	public void selectPiece(final double x, final double y)
+	{
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
 
@@ -271,38 +296,50 @@ public class ChessBoard extends Pane {
 	}
 
 	// move piece method
-	public void movePiece(final double x, final double y){
+	public void movePiece(final double x, final double y)
+	{
 		int indexX = (int) (x/ cell_width);
 		int indexY = (int) (y/ cell_height);
 
 		// add a condition to know if the player can put his piece there
 		selectedPiece.MovePiece(this, indexX, indexY);
-		if (current_player == PlayerWhite) {
+		if (current_player == PlayerWhite) 
+		{
 			isCheck(2);
-			if (checkState) {
+			if (checkState) 
+			{
 				chessStatusBar.loser.setText("Black King in check");
-			} else {
+			} else 
+			{
 				chessStatusBar.loser.setText("");
 			}
-		} else if(current_player == PlayerBlack){
+		} else if(current_player == PlayerBlack)
+		{
 			isCheck(1);
-			if (checkState) {
+			if (checkState) 
+			{
 				chessStatusBar.loser.setText("White King in check");
-			} else {
+			} else 
+			{
 				chessStatusBar.loser.setText("");
 			}
 		}
-		if (current_player == PlayerWhite) {
+		if (current_player == PlayerWhite) 
+		{
 			isCheck(1);
-			if (checkState) {
+			if (checkState) 
+			{
 				chessStatusBar.loser.setText("White King in check");
 			} 
-		} else if(current_player == PlayerBlack){
+		} else if(current_player == PlayerBlack)
+		{
 			isCheck(2);
-			if (checkState) {
+			if (checkState) 
+			{
 				chessStatusBar.loser.setText("Black King in check");
 			} 
 		}
+		
 		// switches the player
 		if (current_player == PlayerWhite)
 		{
@@ -319,6 +356,7 @@ public class ChessBoard extends Pane {
 		chessTimer.playerTurn = current_player;
 	}
 
+	//allows the user to promote a pawn that has reached the opponents end of the board
 	public void createPromotePiece(ChessPiece chessPiece)
 	{
 		ChessPiece promotedPiece;
@@ -335,7 +373,10 @@ public class ChessBoard extends Pane {
 		alert.getButtonTypes().setAll(buttonRook, buttonBishop, buttonQueen);
 
 		Optional<ButtonType> result = alert.showAndWait();
-		if (result.get() == buttonRook){
+		
+		//replaces the pawn with whatever piece is chosen by the user
+		if (result.get() == buttonRook)
+		{
 			promotedPiece = new ChessPieceRook(chessPiece.type, chessPiece.xPos, chessPiece.yPos);
 			getChildren().remove(chessPiece.getImage());
 			getChildren().add(promotedPiece.getImage());
@@ -345,8 +386,8 @@ public class ChessBoard extends Pane {
 			else
 				playerTwoRook++;
 		}
-
-		else if (result.get() == buttonBishop) {
+		else if (result.get() == buttonBishop) 
+		{
 			promotedPiece = new ChessPieceBishop(chessPiece.type, chessPiece.xPos, chessPiece.yPos);
 			getChildren().remove(chessPiece.getImage());
 			getChildren().add(promotedPiece.getImage());
@@ -366,7 +407,8 @@ public class ChessBoard extends Pane {
 					playerTwoBishopDarkSquare++;
 			}
 		}
-		else if (result.get() == buttonQueen) {
+		else if (result.get() == buttonQueen) 
+		{
 			promotedPiece = new ChessPieceQueen(chessPiece.type, chessPiece.xPos, chessPiece.yPos);
 			getChildren().remove(chessPiece.getImage());
 			getChildren().add(promotedPiece.getImage());
@@ -378,13 +420,16 @@ public class ChessBoard extends Pane {
 		}
 	}
 
-	public void colorSquare(int x, int y, boolean selectedPiece) {
+	//highlights the square when a user selects a piece or when a square is a valid move for the chosen piece
+	public void colorSquare(int x, int y, boolean selectedPiece) 
+	{
 		if (selectedPiece)
 			chessWindows[x][y].highlightWindow(Color.ORANGE);
 		else
 			chessWindows[x][y].highlightWindow(Color.GREEN);			
 	}
 
+	// unhighlights all windows
 	public void unhighlightWindow()
 	{
 		for (int y = 0; y < boardHeight; y++)
@@ -397,6 +442,7 @@ public class ChessBoard extends Pane {
 		}
 	}
 
+	//ends the game when a player runs out of time
 	public void timerOver(int playerOutOfTime)
 	{
 		chessTimer.timeline.stop();
@@ -411,18 +457,24 @@ public class ChessBoard extends Pane {
 			chessStatusBar.winner.setText("White player won !");
 		}
 	}
+	
+	//ends the game when a king is taken
 	public boolean kingTaken() 
 	{
-		if(current_player == PlayerWhite) {
-			if(kingPosition(1) != null) {
+		if(current_player == PlayerWhite) 
+		{
+			if(kingPosition(1) != null) 
+			{
 				return false;
 			}
 			chessTimer.timeline.stop();
 			noKing(1);
 			return true;
 		}
-		else{
-			if(kingPosition(2) != null) {
+		else
+		{
+			if(kingPosition(2) != null) 
+			{
 				return false;
 			}
 			chessTimer.timeline.stop();
@@ -430,6 +482,8 @@ public class ChessBoard extends Pane {
 			return true;
 		}
 	}
+	
+	//alerts user that the king has been taken
 	public void noKing(int losingPlayer)
 	{
 		if(losingPlayer == 1)
@@ -443,7 +497,7 @@ public class ChessBoard extends Pane {
 		}
 	}
 
-	// Getter and setter method
+	// returns the king of a given type
 	public ChessPiece getKing(int type)
 	{
 		if (type == 1)
@@ -451,12 +505,18 @@ public class ChessBoard extends Pane {
 		return (king_2);
 	}
 
-	public int[] kingPosition(int player) {
+	//searches for and returns the kings position on the board
+	public int[] kingPosition(int player) 
+	{
 		int[] kpos = new int[2];
-		if(player == 1){
-			for(int x=0;x<6;x++) {
-				for(int y=0;y<6;y++) {
-					if(chessPieces[x][y] == king_1) {
+		if(player == 1)
+		{
+			for(int x=0;x<6;x++) 
+			{
+				for(int y=0;y<6;y++) 
+				{
+					if(chessPieces[x][y] == king_1) 
+					{
 						kpos[0] = x;
 						kpos[1] = y;
 						return kpos;
@@ -465,10 +525,14 @@ public class ChessBoard extends Pane {
 			}
 			return null;
 		}
-		else {
-			for(int x=0;x<6;x++) {
-				for(int y=0;y<6;y++) {
-					if(chessPieces[x][y] == king_2) {
+		else 
+		{
+			for(int x=0;x<6;x++) 
+			{
+				for(int y=0;y<6;y++) 
+				{
+					if(chessPieces[x][y] == king_2) 
+					{
 						kpos[0] = x;
 						kpos[1] = y;
 						return kpos;
@@ -493,7 +557,8 @@ public class ChessBoard extends Pane {
 	{
 		return (this.board[x][y]);
 	}
-
+	
+	//sets a type to a specific location on the board
 	public void setBoard(int x, int y, int type)
 	{
 		this.board[x][y] = type;
@@ -550,13 +615,11 @@ public class ChessBoard extends Pane {
 								// checks pieces vertically and horizontally
 								if(x - kingX == 0 || y - kingY == 0)
 								{
-
 									if(piece.name.equals("Rook"))
 									{
 										checkState = true;
 										return true;
 									}
-
 								}
 								//checks diagonal pieces
 								else
@@ -567,13 +630,12 @@ public class ChessBoard extends Pane {
 										checkState = true;
 										return true;
 									}
-
+									
 									if(((y < kingY && type == 1) || (y > kingY && type == 2)) && piece.name.equals("Pawn"))
 									{
 										checkState = true;
 										return true;
 									}
-
 								}
 
 								//check for king and queen
