@@ -1,7 +1,3 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +16,13 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 
-public class ChessController implements Initializable {
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class sets the layout of the chess game and handles the "Go Home" and "New Game" buttons
+ */
+public class ChessController implements Initializable 
+{
 	@FXML
 	private Pane root;
 	@FXML
@@ -31,10 +33,12 @@ public class ChessController implements Initializable {
 	private ChessCustomControl cc_custom;	//control which has a board and detects mouse and keyboard events
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
 		
 		root.setStyle("-fx-background-color: #a50000");
 		root.getStylesheets().add("styles.css");
+		
 		// initialize the chess layout, create a CustomControl and it to the layout
 		cc_custom = new ChessCustomControl();
 		sp_mainlayout.getChildren().add(cc_custom);
@@ -44,32 +48,41 @@ public class ChessController implements Initializable {
 	    goHome.setTranslateX((850 / 2) - (goHome.getWidth() / 2)  - 50);
 	    goHome.setTranslateY(4);  
 	    root.getChildren().add(goHome);
+	    
+	    //handles the "Go Home" button
 	    goHome.setOnAction((ActionEvent e) -> {
-	    	try {
+	    	try 
+	    	{
 				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 				x.setStyle("-fx-background-color: #a50000");
 	            Scene y = new Scene(x);
 	            Stage w = (Stage)((Node)e.getSource()).getScene().getWindow();
 	            w.setResizable(false);
 	            w.setScene(y);
-			} catch (IOException e1) {
+			} 
+	    	catch (IOException e1) 
+	    	{
 				e1.printStackTrace();
 			}
-			
-	        
 	    });
 	    
+	    //creates the "New Game" button
 	    Button reset = new Button("New Game");
 		Scene newchess = new Scene(reset);
 		newchess.snapshot(null);
 		reset.setTranslateX((850 / 2) - (goHome.getWidth() / 2)  + 50);
 		reset.setTranslateY(4);
 		root.getChildren().add(reset);
+		
+		//handles the "New Game" button
 		reset.setOnAction((ActionEvent e) -> {
 			Parent chess = null;
-			try {
+			try 
+			{
 				chess = FXMLLoader.load(getClass().getResource("Chess.fxml"));
-			} catch (Exception e1) {
+			} 
+			catch (Exception e1) 
+			{
 				e1.printStackTrace();
 			}
 	        Scene chessScene = new Scene(chess);
@@ -81,5 +94,4 @@ public class ChessController implements Initializable {
 	        window.show();
 		});	
 	}
-			
 }
