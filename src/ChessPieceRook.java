@@ -1,18 +1,23 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ChessPieceRook extends ChessPiece {
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class initializes a rook and defines the rooks type and moveset
+ */
+public class ChessPieceRook extends ChessPiece 
+{
 
 	private Image image;
-
-	public ChessPieceRook(int type, int xPos, int yPos) {
+	
+	//assigns image and position to the rook
+	public ChessPieceRook(int type, int xPos, int yPos) 
+	{
 		super(type, xPos, yPos);
 		name = "Rook";
-		if(type==1){
+		if(type==1)
+		{
 			image = new Image("file:src/ChessPiece/White_Rook.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -20,7 +25,9 @@ public class ChessPieceRook extends ChessPiece {
 			imageView.setPreserveRatio(true);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
-		}else{
+		}
+		else
+		{
 			image = new Image("file:src/ChessPiece/Black_Rook.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -32,12 +39,14 @@ public class ChessPieceRook extends ChessPiece {
 	}
 
 	@Override
-	public ImageView getImage() {
+	public ImageView getImage() 
+	{
 		return (imageView);
 	}
 
 	@Override
-	public void SelectPiece(ChessBoard chessBoard) {
+	public void SelectPiece(ChessBoard chessBoard) 
+	{
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
 		
 		// if the player is in check
@@ -116,6 +125,5 @@ public class ChessPieceRook extends ChessPiece {
 				break;
 			}
 		}
-
 	}	
 }

@@ -1,29 +1,35 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.transform.Translate;
 
-//class declaration - abstract because we will not want to create a Piece object but we would
-//like to specify the private fields that all pieces should have in addition to their behaviours
-public abstract class ChessPiece extends Group{
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class captures or moves a piece
+ */
+public abstract class ChessPiece extends Group
+{
 
 	// Piece can be either white (1) or black (2)
 	protected int type;
+	
 	// Position of the piece on the board
 	protected int xPos;
 	protected int yPos;
+	
 	// Name of the piece
 	protected String name;
+	
 	// ImageView
 	protected ImageView imageView = new ImageView();
+	
 	// Position 
 	protected Translate pos;
 	
-	public ChessPiece(int type, int xPos, int yPos) {
+	//constructor for a chess piece
+	public ChessPiece(int type, int xPos, int yPos) 
+	{
 		this.type = type;
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -31,12 +37,14 @@ public abstract class ChessPiece extends Group{
 	
 	// Select method: When a piece is selected by a first click
 	// Highlight all the available position where the piece can go
-	public void SelectPiece(ChessBoard board) {
+	public void SelectPiece(ChessBoard board) 
+	{
 	}
 	
 	// Move method: When a piece is already selected and that the player click on a highlighted position
 	// Change the position of the piece and update the board
-	public void MovePiece(ChessBoard chessBoard, int x, int y) {
+	public void MovePiece(ChessBoard chessBoard, int x, int y) 
+	{
 		chessBoard.setBoard(this.xPos, this.yPos, 0);
 		chessBoard.setPiece(this.xPos, this.yPos, null);
 		this.xPos = x;
@@ -56,13 +64,17 @@ public abstract class ChessPiece extends Group{
 	}
 	
 	// Return the image of the piece
-	public ImageView getImage() {
+	public ImageView getImage() 
+	{
 		return (imageView);
 	}
 	
-	public void centerImage() {
+	// centers the chess piece image on its cell
+	public void centerImage() 
+	{
         Image img = imageView.getImage();
-        if (img != null) {
+        if (img != null) 
+        {
             double w = 0;
             double h = 0;
 
@@ -70,9 +82,11 @@ public abstract class ChessPiece extends Group{
             double ratioY = imageView.getFitHeight() / img.getHeight();
 
             double reducCoeff = 0;
-            if(ratioX >= ratioY) {
+            if(ratioX >= ratioY) 
+            {
                 reducCoeff = ratioY;
-            } else {
+            } else 
+            {
                 reducCoeff = ratioX;
             }
 
@@ -86,7 +100,8 @@ public abstract class ChessPiece extends Group{
     }
 	
 	// Capture method: When a piece is captured by another one
-	public void capture(ChessBoard chessBoard) {
+	public void capture(ChessBoard chessBoard) 
+	{
 		if (this.type == 1)
 		{
 			if (this.name == "Rook")
@@ -116,23 +131,27 @@ public abstract class ChessPiece extends Group{
 		chessBoard.getChildren().remove(this.getImage());
 	}
 
-	public void resize(double width, double height) {
+	public void resize(double width, double height)
+	{
 		imageView.setFitWidth(width);
 		imageView.setFitHeight(height);
 	}
 
 	// overridden version of the relocate method
-	public void relocate(double x, double y) {
+	public void relocate(double x, double y)
+	{
 		imageView.setTranslateX(x);
 		imageView.setTranslateY(y);	
 		centerImage();
 	}
 	
-	public int getX(){
+	public int getX()
+	{
 		return this.xPos;
 	}
 	
-	public int getY(){
+	public int getY()
+	{
 		return this.yPos;
 	}
 	

@@ -1,19 +1,28 @@
 /*
  * This class references the project at this link: https://github.com/GuiBon/ChessGame
  */
-
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ChessPieceQueen extends ChessPiece {
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class initializes a queen and defines the bishops type and moveset
+ */
+public class ChessPieceQueen extends ChessPiece 
+{
 
 	private Image image;
 
-	public ChessPieceQueen(int type, int xPos, int yPos) {
+	//assigns image and position to the queen
+	public ChessPieceQueen(int type, int xPos, int yPos) 
+	{
 		super(type, xPos, yPos);
 		name = "Queen";
 		
-		if(type==1){
+		if(type==1)
+		{
+			//white piece
 			image = new Image("file:src/ChessPiece/White_Queen.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -21,7 +30,10 @@ public class ChessPieceQueen extends ChessPiece {
 			imageView.setPreserveRatio(true);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
-		}else{
+		}
+		else
+		{
+			//black piece
 			image = new Image("file:src/ChessPiece/Black_Queen.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -33,12 +45,14 @@ public class ChessPieceQueen extends ChessPiece {
 	}
 
 	@Override
-	public ImageView getImage() {
+	public ImageView getImage() 
+	{
 		return (imageView);
 	}
 
 	@Override
-	public void SelectPiece(ChessBoard chessBoard) {
+	public void SelectPiece(ChessBoard chessBoard)
+	{
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
 
 		int currentX = this.xPos;

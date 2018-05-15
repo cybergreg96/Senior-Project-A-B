@@ -5,15 +5,20 @@
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class ChessPieceKing extends ChessPiece{
+public class ChessPieceKing extends ChessPiece
+{
 
 	private Image image;
 
-	public ChessPieceKing(int type, int xPos, int yPos) {
+	//assigns image and position to the king
+	public ChessPieceKing(int type, int xPos, int yPos)
+	{
 		super(type, xPos, yPos);
 		name = "King";
 
-		if(type==1){
+		if(type==1)
+		{
+			//white piece
 			image = new Image("file:src/ChessPiece/White_King.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -22,7 +27,9 @@ public class ChessPieceKing extends ChessPiece{
 			imageView.setSmooth(true);
 			imageView.setCache(true);
 		}
-		else{
+		else
+		{
+			//black piece
 			image = new Image("file:src/ChessPiece/Black_King.png");
 			imageView.setImage(image);
 			imageView.fitHeightProperty();
@@ -34,12 +41,14 @@ public class ChessPieceKing extends ChessPiece{
 	}
 
 	@Override
-	public ImageView getImage() {
+	public ImageView getImage() 
+	{
 		return (imageView);
 	}
 
 	@Override
-	public void SelectPiece(ChessBoard chessBoard) {
+	public void SelectPiece(ChessBoard chessBoard) 
+	{
 		int x = this.xPos;
 		int y = this.yPos;
 		chessBoard.colorSquare(this.xPos, this.yPos, true);
@@ -77,7 +86,6 @@ public class ChessPieceKing extends ChessPiece{
 				}
 			}
 		}
-
 		// there are no valid moves
 		return false;
 	}
