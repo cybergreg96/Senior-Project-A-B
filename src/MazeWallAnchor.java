@@ -6,13 +6,15 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
-public class MazeWallAnchor {
+public class MazeWallAnchor 
+{
     public static final int SIZE = 10;
     private int x, y;
     private int row, col;
     private Rectangle2D boundingRect;
     
-    public MazeWallAnchor(int x, int y, int row, int col) {
+    public MazeWallAnchor(int x, int y, int row, int col) 
+    {
         this.x = x;
         this.y = y;
         this.row = row;
@@ -20,29 +22,35 @@ public class MazeWallAnchor {
         boundingRect = new Rectangle2D(x, y, SIZE, SIZE);
     }
     
-    public void render(GraphicsContext gc) {
+    public void render(GraphicsContext gc)
+    {
         gc.setStroke(Color.HOTPINK);
         gc.setLineWidth(1);
         gc.strokeRect(x, y, SIZE, SIZE);
     }
     
-    public Rectangle2D getBoundingRect() {
+    public Rectangle2D getBoundingRect() 
+    {
         return boundingRect;
     }
     
-    public int getX() {
+    public int getX() 
+    {
         return x;
     }
     
-    public int getY() {
+    public int getY() 
+    {
         return y;
     }
     
-    public int getRow() {
+    public int getRow() 
+    {
         return row;
     }
     
-    public int getCol() {
+    public int getCol() 
+    {
         return col;
     }
 }
