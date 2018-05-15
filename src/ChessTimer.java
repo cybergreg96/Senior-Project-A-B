@@ -1,7 +1,3 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import java.util.concurrent.TimeUnit;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -9,7 +5,13 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.util.Duration;
 
-public class ChessTimer {
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * creates and handles the chess timer
+ */
+public class ChessTimer 
+{
 	public int whiteTimer = 900;
 	public int blackTimer = 900;
 	public int playerTurn = 0;
@@ -17,13 +19,17 @@ public class ChessTimer {
 	public boolean kingGone = false;
 	private ChessBoard chessboard;
 	
-	public ChessTimer(ChessBoard _chessboard) {
+	public ChessTimer(ChessBoard _chessboard) 
+	{
 		chessboard = _chessboard;
 	}
 	
-	public Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+	//updates status bar every second
+	public Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() 
+	{
 		@Override
-		public void handle(ActionEvent event) {
+		public void handle(ActionEvent event) 
+		{
 			if(chessboard.checkState)
 			{
 				if(chessboard.isCheck(1))

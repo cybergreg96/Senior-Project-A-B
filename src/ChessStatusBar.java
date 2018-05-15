@@ -1,7 +1,3 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
@@ -13,8 +9,13 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 
-public class ChessStatusBar extends HBox{
-
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class formats the status bar of the chess game
+ */
+public class ChessStatusBar extends HBox
+{
 	private Button 	resetButton;
 	public Label	whitePlayerAlert;
 	public Label	blackPlayerAlert;
@@ -24,17 +25,18 @@ public class ChessStatusBar extends HBox{
 	public Label	loser;
 	private GridPane statusBarGp;
 	
-	
-	public ChessStatusBar(){
+	//initializes all alerts and timers on the status bar
+	public ChessStatusBar()
+	{
 		statusBarGp = new GridPane();
-		//resetButton = new Button("Reset");
 		whitePlayerAlert = new Label("");
 		blackPlayerAlert = new Label("");
 		whitePlayerTimer = new Label("");
 		blackPlayerTimer = new Label("");
 		winner = new Label("");
 		loser = new Label("");
-//	    statusBarGp.setGridLinesVisible(true);
+		
+		//adds left, center, and right column to status bar
 		ColumnConstraints column = new ColumnConstraints();
 		column.setPercentWidth(33.33);
 		statusBarGp.getColumnConstraints().add(column);
@@ -44,18 +46,24 @@ public class ChessStatusBar extends HBox{
 		column = new ColumnConstraints();
 		column.setPercentWidth(33.33);
 		statusBarGp.getColumnConstraints().add(column);
+		
 		statusBarGp.setPrefSize(2000, 100);
 		statusBarGp.getRowConstraints().add(new RowConstraints(70/2));
 		statusBarGp.getRowConstraints().add(new RowConstraints(70/2));
 		statusBarGp.addRow(0, whitePlayerAlert, loser, blackPlayerAlert);
 		statusBarGp.addRow(1, whitePlayerTimer, winner, blackPlayerTimer);
-		for (Node n: statusBarGp.getChildren()) {
+		
+		//sets style for each label
+		for (Node n: statusBarGp.getChildren()) 
+		{
 			GridPane.setHalignment(n, HPos.CENTER);
 			GridPane.setValignment(n, VPos.CENTER);
-			if (n instanceof Label) {
+			if (n instanceof Label) 
+			{
 				n.setStyle("-fx-font-size: 16pt; -fx-font-weight: bold; -fx-text-fill: white; -fx-opacity: 10.0;");
 			}
 		}
+		
 		statusBarGp.setVgap(10);
 		statusBarGp.setHgap(10);
 		statusBarGp.setPadding(new Insets(10, 10, 10, 10));
@@ -64,17 +72,20 @@ public class ChessStatusBar extends HBox{
 		getChildren().add(statusBarGp);
 	}
 	
-	public void resize(double width, double height){
+	public void resize(double width, double height)
+	{
 		super.resize(width, height); 
 		setWidth(width);
 		setHeight(height);
 	}
 	
-	public Button getResetButton() {
+	public Button getResetButton() 
+	{
 		return resetButton;
 	}
 
-	public void setResetButton(Button resetButton) {
+	public void setResetButton(Button resetButton) 
+	{
 		this.resetButton = resetButton;
 	}	
 }
