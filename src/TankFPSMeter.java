@@ -1,4 +1,6 @@
-
+/*
+ * references: https://github.com/nhooyr/java-tanktank
+ */
 import java.util.concurrent.TimeUnit;
 
 // FPSMeter is used to report the number of frames calculated in the last second to stderr.

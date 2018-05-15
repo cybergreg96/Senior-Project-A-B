@@ -1,4 +1,6 @@
-
+/*
+ * references: https://github.com/nhooyr/java-tanktank
+ */
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;

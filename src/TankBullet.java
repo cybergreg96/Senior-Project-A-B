@@ -1,4 +1,6 @@
-
+/*
+ * references: https://github.com/nhooyr/java-tanktank
+ */
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
