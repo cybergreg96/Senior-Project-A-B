@@ -31,7 +31,8 @@ import javax.swing.*;
 
 /**
  * citation: https://github.com/mitchell3/SWE443-A5
- * Created by mal97 on 3/20/2017.
+ * 
+ * This class initializes the Mancala window and starts the game
  */
 public class MancalaController implements Initializable{
 
