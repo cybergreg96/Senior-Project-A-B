@@ -1,16 +1,17 @@
-/*
- * references: https://github.com/nhooyr/java-tanktank
- */
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Polygon;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-// Maze represents the tank tank maze.
-class Maze {
+/*
+ * references: https://github.com/nhooyr/java-tanktank
+ */
+
+// Maze represents the tank maze.
+class Maze 
+{
 	// These three are used in various places.
 	// This is twice the bullet velocity to prevent the bullet from moving
 	// through any of the walls without a collision being detected.
@@ -26,43 +27,53 @@ class Maze {
 	private final TankRectangle[][] verticalSegments = new TankRectangle[COLUMNS + 1][ROWS];
 	private final TankCell[][] grid = new TankCell[COLUMNS][ROWS];
 
-	Maze() {
+	Maze() 
+	{
 		makeGrid();
 		eatGrid();
 		drawGrid();
 	}
 
-	Node getNode() {
+	Node getNode() 
+	{
 		return group;
 	}
 
-	private void makeGrid() {
-		for (int i = 0; i < COLUMNS; i++) {
-			for (int j = 0; j < ROWS; j++) {
+	private void makeGrid() 
+	{
+		for (int i = 0; i < COLUMNS; i++) 
+		{
+			for (int j = 0; j < ROWS; j++) 
+			{
 				TankCell.MutableBoolean left = new TankCell.MutableBoolean();
 				// If we are not in the first column, then the left of the
 				// current cell is the right of the one left.
-				if (i > 0) {
+				if (i > 0) 
+				{
 					left = grid[i - 1][j].getRight();
 				}
 
 				TankCell.MutableBoolean up = new TankCell.MutableBoolean();
 				// If we are not in the first row, then the up of the current
 				// cell is the down of the one above.
-				if (j > 0) {
+				if (j > 0) 
+				{
 					up = grid[i][j - 1].getDown();
 				}
-
 				grid[i][j] = new TankCell(i, j, up, left);
 			}
 		}
 	}
 
-	private ArrayList<TankCell> getYummyCells() {
+	private ArrayList<TankCell> getYummyCells() 
+	{
 		final ArrayList<TankCell> yummyCells = new ArrayList<>();
-		for (final TankCell[] cells : grid) {
-			for (final TankCell tankCell : cells) {
-				if (tankCell.isYummy()) {
+		for (final TankCell[] cells : grid) 
+		{
+			for (final TankCell tankCell : cells) 
+			{
+				if (tankCell.isYummy()) 
+				{
 					yummyCells.add(tankCell);
 				}
 			}
@@ -83,11 +94,13 @@ class Maze {
 	// Why all of this? I am not sure if any of it is meaningful. It was just
 	// intuition and I like the mazes it generates.
 	// The mazes are very open and allow for diverse strategy.
-	private void eatGrid() {
+	private void eatGrid() 
+	{
 		final Random rand = new Random();
 		ArrayList<TankCell> yummyCells = getYummyCells();
 		TankCell tankCell = yummyCells.get(rand.nextInt(yummyCells.size()));
-		while (true) {
+		while (true) 
+		{
 			
 			final int i = rand.nextInt(tankCell.getYummySegments().size());
 			final TankCell.MutableBoolean seg = tankCell.getYummySegments().get(i);
@@ -95,19 +108,25 @@ class Maze {
 			seg.value = false;
 			tankCell.getYummySegments().remove(i);
 
-			if (tankCell.getUp() == seg) {
+			if (tankCell.getUp() == seg)
+			{
 				tankCell = grid[tankCell.getColumn()][tankCell.getRow() - 1];
-			} else if (tankCell.getRight() == seg) {
+			} else if (tankCell.getRight() == seg) 
+			{
 				tankCell = grid[tankCell.getColumn() + 1][tankCell.getRow()];
-			} else if (tankCell.getDown() == seg) {
+			} else if (tankCell.getDown() == seg) 
+			{
 				tankCell = grid[tankCell.getColumn()][tankCell.getRow() + 1];
-			} else if (tankCell.getLeft() == seg) {
+			} else if (tankCell.getLeft() == seg) 
+			{
 				tankCell = grid[tankCell.getColumn() - 1][tankCell.getRow()];
 			}
 			
-			if (!tankCell.isYummy()) {
+			if (!tankCell.isYummy()) 
+			{
 				yummyCells = getYummyCells();
-				if (yummyCells.size() == 0) {
+				if (yummyCells.size() == 0) 
+				{
 					return;
 				}
 				tankCell = yummyCells.get(rand.nextInt(yummyCells.size()));
@@ -115,103 +134,116 @@ class Maze {
 		}
 	}
 
-	private void drawGrid() {
-		for (int i = 0; i < COLUMNS; i++) {
-			for (int j = 0; j < ROWS; j++) {
+	private void drawGrid() 
+	{
+		for (int i = 0; i < COLUMNS; i++) 
+		{
+			for (int j = 0; j < ROWS; j++) 
+			{
 				final TankCell tankCell = grid[i][j];
 
-				if (((j == 0 || j == 1 || j == 2) && (i == 0))) {
+				if (((j == 0 || j == 1 || j == 2) && (i == 0))) 
+				{
 					
-				}else if(((j == ROWS-1 || j == ROWS-2 || j == ROWS-3) && (i == COLUMNS-1))){
+				}
+				else if(((j == ROWS-1 || j == ROWS-2 || j == ROWS-3) && (i == COLUMNS-1))){
 					
-				}else if((j == 7 || j ==8|| j ==6 || j==9 ||j==5) && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+				}
+				else if((j == 7 || j ==8|| j ==6 || j==9 ||j==5) && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
 					
-				}else{
+				}
+				else
+				{
 					final TankRectangle rightSeg = tankCell.getRightSeg();
 					verticalSegments[i + 1][j] = rightSeg;
 				
 					final TankRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
-				if(j==5 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+				
+				if(j==5 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10))
+				{
 					final TankRectangle upSeg = tankCell.getUpSeg();
 					horizontalSegments[i][j] = upSeg;
 				}
-				if(j==9 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10)){
+				
+				if(j==9 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10))
+				{
 					final TankRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
-				if(i==4 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5)){
+				
+				if(i==4 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5))
+				{
 					final TankRectangle leftSeg = tankCell.getLeftSeg();
 					verticalSegments[i][j] = leftSeg;
 				}
-				if(i==10 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5)){
+				
+				if(i==10 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5))
+				{
 					final TankRectangle rightSeg = tankCell.getRightSeg();
 					verticalSegments[i + 1][j] = rightSeg;
 				}
 				
 				// We are in the first column and so we need to grab the left
 				// seg too.
-				if (i == 0) {
+				if (i == 0) 
+				{
 					final TankRectangle leftSeg = tankCell.getLeftSeg();
 					verticalSegments[i][j] = leftSeg;
 				}
 
 				// We are in the first row and so we need to grab the up seg
 				// too.
-				if (j == 0) {
+				if (j == 0) 
+				{
 					final TankRectangle upSeg = tankCell.getUpSeg();
 					horizontalSegments[i][j] = upSeg;
 				}
 				
-				if (i == COLUMNS-1) {
+				if (i == COLUMNS-1) 
+				{
 					final TankRectangle rightSeg = tankCell.getRightSeg();
 					verticalSegments[i+1][j] = rightSeg;
 				}
 
 				// We are in the first row and so we need to grab the up seg
 				// too.
-				if (j == ROWS-1) {
+				if (j == ROWS-1) 
+				{
 					final TankRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j+1] = downSeg;
 				}
-
 			}
 		}
 
-		for (final TankRectangle[] segs : horizontalSegments) {
+		for (final TankRectangle[] segs : horizontalSegments)
+		{
 			for (final TankRectangle seg : segs) {
 				addSeg(seg);
 			}
 		}
 
-		for (final TankRectangle[] segs : verticalSegments) {
-			for (final TankRectangle seg : segs) {
+		for (final TankRectangle[] segs : verticalSegments) 
+		{
+			for (final TankRectangle seg : segs) 
+			{
 				addSeg(seg);
 			}
 		}
 	}
 
-	private void addSeg(final TankRectangle seg) {
-		if (seg != null) {
+	private void addSeg(final TankRectangle seg) 
+	{
+		if (seg != null)
+		{
 			final Polygon poly = seg.getPolygon();
 			group.getChildren().add(poly);
 		}
 	}
 
-	// Needed because collision detection is expensive. See the Physics class.
-	// This could probably be optimized even further based on the overlaps in
-	// segments but its more than
-	// fast enough as it is and it is difficult enough to understand. It is hard
-	// to explain
-	// but what we are doing is finding the closest two horizontal and vertical
-	// segments and checking for
-	// collisions against those.
-	// This assumes that the object can only touch max two horizontal and two
-	// vertical segments maximum at once.
-	// We do not return early if a collision is detected because it is possible
-	// for multiple collisions to occur.
-	ArrayList<TankRectangle> getCollisionCandidates(final Point2D objCenter) {
+	ArrayList<TankRectangle> getCollisionCandidates(final Point2D objCenter) 
+	{
 		// Coordinates if the units were cells.
 		final double cellX = objCenter.getX() / TankCell.LENGTH;
 		final double cellY = objCenter.getY() / TankCell.LENGTH;
@@ -230,28 +262,34 @@ class Maze {
 			}
 		}
 
-		// Let's try the horizontal seg in the previous column.
+		//checks horizontal segment in the previous column.
 		column--;
-		if (column >= 0) {
+		if (column >= 0) 
+		{
 			final TankRectangle seg = horizontalSegments[column][row];
-			if (seg != null) {
+			if (seg != null) 
+			{
 				segs.add(seg);
 			}
 		}
 		column++;
 
-		if (row < ROWS) {
+		if (row < ROWS) 
+		{
 			final TankRectangle seg = verticalSegments[column][row];
-			if (seg != null) {
+			if (seg != null) 
+			{
 				segs.add(seg);
 			}
 		}
 
-		// Let's try the vertical seg in the previous row.
+		// checks the vertical segment in the previous row.
 		row--;
-		if (row >= 0) {
+		if (row >= 0) 
+		{
 			final TankRectangle seg = verticalSegments[column][row];
-			if (seg != null) {
+			if (seg != null) 
+			{
 				segs.add(seg);
 			}
 		}

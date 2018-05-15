@@ -1,7 +1,3 @@
-/*
- * This class references the project at this link: https://github.com/ThriftyNick/maze_generator
- */
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.input.KeyEvent;
@@ -48,7 +44,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class MazeController implements Initializable {
+/*
+ * This class references the project at this link: https://github.com/ThriftyNick/maze_generator
+ * 
+ * This class creates the maze window and handles the gameplay
+ */
+public class MazeController implements Initializable 
+{
 	@FXML
 	private Pane root;
 	@FXML
@@ -83,7 +85,8 @@ public class MazeController implements Initializable {
 
 	// Event Listener on Pane[#root].onKeyPressed
 	@FXML
-	public void keyPressEvent(KeyEvent event) {
+	public void keyPressEvent(KeyEvent event) 
+	{
 		String code = event.getCode().toString();
 		if (!input.contains(code))
 			input.add(code);
@@ -91,13 +94,15 @@ public class MazeController implements Initializable {
 
 	// Event Listener on Pane[#root].onKeyReleased
 	@FXML
-	public void keyReleaseEvent(KeyEvent event) {
+	public void keyReleaseEvent(KeyEvent event)
+	{
 		String code = event.getCode().toString();
 		input.remove(code);
 	}
 
 	@Override
-	public void initialize(URL arg0, ResourceBundle arg1) {
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
 
 		root.setStyle("-fx-background-color: #a50000");
 		root.getStylesheets().add("styles.css");
@@ -114,13 +119,18 @@ public class MazeController implements Initializable {
 		root.getChildren().add(showSolution);
 		showSolution.setOnAction((ActionEvent e) -> {
 			count++;
-			if (count == 1) {
+			if (count == 1) 
+			{
 				solution = true;
 			}
-			if (showSolution.getText().contains("Show")) {
+
+			if (showSolution.getText().contains("Show")) 
+			{
 				mazeGraph.renderSolution(true);
 				showSolution.setText("Hide Solution");
-			} else {
+			}
+			else 
+			{
 				mazeGraph.renderSolution(false);
 				showSolution.setText("Show Solution");
 			}
@@ -135,14 +145,17 @@ public class MazeController implements Initializable {
 		root.getChildren().add(goHome);
 		goHome.setOnAction((ActionEvent e) -> {
 
-			try {
+			try 
+			{
 				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 				x.setStyle("-fx-background-color: #a50000");
 				Scene y = new Scene(x);
 				Stage w = (Stage) ((Node) e.getSource()).getScene().getWindow();
 				w.setResizable(false);
 				w.setScene(y);
-			} catch (IOException e1) {
+			} 
+			catch (IOException e1)
+			{
 				e1.printStackTrace();
 			}
 
@@ -182,8 +195,10 @@ public class MazeController implements Initializable {
 
 		TimeValue lastNanoTime = new TimeValue(System.nanoTime());
 		// main game loop
-		new AnimationTimer() {
-			public void handle(long currentNanoTime) {
+		new AnimationTimer() 
+		{
+			public void handle(long currentNanoTime)
+			{
 				/*
 				 * //calculate time since last update double elapsedTime =
 				 * (currentNanoTime - lastNanoTime.value) / 1000000000.0;
@@ -194,44 +209,51 @@ public class MazeController implements Initializable {
 				// Player Controls
 				int destRow = -2;
 				int destCol = -2;
-				if (input.contains("LEFT") || input.contains("A")) {
+				if (input.contains("LEFT") || input.contains("A"))
+				{
 					destRow = player.getRow();
 					destCol = player.getCol() - 1;
 					input.remove("LEFT");
 					input.remove("A");
 				}
-				if (input.contains("RIGHT") || input.contains("D")) {
+				if (input.contains("RIGHT") || input.contains("D")) 
+				{
 					destRow = player.getRow();
 					destCol = player.getCol() + 1;
 					input.remove("RIGHT");
 					input.remove("D");
 				}
-				if (input.contains("UP") || input.contains("W")) {
+				if (input.contains("UP") || input.contains("W")) 
+				{
 					destRow = player.getRow() - 1;
 					destCol = player.getCol();
 					input.remove("UP");
 					input.remove("W");
 				}
-				if (input.contains("DOWN") || input.contains("S")) {
+				if (input.contains("DOWN") || input.contains("S")) 
+				{
 					destRow = player.getRow() + 1;
 					destCol = player.getCol();
 					input.remove("DOWN");
 					input.remove("S");
 				}
 
-				if (destRow != -2 && destCol != -2) { // if new move
+				if (destRow != -2 && destCol != -2) 
+				{ // if new move
 					Point2D destinationPos = mazeGraph.getVertPos(destRow, destCol);
 
 					// checks to see if the destination is valid and the maze
 					// has not yet been solved
-					if (destinationPos != null && !congratulated) {
+					if (destinationPos != null && !congratulated) 
+					{
 						player.setPosition(destinationPos.getX(), destinationPos.getY());
 						player.setGraphLoc(destRow, destCol);
 					}
 				}
 
 				// check for win
-				if (player.getCol() == EXIT_COLUMN && !congratulated) {
+				if (player.getCol() == EXIT_COLUMN && !congratulated)
+				{
 					congratulate();
 					timer.cancel();
 					congratulated = true;
@@ -242,18 +264,21 @@ public class MazeController implements Initializable {
 				gc.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
 				// render walls
-				for (MazeWall w : mazeWalls) {
+				for (MazeWall w : mazeWalls) 
+				{
 					w.render(gc);
 				}
 
 				// render graph
-				if (rendered) {
+				if (rendered) 
+				{
 					mazeGraph.render(gc);
 				}
 
 				// initMazeGraph depends on pixel data so is not called until
 				// walls have been rendered
-				if (!rendered) {
+				if (!rendered) 
+				{
 					initMazeGraph();
 					outlineWalls();
 					rendered = true;
@@ -261,7 +286,8 @@ public class MazeController implements Initializable {
 				}
 
 				// render player
-				if (player != null) {
+				if (player != null) 
+				{
 					player.render(gc);
 				}
 				/* END RENDERING */
@@ -271,61 +297,76 @@ public class MazeController implements Initializable {
 		}.start();
 	}
 
-	private void generateMaze() {
+	private void generateMaze() 
+	{
 		count = 0;
 		initWallAnchors(GRID_SIZE);
 		setWalls();
 	}
 
-	private void best() {
+	private void best() 
+	{
 		String inputName = "maze_best_score.txt";
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testfile = new File(workingDirFile, inputName);
-		if (testfile.exists()) {
+		if (testfile.exists()) 
+		{
 			Scanner scanner = null;
-			try {
+			try 
+			{
 				scanner = new Scanner(new File("maze_best_score.txt"));
-			} catch (FileNotFoundException e1) {
+			} 
+			catch (FileNotFoundException e1)
+			{
 				e1.printStackTrace();
 			}
+
 			int[] tall = new int[100];
 			int i = 0;
-			while (scanner.hasNextInt()) {
+			while (scanner.hasNextInt()) 
+			{
 				tall[i++] = scanner.nextInt();
 			}
 
 			String value = "";
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < i; j++) 
+			{
 				value += tall[j];
 			}
 			best.setText(value);
-		} else {
+		} 
+		else 
+		{
 			best.setText("0");
 		}
 	}
 
-	private void initWallAnchors(int size) {
+	private void initWallAnchors(int size) 
+	{
 		int startX = CANVAS_WIDTH / 2 - (((MazeWallAnchor.SIZE + SPACING) * GRID_SIZE) - SPACING) / 2;
 		int startY = 100;
 		int xPos = startX;
 		int yPos = startY;
-		for (int row = 0; row < GRID_SIZE; row++) {
-			for (int col = 0; col < GRID_SIZE; col++) {
+		for (int row = 0; row < GRID_SIZE; row++)
+		{
+			for (int col = 0; col < GRID_SIZE; col++) 
+			{
 				anchorPoints[row][col] = new MazeWallAnchor(xPos, yPos, row, col);
 				xPos += SPACING * 2;
 			}
 			xPos = startX;
 			yPos += SPACING * 2;
 		}
-
 	}
 
-	private void setWalls() {
+	private void setWalls() 
+	{
 		mazeWalls = new ArrayList<MazeWall>();
 
 		// top & bottom walls
-		for (int col = 0; col < GRID_SIZE - 1; col++) {
+		for (int col = 0; col < GRID_SIZE - 1; col++) 
+		{
 			// top wall
 			MazeWall w = new MazeWall(anchorPoints[0][col], anchorPoints[0][col + 1]);
 			w.markBorderWall();
@@ -338,7 +379,8 @@ public class MazeController implements Initializable {
 		}
 
 		// left & right walls
-		for (int row = 0; row < GRID_SIZE - 1; row++) {
+		for (int row = 0; row < GRID_SIZE - 1; row++) 
+		{
 			// left wall
 			MazeWall w = new MazeWall(anchorPoints[row][0], anchorPoints[row + 1][0]);
 			w.markBorderWall();
@@ -356,10 +398,13 @@ public class MazeController implements Initializable {
 		int configuration = flipCoin();
 		int loc1 = (int) (Math.random() * (GRID_SIZE - 1) / 2);
 		int loc2 = (int) (Math.random() * (GRID_SIZE - 1) / 2 + GRID_SIZE / 2);
-		if (configuration == 0) {
+		if (configuration == 0) 
+		{
 			entryLoc = loc1;
 			exitLoc = loc2;
-		} else {
+		} 
+		else 
+		{
 			entryLoc = loc2;
 			exitLoc = loc1;
 		}
@@ -379,38 +424,45 @@ public class MazeController implements Initializable {
 
 		// create Entry point
 		MazeWall doorway = null;
-		for (MazeWall w : mazeWalls) {
-			if (w.getP1().getRow() == entryLoc && w.getP1().getCol() == 0) {
+		for (MazeWall w : mazeWalls)
+		{
+			if (w.getP1().getRow() == entryLoc && w.getP1().getCol() == 0)
+			{
 				doorway = w;
 				break;
 			}
 		}
-		if (doorway != null) {
+
+		if (doorway != null)
+		{
 			breachWall(doorway);
 			doorwayInfo[0] = doorway.getP1().getY() + SPACING + (SPACING / 2); // set
-																				// entrance
-																				// vertex
-																				// yPos
+			// entrance
+			// vertex
+			// yPos
 			doorwayInfo[1] = doorway.getP1().getRow() * 2; // set entrance
-															// vertex row
+			// vertex row
 		}
 
 		// create Exit point
 		doorway = null;
-		for (MazeWall w : mazeWalls) {
-			if (w.getP1().getRow() == exitLoc && w.getP1().getCol() == GRID_SIZE - 1) {
+		for (MazeWall w : mazeWalls) 
+		{
+			if (w.getP1().getRow() == exitLoc && w.getP1().getCol() == GRID_SIZE - 1) 
+			{
 				doorway = w;
 				break;
 			}
 		}
-		if (doorway != null) {
+		if (doorway != null) 
+		{
 			breachWall(doorway);
 			doorwayInfo[2] = doorway.getP1().getY() + SPACING + (SPACING / 2); // set
-																				// exit
-																				// vertex
-																				// yPos
+			// exit
+			// vertex
+			// yPos
 			doorwayInfo[3] = doorway.getP1().getRow() * 2; // set exit vertex
-															// row
+			// row
 		}
 
 		// place inner walls
@@ -418,10 +470,12 @@ public class MazeController implements Initializable {
 		// Takes two anchor points for one full wall position
 		double totalAvailablePositions = 2 * ((GRID_SIZE - 2) * (GRID_SIZE - 2));
 		double percentComplete = 0.0;
-		while (percentComplete < WALL_DENSITY) {
+		while (percentComplete < WALL_DENSITY) 
+		{
 			// horizontal wall
 			MazeWall w = null;
-			do {
+			do 
+			{
 				int row = (int) (Math.random() * (GRID_SIZE - 2) + 1);
 				int col = (int) (Math.random() * (GRID_SIZE - 1));
 				w = new MazeWall(anchorPoints[row][col], anchorPoints[row][col + 1]);
@@ -431,7 +485,8 @@ public class MazeController implements Initializable {
 
 			// vertical wall
 			w = null;
-			do {
+			do 
+			{
 				int row = (int) (Math.random() * (GRID_SIZE - 1));
 				int col = (int) (Math.random() * (GRID_SIZE - 2) + 1);
 				w = new MazeWall(anchorPoints[row][col], anchorPoints[row + 1][col]);
@@ -440,7 +495,6 @@ public class MazeController implements Initializable {
 			mazeWalls.add(w);
 			percentComplete = placedWalls.size() / totalAvailablePositions;
 		}
-
 	}
 
 	/**
@@ -449,7 +503,8 @@ public class MazeController implements Initializable {
 	 * traversable positions. mazeGraph is fully connected. player is positioned
 	 * at the start position.
 	 */
-	private void initMazeGraph() {
+	private void initMazeGraph() 
+	{
 		mazeGraph = new MazeGraph();
 		PixelReader reader = getPixelReader();
 
@@ -468,9 +523,12 @@ public class MazeController implements Initializable {
 		player.setGraphLoc((int) doorwayInfo[1], -1);
 
 		// add inner vertices
-		for (int row = 0; row < GRID_SIZE + GRID_SIZE - 1 - 2; row++) {
-			for (int col = 0; col < GRID_SIZE + GRID_SIZE - 1 - 2; col++) {
-				if (!reader.getColor((int) xPos, (int) yPos).equals(MazeWall.UNSOLVED_COLOR)) {
+		for (int row = 0; row < GRID_SIZE + GRID_SIZE - 1 - 2; row++)
+		{
+			for (int col = 0; col < GRID_SIZE + GRID_SIZE - 1 - 2; col++)
+			{
+				if (!reader.getColor((int) xPos, (int) yPos).equals(MazeWall.UNSOLVED_COLOR)) 
+				{
 					mazeGraph.addVert(xPos, yPos, row, col, reader);
 				}
 				xPos += SPACING;
@@ -493,18 +551,24 @@ public class MazeController implements Initializable {
 
 	}
 
-	private void outlineWalls() {
-		for (int row = 0; row < EXIT_COLUMN; row++) {
-			for (int col = -1; col <= EXIT_COLUMN; col++) {
+	private void outlineWalls()
+	{
+		for (int row = 0; row < EXIT_COLUMN; row++) 
+		{
+			for (int col = -1; col <= EXIT_COLUMN; col++) 
+			{
 				Point2D pt = mazeGraph.getVertPos(row, col);
 				if (pt != null) {
 					MazeWall[] surroundingWalls = detectSurroundingWalls(pt);
-					for (int direction = 0; direction < 4; direction++) {
-						if (surroundingWalls[direction] != null) {
+					for (int direction = 0; direction < 4; direction++) 
+					{
+						if (surroundingWalls[direction] != null) 
+						{
 							MazeWall w = surroundingWalls[direction];
 							Line l = null;
 							double lineSpacing = SPACING / 2.0;
-							switch (direction) {
+							switch (direction) 
+							{
 							case 0:
 								l = new Line(pt.getX() - lineSpacing, pt.getY() - lineSpacing, pt.getX() + lineSpacing,
 										pt.getY() - lineSpacing);
@@ -531,7 +595,8 @@ public class MazeController implements Initializable {
 		}
 	}
 
-	public static MazeWall[] detectSurroundingWalls(Point2D loc) {
+	public static MazeWall[] detectSurroundingWalls(Point2D loc) 
+	{
 		MazeWall[] surroundingWalls = { null, null, null, null };
 		Point2D above = new Point2D(loc.getX(), loc.getY() - SPACING);
 		Point2D right = new Point2D(loc.getX() + SPACING, loc.getY());
@@ -539,13 +604,17 @@ public class MazeController implements Initializable {
 		Point2D left = new Point2D(loc.getX() - SPACING, loc.getY());
 		for (MazeWall w : mazeWalls) {
 			Rectangle2D wallRect = w.getBoundingRect();
-			if (wallRect.contains(above)) {
+			if (wallRect.contains(above)) 
+			{
 				surroundingWalls[0] = w;
-			} else if (wallRect.contains(right)) {
+			} else if (wallRect.contains(right)) 
+			{
 				surroundingWalls[1] = w;
-			} else if (wallRect.contains(below)) {
+			} else if (wallRect.contains(below)) 
+			{
 				surroundingWalls[2] = w;
-			} else if (wallRect.contains(left)) {
+			} else if (wallRect.contains(left))
+			{
 				surroundingWalls[3] = w;
 			}
 		}
@@ -559,7 +628,8 @@ public class MazeController implements Initializable {
 	 *            the wall to breach
 	 * @return Center point of wall which was breached
 	 */
-	public static Point2D breachWall(MazeWall mazeWall) {
+	public static Point2D breachWall(MazeWall mazeWall) 
+	{
 		Rectangle2D r = mazeWall.getBoundingRect();
 		double centerX = r.getMaxX() - r.getWidth() / 2.0;
 		double centerY = r.getMaxY() - r.getHeight() / 2.0;
@@ -570,12 +640,14 @@ public class MazeController implements Initializable {
 		return centerPoint;
 	}
 
-	public static PixelReader getPixelReader() {
+	public static PixelReader getPixelReader() 
+	{
 		WritableImage img = canvas.snapshot(null, null);
 		return img.getPixelReader();
 	}
 
-	public static int flipCoin() {
+	public static int flipCoin() 
+	{
 		double coin = Math.random();
 		if (coin < 0.51) {
 			return 0;
@@ -586,7 +658,8 @@ public class MazeController implements Initializable {
 	/**
 	 * Called when exit has been reached
 	 */
-	private void congratulate() {
+	private void congratulate()
+	{
 		/*
 		 * Winning Message: change walls color play sound effect flash next maze
 		 * button
@@ -596,48 +669,71 @@ public class MazeController implements Initializable {
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testfile = new File(workingDirFile, inputName);
-		if (!testfile.exists()) {
+		if (!testfile.exists())
+		{
 			PrintWriter writer;
-			try {
+			try 
+			{
 				writer = new PrintWriter("maze_best_score.txt", "UTF-8");
 				writer.println(interval - 1);
 				writer.close();
-			} catch (FileNotFoundException e2) {
+			} 
+			catch (FileNotFoundException e2)
+			{
 				e2.printStackTrace();
-			} catch (UnsupportedEncodingException e2) {
+			} 
+			catch (UnsupportedEncodingException e2) 
+			{
 				e2.printStackTrace();
 			}
-		} else {
+		}
+		else 
+		{
 			Scanner scanner = null;
-			try {
+			try 
+			{
 				scanner = new Scanner(new File("maze_best_score.txt"));
-			} catch (FileNotFoundException e1) {
+			} 
+			catch (FileNotFoundException e1) 
+			{
 				e1.printStackTrace();
 			}
+
 			int[] tall = new int[100];
 			int i = 0;
-			while (scanner.hasNextInt()) {
+			while (scanner.hasNextInt())
+			{
 				tall[i++] = scanner.nextInt();
 			}
 
 			String value = "";
-			for (int j = 0; j < i; j++) {
+			for (int j = 0; j < i; j++) 
+			{
 				value += tall[j];
 			}
 
 			someInt = Integer.parseInt(value);
 
 		}
-		if (solution == true) {
+
+		if (solution == true) 
+		{
 			interval = 100000;
 		}
-		if (someInt >= interval) {
+
+		if (someInt >= interval) 
+		{
 			PrintWriter writer2 = null;
-			try {
+			try
+			{
 				writer2 = new PrintWriter("maze_best_score.txt", "UTF-8");
-			} catch (FileNotFoundException e) {
+			} 
+			catch (FileNotFoundException e) 
+			{
 				e.printStackTrace();
-			} catch (UnsupportedEncodingException e) {
+			}
+			catch (UnsupportedEncodingException e) 
+			{
 				e.printStackTrace();
 			}
 			writer2.println(interval - 1);
@@ -646,33 +742,41 @@ public class MazeController implements Initializable {
 		interval = 0;
 		best();
 		MazeWall.setWallColor(1); 
-
 	}
 
-	private static class TimeValue {
+	private static class TimeValue 
+	{
 		private float value;
 
-		public TimeValue(float v) {
+		public TimeValue(float v)
+		{
 			value = v;
 		}
 	}
 
-	public void setTimer() {
+	public void setTimer() 
+	{
 		timer = new java.util.Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				if (interval >= 0) {
-					if (solution == true) {
+		timer.scheduleAtFixedRate(new TimerTask()
+		{
+			public void run() 
+			{
+				if (interval >= 0) 
+				{
+					if (solution == true) 
+					{
 						timerText.setText(String.valueOf(1000000));
-					} else {
+					} 
+					else 
+					{
 						timerText.setText(String.valueOf(interval));
 						interval++;
 					}
-				} else
+				} 
+				else
 					timer.cancel();
 
 			}
 		}, 1000, 1000);
 	}
-	// a change
 }
