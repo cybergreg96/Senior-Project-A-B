@@ -1,7 +1,3 @@
-/*
- * This class references the project at this link: https://github.com/GuiBon/ChessGame
- */
-
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -17,31 +13,40 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-public class ChessCustomControl extends Control {
-	
-	//similar to previous custom controlls but must handle more
-	//complex mouse interactions and key interactions
-
+/*
+ * This class references the project at this link: https://github.com/GuiBon/ChessGame
+ * 
+ * This class formats the chess game window and handles mouse clicks to select a piece
+ * Note: This class is similar to previous custom controls but must handle more complex mouse interactions and key interactions
+ */
+public class ChessCustomControl extends Control 
+{
 	public static final int CANVAS_WIDTH = 850;
 	public static final int CANVAS_HEIGHT = 650;
 	
-	public ChessCustomControl(){
+	// constructor of the controller object and initializes the main components of the chess game
+	public ChessCustomControl()
+	{
 		setSkin(new ChessCustomControlSkin(this));
 		
 		chessStatusBar = new ChessStatusBar();
 		chessBoard = new ChessBoard(chessStatusBar);
 		getChildren().addAll(chessStatusBar, chessBoard);
 		
-		setOnMouseClicked(new EventHandler<MouseEvent>() {
+		//creates event handler for when the mouse clicks on a chess piece
+		setOnMouseClicked(new EventHandler<MouseEvent>() 
+		{
 			@Override
-			public void handle(MouseEvent event) {
+			public void handle(MouseEvent event) 
+			{
 				chessBoard.selectPiece(event.getX(), event.getY() - (statusBarSize / 2));
 			}
-			
 		});		
 	}
 	
-	public void resize(double width, double height){
+	//resizes the window
+	public void resize(double width, double height)
+	{
 		super.resize(width, height - statusBarSize);
 		chessBoard.setTranslateY(statusBarSize / 2);
 		chessBoard.resize(width, height - statusBarSize);
