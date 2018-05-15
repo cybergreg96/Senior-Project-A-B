@@ -85,7 +85,6 @@ public class MancalaController implements Initializable{
                         stage.setResizable(false);
                         stage.show();
                     } catch (Exception f) {
-                        System.out.println("Error moving to Player Screen.");
                         f.printStackTrace();
                     }
                 }
@@ -112,7 +111,6 @@ public class MancalaController implements Initializable{
                     //Display the help popup
                     popup.show();
                 } catch (Exception f) {
-                    System.out.println("Error displaying the Help screen.");
                     f.printStackTrace();
                 }
             }
