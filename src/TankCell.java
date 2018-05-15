@@ -1,3 +1,4 @@
+
 /*
  * references: https://github.com/nhooyr/java-tanktank
  */
@@ -7,136 +8,165 @@ import java.util.ArrayList;
 
 // Cell represents a cell within the Maze.
 class TankCell {
-    static final double LENGTH = 3.5 * Tank.BODY_HEIGHT;
-    private static final Color COLOR = Color.BLACK;
+	static final double LENGTH = 3.5 * Tank.BODY_HEIGHT;
+	private static final Color COLOR = Color.BLACK;
 
-    private final int row;
-    private final int column;
-    private final ArrayList<MutableBoolean> yummySegments = new ArrayList<>();
-    private final double x;
-    private final double y;
+	private final int row;
+	private final int column;
+	private final ArrayList<MutableBoolean> yummySegments = new ArrayList<>();
+	private final double x;
+	private final double y;
 
-    // True means the segment is opaque.
-    private final MutableBoolean up;
-    private final MutableBoolean left;
-    private final MutableBoolean right = new MutableBoolean();
-    private final MutableBoolean down = new MutableBoolean();
+	// True means the segment is opaque.
+	private final MutableBoolean up;
+	private final MutableBoolean left;
+	private final MutableBoolean right = new MutableBoolean();
+	private final MutableBoolean down = new MutableBoolean();
 
-    TankCell(final int column, final int row, final MutableBoolean up, final MutableBoolean left) {
-        this.column = column;
-        this.row = row;
-        this.x = column * TankCell.LENGTH;
-        this.y = row * TankCell.LENGTH;
+	// tank cell constructor. used to create a 15x 15 square grid where each
+	// box/cell is initially given 4 walls. TankTank object may be placed in a
+	// cell and walls are added to and eaten off to create a maze.
+	TankCell(final int column, final int row, final MutableBoolean up, final MutableBoolean left) {
+		this.column = column;
+		this.row = row;
+		this.x = column * TankCell.LENGTH;
+		this.y = row * TankCell.LENGTH;
 
-        this.up = up;
-        this.left = left;
+		this.up = up;
+		this.left = left;
 
-        setYummySides();
-    }
+		setYummySides();
+	}
 
-    private void setYummySides() {
-        // If up is true and this cell is not at the top row then it is yummy.
-        if(up.value && (this.getColumn()==7 && this.getRow()==7)){
-        	
-        }else{
-        if (up.value && row != 0) {
-            yummySegments.add(up);
-        }
+	// sets sides of a tank cell to yummy and allows them to be eaten off of the
+	// tank cell. this will help create the maze from the 15 x 15 grid
+	private void setYummySides() {
+		// If up is true and this cell is not at the top row then it is yummy.
+		if (up.value && (this.getColumn() == 7 && this.getRow() == 7)) {
 
-        // If right is true and this cell is not at the right edge then it is yummy.
-        if (right.value && column != Maze.COLUMNS - 1) {
-            yummySegments.add(right);
-        }
+		} else {
+			if (up.value && row != 0) {
+				yummySegments.add(up);
+			}
 
-        // If down is true and this cell is not at the bottom row then it is yummy.
-        if (down.value && row != Maze.ROWS - 1) {
-            yummySegments.add(down);
-        }
+			// If right is true and this cell is not at the right edge then it
+			// is yummy.
+			if (right.value && column != Maze.COLUMNS - 1) {
+				yummySegments.add(right);
+			}
 
-        // If left is true and this cell is not at the left edge then it is yummy.
-        if (left.value && column != 0) {
-            yummySegments.add(left);
-        }
-        }
-    }
+			// If down is true and this cell is not at the bottom row then it is
+			// yummy.
+			if (down.value && row != Maze.ROWS - 1) {
+				yummySegments.add(down);
+			}
 
-    int getRow() {
-        return row;
-    }
+			// If left is true and this cell is not at the left edge then it is
+			// yummy.
+			if (left.value && column != 0) {
+				yummySegments.add(left);
+			}
+		}
+	}
 
-    int getColumn() {
-        return column;
-    }
+	// returns row of a tank cell object
+	int getRow() {
+		return row;
+	}
 
-    MutableBoolean getUp() {
-        return up;
-    }
+	// returns column of a tank cell object
+	int getColumn() {
+		return column;
+	}
 
-    MutableBoolean getLeft() {
-        return left;
-    }
+	// returns true if a tank cell's top wall is drawn or placed on grid
+	MutableBoolean getUp() {
+		return up;
+	}
 
-    MutableBoolean getRight() {
-        return right;
-    }
+	// returns true if a tank cell's left wall is drawn or placed on grid
+	MutableBoolean getLeft() {
+		return left;
+	}
 
-    MutableBoolean getDown() {
-        return down;
-    }
+	// returns true if a tank cell's right wall is drawn or placed on grid
+	MutableBoolean getRight() {
+		return right;
+	}
 
-    ArrayList<MutableBoolean> getYummySegments() {
-        return yummySegments;
-    }
+	// returns true if a tank cell's bottom wall is drawn or placed on grid
+	MutableBoolean getDown() {
+		return down;
+	}
 
+	// returns an arraylist of all yummy segments of the 15 x 15 grid that will
+	// be eaten off.
+	ArrayList<MutableBoolean> getYummySegments() {
+		return yummySegments;
+	}
 
-    // isYummy tells the maze generation algorithm whether this cell can have more segments removed, or "eaten".
-    boolean isYummy() {
-        int yummyThreshold = 2;
-        if (column == 0 ||
-                row == 0 ||
-                column == Maze.COLUMNS - 1 ||
-                row == Maze.ROWS - 1) {
-            // We make bordering cells more yummy to ensure we do not any encircled areas and to allow for a open outer
-            // area. An interesting map element.
-            // No proof that this ensures no encircling areas but it is my intuition and seems to work in practice.
-            yummyThreshold = 1;
-        }
-        return yummySegments.size() > yummyThreshold;
-    }
+	// isYummy tells the maze generation algorithm whether this cell can have
+	// more segments removed, or "eaten".
+	boolean isYummy() {
+		int yummyThreshold = 2;
+		if (column == 0 || row == 0 || column == Maze.COLUMNS - 1 || row == Maze.ROWS - 1) {
+			// We make bordering cells more yummy to ensure we do not any
+			// encircled areas and to allow for a open outer
+			// area. An interesting map element.
+			// No proof that this ensures no encircling areas but it is my
+			// intuition and seems to work in practice.
+			yummyThreshold = 1;
+		}
+		return yummySegments.size() > yummyThreshold;
+	}
 
-    TankRectangle getUpSeg() {
-        return getSeg(this.up, x, y, TankCell.LENGTH, Maze.THICKNESS);
-    }
+	// to eat walls off, the grid starts at top left corner and works its way
+	// down each column and row eating marked yummy segments by only taking
+	// cells top or left segments as long as it is not a cell on left edge of
+	// maze
 
-    TankRectangle getLeftSeg() {
-        return getSeg(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
-    }
+	// gets the up segment of a tank cell
+	TankRectangle getUpSeg() {
+		return getSeg(this.up, x, y, TankCell.LENGTH, Maze.THICKNESS);
+	}
 
-    // We add maze thickness to the lengths in the down segment and right segment to prevent gaping squares from appearing
-    // where an invisible up segment or left segment would be.
-    TankRectangle getDownSeg() {
-        return getSeg(this.down, x, y + TankCell.LENGTH, TankCell.LENGTH + Maze.THICKNESS, Maze.THICKNESS);
-    }
+	// gets the left segment of a tank cell
+	TankRectangle getLeftSeg() {
+		return getSeg(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
+	}
 
-    TankRectangle getRightSeg() {
-        return getSeg(this.right, x + TankCell.LENGTH, y, Maze.THICKNESS, TankCell.LENGTH + Maze.THICKNESS);
-    }
+	// We add maze thickness to the lengths in the down segment and right
+	// segment to prevent gaping squares from appearing
+	// where an invisible up segment or left segment would be.
+	TankRectangle getDownSeg() {
+		return getSeg(this.down, x, y + TankCell.LENGTH, TankCell.LENGTH + Maze.THICKNESS, Maze.THICKNESS);
+	}
 
-    private TankRectangle getSeg(final MutableBoolean visibility, final double x, final double y, final double width, final double height) {
-        TankRectangle rect = null;
-        if (visibility.value) {
-            rect = new TankRectangle(x, y, width, height);
-            rect.getPolygon().setFill(COLOR);
-        }
-        return rect;
-    }
+	// We add maze thickness to the lengths in the down segment and right
+	// segment to prevent gaping squares from appearing
+	// where an invisible down segment or right segment would be.
+	TankRectangle getRightSeg() {
+		return getSeg(this.right, x + TankCell.LENGTH, y, Maze.THICKNESS, TankCell.LENGTH + Maze.THICKNESS);
+	}
 
-    static class MutableBoolean {
+	// places maze segments down based on whether there visibility value is to
+	// true. This is where each walls color is set and where there x and y
+	// coordinates are set where they will be placed
+	private TankRectangle getSeg(final MutableBoolean visibility, final double x, final double y, final double width, final double height) {
+		TankRectangle rect = null;
+		if (visibility.value) {
+			rect = new TankRectangle(x, y, width, height);
+			rect.getPolygon().setFill(COLOR);
+		}
+		return rect;
+	}
 
-        boolean value;
+	static class MutableBoolean {
 
-        MutableBoolean() {
-            this.value = true;
-        }
-    }
+		boolean value;
+
+		MutableBoolean() {
+			this.value = true;
+		}
+	}
 }

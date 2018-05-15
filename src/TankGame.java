@@ -1,3 +1,4 @@
+
 /*
  * references: https://github.com/nhooyr/java-tanktank
  */
@@ -55,19 +56,23 @@ class TankGame {
 	private static final ButtonType CONT_BUTTON_TYPE = new ButtonType("CONTINUE", ButtonBar.ButtonData.NO);
 
 	private final Maze maze = new Maze();
+
+	// health circles for blue tank
 	Circle h1 = new Circle(17, 18, 8, Color.GREEN);
 	Circle h2 = new Circle(17, 43, 8, Color.GREEN);
 	Circle h3 = new Circle(17, 68, 8, Color.GREEN);
 	Circle h4 = new Circle(17, 93, 8, Color.GREEN);
 	Circle h5 = new Circle(17, 118, 8, Color.GREEN);
-	
+	// health circles for pink tank
 	Circle h11 = new Circle(774, 675, 8, Color.RED);
 	Circle h21 = new Circle(774, 700, 8, Color.RED);
 	Circle h31 = new Circle(774, 725, 8, Color.RED);
 	Circle h41 = new Circle(774, 750, 8, Color.RED);
 	Circle h51 = new Circle(774, 775, 8, Color.RED);
-	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_2, 0, 1);
-	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_1, Math.PI, 1);
+	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_2,
+			0, 1);
+	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_1,
+			Math.PI, 1);
 	private final Stage stage;
 	private final TankFPSMeter fpsMeter = new TankFPSMeter();
 	private final TankBunnyFritzManager bunnyManager;
@@ -76,37 +81,40 @@ class TankGame {
 
 	private final TankFrogManager frogManager;
 	final Group root = new Group();
+
+	// tank game constructor. places all objects on pane and slowly eat away
+	// maze wall objects until just health circles, tanks, and some maze walls
+	// are present within the pane
 	TankGame(final Stage stage) {
-		
-	ImageView selectedImage = new ImageView(); 
-	Image image1 = new Image("/resources/vs-transparent-background-1.png", 300, 200, false, false);
-	//Image image1 = new Image("/resources/VS.png", 300, 300, false, false);
-	
-    selectedImage.setImage(image1);
-    selectedImage.setTranslateX(250);
-    //selectedImage.setTranslateX(280);
-    selectedImage.setTranslateY(290);
-    selectedImage.setOpacity(.5);
-    root.getChildren().addAll(selectedImage);
+
+		ImageView selectedImage = new ImageView();
+		Image image1 = new Image("/resources/vs-transparent-background-1.png", 300, 200, false, false);
+		// Image image1 = new Image("/resources/VS.png", 300, 300, false,
+		// false);
+
+		selectedImage.setImage(image1);
+		selectedImage.setTranslateX(250);
+		// selectedImage.setTranslateX(280);
+		selectedImage.setTranslateY(290);
+		selectedImage.setOpacity(.5);
+		root.getChildren().addAll(selectedImage);
 		frogManager = new TankFrogManager(maze, WIDTH, HEIGHT);
 		tank1.getBulletManager().setEnemyTank(tank2);
 		tank2.getBulletManager().setEnemyTank(tank1);
-		
-        bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
+
+		bunnyManager = new TankBunnyFritzManager(maze, WIDTH, HEIGHT);
 		this.stage = stage;
-		
+
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
-		root.getChildren().addAll(h1,h2,h3,h4,h5);
-		root.getChildren().addAll(h11,h21,h31,h41,h51);
+		root.getChildren().addAll(h1, h2, h3, h4, h5);
+		root.getChildren().addAll(h11, h21, h31, h41, h51);
 		root.getChildren().addAll(tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
 				tank2.getBulletManager().getNode(), bunnyManager.getNode(), frogManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
-		
-        
-        
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -135,10 +143,10 @@ class TankGame {
 						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-					} else if(buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) {
+					} else if (buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) {
 						final TankGame tankGame = new TankGame(stage);
 						tankGame.start();
-					} else if(buttonType.get() == CONT_BUTTON_TYPE){
+					} else if (buttonType.get() == CONT_BUTTON_TYPE) {
 						alert.hide();
 						timer.start();
 					}
@@ -173,6 +181,8 @@ class TankGame {
 		timer.start();
 	}
 
+	// handles state of a tanks death, setting winning message and winning alert
+	// box.
 	private void handle(final long nanos) {
 		fpsMeter.handle(nanos);
 
@@ -247,99 +257,97 @@ class TankGame {
 			return;
 		}
 
-		// TODO in future use a single bullet manager and a separate bullet
-		// limiter.
-		// TODO in the future another possibility would be to allow the winning
-		// tank to move. Not a big deal right now.
-		
-		if(tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
+		// handles when a tank is hit by bullet object and determining what tank
+		// to subtract health from.
+		if (tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
 			tank1.subtractHealth();
 		}
-		if(tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
+		if (tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
 			tank2.subtractHealth();
 		}
-		
-		if(frogManager.isHit(tank1)) {
+		// handles when a tank is hit by frog object and determining what tank
+		// to add health to.
+		if (frogManager.isHit(tank1)) {
 			tank1.addHealth();
 		}
-		
-		if(frogManager.isHit(tank2)) {
+		if (frogManager.isHit(tank2)) {
 			tank2.addHealth();
 		}
-		
-		String health1 = Double.toString(tank1.getCurrentHealth());
-		
 
-		if(health1.contains("1.0")) {
+		// handles which health circles to be displayed based on current health
+		// of tank1 or blue tank
+		String health1 = Double.toString(tank1.getCurrentHealth());
+		if (health1.contains("1.0")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(true);
 		}
-		
-		if(health1.contains(".8")){
+
+		if (health1.contains(".8")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(false);
 		}
-		if(health1.contains(".6")){
+		if (health1.contains(".6")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(false);
 		}
-		if(health1.contains(".4")){
+		if (health1.contains(".4")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(false);
 		}
-		if(health1.contains(".2")){
+		if (health1.contains(".2")) {
 			h1.setVisible(true);
 			h2.setVisible(false);
 		}
-		if(tank1.getCurrentHealth()<.01){
+		if (tank1.getCurrentHealth() < .01) {
 			h1.setVisible(false);
 		}
-		
+
+		// handles which health circles to be displayed based on current health
+		// of tank2 or pink tank
 		String health2 = Double.toString(tank2.getCurrentHealth());
-		if(health2.contains("1.0")) {
+		if (health2.contains("1.0")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(true);
 			h11.setVisible(true);
 		}
-		
-		if(health2.contains(".8")){
+
+		if (health2.contains(".8")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(true);
 			h11.setVisible(false);
 		}
-		if(health2.contains(".6")){
+		if (health2.contains(".6")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(false);
 		}
-		if(health2.contains(".4")){
+		if (health2.contains(".4")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(false);
 		}
-		if(health2.contains(".2")){
+		if (health2.contains(".2")) {
 			h51.setVisible(true);
 			h41.setVisible(false);
 		}
-		if(tank2.getCurrentHealth()<.01){
+		if (tank2.getCurrentHealth() < .01) {
 			h51.setVisible(false);
 		}
-		
-		
+
 		if (tank1.getBulletManager().isDeadTank(tank1) || tank2.getBulletManager().isDeadTank(tank1)) {
 			tank1.kill();
 		}
@@ -354,13 +362,13 @@ class TankGame {
 			return;
 		}
 
-        tank1.bunnyExists = bunnyManager.bunnyExists;
-        tank2.bunnyExists = bunnyManager.bunnyExists;
+		tank1.bunnyExists = bunnyManager.bunnyExists;
+		tank2.bunnyExists = bunnyManager.bunnyExists;
 
-        tank1.handle(nanos);
-        tank2.handle(nanos);
-        bunnyManager.handle(nanos);
-        frogManager.handle(nanos);
+		tank1.handle(nanos);
+		tank2.handle(nanos);
+		bunnyManager.handle(nanos);
+		frogManager.handle(nanos);
 	}
 
 	private void handlePressed(final KeyEvent e) {

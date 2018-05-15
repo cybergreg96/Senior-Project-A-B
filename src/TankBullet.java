@@ -24,6 +24,7 @@ class TankBullet {
     private final long expiry;
     private Point2D velocity;
 
+    //tank bullet constructor
     TankBullet(Point2D launchPoint, final double theta, final long nanos) {
         // We add the velocity and radius to the launchPoint so the Tank does not instantly die from its own bullet.
         // Since the bullet is defined to be 1.5 times faster than the tank, this guarantees that the tank will not die
@@ -38,15 +39,18 @@ class TankBullet {
         expiry = nanos + DURATION;
     }
 
+    //method that specifies how fast bullet moves
     private void moveBy(final Point2D velocity) {
         circle.setCenterX(circle.getCenterX() + velocity.getX());
         circle.setCenterY(circle.getCenterY() + velocity.getY());
     }
 
+    //updates bullet shape
     void update() {
         moveBy(velocity);
     }
 
+    //returns time bullet expires and is deleted from pane
     long getExpiry() {
         return expiry;
     }
@@ -56,10 +60,13 @@ class TankBullet {
     Shape getShape() {
         return circle;
     }
+    
+    //handles how the bullet reacts to bouncing off of horizontal objects
     private void horizontalBounce() {
         velocity = new Point2D(velocity.getX(), -velocity.getY());
     }
 
+  //handles how the bullet reacts to bouncing off of vertical objects
     private void verticalBounce() {
         velocity = new Point2D(-velocity.getX(), velocity.getY());
     }
@@ -122,16 +129,6 @@ class TankBullet {
             return;
         }
 
-        // This means the bullet collided with a corner.
-        // The handling of this was obtained from research.
-        // The most important and useful resources I found were:
-        // See https://gamedev.stackexchange.com/q/112299
-        // and https://gamedev.stackexchange.com/a/10917.
-        // The approaches described in both are entirely equivalent but I went with using resource 1's vectors
-        // because the incantation is significantly more clear.
-        // I am still not sure how exactly the solutions are equivalent but I tested the velocity vectors produced
-        // by both and they were in fact always equivalent if not negligently different (like difference of e-15 and sometimes none).
-
         final Point2D corner;
 
         if (center.getX() < topLeft.getX() && center.getY() < topLeft.getY()) {
@@ -149,6 +146,7 @@ class TankBullet {
         velocity = reflect(velocity, normal);
     }
     
+    //returns true if the bullet hits or is intersecting with tank shape, false if otherwise
     boolean hitTank(Tank tank) {
     	
     	if(TankPhysics.isIntersecting(circle,  tank.getTankShape()))

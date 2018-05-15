@@ -10,7 +10,6 @@ import java.util.concurrent.TimeUnit;
 
 public class TankFrogManager {
 
-
 	private final ArrayList<TankFrog> tankFrogs = new ArrayList<>();
 	private final Group group = new Group();
 	private final Maze maze;
@@ -23,6 +22,9 @@ public class TankFrogManager {
 	private long frogSpawnTime;
 	private boolean hit;
 
+	// spawns the tankfrog manager object to managed when frogs are visible and
+	// where on the maze they are spawned with a given width and height and a
+	// random amount of time to live for.
 	TankFrogManager(final Maze maze, double w, double h) {
 
 		this.maze = maze;
@@ -53,24 +55,24 @@ public class TankFrogManager {
 
 	// update updates the position of the frogs and removes expired ones.
 	void update(final long nanos) {
-		
+
 		if (!tankFrogs.isEmpty()) {
 
 			TankFrog frog = tankFrogs.get(0);
 
-				if (nanos > frog.getExpiry() || hit) {
+			if (nanos > frog.getExpiry() || hit) {
 
-					group.getChildren().remove(frog.getShape());
-					tankFrogs.remove(frog);
-					frogSpawnTime = nanos;
-					frogExists = false;
-					hit = false;
-					// reset delay time with a value between 5 and 10 seconds
-					delaySeconds = (int) ((Math.random() * 6) + 5);
-					delay = TimeUnit.SECONDS.toNanos(delaySeconds);
+				group.getChildren().remove(frog.getShape());
+				tankFrogs.remove(frog);
+				frogSpawnTime = nanos;
+				frogExists = false;
+				hit = false;
+				// reset delay time with a value between 5 and 10 seconds
+				delaySeconds = (int) ((Math.random() * 6) + 5);
+				delay = TimeUnit.SECONDS.toNanos(delaySeconds);
 
-				}
-			
+			}
+
 		} else if (nanos >= frogSpawnTime + delay) {
 			Point2D launchPoint;
 			// randomly selects a neutral corner to spawn
@@ -84,7 +86,8 @@ public class TankFrogManager {
 		}
 	}
 
-	// handleMazeCollisions handles collisions between all of the manager's frogs
+	// handleMazeCollisions handles collisions between all of the manager's
+	// frogs
 	// and the maze.
 	void handleMazeCollisions() {
 		tankFrogs.forEach(frog -> {
@@ -100,18 +103,21 @@ public class TankFrogManager {
 			this.handleMazeCollisions();
 		}
 	}
-	
-	boolean isHit(Tank tank) {
-    	for(TankFrog f : this.getTankFrogs()) {
-    		if(TankPhysics.isIntersecting(tank.getShape(), f.getShape())) {
-    			hit = true;
-    			
-    			return true;
-    		}
-    	}
-    	return false;
-    }
 
+	// checks whether a frog object has been hit by a tank object by look at
+	// whether frog shape is been intersected by another shape type such as tank
+	boolean isHit(Tank tank) {
+		for (TankFrog f : this.getTankFrogs()) {
+			if (TankPhysics.isIntersecting(tank.getShape(), f.getShape())) {
+				hit = true;
+
+				return true;
+			}
+		}
+		return false;
+	}
+
+	//returns arraylist of frog objects to be added to maze
 	public ArrayList<TankFrog> getTankFrogs() {
 		return tankFrogs;
 	}

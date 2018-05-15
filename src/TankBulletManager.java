@@ -10,6 +10,7 @@ import java.util.Iterator;
 
 // BulletManager manages the creation and removal of the bullets of a tank.
 class TankBulletManager {
+	
 	private static final int MAX_BULLETS = 5;
 	private final ArrayList<TankBullet> tankBullets = new ArrayList<>(MAX_BULLETS);
 	private final Group group = new Group();
@@ -17,6 +18,7 @@ class TankBulletManager {
 	private Tank playerTank;
 	public Tank enemyTank;
 	private boolean enemyTankCreated;
+	
 	// lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
 	// allowing another bullet to fire in Game.
 	private int ammoCount = 50;
@@ -27,6 +29,7 @@ class TankBulletManager {
 		enemyTankCreated = false;
 	}
 
+	//sets the enemy tank as the other tank.
 	public void setEnemyTank(Tank t)
 	{
 		enemyTank = t;
@@ -78,7 +81,7 @@ class TankBulletManager {
 	}
 
 
-	// isDeadTank returns true if at least one bullet intersects with the tank.
+	// isDeadTank returns true if at least one bullet intersects with the tank 5 times without tank picking up health.
 	boolean isDeadTank(final Tank tank) {
 		if(tank.getCurrentHealth() <= .1)
 			return true;
@@ -87,15 +90,21 @@ class TankBulletManager {
 	ArrayList<TankBullet> tankShots(){
 		return tankBullets;
 	}
+	//returns true when tank is reloading, flase when tank is in normal state
 	boolean isReloading() {
 		return tankBullets.size() == MAX_BULLETS;
 	}
+	//returns size of tanks remaining ammo count
 	int getAmmo() {
 		return ammoCount;
 	}
+	
+	//decrements ammo amount after tank fires a shot
 	void decAmmo() {
 		ammoCount--;
 	}
+	
+	//returns true if tank is out of ammo, false if tank still has bullets left.
 	boolean outOfAmmo() {
 		if(ammoCount <= 0)
 			return true;
