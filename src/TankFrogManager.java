@@ -8,7 +8,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class TankFrogManager {
+public class TankFrogManager 
+{
 
 	private final ArrayList<TankFrog> tankFrogs = new ArrayList<>();
 	private final Group group = new Group();
@@ -25,8 +26,8 @@ public class TankFrogManager {
 	// spawns the tankfrog manager object to managed when frogs are visible and
 	// where on the maze they are spawned with a given width and height and a
 	// random amount of time to live for.
-	TankFrogManager(final Maze maze, double w, double h) {
-
+	TankFrogManager(final Maze maze, double w, double h) 
+	{
 		this.maze = maze;
 		width = w;
 		height = h;
@@ -38,14 +39,16 @@ public class TankFrogManager {
 	}
 
 	// Used for adding the frogs to the scene.
-	Node getNode() {
+	Node getNode() 
+	{
 		return group;
 	}
 
 	// addFrog creates a frog at the launchPoint moving in the direction theta.
 	// nanos is the current time and used
 	// for removing the frog when it has expired.
-	void addFrog(final Point2D launchPoint, final long nanos) {
+	void addFrog(final Point2D launchPoint, final long nanos) 
+	{
 
 		final TankFrog tankFrog = new TankFrog(launchPoint, nanos);
 		group.getChildren().add(tankFrog.getShape());
@@ -54,13 +57,16 @@ public class TankFrogManager {
 	}
 
 	// update updates the position of the frogs and removes expired ones.
-	void update(final long nanos) {
+	void update(final long nanos)
+	{
 
-		if (!tankFrogs.isEmpty()) {
+		if (!tankFrogs.isEmpty()) 
+		{
 
 			TankFrog frog = tankFrogs.get(0);
 
-			if (nanos > frog.getExpiry() || hit) {
+			if (nanos > frog.getExpiry() || hit) 
+			{
 
 				group.getChildren().remove(frog.getShape());
 				tankFrogs.remove(frog);
@@ -73,15 +79,20 @@ public class TankFrogManager {
 
 			}
 
-		} else if (nanos >= frogSpawnTime + delay) {
+		} 
+		else if (nanos >= frogSpawnTime + delay) 
+		{
 			Point2D launchPoint;
 			// randomly selects a neutral corner to spawn
-			if (Math.random() > 0.5) {
+			if (Math.random() > 0.5) 
+			{
 				launchPoint = new Point2D(width * Math.random(), height * Math.random());
-			} else {
+			} 
+			else
+			{
 				launchPoint = new Point2D(width * Math.random(), height * Math.random());
 			}
-
+			
 			this.addFrog(launchPoint, nanos);
 		}
 	}
@@ -89,26 +100,32 @@ public class TankFrogManager {
 	// handleMazeCollisions handles collisions between all of the manager's
 	// frogs
 	// and the maze.
-	void handleMazeCollisions() {
+	void handleMazeCollisions()
+	{
 		tankFrogs.forEach(frog -> {
 			final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(tankFrogs.get(0).getCenter());
 			tankFrogs.get(0).handleMazeCollision(segs);
 		});
 	}
 
-	void handle(final long nanos) {
+	void handle(final long nanos)
+	{
 		this.update(nanos);
 
-		if (!tankFrogs.isEmpty()) {
+		if (!tankFrogs.isEmpty())
+		{
 			this.handleMazeCollisions();
 		}
 	}
 
 	// checks whether a frog object has been hit by a tank object by look at
 	// whether frog shape is been intersected by another shape type such as tank
-	boolean isHit(Tank tank) {
-		for (TankFrog f : this.getTankFrogs()) {
-			if (TankPhysics.isIntersecting(tank.getShape(), f.getShape())) {
+	boolean isHit(Tank tank) 
+	{
+		for (TankFrog f : this.getTankFrogs())
+		{
+			if (TankPhysics.isIntersecting(tank.getShape(), f.getShape())) 
+			{
 				hit = true;
 
 				return true;
@@ -118,7 +135,8 @@ public class TankFrogManager {
 	}
 
 	//returns arraylist of frog objects to be added to maze
-	public ArrayList<TankFrog> getTankFrogs() {
+	public ArrayList<TankFrog> getTankFrogs() 
+	{
 		return tankFrogs;
 	}
 }

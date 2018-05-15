@@ -7,7 +7,8 @@ import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
 // BulletManager manages the creation and removal of the bunny.
-class TankBunnyFritzManager {
+class TankBunnyFritzManager 
+{
 
 	public boolean bunnyExists;
 
@@ -29,7 +30,8 @@ class TankBunnyFritzManager {
 
 	// creates a tankbunnyfritzmanager object for a tank when called. Sets
 	// bunny's width and height as well as if it exits at an instance
-	TankBunnyFritzManager(final Maze maze, double w, double h) {
+	TankBunnyFritzManager(final Maze maze, double w, double h)
+	{
 		this.maze = maze;
 		width = w;
 		height = h;
@@ -42,14 +44,16 @@ class TankBunnyFritzManager {
 	}
 
 	// Used for adding the bunnies to the scene.
-	Node getNode() {
+	Node getNode()
+	{
 		return group;
 	}
 
 	// addBunny creates a bunny at the launchPoint moving in the direction
 	// theta. nanos is the current time and used
 	// for removing the bullet when it has expired.
-	void addBunny(final Point2D launchPoint, final double theta, final long nanos) {
+	void addBunny(final Point2D launchPoint, final double theta, final long nanos) 
+	{
 		final TankBunnyFritz bunny = new TankBunnyFritz(launchPoint, theta, nanos);
 		group.getChildren().add(bunny.getShape());
 		bunnies.add(bunny);
@@ -57,11 +61,14 @@ class TankBunnyFritzManager {
 	}
 
 	// update updates the position of the bunny and removes it when expired
-	void update(final long nanos) {
-		if (!bunnies.isEmpty()) {
+	void update(final long nanos) 
+	{
+		if (!bunnies.isEmpty()) 
+		{
 			TankBunnyFritz bunny = bunnies.get(0);
 
-			if (nanos > bunny.getExpiry()) {
+			if (nanos > bunny.getExpiry()) 
+			{
 				// remove bunny after expiration
 				group.getChildren().remove(bunny.getShape());
 				bunnies.remove(0);
@@ -71,15 +78,20 @@ class TankBunnyFritzManager {
 				// reset delay time with a value between 5 and 10 seconds
 				delaySeconds = (int) ((Math.random() * 6) + 5);
 				delay = TimeUnit.SECONDS.toNanos(delaySeconds);
-			} else {
+			} 
+			else 
+			{
 				bunny.update();
 			}
-		} else if (nanos >= bunnySpawnTime + delay) {
+		} 
+		else if (nanos >= bunnySpawnTime + delay) 
+		{
 			int theta = (int) (Math.random() * 360);
 			Point2D launchPoint;
 
 			// randomly selects a neutral corner to spawn
-			if (Math.random() > 0.5) {
+			if (Math.random() > 0.5) 
+			{
 				launchPoint = new Point2D(width * 0.1, height * 0.9);
 			} else {
 				launchPoint = new Point2D(width * 0.9, height * 0.1);
@@ -90,16 +102,19 @@ class TankBunnyFritzManager {
 	}
 
 	// handleMazeCollisions handles collisions between the bunny and the maze.
-	void handleMazeCollisions() {
+	void handleMazeCollisions() 
+	{
 		final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(bunnies.get(0).getCenter());
 		bunnies.get(0).handleMazeCollision(segs);
 	}
 
 	// handle updates the state of the bunny
-	void handle(final long nanos) {
+	void handle(final long nanos) 
+	{
 		this.update(nanos);
 
-		if (!bunnies.isEmpty()) {
+		if (!bunnies.isEmpty()) 
+		{
 			this.handleMazeCollisions();
 		}
 	}

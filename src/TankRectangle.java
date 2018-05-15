@@ -7,11 +7,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Polygon;
 
-// Rectangle class represents a rectangle like the javafx Rectangle class but allows access/modification of arbitrary
-// points within the rectangle. This is not essential but a cleaner approach and will allow for accurate and fast
-// collision detection in the future or other operations too without the jankyness/inflexibility of the javafx Rectangle class.
-// It also uses radians and not degrees as the unit for rotation.
-class TankRectangle {
+// This class creates a rectangle that will be either the body or barrel of the tank
+// Also, this class uses radians instead of degrees as the unit for rotation.
+class TankRectangle 
+{
 	private final double width;
 	private final double height;
 	private final Polygon polygon = new Polygon();
@@ -20,7 +19,8 @@ class TankRectangle {
 
 	// Cloning constructor used for cloning the winning Tank to place into the
 	// alert when a game is over.
-	TankRectangle(final TankRectangle rect) {
+	TankRectangle(final TankRectangle rect) 
+	{
 		this.points = rect.points.clone();
 		this.origin = rect.origin; // ok because Point2D is immutable.
 		this.width = rect.width;
@@ -31,14 +31,16 @@ class TankRectangle {
 
 	// tank shape constructor. creates body of tank with a specified height and
 	// width and moves it to a starting point on pane.
-	TankRectangle(final double x, final double y, final double width, final double height) {
+	TankRectangle(final double x, final double y, final double width, final double height)
+	{
 		this(width, height);
 		moveTo(new Point2D(x, y));
 	}
 
 	// tank shape constructor. creates body of tank with a specified height and
 	// width.
-	TankRectangle(final double width, final double height) {
+	TankRectangle(final double width, final double height) 
+	{
 		this.width = width;
 		this.height = height;
 		points[0] = new Point2D(0, 0);
@@ -48,18 +50,22 @@ class TankRectangle {
 	}
 
 	// returns width of tank shape
-	double getWidth() {
+	double getWidth() 
+	{
 		return width;
 	}
 
 	// returns height of tank shape
-	double getHeight() {
+	double getHeight() 
+	{
 		return height;
 	}
 
 	// moveBy translates all of the points in the rectangle by the given point.
-	void moveBy(final Point2D p) {
-		for (int i = 0; i < points.length; i++) {
+	void moveBy(final Point2D p) 
+	{
+		for (int i = 0; i < points.length; i++) 
+		{
 			points[i] = points[i].add(p);
 		}
 		origin.add(p);
@@ -68,7 +74,8 @@ class TankRectangle {
 
 	// moveTo translates the Rectangle such that the the top left point of the
 	// rectangle is the given point.
-	void moveTo(final Point2D p) {
+	void moveTo(final Point2D p) 
+	{
 		// This origin stuff is not strictly necessary because before this
 		// method is called, origin is always (0, 0)
 		// but whatever, lets do it for completeness and safety.
@@ -78,8 +85,10 @@ class TankRectangle {
 
 	// Rotate rotates all of the points of the rectangle around the pivot by
 	// theta.
-	void rotate(final Point2D pivot, final double theta) {
-		for (int i = 0; i < points.length; i++) {
+	void rotate(final Point2D pivot, final double theta)
+	{
+		for (int i = 0; i < points.length; i++) 
+		{
 			points[i] = TankPhysics.rotate(points[i], pivot, theta);
 		}
 		syncPolygon();
@@ -87,9 +96,11 @@ class TankRectangle {
 
 	// Used for converting the Rectangle to a javafx Polygon for adding to the
 	// scene.
-	private Double[] getDoubles() {
+	private Double[] getDoubles() 
+	{
 		final Double[] doubles = new Double[points.length * 2];
-		for (int i = 0; i < points.length; i++) {
+		for (int i = 0; i < points.length; i++) 
+		{
 			final int j = i * 2;
 			doubles[j] = points[i].getX();
 			doubles[j + 1] = points[i].getY();
@@ -98,31 +109,37 @@ class TankRectangle {
 	}
 
 	// returns top left corner coordinate of tank shape.
-	Point2D getTopLeft() {
+	Point2D getTopLeft() 
+	{
 		return points[0];
 	}
 
 	// returns top right corner coordinate of tank shape.
-	Point2D getTopRight() {
+	Point2D getTopRight() 
+	{
 		return points[1];
 	}
 
 	// returns bottom right corner coordinate of tank shape.
-	Point2D getBottomRight() {
+	Point2D getBottomRight()
+	{
 		return points[2];
 	}
 
 	// returns bottom left corner coordinate of tank shape.
-	Point2D getBottomLeft() {
+	Point2D getBottomLeft() 
+	{
 		return points[3];
 	}
 
 	// Syncs the current points array with the polygon.
-	private void syncPolygon() {
+	private void syncPolygon() 
+	{
 		polygon.getPoints().setAll(getDoubles());
 	}
 
-	Polygon getPolygon() {
+	Polygon getPolygon()
+{
 		return polygon;
 	}
 }

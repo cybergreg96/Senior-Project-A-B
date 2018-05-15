@@ -10,10 +10,11 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class TankFrog {
+public class TankFrog 
+{
 
 	static final double VELOCITY = Tank.VELOCITY * 1.5; // exported for use in
-														// Maze.
+	// Maze.
 
 	private static final double RADIUS = Tank.HEAD_HEIGHT * 8;
 	private static final Paint COLOR = Color.GREEN;
@@ -25,7 +26,8 @@ public class TankFrog {
 
 	// tankfrog object constructor. creates a circle with frog img overlay that
 	// has a specific starting point on the maze and an expiration time.
-	TankFrog(Point2D launchPoint, final long nanos) {
+	TankFrog(Point2D launchPoint, final long nanos) 
+	{
 		// We add the velocity and radius to the launchPoint so the Tank does
 		// not instantly die from its own bullet.
 		// Since the bullet is defined to be 1.5 times faster than the tank,
@@ -41,13 +43,15 @@ public class TankFrog {
 
 	// returns when the frog will disappear from a maze during one of its
 	// instances.
-	long getExpiry() {
+	long getExpiry() 
+	{
 		return expiry;
 	}
 
 	// returns whther the frog has been hit by a tank. returns true if it has
 	// and false if it is still alive
-	void hit() {
+	void hit() 
+	{
 		hit = true;
 	}
 
@@ -56,7 +60,8 @@ public class TankFrog {
 	// TODO would be cleaner to have getNode() for adding to scene and
 	// getShape() for collision detection because they have a difference. See
 	// Tank class.
-	Shape getShape() {
+	Shape getShape() 
+	{
 		return circle;
 	}
 
@@ -73,11 +78,14 @@ public class TankFrog {
 	// If neither is true, then the bullet collided with a corner and we have to
 	// handle that specially. See the comments
 	// below.
-	void handleMazeCollision(final ArrayList<TankRectangle> segments) {
+	void handleMazeCollision(final ArrayList<TankRectangle> segments)
+	{
 		// TODO this code is copied in Tank too, we could use a shared method
 		// that accepts a Shape or something.
-		for (int i = 0; i < segments.size(); i++) {
-			if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) {
+		for (int i = 0; i < segments.size(); i++) 
+		{
+			if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon()))
+			{
 				// The bullet does not intersect the seg.
 				segments.remove(i);
 				i--;

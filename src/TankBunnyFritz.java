@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 // Bullet represents a bullet emitted by a tank.
-class TankBunnyFritz {
+class TankBunnyFritz 
+{
 	static final double VELOCITY = Tank.VELOCITY * 0.5; // exported for use in
 														// Maze.
 
@@ -28,7 +29,8 @@ class TankBunnyFritz {
 	// tankbunnyfrits object constructor. creates an object with bunny image
 	// overlay that changes controls for tank players when on screen for random
 	// intervals of time.
-	TankBunnyFritz(Point2D launchPoint, final double theta, final long nanos) {
+	TankBunnyFritz(Point2D launchPoint, final double theta, final long nanos) 
+	{
 		// We add the velocity and radius to the launchPoint so the Tank does
 		// not instantly die from its own bullet.
 		// Since the bullet is defined to be 1.5 times faster than the tank,
@@ -45,18 +47,21 @@ class TankBunnyFritz {
 	}
 
 	//moves tankbunnyfrits object by passed velocity parameter
-	private void moveBy(final Point2D velocity) {
+	private void moveBy(final Point2D velocity) 
+	{
 		circle.setCenterX(circle.getCenterX() + velocity.getX());
 		circle.setCenterY(circle.getCenterY() + velocity.getY());
 	}
 
 	//updates objects shape based on velocity value
-	void update() {
+	void update() 
+	{
 		moveBy(velocity);
 	}
 
 	//retruns when current active tankbunnyfrits object will expire and be deleted from pane
-	long getExpiry() {
+	long getExpiry() 
+	{
 		return expiry;
 	}
 
@@ -65,18 +70,21 @@ class TankBunnyFritz {
 	// TODO would be cleaner to have getNode() for adding to scene and
 	// getShape() for collision detection because they have a difference. See
 	// Tank class.
-	Shape getShape() {
+	Shape getShape() 
+	{
 		return circle;
 	}
 
 	//handles hwo the tankbunnyfrits object reacts to bouncing off of horizontally positioned objects
-	private void horizontalBounce() {
+	private void horizontalBounce() 
+	{
 		velocity = new Point2D(velocity.getX(), -velocity.getY());
 	}
 
 
 	//handles hwo the tankbunnyfrits object reacts to bouncing off of vertically positioned objects
-	private void verticalBounce() {
+	private void verticalBounce() 
+	{
 		velocity = new Point2D(-velocity.getX(), velocity.getY());
 	}
 
@@ -93,18 +101,22 @@ class TankBunnyFritz {
 	// If neither is true, then the bullet collided with a corner and we have to
 	// handle that specially. See the comments
 	// below.
-	void handleMazeCollision(final ArrayList<TankRectangle> segments) {
+	void handleMazeCollision(final ArrayList<TankRectangle> segments) 
+	{
 		// TODO this code is copied in Tank too, we could use a shared method
 		// that accepts a Shape or something.
-		for (int i = 0; i < segments.size(); i++) {
-			if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) {
+		for (int i = 0; i < segments.size(); i++)
+		{
+			if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) 
+			{
 				// The bullet does not intersect the seg.
 				segments.remove(i);
 				i--;
 			}
 		}
 
-		if (segments.size() == 0) {
+		if (segments.size() == 0) 
+		{
 			// The bullet does not intersect any of the segments.
 			return;
 		}
@@ -122,11 +134,14 @@ class TankBunnyFritz {
 		// does, and it does more if smallVelocity is larger.
 		// There are improvements that can be made to this but whatever.
 		final Point2D smallVelocity = velocity.multiply(-1.0 / 64.0);
-		do {
+		do 
+		{
 			moveBy(smallVelocity);
 
-			for (int i = 0; i < segments.size(); i++) {
-				if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) {
+			for (int i = 0; i < segments.size(); i++) 
+			{
+				if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon()))
+				{
 					seg = segments.remove(i);
 					i--;
 				}
@@ -141,10 +156,13 @@ class TankBunnyFritz {
 		final Point2D botRight = seg.getBottomRight();
 		final Point2D botLeft = seg.getBottomLeft();
 
-		if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX()) {
+		if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX()) 
+		{
 			horizontalBounce();
 			return;
-		} else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY()) {
+		} 
+		else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY())
+		{
 			verticalBounce();
 			return;
 		}
@@ -164,13 +182,20 @@ class TankBunnyFritz {
 
 		final Point2D corner;
 
-		if (center.getX() < topLeft.getX() && center.getY() < topLeft.getY()) {
+		if (center.getX() < topLeft.getX() && center.getY() < topLeft.getY())
+		{
 			corner = topLeft;
-		} else if (center.getX() < botLeft.getX() && center.getY() > botLeft.getY()) {
+		} 
+		else if (center.getX() < botLeft.getX() && center.getY() > botLeft.getY())
+		{
 			corner = botLeft;
-		} else if (center.getX() > topRight.getX() && center.getY() < topRight.getY()) {
+		} 
+		else if (center.getX() > topRight.getX() && center.getY() < topRight.getY())
+		{
 			corner = topRight;
-		} else {
+		} 
+		else
+		{
 			corner = botRight;
 		}
 
@@ -180,13 +205,15 @@ class TankBunnyFritz {
 	}
 
 	// reflect reflects the velocity across the normal.
-	private Point2D reflect(final Point2D velocity, final Point2D normal) {
+	private Point2D reflect(final Point2D velocity, final Point2D normal) 
+	{
 		return velocity.subtract(normal.multiply(velocity.dotProduct(normal)).multiply(2));
 	}
 
 	// This is used by BulletManager to get the possible segments of Maze that
 	// the bullet could have collided with.
-	Point2D getCenter() {
+	Point2D getCenter() 
+	{
 		return new Point2D(circle.getCenterX(), circle.getCenterY());
 	}
 

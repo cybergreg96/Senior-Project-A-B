@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class TankGameController implements Initializable {
+public class TankGameController implements Initializable
+{
 	@FXML
 	private AnchorPane root;
 	@FXML
@@ -24,8 +25,8 @@ public class TankGameController implements Initializable {
 
 	@Override
 
-	public void initialize(URL arg0, ResourceBundle arg1) {
-
+	public void initialize(URL arg0, ResourceBundle arg1) 
+	{
 		final Group groupRoot = new Group();
 		final Scene scene = new Scene(groupRoot, 850, 650);
 
@@ -36,7 +37,8 @@ public class TankGameController implements Initializable {
 
 	}
 
-	public void setStage(Stage stage) {
+	public void setStage(Stage stage) 
+	{
 		this.stage = stage;
 	}
 

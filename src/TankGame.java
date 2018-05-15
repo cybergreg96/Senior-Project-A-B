@@ -29,11 +29,9 @@ import java.util.Optional;
 import java.util.Timer;
 
 // Game represents the state of the game and acts as the glue class between all of the other components.
-//
-// NOTE: All methods that will be called from JavaFX onto user code run on a
-// single thread so no synchronization is necessary.
-// https://docs.oracle.com/javase/8/javafx/get-started-tutorial/jfx-architecture.htm
-class TankGame {
+
+class TankGame
+{
 	// WIDTH and HEIGHT of the scene.
 	// We add the thickness because at far right and bottom edges of the screen
 	// we are going to place
@@ -44,14 +42,6 @@ class TankGame {
 	private static final double HEIGHT = TankCell.LENGTH * Maze.ROWS + Maze.THICKNESS;
 
 	private static final ButtonType PLAY_AGAIN_BUTTON_TYPE = new ButtonType("PLAY AGAIN", ButtonBar.ButtonData.YES);
-	// This is unfortunate but javafx sucks. One of the buttons need to be a
-	// cancel button otherwise you cant X the dialog...
-	// I'd rather not add a third button so this is how its going to work
-	// unfortunately. Worse part is that it treats
-	// closing the window as clicking the cancel button, which is certainly not
-	// necessarily the case. We would prefer the
-	// process exit if the alert window is Xed. Maybe this is a misuse of alerts
-	// but whatever.
 	private static final ButtonType MAIN_MENU_BUTTON_TYPE = new ButtonType("MAIN MENU", ButtonBar.ButtonData.YES);
 	private static final ButtonType CONT_BUTTON_TYPE = new ButtonType("CONTINUE", ButtonBar.ButtonData.NO);
 
@@ -85,16 +75,14 @@ class TankGame {
 	// tank game constructor. places all objects on pane and slowly eat away
 	// maze wall objects until just health circles, tanks, and some maze walls
 	// are present within the pane
-	TankGame(final Stage stage) {
+	TankGame(final Stage stage) 
+	{
 
 		ImageView selectedImage = new ImageView();
 		Image image1 = new Image("/resources/vs-transparent-background-1.png", 300, 200, false, false);
-		// Image image1 = new Image("/resources/VS.png", 300, 300, false,
-		// false);
 
 		selectedImage.setImage(image1);
 		selectedImage.setTranslateX(250);
-		// selectedImage.setTranslateX(280);
 		selectedImage.setTranslateY(290);
 		selectedImage.setOpacity(.5);
 		root.getChildren().addAll(selectedImage);
@@ -115,11 +103,14 @@ class TankGame {
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
 
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>()
+		{
 			@Override
-			public void handle(KeyEvent event) {
+			public void handle(KeyEvent event) 
+			{
 				KeyCode code = event.getCode();
-				if (code.toString() == "ESCAPE") {
+				if (code.toString() == "ESCAPE") 
+				{
 
 					timer.stop();
 
@@ -132,21 +123,29 @@ class TankGame {
 
 					// If the alert had no result, then we default to showing
 					// the main menu.
-					if (buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
-						try {
+					if (buttonType.get() == MAIN_MENU_BUTTON_TYPE)
+					{
+						try 
+						{
 							Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 							x.setStyle("-fx-background-color: #a50000");
 							Scene y = new Scene(x);
 							Stage w = stage;
 							w.setResizable(false);
 							w.setScene(y);
-						} catch (IOException e1) {
+						} 
+						catch (IOException e1) 
+						{
 							e1.printStackTrace();
 						}
-					} else if (buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) {
+					} 
+					else if (buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) 
+					{
 						final TankGame tankGame = new TankGame(stage);
 						tankGame.start();
-					} else if (buttonType.get() == CONT_BUTTON_TYPE) {
+					} 
+					else if (buttonType.get() == CONT_BUTTON_TYPE) 
+					{
 						alert.hide();
 						timer.start();
 					}
@@ -160,21 +159,15 @@ class TankGame {
 		stage.centerOnScreen();
 	}
 
-	// The game loop runs on an AnimationTimer which calls handle() about every
-	// 1/60 of a second.
-	// Rendering and updating are handled separately in JavaFX so this is the
-	// standard design of a game loop.
-	// https://gafferongames.com/post/fix_your_timestep/
-	// https://gamedev.stackexchange.com/questions/1589/when-should-i-use-a-fixed-or-variable-time-step
-	// There are many other articles recommending this design.
-	// Though, I am not positive it works the way I think it does and the docs
-	// are not very clear. So whatever,
-	// no big deal.
-	void start() {
+	// The game loop runs on an AnimationTimer which calls handle() about every 1/60 of a second.
+	void start() 
+	{
 		final TankGame g = this;
-		timer = new AnimationTimer() {
+		timer = new AnimationTimer() 
+		{
 			@Override
-			public void handle(final long now) {
+			public void handle(final long now) 
+			{
 				g.handle(now);
 			}
 		};
@@ -183,10 +176,12 @@ class TankGame {
 
 	// handles state of a tanks death, setting winning message and winning alert
 	// box.
-	private void handle(final long nanos) {
+	private void handle(final long nanos) 
+	{
 		fpsMeter.handle(nanos);
 
-		if (tank1.isDead() || tank2.isDead()) {
+		if (tank1.isDead() || tank2.isDead()) 
+		{
 			timer.stop();
 
 			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -194,27 +189,25 @@ class TankGame {
 			alert.setHeaderText("Game Over! TANK You Very Much For Playing!!!");
 
 			String alertContent = "Wow, what a close game. It's a tie!";
-			// If later we allow the game to keep continuing in the background,
-			// we will need to ensure we keep
-			// the alert's graphic in sync with the winning tank.
-			// We could use either tank here for a tie because we just need to
-			// show a black tank.
-			// Probably cleaner to create a brand new one. But whatever, this
-			// means when tank1 does win, we do not need
-			// to update the graphic because its already correct.
+
 			Node graphic = tank1.getWinPose();
 			Tank winningTank = null;
 
-			if (tank1.isDead()) {
-				if (!tank2.isDead()) {
+			if (tank1.isDead()) 
+			{
+				if (!tank2.isDead()) 
+				{
 					winningTank = tank2;
 					graphic = tank2.getWinPose();
 				}
-			} else {
+			} 
+			else 
+			{
 				winningTank = tank1;
 			}
 
-			if (winningTank != null) {
+			if (winningTank != null) 
+			{
 				alertContent = String.format("Congratulations to the %s tank for winning!",
 						winningTank.getMainColorName());
 			}
@@ -223,29 +216,26 @@ class TankGame {
 
 			alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE);
 
-			// Must run later because we cannot call alert.showAndWait() during
-			// animation processing. See its docs.
-			// And we might want animation to continue down the road anyhow.
 			Platform.runLater(() -> {
 
-				// This is optional because the alert can be abnormally closed
-				// and return no result.
-				// See
-				// https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Dialog.html
 				final Optional<ButtonType> buttonType = alert.showAndWait();
 
 				// If the alert had no result, then we default to showing the
 				// main menu.
-				if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
+				if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) 
+				{
 
-					try {
+					try
+					{
 						Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 						x.setStyle("-fx-background-color: #a50000");
 						Scene y = new Scene(x);
 						Stage w = stage;
 						w.setResizable(false);
 						w.setScene(y);
-					} catch (IOException e1) {
+					}
+					catch (IOException e1)
+					{
 						e1.printStackTrace();
 					}
 					return;
@@ -259,25 +249,30 @@ class TankGame {
 
 		// handles when a tank is hit by bullet object and determining what tank
 		// to subtract health from.
-		if (tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager())) {
+		if (tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager()))
+		{
 			tank1.subtractHealth();
 		}
-		if (tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager())) {
+		if (tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager()))
+		{
 			tank2.subtractHealth();
 		}
 		// handles when a tank is hit by frog object and determining what tank
 		// to add health to.
-		if (frogManager.isHit(tank1)) {
+		if (frogManager.isHit(tank1))
+		{
 			tank1.addHealth();
 		}
-		if (frogManager.isHit(tank2)) {
+		if (frogManager.isHit(tank2)) 
+		{
 			tank2.addHealth();
 		}
 
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
 		String health1 = Double.toString(tank1.getCurrentHealth());
-		if (health1.contains("1.0")) {
+		if (health1.contains("1.0")) 
+		{
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -285,36 +280,42 @@ class TankGame {
 			h5.setVisible(true);
 		}
 
-		if (health1.contains(".8")) {
+		if (health1.contains(".8")) 
+		{
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(false);
 		}
-		if (health1.contains(".6")) {
+		if (health1.contains(".6")) 
+		{
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(false);
 		}
-		if (health1.contains(".4")) {
+		if (health1.contains(".4"))
+		{
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(false);
 		}
-		if (health1.contains(".2")) {
+		if (health1.contains(".2"))
+		{
 			h1.setVisible(true);
 			h2.setVisible(false);
 		}
-		if (tank1.getCurrentHealth() < .01) {
+		if (tank1.getCurrentHealth() < .01)
+		{
 			h1.setVisible(false);
 		}
 
 		// handles which health circles to be displayed based on current health
 		// of tank2 or pink tank
 		String health2 = Double.toString(tank2.getCurrentHealth());
-		if (health2.contains("1.0")) {
+		if (health2.contains("1.0")) 
+		{
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
@@ -322,43 +323,51 @@ class TankGame {
 			h11.setVisible(true);
 		}
 
-		if (health2.contains(".8")) {
+		if (health2.contains(".8")) 
+		{
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(true);
 			h11.setVisible(false);
 		}
-		if (health2.contains(".6")) {
+		if (health2.contains(".6"))
+		{
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(false);
 		}
-		if (health2.contains(".4")) {
+		if (health2.contains(".4")) 
+		{
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(false);
 		}
-		if (health2.contains(".2")) {
+		if (health2.contains(".2")) 
+		{
 			h51.setVisible(true);
 			h41.setVisible(false);
 		}
-		if (tank2.getCurrentHealth() < .01) {
+		if (tank2.getCurrentHealth() < .01) 
+		{
 			h51.setVisible(false);
 		}
 
-		if (tank1.getBulletManager().isDeadTank(tank1) || tank2.getBulletManager().isDeadTank(tank1)) {
+		if (tank1.getBulletManager().isDeadTank(tank1) || tank2.getBulletManager().isDeadTank(tank1)) 
+		{
 			tank1.kill();
 		}
-		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2)) {
+		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2))
+		{
 			tank2.kill();
 		}
-		if (tank1.isDead() || tank2.isDead()) {
+		if (tank1.isDead() || tank2.isDead())
+		{
 			// We draw the dead tanks before we announce to the players.
 			// Otherwise if we try and prompt in this pulse, then there is a
 			// slight freeze before
-			// the dead tank can be drawn. Its awkward and ruins the fluidity.
+			// the dead tank can be drawn.
 			return;
 		}
 
@@ -371,12 +380,14 @@ class TankGame {
 		frogManager.handle(nanos);
 	}
 
-	private void handlePressed(final KeyEvent e) {
+	private void handlePressed(final KeyEvent e)
+	{
 		tank1.handlePressed(e.getCode());
 		tank2.handlePressed(e.getCode());
 	}
 
-	private void handleReleased(final KeyEvent e) {
+	private void handleReleased(final KeyEvent e) 
+	{
 		tank1.handleReleased(e.getCode());
 		tank2.handleReleased(e.getCode());
 	}
