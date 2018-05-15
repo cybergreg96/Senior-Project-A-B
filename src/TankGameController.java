@@ -21,23 +21,23 @@ public class TankGameController implements Initializable {
 	@FXML
 	private ToolBar birdstufzBanner1;
 	private Stage stage;
+
 	@Override
-	
-	
+
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		
+
 		final Group groupRoot = new Group();
-        final Scene scene = new Scene(groupRoot, 850, 650);
-        
-			Stage stage =  (Stage) root.getScene().getWindow();
-		
-            final TankGame tankGame = new TankGame(stage);
-            tankGame.start();
-		
+		final Scene scene = new Scene(groupRoot, 850, 650);
+
+		Stage stage = (Stage) root.getScene().getWindow();
+
+		final TankGame tankGame = new TankGame(stage);
+		tankGame.start();
+
 	}
-	
-	public void setStage(Stage stage){
-		this.stage=stage;
-		}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+	}
 
 }

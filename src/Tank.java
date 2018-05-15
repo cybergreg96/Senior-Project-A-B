@@ -17,7 +17,8 @@ import java.util.Random;
 class Tank {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
-	static final double HEAD_HEIGHT = BODY_HEIGHT / 4; // exported for use in Bullet.
+	static final double HEAD_HEIGHT = BODY_HEIGHT / 4; // exported for use in
+														// Bullet.
 
 	static final HashMap<KeyCode, Op> KEY_CODES_1 = new HashMap<>();
 	static final HashMap<KeyCode, Op> KEY_CODES_2 = new HashMap<>();
@@ -50,11 +51,13 @@ class Tank {
 	private final TankRectangle body = new TankRectangle(BODY_WIDTH, BODY_HEIGHT);
 	private TankBulletManager tankBulletManager;
 	private final Maze maze;
-	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the handle method.
+	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the
+	// handle method.
 	private final HashMap<KeyCode, Op> keycodes;
 	// Keys pressed since the last frame.
 	private final HashSet<Op> activeOps = new HashSet<>();
-	// Shape holds the union between the body and head. It is used for collision detection.
+	// Shape holds the union between the body and head. It is used for collision
+	// detection.
 	private Shape shape;
 	private Shape shapeOfTank;
 	// Middle of body.
@@ -66,9 +69,15 @@ class Tank {
 	private boolean dead;
 	private double currentHealth;
 	public boolean bunnyExists;
-	 public boolean frogExists;
+	public boolean frogExists;
 
-	Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
+	/*
+	 * Tank object constructor. When called creates a tank object with
+	 * parameters of tank name, body colors, its keycodes, intitial angle and
+	 * the max health.
+	 */
+	Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor,
+			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
 		this.maze = maze;
 		this.keycodes = keycodes;
 		this.mainColorName = mainColorName;
@@ -78,29 +87,25 @@ class Tank {
 
 		tankBulletManager = new TankBulletManager(maze, this);
 
-		final Point2D headPoint = new Point2D(
-				body.getWidth() - head.getWidth() / 2, // half of head sticks out.
-				body.getHeight() / 2 - head.getHeight() / 2 // head is in the vertical middle of tank.
-				);
+		final Point2D headPoint = new Point2D(body.getWidth() - head.getWidth() / 2, body.getHeight() / 2 - head.getHeight() / 2);
 		head.moveTo(headPoint);
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
 		head.getPolygon().setFill(this.headColor);
 		body.getPolygon().setFill(bodyColor);
-
+	
+		//rotates tank to its beginning angle.
 		rotate(initialAngle);
+		
 		// Move to the middle of some random cell.
 		final Random rand = new Random();
 		int row = 0;
 		int col = 0;
-		if(mainColorName.equals("blue"))
-		{        
+		if (mainColorName.equals("blue")) {
 			col = 0;
 			row = 0;
-		}
-		else
-		{
+		} else {
 			col = Maze.COLUMNS - 1;
 			row = Maze.ROWS - 1;
 		}
@@ -111,6 +116,9 @@ class Tank {
 		syncShape();
 	}
 
+	/*
+	 * creates TankBulletManager object for each tank object created
+	 */
 	TankBulletManager getBulletManager() {
 		return tankBulletManager;
 	}
@@ -125,7 +133,8 @@ class Tank {
 		final TankRectangle headCopy = new TankRectangle(head);
 		final TankRectangle bodyCopy = new TankRectangle(body);
 
-		// TODO should the tank be pointing out or into the alert needs more thought. right now it faces inward. 
+		// TODO should the tank be pointing out or into the alert needs more
+		// thought. right now it faces inward.
 		// feels more symmetric
 		headCopy.rotate(pivot, -theta + Math.PI);
 		bodyCopy.rotate(pivot, -theta + Math.PI);
@@ -133,47 +142,55 @@ class Tank {
 		return new Group(bodyCopy.getPolygon(), headCopy.getPolygon());
 	}
 
-	// The direction of angles is reversed because the coordinate system is reversed.
+	
+	//rotate tank clockwise if stopped and turns tank right when moving
 	private void right() {
 		lastMovementOp = Op.RIGHT;
 		rotate(TURNING_ANGLE);
 	}
-
+	
+	//rotate tank counter clockwise if stopped and turns tank left when moving
 	private void left() {
 		lastMovementOp = Op.LEFT;
 		rotate(-TURNING_ANGLE);
 	}
-
+	
+	// The direction of angles is reversed because the coordinate system is
+	// reversed.
+	//rotates tank on axis
 	private void rotate(final double theta) {
 		this.theta += theta;
 		body.rotate(pivot, theta);
 		head.rotate(pivot, theta);
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
+		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		syncShape();
 	}
 
+	//updates tanks shape
 	private void syncShape() {
 		shape = Shape.union(head.getPolygon(), body.getPolygon());
 		shapeOfTank = Shape.union(head.getPolygon(), body.getPolygon());
 	}
-
+	
+	//moves tank forward
 	private void forward() {
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
-		//multiply by tankHealth to reduce speed
+		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
-
+	//moves tank backwards
 	private void back() {
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY*currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY*currentHealth, this.theta);
-		//multiply by tankHealth to reduce speed
+		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
 
+	//moves tank shape by passed parameter point
 	private void moveBy(final Point2D point) {
 		head.moveBy(point);
 		body.moveBy(point);
@@ -181,15 +198,13 @@ class Tank {
 		syncShape();
 	}
 
+	//gets location of point where bullet should exit. returns location of end of tank barrel on the pane.
 	private Point2D getBulletLaunchPoint() {
-		if(!bunnyExists)
-		{
+		if (!bunnyExists) {
 			final Point2D topRight = head.getTopRight();
 			final Point2D bottomRight = head.getBottomRight();
 			return topRight.midpoint(bottomRight);
-		}
-		else
-		{
+		} else {
 			final Point2D topLeft = body.getTopLeft();
 			final Point2D bottomLeft = body.getBottomLeft();
 			return topLeft.midpoint(bottomLeft);
@@ -199,7 +214,8 @@ class Tank {
 	private double getTheta() {
 		return theta;
 	}
-
+	
+	//returns center or pivot point of tank
 	private Point2D getCenter() {
 		return pivot;
 	}
@@ -208,34 +224,42 @@ class Tank {
 		return shape;
 	}
 	
+	//returns shape of tank
 	public Shape getTankShape() {
 		return shapeOfTank;
 	}
 
+	//checks if tank is hitting another object such as a maze wall or circle bullet
 	private boolean checkCollision(final Shape shape) {
 		return TankPhysics.isIntersecting(getShape(), shape);
 	}
+
+	//detects if a tank is hit by circle shaped bullet object
 	boolean isHit(TankBulletManager tbm) {
-		for(TankBullet t : tbm.tankShots()) {
-			if(TankPhysics.isIntersecting(getShape(), t.getShape())) {
+		for (TankBullet t : tbm.tankShots()) {
+			if (TankPhysics.isIntersecting(getShape(), t.getShape())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
+	//detects if a tank hits or runs into health frog
 	boolean isHit(TankFrogManager frogs) {
-    	for(TankFrog f : frogs.getTankFrogs()) {
-    		if(TankPhysics.isIntersecting(getShape(), f.getShape())) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-	
-	// TODO add edge mechanics, e.g. instead of just stopping the tank, we lower velocity/slide.
-	// The way this works is that we first grab possible collision candidates from the maze.
-	// Then we ensure there is actually a collision. Once we know there is a collision, we
+		for (TankFrog f : frogs.getTankFrogs()) {
+			if (TankPhysics.isIntersecting(getShape(), f.getShape())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// TODO add edge mechanics, e.g. instead of just stopping the tank, we lower
+	// velocity/slide.
+	// The way this works is that we first grab possible collision candidates
+	// from the maze.
+	// Then we ensure there is actually a collision. Once we know there is a
+	// collision, we
 	// backtrack the tank until there is no collision.
 	private void handleMazeCollisions() {
 		final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(getCenter());
@@ -256,7 +280,8 @@ class Tank {
 		Runnable reverseOp = null;
 		// Backtrack.
 		final Tank tank = this;
-		// Need to declare this up here instead of in each case because java's switch cases share scope. So java would think
+		// Need to declare this up here instead of in each case because java's
+		// switch cases share scope. So java would think
 		// we are redeclaring a variable.
 		final Point2D decomposedVelocity;
 		switch (lastMovementOp) {
@@ -288,10 +313,12 @@ class Tank {
 		} while (segs.size() > 0);
 	}
 
+	//handles press of a key in tank keycode
 	void handlePressed(final KeyCode keyCode) {
 		activeOps.add(keycodes.get(keyCode));
 	}
 
+	//handles release of button in tank keycode
 	void handleReleased(final KeyCode keyCode) {
 		final Op op = keycodes.get(keyCode);
 		if (op == Op.FIRE) {
@@ -303,28 +330,17 @@ class Tank {
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) {
 		tankBulletManager.update(nanos);
-		//prevents even attempting to fire if out of ammo
-		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
-		{
-			//shoots backwards if bunny exists
-			if(!bunnyExists)
-			{
-				tankBulletManager.addBullet(
-						getBulletLaunchPoint(),
-						getTheta(),
-						nanos
-						);
+		// prevents even attempting to fire if out of ammo
+		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) {
+			// shoots backwards if bunny exists
+			if (!bunnyExists) {
+				tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
+			} else {
+				tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta() + Math.PI, nanos);
 			}
-			else
-			{
-				tankBulletManager.addBullet(
-						getBulletLaunchPoint(),
-						getTheta() + Math.PI,
-						nanos
-						);
-			}
-			//ammo check
-			//System.out.println(mainColorName + " AmmoCount: " + tankBulletManager.getAmmo());
+			// ammo check
+			// System.out.println(mainColorName + " AmmoCount: " +
+			// tankBulletManager.getAmmo());
 			tankBulletManager.lock = true;
 		}
 		tankBulletManager.handleMazeCollisions();
@@ -335,8 +351,7 @@ class Tank {
 			head.getPolygon().setFill(headColor);
 		}
 
-		if(!bunnyExists)
-		{
+		if (!bunnyExists) {
 			if (activeOps.contains(Op.RIGHT)) {
 				right();
 			}
@@ -351,9 +366,7 @@ class Tank {
 			if (activeOps.contains(Op.REVERSE)) {
 				back();
 			}
-		}
-		else
-		{
+		} else {
 			if (activeOps.contains(Op.RIGHT)) {
 				left();
 			}
@@ -369,39 +382,45 @@ class Tank {
 				forward();
 			}
 		}
-		
+
 		handleMazeCollisions();
 	}
 
+	//method to kill tank and turn its colors to dead colors
 	void kill() {
 		dead = true;
 		head.getPolygon().setFill(DEATH_COLOR);
 		body.getPolygon().setFill(DEATH_COLOR);
 	}
 
+	//returns true if tank died, false if it is still alive.
 	boolean isDead() {
 		return dead;
 	}
 
+	//returns string value of tanks main color, pink or blue
 	String getMainColorName() {
 		return mainColorName;
 	}
+
+	//when tank is hit by any bullet subtracts health from tank in increments of 20%. 
 	void subtractHealth() {
 		this.currentHealth -= .2;
 	}
+
+	//when tank runs into a frog adds health in increments of 20%.
 	void addHealth() {
-    	if(this.getCurrentHealth() < 1) {
-    		this.currentHealth += .2;
-    	}
-    }
+		if (this.getCurrentHealth() < 1) {
+			this.currentHealth += .2;
+		}
+	}
+
+	//returns double value of tanks current health
 	double getCurrentHealth() {
 		return currentHealth;
 	}
+
 	private enum Op {
-		FORWARD,
-		RIGHT,
-		LEFT,
-		REVERSE,
-		FIRE,
+		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
 	}
 }
