@@ -1,7 +1,4 @@
-
-
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -13,13 +10,16 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 
-public class StartScreen extends Application {
+// This class creates the window for the main program
+public class StartScreen extends Application 
+{
 	
 	//boolean for the program to know when to stop loading the splash screen
 	public static Boolean isSplashLoaded = false;
 	
 	@Override
-	public void start(Stage primaryStage) throws IOException {
+	public void start(Stage primaryStage) throws IOException 
+	{
 
 			Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("StartScreen.fxml"));
 			//sets background color
@@ -29,17 +29,19 @@ public class StartScreen extends Application {
 			primaryStage.setResizable(false);
 		    primaryStage.getIcons().add(new Image("resources/bird logo.PNG"));		    
 			primaryStage.show();
-			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() 
+			{
 			       @Override
-			       public void handle(WindowEvent e) {
+			       public void handle(WindowEvent e) 
+			       {
 			          Platform.exit();
 			          System.exit(0);
 			       }
 			    });
-
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) 
+	{
 		launch(args);
 	}
 }
