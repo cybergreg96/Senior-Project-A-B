@@ -1,5 +1,6 @@
 import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +13,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,6 +25,7 @@ import javax.swing.JFrame;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -59,6 +62,34 @@ public class StartScreenController implements Initializable
 			loadSplashScreen();
 		}
 	}  
+	
+	// Event Listener on Button[#PacmanButton].onAction
+		@FXML
+		public void PacmanButtonClick(ActionEvent event) throws IOException 
+		{
+			
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Pacman.fxml"));
+	        //loader.load(getClass().getResource("PacManGUI.fxml".ope));
+	        Parent root = loader.load();
+	        Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
+	        primaryStage.setTitle("ArashPacMan");
+
+	        PacmanController controller = (PacmanController) loader.getController();
+
+	        Scene scene = new Scene(root, 850,650);
+	        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	            @Override
+	            public void handle(KeyEvent event) {
+	            controller.keyPressed(event.getCode());
+	            }
+
+	        });
+
+	        primaryStage.setScene(scene);
+	        primaryStage.getScene().getStylesheets().add("PacManGUI/stylesheet.css");
+	        primaryStage.show();
+		}
+		
 	
 	// Event Listener on Button[#MazeButton].onAction
 	@FXML

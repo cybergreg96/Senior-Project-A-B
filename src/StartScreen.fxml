@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartScreenController">
    <children>
       <Button fx:id="MazeButton" layoutX="14.0" layoutY="433.0" mnemonicParsing="false" onAction="#MazeButtonClick" prefHeight="75.0" prefWidth="150.0" text="Maze Master">
          <font>
@@ -61,6 +61,11 @@
          </font>
       </Button>
       <Button fx:id="TankButton" layoutX="686.0" layoutY="433.0" mnemonicParsing="false" onAction="#TankButtonClick" prefHeight="75.0" prefWidth="150.0" text="Tank" textAlignment="CENTER">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="PacmanButton" layoutX="354.0" layoutY="520.0" mnemonicParsing="false" onAction="#PacmanButtonClick" prefHeight="75.0" prefWidth="150.0" text="Pacman" textAlignment="CENTER">
          <font>
             <Font name="Courier New Bold" size="16.0" />
          </font>

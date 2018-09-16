@@ -1,3 +1,4 @@
+
 /*
  * This class references the project at this link: https://github.com/GuiBon/ChessGame
  */

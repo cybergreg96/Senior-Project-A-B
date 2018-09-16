@@ -1,0 +1,23 @@
+@font-face {
+    src: url("fonts/PressStart2P.ttf"),
+}
+
+.canvas
+{
+
+}
+.button
+{
+    -fx-background-color: palegreen;
+    -fx-font-family: "Press Start 2P";
+    -fx-font-size:10px;
+}
+#myPoints{
+ -fx-font-family: "Press Start 2P";
+ -fx-font-size:15px;
+
+}
+#restartBtn {
+
+
+}
