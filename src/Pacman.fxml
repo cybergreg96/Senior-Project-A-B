@@ -1,16 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PacmanController">
    <children>
-      <Canvas fx:id="root" height="660.0" layoutX="154.0" width="560.0" />
+      <GridPane layoutX="705.0" layoutY="149.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="79.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+         </rowConstraints>
+         <children>
+            <Label text="Red Ghost :" textFill="#ff0a00" />
+            <Label fx:id="redGhostSearches" text="Random mode" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="58.0" layoutY="143.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.0" minWidth="10.0" prefWidth="85.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label fx:id="orangeGhostSearches" prefHeight="17.0" prefWidth="155.0" text="Random mode" GridPane.rowIndex="1" />
+            <Label text="Orange Ghost :" textFill="#e65a0a" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="58.0" layoutY="73.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="105.0" minWidth="10.0" prefWidth="85.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label fx:id="pinkGhostSearches" prefHeight="17.0" prefWidth="89.0" text="Random mode" textFill="#1b1b1b" GridPane.rowIndex="1" />
+            <Label text="Pink Ghost :" textFill="#ff0766" />
+         </children>
+      </GridPane>
+      <Button id="restartBtn" fx:id="restartBtn" layoutX="68.0" layoutY="241.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="66.0" text="Restart">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
+      <Canvas fx:id="root" height="660.0" layoutX="145.0" layoutY="-5.0" width="560.0" />
       <ToolBar fx:id="birdstufzBanner" layoutX="380.0" layoutY="404.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="65.0" prefWidth="874.0" rotate="90.0">
          <items>
             <ImageView fitHeight="56.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
@@ -35,5 +85,32 @@
             </ImageView>
          </items>
       </ToolBar>
+      <GridPane layoutX="338.0" prefHeight="70.0" prefWidth="398.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="237.99995930989581" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="371.0" minWidth="10.0" prefWidth="160.66670735677081" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="48.0" minHeight="10.0" prefHeight="38.333343505859375" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="64.66667175292969" minHeight="10.0" prefHeight="50.666656494140625" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Total Searched :" textAlignment="CENTER" textFill="#a4a4a4" GridPane.columnIndex="1" />
+            <Label id="myPoints" fx:id="myPoints" alignment="CENTER" contentDisplay="CENTER" text="Label" textAlignment="CENTER" textFill="WHITE" />
+         </children>
+      </GridPane>
+      <GridPane layoutX="705.0" layoutY="79.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="108.0" minWidth="10.0" prefWidth="79.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" />
+         </rowConstraints>
+         <children>
+            <Label text="Blue Ghost :" textFill="#0007ff" />
+            <Label fx:id="blueGhostSearches" text="Random mode" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
    </children>
 </Pane>
