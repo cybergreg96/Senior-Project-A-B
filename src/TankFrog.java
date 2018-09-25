@@ -92,7 +92,8 @@ public class TankFrog
 			}
 		}
 
-		if (segments.size() == 0) {
+		if (segments.size() == 0) 
+		{
 			// The bullet does not intersect any of the segments.
 			return;
 		}
