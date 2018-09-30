@@ -76,6 +76,7 @@ public class PacmanController {
     private SceneInfo sceneInfo;
     private float refreshRate = 50;
     private KeyCode keyPressed = KeyCode.ALT;
+    private KeyCode ghostKeyPressed = KeyCode.ALT;
 
     ArrayList < GameObject > gameObjects = new ArrayList < GameObject > ();
     private Player player;
@@ -106,12 +107,10 @@ public class PacmanController {
         gameObjects.add(biscuits);
         gameObjects.add(player);
         gameObjects.add(pinkGhost);
-        gameObjects.add(blueGhost);
+        //gameObjects.add(blueGhost); don't add blue ghost (player 2) to separate its update and drawing
         gameObjects.add(orangeGhost);
         gameObjects.add(redGhost);
         gameObjects.add(mazePlayGround);
-
-
 
 
     }
@@ -120,6 +119,7 @@ public class PacmanController {
         pinkGhost.setEscape(false);
         gameObjects = new ArrayList < GameObject > ();
         keyPressed = KeyCode.ALT;
+        ghostKeyPressed = KeyCode.ALT;
 
 
         addStuff();
@@ -176,18 +176,26 @@ public class PacmanController {
     }
 
 
-
+    //set different keyPressed variables based on what type of key was pressed, WASD (letter key) for P1 and arrow keys for P2
     public void keyPressed(KeyCode keyCode) {
-        this.keyPressed = keyCode;
+    	if(keyCode.isLetterKey()) {
+    		this.keyPressed = keyCode;
+    	}
+        if(keyCode.isArrowKey()) {
+        	this.ghostKeyPressed = keyCode;
+        }
 
     }
 
     private void update(long now) {
 
-
+    	//separated the 2nd player ghost being updated with a different keyCode to fix problems with one player not being able to move when the other presses a different key
+    	blueGhost.update(ghostKeyPressed);
+    	
         for (int i = 0; i < gameObjects.size(); i++) {
 
             gameObjects.get(i).update(keyPressed);
+            
 
         }
 
@@ -201,7 +209,6 @@ public class PacmanController {
             }
         drawCanvas();
         myPoints.setText("Points : " + String.valueOf((biscuits.getTotalEatenBiscuits() * 100) - 100));
-        blueGhostSearches.setText((blueGhost.getTotalSearched() > 0 ? String.valueOf(blueGhost.getTotalSearched()) : "Random mode"));
         pinkGhostSearches.setText((pinkGhost.getTotalSearched() > 0 ? String.valueOf(pinkGhost.getTotalSearched()) : "Random mode"));
         orangeGhostSearches.setText((orangeGhost.getTotalSearched() > 0 ? String.valueOf(orangeGhost.getTotalSearched()) : "Random mode"));
         redGhostSearches.setText((redGhost.getTotalSearched() > 0 ? String.valueOf(redGhost.getTotalSearched()) : "Random mode"));
@@ -221,6 +228,7 @@ public class PacmanController {
         for (GameObject item: gameObjects) {
             item.draw(g, sceneInfo);
         }
+        blueGhost.draw(g, sceneInfo);
 
         // biscuits.clear(g,sceneInfo);
     }

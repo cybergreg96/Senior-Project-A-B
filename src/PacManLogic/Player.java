@@ -132,21 +132,21 @@ public class Player implements GameObject{
         switch (keyCode)
         {
 
-            case DOWN:
+            case S:
 
                 moveDown();
                 break;
 
-            case LEFT:
+            case A:
 
                 moveLeft();
                 break;
 
-            case RIGHT:
+            case D:
 
                 moveRight();
                 break;
-            case UP:
+            case W:
                 moveUp();
 
                 break;

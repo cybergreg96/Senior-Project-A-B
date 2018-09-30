@@ -26,6 +26,7 @@ public abstract class Ghosts {
     private Player player;
     private Biscuits biscuits;
     private MapOutline map;
+    int lastMove = 0;
     public  Ghosts () {
 
     }
@@ -42,18 +43,61 @@ public abstract class Ghosts {
         setStepY(getY()/20);
     }
 
+    //Modified repeatLastMove from Player.java to allow plyer 2 ghost to keep moving in same direction 
+    //i.e. if moving left, keep moving if pressing up and up path not available
+    public void repeatLastMove(){
+        switch(lastMove){
+            case 0: break;
+            case 1:
+            	//checks if point is a 1 (path) or 2 (ghost box)
+                if((map.points[getStepY()+1][getStepX()]==1)||(map.points[getStepY()+1][getStepX()]==2))
+                {
+                    moveDown();break;
+                } else
+                    {
+                    break;
+                }
 
+            case 2:
+
+                if((map.points[getStepY()][getStepX()-1]==1)||(map.points[getStepY()][getStepX()-1]==2))
+                {
+                moveLeft(); break;
+            }else{
+                    break;
+                }
+
+            case 3:    if((map.points[getStepY()][getStepX()+1]==1)||(map.points[getStepY()][getStepX()+1]==2)) {
+
+                moveRight(); break;
+            }else
+            {
+                break;
+            }
+
+            case 4:  if((map.points[getStepY()-1][getStepX()]==1)||(map.points[getStepY()-1][getStepX()]==2))
+            {
+                moveUp(); break;
+            } else
+                {
+                    break;
+                }
+        }
+    }
 
     public void moveDown(){
-        if(getMap().points[getStepY()+1][getStepX()]!=0){
+    	if((map.points[getStepY()+1][getStepX()]==1)||(map.points[getStepY()+1][getStepX()]==2)){
             setY(getY() + 20);
             setStepY(getStepY()+1);
-
+            lastMove =1;
+        }else{
+        	//added player.java functionality
+            repeatLastMove();
         }
     }
     public void moveLeft(){
 
-        if(getMap().points[getStepY()][getStepX()-1]!=0){
+    	if((map.points[getStepY()][getStepX()-1]==1)||(map.points[getStepY()][getStepX()-1]==2)){
             setX(getX() - 20);
             setStepX(getStepX()-1);
 
@@ -61,10 +105,13 @@ public abstract class Ghosts {
                 this.setX(520);
                 setStepX(26);
             }
+            lastMove =2;
+        }else{
+            repeatLastMove();
         }
     }
     public void moveRight(){
-        if(getMap().points[getStepY()][getStepX()+1]!=0) {
+    	 if((map.points[getStepY()][getStepX()+1]==1)||(map.points[getStepY()][getStepX()+1]==2)) {
 
             setX(getX() + 20);
             setStepX(getStepX()+1);
@@ -73,14 +120,19 @@ public abstract class Ghosts {
                 this.setX(20);
                 setStepX(1);
             }
+            lastMove =3;
+        }else{
+            repeatLastMove();
         }
 
     }
     public void moveUp(){
-        if(getMap().points[getStepY()-1][getStepX()]!=0){
+    	if((map.points[getStepY()-1][getStepX()]==1)||(map.points[getStepY()-1][getStepX()]==2)){
             setY(getY() -20);
             setStepY(getStepY()-1);
-
+            lastMove =4;
+        }else{
+            repeatLastMove();
         }
     }
     //Random Mode starts here
