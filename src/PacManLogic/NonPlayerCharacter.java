@@ -66,14 +66,17 @@ public class NonPlayerCharacter implements GameObject {
 	
     @Override
     public void draw(GraphicsContext g, SceneInfo sceneInfo) {
+    	// Check to see if timer still going.
+    	// if timer still going, decrement
     	if(obtained && timer > 0) {
     		setTimer(timer - 1);
     	}
     	
+    	// Variables to create random point on map for NPC
         int x = selectRandom(map.points[0].length);
         int y = selectRandom(map.points.length);
         
-        // Check if needs to recreate NPC
+        // Check if game needs to recreate NPC
         if((map.points[y][x] == 1) && obtained && timer == 0) {
         	setX(x);
         	setY(y);
@@ -85,7 +88,6 @@ public class NonPlayerCharacter implements GameObject {
         
         // Detect if player steps over NPC
         if((player.getStepX() == getX()) && (player.getStepY() == getY())) {
-        	System.out.println("got it");
         	setX(0);
         	setY(0);
         	red = 0;
