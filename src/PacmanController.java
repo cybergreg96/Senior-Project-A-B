@@ -12,6 +12,7 @@ import PacManLogic.Biscuits;
 import PacManLogic.GameObject;
 import PacManLogic.MapOutline;
 import PacManLogic.MazePlayGround;
+import PacManLogic.NonPlayerCharacter;
 import PacManLogic.Player;
 import PacManLogic.Ghosts.BlueGhost;
 import PacManLogic.Ghosts.OrangeGhost;
@@ -86,6 +87,7 @@ public class PacmanController {
     private BlueGhost blueGhost;
     private OrangeGhost orangeGhost;
     private RedGhost redGhost;
+    private NonPlayerCharacter npc;
 
 
     MazePlayGround mazePlayGround = new MazePlayGround(javafx.scene.paint.Color.rgb(0, 0, 0), 1, 1, player, map);
@@ -102,7 +104,10 @@ public class PacmanController {
         blueGhost = new BlueGhost(new Point(220, 300), map, player, biscuits);
         orangeGhost = new OrangeGhost(new Point(260, 260), map, player, biscuits);
         redGhost = new RedGhost(new Point(260, 300), map, player, biscuits);
-
+        
+        // NPC initializer
+        npc = new NonPlayerCharacter(player, map);
+        
         gameObjects.add(biscuits);
         gameObjects.add(player);
         gameObjects.add(pinkGhost);
@@ -110,7 +115,7 @@ public class PacmanController {
         gameObjects.add(orangeGhost);
         gameObjects.add(redGhost);
         gameObjects.add(mazePlayGround);
-
+        gameObjects.add(npc);
 
 
 
