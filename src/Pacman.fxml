@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PacmanController">
+<Pane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="850.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="PacmanController">
    <children>
       <GridPane layoutX="705.0" layoutY="149.0">
          <columnConstraints>
@@ -112,5 +112,59 @@
             <Label fx:id="blueGhostSearches" text="Random mode" GridPane.rowIndex="1" />
          </children>
       </GridPane>
+      <Pane fx:id="highScoreBackground" layoutX="58.0" prefHeight="650.0" prefWidth="727.0">
+         <children>
+            <Pane fx:id="highScorePane" layoutX="228.0" layoutY="163.0" prefHeight="375.0" prefWidth="272.0">
+               <children>
+                  <Label alignment="CENTER" layoutY="7.0" prefHeight="18.0" prefWidth="272.0" text="Pacman">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutY="60.0" prefWidth="272.0" text="Top Ten">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreLabel" layoutX="15.0" layoutY="87.0" prefHeight="20.0" prefWidth="33.0" text="rank">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreRank" layoutX="15.0" layoutY="107.0" prefHeight="207.0" prefWidth="33.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreName" layoutX="58.0" layoutY="107.0" prefHeight="207.0" prefWidth="86.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreLabel1" layoutX="58.0" layoutY="87.0" prefHeight="20.0" prefWidth="86.0" text="name">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreLabel2" layoutX="154.0" layoutY="87.0" prefHeight="20.0" prefWidth="102.0" text="score">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreDisplay" layoutX="154.0" layoutY="107.0" prefHeight="207.0" prefWidth="102.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutY="324.0" prefHeight="60.0" prefWidth="272.0">
+                     <children>
+                        <Button fx:id="goHomeButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGoHomePressed" prefHeight="34.0" prefWidth="102.0" text="Go Home" />
+                        <Button fx:id="playGameButton" layoutX="160.0" layoutY="14.0" mnemonicParsing="false" onAction="#onPlayGamePressed" prefHeight="34.0" prefWidth="102.0" text="Play Game" />
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
    </children>
 </Pane>
