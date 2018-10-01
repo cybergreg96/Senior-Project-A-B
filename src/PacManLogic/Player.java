@@ -128,7 +128,6 @@ public class Player implements GameObject{
     @Override
     public void update(KeyCode keyCode) {
 
-
         switch (keyCode)
         {
 
