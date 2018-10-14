@@ -189,8 +189,11 @@ public class PacmanController {
         if(keyCode.isArrowKey()) {
         	this.ghostKeyPressed = keyCode;
         }
-
+        if(keyCode == keyCode.ENTER) {
+        	this.ghostKeyPressed = keyCode.ENTER;
+        }
     }
+    
 
     private void update(long now) {
 
