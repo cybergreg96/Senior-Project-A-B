@@ -97,17 +97,16 @@ public class PacmanController {
 
         sceneInfo = new SceneInfo(root);
         player = new Player(new Point(20, 60), map);
-
-        biscuits = new Biscuits(player, map);
+        // NPC initializer
+        npc = new NonPlayerCharacter(player, map);
+        
+        biscuits = new Biscuits(player, map, npc);
         biscuits.setTotalEatenBiscuits(0);
         biscuits.setTotalEatenBigBiscuits(0);
         pinkGhost = new PinkGhost(new Point(280, 300), map, player, biscuits);
         blueGhost = new BlueGhost(new Point(220, 300), map, player, biscuits);
         orangeGhost = new OrangeGhost(new Point(260, 260), map, player, biscuits);
         redGhost = new RedGhost(new Point(260, 300), map, player, biscuits);
-        
-        // NPC initializer
-        npc = new NonPlayerCharacter(player, map);
         
         gameObjects.add(biscuits);
         gameObjects.add(player);
