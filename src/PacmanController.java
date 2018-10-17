@@ -4,6 +4,8 @@
  */
 
 import java.awt.Point;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -18,6 +20,7 @@ import PacManLogic.Ghosts.BlueGhost;
 import PacManLogic.Ghosts.OrangeGhost;
 import PacManLogic.Ghosts.PinkGhost;
 import PacManLogic.Ghosts.RedGhost;
+import pacManImgs.*;
 import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -26,6 +29,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -89,17 +93,18 @@ public class PacmanController {
     private OrangeGhost orangeGhost;
     private RedGhost redGhost;
     private NonPlayerCharacter npc;
+    private Image mapGrid;
+    /*javafx.scene.paint.Color.rgb(0, 0, 0)*/
+    MazePlayGround mazePlayGround = new MazePlayGround(mapGrid, 0, 0, player, map);
 
-
-    MazePlayGround mazePlayGround = new MazePlayGround(javafx.scene.paint.Color.rgb(0, 0, 0), 1, 1, player, map);
-
-    public void addStuff() {
+    public void addStuff() throws FileNotFoundException {
 
         sceneInfo = new SceneInfo(root);
         player = new Player(new Point(20, 60), map);
         // NPC initializer
         npc = new NonPlayerCharacter(player, map);
-        
+        // Map Image Addition
+        mapGrid = new Image(new FileInputStream("/GS491A-JavaFX/src/pacManImgs/Pac-Grid.png"));
         biscuits = new Biscuits(player, map, npc);
         biscuits.setTotalEatenBiscuits(0);
         biscuits.setTotalEatenBigBiscuits(0);
@@ -118,7 +123,7 @@ public class PacmanController {
         gameObjects.add(npc);
 
     }
-    public void restartGame() {
+    public void restartGame() throws FileNotFoundException {
         pinkGhost.setEscapeTimeCount(0);
         pinkGhost.setEscape(false);
         gameObjects = new ArrayList < GameObject > ();
@@ -133,14 +138,24 @@ public class PacmanController {
         restartBtn.setOnAction(new EventHandler < ActionEvent > () {
             @Override
             public void handle(ActionEvent event) {
-                restartGame();
+                try {
+					restartGame();
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 
             }
         });
 
 
 
-        addStuff();
+        try {
+			addStuff();
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
         
         Button goHome = new Button("Go home");
 	    Scene home = new Scene(goHome);
@@ -172,7 +187,12 @@ public class PacmanController {
             public void handle(long now) {
                 if (now > lastUpdate + refreshRate * 1690000) {
                     lastUpdate = now;
-                    update(now);
+                    try {
+						update(now);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 }
             }
         }.start();
@@ -194,7 +214,7 @@ public class PacmanController {
     }
     
 
-    private void update(long now) {
+    private void update(long now) throws FileNotFoundException {
 
     	//separated the 2nd player ghost being updated with a different keyCode to fix problems with one player not being able to move when the other presses a different key
     	blueGhost.update(ghostKeyPressed);
