@@ -14,6 +14,7 @@ public class Biscuits implements GameObject{
     private int y;
     private MapOutline map;
     private Player player;
+    private NonPlayerCharacter npc;
     private int totalBiscuits;
     private int totalBigBiscuits;
     private int eatenBiscuits[][] = new int[1000][2];
@@ -23,13 +24,12 @@ public class Biscuits implements GameObject{
     boolean hasCountedBiscuitNums = false;
     boolean hasCountedBigBiscuitNums = false;
 
-    public Biscuits(Player player, MapOutline map){
-
+    public Biscuits(Player player, MapOutline map, NonPlayerCharacter npc){
         this.setX(x);
         this.setY(y);
         this.player = player;
         this.map = map;
-
+        this.npc = npc;
     }
 
     public static void setTotalEatenBiscuits(int totalEatenBiscuits) {
@@ -119,6 +119,10 @@ public class Biscuits implements GameObject{
                                 eatenBiscuits[getTotalEatenBiscuits()][1] = player.getStepY();
                                 setTotalBiscuits(getTotalBiscuits() - 1);
                                 setTotalEatenBiscuits(getTotalEatenBiscuits() + 1);
+                                // Condition for if NPC gave power up for double points
+                                if(this.npc.getPower() == NonPlayerCharacter.Powerup.DOUBLE_POINTS) {
+                                	setTotalEatenBiscuits(getTotalEatenBiscuits() + 1);
+                                }
                             }
 
 
