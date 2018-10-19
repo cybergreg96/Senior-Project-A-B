@@ -4,9 +4,17 @@
  */
 
 import java.awt.Point;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.TreeMap;
 
 import PacManGUI.SceneInfo;
@@ -94,7 +102,7 @@ public class PacmanController {
 
     ArrayList < GameObject > gameObjects = new ArrayList < GameObject > ();
     private Player player;
-    private TreeMap<Integer, String> highScores;
+    private ArrayList<PacmanScore> highScores;
 
     private MapOutline map = new MapOutline();
     private Biscuits biscuits;
@@ -144,32 +152,16 @@ public class PacmanController {
 
     }
     public void initialize() {
-        
-    	highScores = new TreeMap<Integer, String>();
-    	
+            	
     	//initialize game with high score screen
     	highScoreBackground.setStyle("-fx-background-color: rgba(0, 0, 0, .85)");
     	highScorePane.setStyle("-fx-background-color: rgba(200, 200, 200, 1)");
 
-    	String rank = "";
-    	String scores = "";
-    	String names = "";
+    	// set value of highScore ArrayList
+    	readHighScoresFile();
     	
-    	// display ranks
-    	for(int i = 0; i < 10; i++)
-    	{
-    		rank = rank + (i + 1) + ". \n";
-    	}
-    	
-    	for(Map.Entry<Integer, String> scoreSet: highScores.entrySet())
-    	{
-    		names = names + scoreSet.getValue() + " \n";
-    		scores = scores + scoreSet.getKey() + " \n";
-    	}
-    	
-    	highScoreRank.setText(rank);
-    	highScoreName.setText(names);
-    	highScoreDisplay.setText(scores);
+    	//update high score dislpay
+    	updateScoreDisplay();
     	
     	restartBtn.setOnAction(new EventHandler < ActionEvent > () {
             @Override
@@ -277,6 +269,8 @@ public class PacmanController {
 	{
     	try 
     	{
+    		saveHighScores();
+    		
 			Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 			x.setStyle("-fx-background-color: #a50000");
             Scene y = new Scene(x);
@@ -305,7 +299,104 @@ public class PacmanController {
                 }
             }
         }.start();
+	}
+	
+	public void updateScoreDisplay()
+	{
+    	String rank = "";
+    	String scores = "";
+    	String names = "";
+    	
+    	//sort high scores by score
+    	Collections.sort(highScores);
+    	
+    	// display rank with name and score
+    	for(int i = 0; i < 10; i++)
+    	{
+    		rank = rank + (i + 1) + ". \n";
+    		
+    		if(highScores.size() > i)
+    		{
+    			//high score exists
+        		names = names + highScores.get(i).getPlayerName() + " \n";
+        		scores = scores + highScores.get(i).getScore() + " \n";
+    		}
+    		else
+    		{
+        		names = names + "aaa" + " \n";
+        		scores = scores + "0" + " \n";
+    		}
+    	}
 		
+    	highScoreRank.setText(rank);
+    	highScoreName.setText(names);
+    	highScoreDisplay.setText(scores);
+	}
+	
+	/**
+	 * retrieve high score arraylist from a file
+	 */
+	public void readHighScoresFile()
+	{
+		String inputName = "pacman_scores.dat";
+		String workingDir = System.getProperty("user.dir");
+		File workingDirFile = new File(workingDir);
+		File testFile = new File(workingDirFile, inputName);
+		
+		if (testFile.exists()) 
+		{
+			try 
+			{
+				ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
+				
+				highScores = (ArrayList<PacmanScore>) in.readObject();
+				
+				in.close();
+			} 
+			catch (FileNotFoundException e1)
+			{
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
+		else 
+		{
+			highScores = new ArrayList<PacmanScore>();
+		}
+	}
+	
+	/**
+	 * save high scores object to a file
+	 */
+	public void saveHighScores()
+	{
+		String inputName = "pacman_scores.dat";
+		String workingDir = System.getProperty("user.dir");
+		File workingDirFile = new File(workingDir);
+		File testFile = new File(workingDirFile, inputName);
+		
+		try 
+		{
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(testFile));
+			
+			out.writeObject(highScores);
+			out.close();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
