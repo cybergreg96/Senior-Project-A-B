@@ -6,6 +6,8 @@
 import java.awt.Point;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
 import PacManGUI.SceneInfo;
 import PacManLogic.Biscuits;
@@ -71,7 +73,18 @@ public class PacmanController {
 
     @FXML
     Label redGhostSearches = new Label();
+    
+    @FXML
+    Pane highScoreBackground;
+    
+    @FXML
+    Pane highScorePane;
 
+    @FXML
+    Label highScoreLabel;
+    
+    @FXML
+    Label highScoreRank, highScoreName, highScoreDisplay;
 
 
     private SceneInfo sceneInfo;
@@ -81,6 +94,7 @@ public class PacmanController {
 
     ArrayList < GameObject > gameObjects = new ArrayList < GameObject > ();
     private Player player;
+    private TreeMap<Integer, String> highScores;
 
     private MapOutline map = new MapOutline();
     private Biscuits biscuits;
@@ -130,7 +144,34 @@ public class PacmanController {
 
     }
     public void initialize() {
-        restartBtn.setOnAction(new EventHandler < ActionEvent > () {
+        
+    	highScores = new TreeMap<Integer, String>();
+    	
+    	//initialize game with high score screen
+    	highScoreBackground.setStyle("-fx-background-color: rgba(0, 0, 0, .85)");
+    	highScorePane.setStyle("-fx-background-color: rgba(200, 200, 200, 1)");
+
+    	String rank = "";
+    	String scores = "";
+    	String names = "";
+    	
+    	// display ranks
+    	for(int i = 0; i < 10; i++)
+    	{
+    		rank = rank + (i + 1) + ". \n";
+    	}
+    	
+    	for(Map.Entry<Integer, String> scoreSet: highScores.entrySet())
+    	{
+    		names = names + scoreSet.getValue() + " \n";
+    		scores = scores + scoreSet.getKey() + " \n";
+    	}
+    	
+    	highScoreRank.setText(rank);
+    	highScoreName.setText(names);
+    	highScoreDisplay.setText(scores);
+    	
+    	restartBtn.setOnAction(new EventHandler < ActionEvent > () {
             @Override
             public void handle(ActionEvent event) {
                 restartGame();
@@ -166,17 +207,8 @@ public class PacmanController {
 				e1.printStackTrace();
 			}
 	    });
-
-        new AnimationTimer() {
-            long lastUpdate;
-            public void handle(long now) {
-                if (now > lastUpdate + refreshRate * 1690000) {
-                    lastUpdate = now;
-                    update(now);
-                }
-            }
-        }.start();
-
+	    
+	    drawCanvas();
     }
 
 
@@ -239,5 +271,41 @@ public class PacmanController {
 
         // biscuits.clear(g,sceneInfo);
     }
+    
+	@FXML
+	public void onGoHomePressed(ActionEvent event) 
+	{
+    	try 
+    	{
+			Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+			x.setStyle("-fx-background-color: #a50000");
+            Scene y = new Scene(x);
+            Stage w = (Stage)((Node)event.getSource()).getScene().getWindow();
+            w.setResizable(false);
+            w.setScene(y);
+		} 
+    	catch (IOException e1) 
+    	{
+			e1.printStackTrace();
+		}
+	}
+	
+	@FXML 
+	public void onPlayGamePressed(ActionEvent event)
+	{
+		highScoreBackground.setVisible(false);
+		highScoreBackground.setMouseTransparent(true);
+		
+        new AnimationTimer() {
+            long lastUpdate;
+            public void handle(long now) {
+                if (now > lastUpdate + refreshRate * 1690000) {
+                    lastUpdate = now;
+                    update(now);
+                }
+            }
+        }.start();
+		
+	}
 
 }
