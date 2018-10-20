@@ -36,6 +36,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -112,8 +113,7 @@ public class PacmanController {
     private RedGhost redGhost;
     private NonPlayerCharacter npc;
 
-
-    MazePlayGround mazePlayGround = new MazePlayGround(javafx.scene.paint.Color.rgb(0, 0, 0), 1, 1, player, map);
+    MazePlayGround mazePlayGround = new MazePlayGround(0, 0, player, map);
 
     public void addStuff() {
 
