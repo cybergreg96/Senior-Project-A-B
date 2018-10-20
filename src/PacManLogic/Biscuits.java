@@ -85,7 +85,7 @@ public class Biscuits implements GameObject{
 
             	// condition for big biscuit
                 if((map.points[i][j]==1)&&(i%9==0)&&(j% 11==1)){
-                    //g.setFill( Color.rgb(250, 130, 0));
+                    
                     g.drawImage(bigBiscuitImg, (j * 20), (i * 20));
                     if (!hasCountedBigBiscuitNums) {
                         setTotalBigBiscuits(getTotalBigBiscuits() + 1);
@@ -119,10 +119,9 @@ public class Biscuits implements GameObject{
                     }
 
                 }
-            // set small biscuits
-            if(map.points[i][j]==1) {
+                // set small biscuits
+                else if(map.points[i][j]==1) {
 
-                        //g.setFill( Color.rgb(250, 130, 0));
                         g.drawImage(biscuitImg, (j * 20), (i * 20));
                         if (!hasCountedBiscuitNums) {
                             setTotalBiscuits(getTotalBiscuits() + 1);
