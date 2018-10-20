@@ -36,6 +36,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -112,8 +113,7 @@ public class PacmanController {
     private RedGhost redGhost;
     private NonPlayerCharacter npc;
 
-
-    MazePlayGround mazePlayGround = new MazePlayGround(javafx.scene.paint.Color.rgb(0, 0, 0), 1, 1, player, map);
+    MazePlayGround mazePlayGround = new MazePlayGround(0, 0, player, map);
 
     public void addStuff() {
 
@@ -130,13 +130,15 @@ public class PacmanController {
         orangeGhost = new OrangeGhost(new Point(260, 260), map, player, biscuits);
         redGhost = new RedGhost(new Point(260, 300), map, player, biscuits);
         
+        //Draw the map first, because drawing is never changed
+        gameObjects.add(mazePlayGround);
         gameObjects.add(biscuits);
         gameObjects.add(player);
         gameObjects.add(pinkGhost);
         //gameObjects.add(blueGhost); don't add blue ghost (player 2) to separate its update and drawing
         gameObjects.add(orangeGhost);
         gameObjects.add(redGhost);
-        gameObjects.add(mazePlayGround);
+
         gameObjects.add(npc);
 
     }
