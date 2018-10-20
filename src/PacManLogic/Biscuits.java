@@ -32,10 +32,20 @@ public class Biscuits implements GameObject{
     boolean hasCountedBigBiscuitNums = false;
 
     public Biscuits(Player player, MapOutline map, NonPlayerCharacter npc){
-        try {
+    	try {
 			this.biscuitImg = new Image(new FileInputStream("src/PacManImgs/CandyCorn.png"));
-			this.bigBiscuitImg = new Image(new FileInputStream("src/PacManImgs/PurpleMeat"));
-			this.eatenImg = new Image(new FileInputStream("src/PacManImgs/EatenImage"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.bigBiscuitImg = new Image(new FileInputStream("src/PacManImgs/PurpleMeat.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			this.eatenImg = new Image(new FileInputStream("src/PacManImgs/EatenImage.png"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -104,7 +114,7 @@ public class Biscuits implements GameObject{
                     }
                     // remove any eaten big biscuit
                     for (int k = 0; k< getTotalEatenBiscuits(); k++){
-                        g.clearRect((eatenBigBiscuits[k][0] * 20) +5, (eatenBigBiscuits[k][1] * 20) + 5, 10, 10);
+                        g.drawImage(eatenImg, (eatenBigBiscuits[k][0] * 20), (eatenBigBiscuits[k][1] * 20));
 
                     }
 
@@ -113,7 +123,7 @@ public class Biscuits implements GameObject{
             if(map.points[i][j]==1) {
 
                         //g.setFill( Color.rgb(250, 130, 0));
-                        g.drawImage(biscuitImg, (j * 20) + 7, (i * 20) + 7);
+                        g.drawImage(biscuitImg, (j * 20), (i * 20));
                         if (!hasCountedBiscuitNums) {
                             setTotalBiscuits(getTotalBiscuits() + 1);
                         }
@@ -144,7 +154,7 @@ public class Biscuits implements GameObject{
                     }
                     // remove any eaten regular biscuits
                     for (int k = 0; k< getTotalEatenBiscuits(); k++){
-                        g.drawImage((eatenBiscuits[k][0] * 20) +7, (eatenBiscuits[k][1] * 20) + 7);
+                        g.drawImage(eatenImg, (eatenBiscuits[k][0] * 20), (eatenBiscuits[k][1] * 20));
 
                 }
 

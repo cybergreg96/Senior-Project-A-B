@@ -67,17 +67,7 @@ public class MazePlayGround implements GameObject {
     public void draw(GraphicsContext g, SceneInfo sceneInfo) {
     	
     	g.drawImage(gridImg, x, y);
-        /*g.setFill(this.getColor());
 
-        for (int i = 0; i < map.points.length; i++) {
-            for (int j = 0; j < map.points[i].length; j++) {
-                if (map.points[i][j] == 0) {
-                    g.setFill(Color.rgb(0, 0, 35));
-                    g.fillRoundRect(j * 20, i * 20, 20, 20, 0, 0);
-                }
-
-            }
-        }*/
     }
 
 
