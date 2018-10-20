@@ -130,13 +130,15 @@ public class PacmanController {
         orangeGhost = new OrangeGhost(new Point(260, 260), map, player, biscuits);
         redGhost = new RedGhost(new Point(260, 300), map, player, biscuits);
         
+        //Draw the map first, because drawing is never changed
+        gameObjects.add(mazePlayGround);
         gameObjects.add(biscuits);
         gameObjects.add(player);
         gameObjects.add(pinkGhost);
         //gameObjects.add(blueGhost); don't add blue ghost (player 2) to separate its update and drawing
         gameObjects.add(orangeGhost);
         gameObjects.add(redGhost);
-        gameObjects.add(mazePlayGround);
+
         gameObjects.add(npc);
 
     }

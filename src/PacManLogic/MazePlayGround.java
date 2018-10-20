@@ -7,6 +7,7 @@ import PacManGUI.SceneInfo;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 /**
  * Created by Arash Abedin on 9-03-2017.
@@ -19,9 +20,11 @@ public class MazePlayGround implements GameObject {
     public Biscuits[][] biscuits = new Biscuits[40][40];
     private Player player;
     private Image gridImg;
+    private BackgroundImage bgImg;
     public MazePlayGround(int x, int y, Player player, MapOutline map) {
-        try {
-			this.gridImg = new Image(new FileInputStream("src/PacManImgs/Pac-Grid.png"));
+        //Hard-coded background image
+    	try {
+			this.gridImg = new Image(new FileInputStream("src/PacManImgs/Pac-Grid.png"), 560, 660, false, false);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
