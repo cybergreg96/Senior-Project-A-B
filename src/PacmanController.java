@@ -34,7 +34,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogEvent;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -104,6 +106,8 @@ public class PacmanController {
     ArrayList < GameObject > gameObjects = new ArrayList < GameObject > ();
     private Player player;
     private ArrayList<PacmanScore> highScores;
+    
+    private AnimationTimer animation;
 
     private MapOutline map = new MapOutline();
     private Biscuits biscuits;
@@ -148,7 +152,12 @@ public class PacmanController {
         gameObjects = new ArrayList < GameObject > ();
         keyPressed = KeyCode.ALT;
         ghostKeyPressed = KeyCode.ALT;
-
+        
+		saveHighScores();
+		
+		// go back to high score screen and update scores
+		highScoreBackground.setVisible(true);
+		highScoreBackground.setMouseTransparent(false);
 
         addStuff();
 
@@ -189,6 +198,8 @@ public class PacmanController {
 	    goHome.setOnAction((ActionEvent e) -> {
 	    	try 
 	    	{
+	    		saveHighScores();
+	    		
 				Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 				x.setStyle("-fx-background-color: #a50000");
 	            Scene y = new Scene(x);
@@ -238,6 +249,14 @@ public class PacmanController {
 
             {
                 System.out.println("You lost");
+                
+				animation.stop();
+				
+				//TODO implement double points to score
+				int score = (biscuits.getTotalEatenBiscuits() * 100) - 100;
+				
+				updateScores(score);
+                
                 restartGame();
             }
         drawCanvas();
@@ -292,7 +311,7 @@ public class PacmanController {
 		highScoreBackground.setVisible(false);
 		highScoreBackground.setMouseTransparent(true);
 		
-        new AnimationTimer() {
+        animation = new AnimationTimer() {
             long lastUpdate;
             public void handle(long now) {
                 if (now > lastUpdate + refreshRate * 1690000) {
@@ -300,41 +319,43 @@ public class PacmanController {
                     update(now);
                 }
             }
-        }.start();
+        };
+        
+        animation.start();
 	}
 	
 	public void updateScoreDisplay()
 	{
-    	String rank = "";
-    	String scores = "";
-    	String names = "";
-    	
-    	//sort high scores by score
-    	Collections.sort(highScores);
-    	
-    	// display rank with name and score
-    	for(int i = 0; i < 10; i++)
-    	{
-    		rank = rank + (i + 1) + ". \n";
-    		
-    		if(highScores.size() > i)
-    		{
-    			//high score exists
-        		names = names + highScores.get(i).getPlayerName() + " \n";
-        		scores = scores + highScores.get(i).getScore() + " \n";
-    		}
-    		else
-    		{
-        		names = names + "aaa" + " \n";
-        		scores = scores + "0" + " \n";
-    		}
-    	}
-		
-    	highScoreRank.setText(rank);
-    	highScoreName.setText(names);
-    	highScoreDisplay.setText(scores);
+		String rank = "";
+		String scores = "";
+		String names = "";
+
+		//sort high scores from highest score to lowest score
+		Collections.sort(highScores, Collections.reverseOrder());
+
+		// display rank with name and score
+		for(int i = 0; i < 10; i++)
+		{
+			rank = rank + (i + 1) + ". \n";
+
+			if(highScores.size() > i)
+			{
+				//high score exists
+				names = names + highScores.get(i).getPlayerName() + " \n";
+				scores = scores + highScores.get(i).getScore() + " \n";
+			}
+			else
+			{
+				names = names + "aaa" + " \n";
+				scores = scores + "0" + " \n";
+			}
+		}
+
+		highScoreRank.setText(rank);
+		highScoreName.setText(names);
+		highScoreDisplay.setText(scores);
 	}
-	
+
 	/**
 	 * retrieve high score arraylist from a file
 	 */
@@ -344,25 +365,29 @@ public class PacmanController {
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testFile = new File(workingDirFile, inputName);
-		
+
 		if (testFile.exists()) 
 		{
 			try 
 			{
 				ObjectInputStream in = new ObjectInputStream(new FileInputStream(testFile));
-				
+
 				highScores = (ArrayList<PacmanScore>) in.readObject();
-				
+
+				//add dummy scores to fill the rest of the high score page
+				while(highScores.size() < 10)
+				{
+					highScores.add(new PacmanScore());
+				}
+
 				in.close();
 			} 
 			catch (FileNotFoundException e1)
 			{
 				e1.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		} 
@@ -371,7 +396,7 @@ public class PacmanController {
 			highScores = new ArrayList<PacmanScore>();
 		}
 	}
-	
+
 	/**
 	 * save high scores object to a file
 	 */
@@ -381,24 +406,92 @@ public class PacmanController {
 		String workingDir = System.getProperty("user.dir");
 		File workingDirFile = new File(workingDir);
 		File testFile = new File(workingDirFile, inputName);
-		
+
 		try 
 		{
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(testFile));
-			
+
 			out.writeObject(highScores);
 			out.close();
 		} 
 		catch (FileNotFoundException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
+	public void updateScores(int score)
+	{
+		if(isHighScore(score))
+		{
+			//user got a high score
+			TextInputDialog dialog = new TextInputDialog("");
+			dialog.setTitle("High Score!!");
+			dialog.setHeaderText("Congratulations! New High Score!");
+			dialog.setContentText("Enter Player Name:");
+
+			dialog.setOnHidden(new EventHandler<DialogEvent>(){
+				
+				@Override
+				public void handle(DialogEvent event) {
+					String result = dialog.getResult();
+					
+					if(!result.trim().equals(""))
+					{
+						PacmanScore newScore = new PacmanScore();
+						newScore.setScore(score);
+						newScore.setPlayerName(dialog.getResult());
+						
+						//add new score to highScores
+						highScores.add(newScore);
+						updateScoreDisplay();
+					}
+					else
+					{
+						dialog.show();
+					}
+					
+				}
+				
+			});
+
+			//print pop up window
+		    dialog.show(); 
+		}
+	}
+	
+	public boolean isHighScore(int score)
+	{
+		int index = 0;
+		
+		while(index < 10)
+		{
+			if(highScores.get(index).getScore() == 0 && highScores.get(index).getPlayerName().equals("aaa"))
+			{
+				//empty score slot
+				break;
+			}
+			else if(score > highScores.get(index).getScore())
+			{
+				//high score has been achieved
+				break;
+			}
+			else if(index == 9)
+			{
+				// score is not high enough to be in high scores
+				return false;
+			}
+
+			//increment index
+			index++;
+		}
+		
+		return true;
+	}
+
 
 }
