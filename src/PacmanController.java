@@ -154,12 +154,14 @@ public class PacmanController {
 		keyPressed = KeyCode.ALT;
 		ghostKeyPressed = KeyCode.ALT;
 
+		//TODO start
 		saveHighScores();
 		
 		// go back to high score screen and update scores
 		highScoreBackground.setVisible(true);
 		highScoreBackground.setMouseTransparent(false);
-				
+		//TODO end
+		
 		addStuff();
 
 	}
@@ -251,13 +253,13 @@ public class PacmanController {
 			{				
 				System.out.println("You lost");
 				
-				//TODO experimenting
 				animation.stop();
 				
 				//TODO implement double points to score
 				int score = (biscuits.getTotalEatenBiscuits() * 100) - 100;
 				
 				updateScores(score);
+				
 				restartGame();
 			}
 		drawCanvas();
@@ -312,7 +314,6 @@ public class PacmanController {
 		highScoreBackground.setVisible(false);
 		highScoreBackground.setMouseTransparent(true);
 
-		//TODO experimenting
 		animation = new AnimationTimer() {
 			long lastUpdate;
 			public void handle(long now) {
