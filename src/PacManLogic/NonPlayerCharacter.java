@@ -10,12 +10,25 @@ import javafx.scene.paint.Color;
 //import javafx.scene.paint.Color;
 
 public class NonPlayerCharacter implements GameObject {
+	public enum Powerup {
+		DOUBLE_POINTS;
+	    /**
+	     * Pick a random value of the Powerup enum.
+	     * @return a random Powerup.
+	     */
+	    public static Powerup getRandomPower() {
+	        Random random = new Random();
+	        return values()[random.nextInt(values().length)];
+	    }
+	};
+	
     private int x;
     private int y;
     private MapOutline map;
     private Player player;
     private boolean obtained;
     private int timer = 0;
+    private Powerup power = null;
     
     // Colors
     private int red;
@@ -54,7 +67,11 @@ public class NonPlayerCharacter implements GameObject {
     public void setY(int y) {
         this.y = y;
     }
-
+    
+    public Powerup getPower() {
+    	return this.power;
+    }
+    
     public int selectRandom(int bound) {
     	Random rng = new Random();
     	return rng.nextInt(bound);
@@ -78,6 +95,7 @@ public class NonPlayerCharacter implements GameObject {
         
         // Check if game needs to recreate NPC
         if((map.points[y][x] == 1) && obtained && timer == 0) {
+        	this.power = null;
         	setX(x);
         	setY(y);
             obtained = false;
@@ -94,6 +112,7 @@ public class NonPlayerCharacter implements GameObject {
         	green = 0;
         	blue = 0;
         	g.fillRoundRect((getX() * 20) + 5, (getY() * 20) + 5, 10, 10, 0, 0);
+        	this.power = Powerup.getRandomPower();
         	obtained = true;
         	setTimer(25);
         } else {
