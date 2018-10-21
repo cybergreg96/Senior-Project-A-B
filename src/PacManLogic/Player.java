@@ -4,10 +4,8 @@ import PacManGUI.SceneInfo;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.image.Image;
+
 import java.awt.*;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 
 /**
  * Created by Arash Abedin on 9-03-2017.
@@ -18,8 +16,7 @@ public class Player implements GameObject{
     private int X;
     private int Y;
 
-    private MapOutline  map;
-    private Image playerImg, imgLeft, imgRight;
+  private MapOutline  map;
     private int stepX;
     private int stepY;
     int lastMove = 0;
@@ -29,19 +26,7 @@ public class Player implements GameObject{
 
     public Player(Point position, MapOutline map)
     {
-    	try {
-			imgLeft = new Image(new FileInputStream("src/PacManImgs/GoodBird.png"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	try {
-			imgRight = new Image(new FileInputStream("src/PacManImgs/GoodBirdRight.png"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	playerImg = imgLeft;
+
         X = position.x;
         Y = position.y;
         this.map = map;
@@ -64,18 +49,14 @@ public class Player implements GameObject{
 
                 if((map.points[getStepY()][getStepX()-1]==1)||(map.points[getStepY()][getStepX()-1]==3))
                 {
-                playerImg = imgLeft;
-                moveLeft();
-
-                break;
+                moveLeft(); break;
             }else{
                     break;
                 }
 
             case 3:    if((map.points[getStepY()][getStepX()+1]==1)||(map.points[getStepY()][getStepX()+1]==3)) {
-            	playerImg = imgRight;
-                moveRight(); 
-                break;
+
+                moveRight(); break;
             }else
             {
                 break;
@@ -102,7 +83,7 @@ public class Player implements GameObject{
         }
     }
     public void moveLeft(){
-    	playerImg = imgLeft;
+
         if((map.points[getStepY()][getStepX()-1]==1)||(map.points[getStepY()][getStepX()-1]==3)){
             setX(getX() - 20);
             setStepX(getStepX()-1);
@@ -117,7 +98,6 @@ public class Player implements GameObject{
         }
     }
     public void moveRight(){
-    	playerImg = imgRight;
         if((map.points[getStepY()][getStepX()+1]==1)||(map.points[getStepY()][getStepX()+1]==3)) {
 
             setX(getX() + 20);
@@ -176,7 +156,8 @@ public class Player implements GameObject{
 
     @Override
     public void draw(GraphicsContext g, SceneInfo sceneInfo) {
-        g.drawImage(playerImg, this.getX(), this.getY());
+        g.setFill( Color.rgb(229, 202, 0));
+        g.fillRoundRect(this.getX(), this.getY() ,20,20, 2, 2);
     }
 
 

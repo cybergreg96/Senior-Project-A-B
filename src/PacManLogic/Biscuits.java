@@ -1,11 +1,7 @@
 package PacManLogic;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
 import PacManGUI.SceneInfo;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -18,10 +14,6 @@ public class Biscuits implements GameObject{
     private int y;
     private MapOutline map;
     private Player player;
-    private NonPlayerCharacter npc;
-    private Image biscuitImg;
-    private Image bigBiscuitImg;
-    private Image eatenImg;
     private int totalBiscuits;
     private int totalBigBiscuits;
     private int eatenBiscuits[][] = new int[1000][2];
@@ -31,30 +23,13 @@ public class Biscuits implements GameObject{
     boolean hasCountedBiscuitNums = false;
     boolean hasCountedBigBiscuitNums = false;
 
-    public Biscuits(Player player, MapOutline map, NonPlayerCharacter npc){
-    	try {
-			this.biscuitImg = new Image(new FileInputStream("src/PacManImgs/CandyCorn.png"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			this.bigBiscuitImg = new Image(new FileInputStream("src/PacManImgs/PurpleMeat.png"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			this.eatenImg = new Image(new FileInputStream("src/PacManImgs/EatenImage.png"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	this.setX(x);
+    public Biscuits(Player player, MapOutline map){
+
+        this.setX(x);
         this.setY(y);
         this.player = player;
         this.map = map;
-        this.npc = npc;
+
     }
 
     public static void setTotalEatenBiscuits(int totalEatenBiscuits) {
@@ -85,8 +60,8 @@ public class Biscuits implements GameObject{
 
             	// condition for big biscuit
                 if((map.points[i][j]==1)&&(i%9==0)&&(j% 11==1)){
-                    
-                    g.drawImage(bigBiscuitImg, (j * 20), (i * 20));
+                    g.setFill( Color.rgb(250, 130, 0));
+                    g.fillRoundRect((j * 20) + 5, (i * 20) + 5, 10, 10, 0, 0);
                     if (!hasCountedBigBiscuitNums) {
                         setTotalBigBiscuits(getTotalBigBiscuits() + 1);
                     }
@@ -114,15 +89,16 @@ public class Biscuits implements GameObject{
                     }
                     // remove any eaten big biscuit
                     for (int k = 0; k< getTotalEatenBiscuits(); k++){
-                        g.drawImage(eatenImg, (eatenBigBiscuits[k][0] * 20), (eatenBigBiscuits[k][1] * 20));
+                        g.clearRect((eatenBigBiscuits[k][0] * 20) +5, (eatenBigBiscuits[k][1] * 20) + 5, 10, 10);
 
                     }
 
                 }
-                // set small biscuits
-                else if(map.points[i][j]==1) {
+            // set small biscuits
+            if(map.points[i][j]==1) {
 
-                        g.drawImage(biscuitImg, (j * 20), (i * 20));
+                        g.setFill( Color.rgb(250, 130, 0));
+                        g.fillRoundRect((j * 20) + 7, (i * 20) + 7, 5, 5, 0, 0);
                         if (!hasCountedBiscuitNums) {
                             setTotalBiscuits(getTotalBiscuits() + 1);
                         }
@@ -143,17 +119,13 @@ public class Biscuits implements GameObject{
                                 eatenBiscuits[getTotalEatenBiscuits()][1] = player.getStepY();
                                 setTotalBiscuits(getTotalBiscuits() - 1);
                                 setTotalEatenBiscuits(getTotalEatenBiscuits() + 1);
-                                // Condition for if NPC gave power up for double points
-                                if(this.npc.getPower() == NonPlayerCharacter.Powerup.DOUBLE_POINTS) {
-                                	setTotalEatenBiscuits(getTotalEatenBiscuits() + 1);
-                                }
                             }
 
 
                     }
                     // remove any eaten regular biscuits
                     for (int k = 0; k< getTotalEatenBiscuits(); k++){
-                        g.drawImage(eatenImg, (eatenBiscuits[k][0] * 20), (eatenBiscuits[k][1] * 20));
+                        g.clearRect((eatenBiscuits[k][0] * 20) +7, (eatenBiscuits[k][1] * 20) + 7, 10, 10);
 
                 }
 
