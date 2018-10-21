@@ -15,6 +15,8 @@ import com.sun.org.apache.xml.internal.security.keys.content.KeyValue;
 public class BlueGhost extends Ghosts implements GameObject {
 	boolean human = true;
 	boolean comp = false;
+	boolean dead = false;
+	boolean caneat = false;
 	public int count = 0;
 
 	public BlueGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
@@ -25,19 +27,16 @@ public class BlueGhost extends Ghosts implements GameObject {
 	@Override
 	public void update(KeyCode keyCode) {
 		if (keyCode.equals(keyCode.ENTER)) {
-			count++;
-			System.out.println(count);
-			if(count==2){
-				count=0;
+			switchGhost();
+			if (getGhost() == "blue") {
+				human = true;
+				comp = false;
+			} else if (getGhost() != "blue") {
+				comp = true;
+				human = false;
 			}
 		}
-		if (count % 2 == 0) {
-			human = true;
-			comp = false;
-		} else if (count % 2 == 1) {
-			comp = true;
-			human = false;
-		}
+
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
 			setEscapeTimeCount(getEscapeTimeCount() - 1);
@@ -50,15 +49,15 @@ public class BlueGhost extends Ghosts implements GameObject {
 		}
 
 		if (isEscape()) {
-			if ((keyCode == KeyCode.RIGHT) && (getPlayer().getX() == getX() - 20) && (getPlayer().getY() == getY())) {
+			if ((keyCode == KeyCode.D) && (getPlayer().getX() == getX() - 20) && (getPlayer().getY() == getY())) {
 				isEatenWhileEscape = true;
-			} else if ((keyCode == KeyCode.DOWN) && (getPlayer().getX() == getX())
+			} else if ((keyCode == KeyCode.S) && (getPlayer().getX() == getX())
 					&& (getPlayer().getY() == getY() - 20)) {
 				isEatenWhileEscape = true;
-			} else if ((keyCode == KeyCode.LEFT) && (getPlayer().getX() == getX() + 20)
+			} else if ((keyCode == KeyCode.A) && (getPlayer().getX() == getX() + 20)
 					&& (getPlayer().getY() == getY())) {
 				isEatenWhileEscape = true;
-			} else if ((keyCode == KeyCode.RIGHT) && (getPlayer().getX() == getX())
+			} else if ((keyCode == KeyCode.W) && (getPlayer().getX() == getX())
 					&& (getPlayer().getY() == getY() + 20)) {
 				isEatenWhileEscape = true;
 			} else if ((getPlayer().getX() == getX()) && (getPlayer().getY() == getY())) {
@@ -73,11 +72,11 @@ public class BlueGhost extends Ghosts implements GameObject {
 				bestFirstSearch(getPlayer().getStepX(), getPlayer().getStepY());
 
 			} else if (isEatenWhileEscape) {
-
 				bestFirstSearch(16, 15);
 				if ((getStepX() == 16) && (getStepY() == 15))
 					isEatenWhileEscape = false;
 			}
+
 		} else if (human == true && comp == false) {
 			switch (keyCode) {
 			case DOWN:
@@ -103,16 +102,34 @@ public class BlueGhost extends Ghosts implements GameObject {
 
 	}
 
+	public boolean isDead() {
+		return dead;
+
+	}
+	public boolean eat() {
+		return caneat;
+
+	}
+
 	@Override
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
-
 			g.setFill(javafx.scene.paint.Color.rgb(170, 170, 170));
-
+			dead = true;
+			if (getGhost() == "blue") {
+				human = true;
+				comp = false;
+			} else if (getGhost() != "blue") {
+				comp = true;
+				human = false;
+			}
 		} else if (!isEscape()) {
 			g.setFill(javafx.scene.paint.Color.rgb(0, 30, 200));
+			dead = false;
+			caneat = false;
 		} else {
 			g.setFill(javafx.scene.paint.Color.rgb(0, 155, 194));
+			caneat = true;
 		}
 		g.fillRoundRect(this.getX(), this.getY(), 20, 20, 2, 2);
 
