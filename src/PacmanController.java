@@ -446,7 +446,7 @@ public class PacmanController {
 				public void handle(DialogEvent event) {
 					String result = dialog.getResult();
 					
-					if(!result.trim().equals(""))
+					if(result != null && !result.isEmpty())
 					{
 						PacmanScore newScore = new PacmanScore();
 						newScore.setScore(score);
