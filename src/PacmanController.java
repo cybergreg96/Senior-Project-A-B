@@ -387,11 +387,11 @@ public class PacmanController {
 		// sort high scores from highest score to lowest score
 		Collections.sort(highScores, Collections.reverseOrder());
 
-//		if (highScores.size() > 10) {
-//			// make sure highScores list is never more than 10 elements to save
-//			// memory
-//			highScores = (ArrayList<PacmanScore>) highScores.subList(0, 10);
-//		}
+		if (highScores.size() > 10) {
+			// make sure highScores list is never more than 10 elements to save
+			// memory
+			highScores.remove(10);
+		}
 
 		// display rank with name and score
 		for (int i = 0; i < 10; i++) {
