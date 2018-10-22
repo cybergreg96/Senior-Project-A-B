@@ -275,29 +275,15 @@ public class PacmanController {
 			pcount = 0;
 		}
 		
-		if(blueGhost.getGhost() == "blue") {
+		
 			blueGhost.update(ghostKeyPressed);
-		} else {
-			blueGhost.update(keyPressed);
-		}
 		
-		if(redGhost.getGhost() == "red") {
 			redGhost.update(ghostKeyPressed);
-		} else {
-			redGhost.update(keyPressed);
-		}
 		
-		if(orangeGhost.getGhost() == "orange") {
 			orangeGhost.update(ghostKeyPressed);
-		} else {
-			orangeGhost.update(keyPressed);
-		}
 		
-		if(pinkGhost.getGhost() == "pink") {
 			pinkGhost.update(ghostKeyPressed);
-		} else {
-			pinkGhost.update(keyPressed);
-		}
+		
 		
 
 		
