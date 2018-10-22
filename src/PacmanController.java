@@ -147,7 +147,6 @@ public class PacmanController {
 		// separate its update and drawing
 		//gameObjects.add(orangeGhost);
 		//gameObjects.add(redGhost);
-
 		gameObjects.add(npc);
 
 	}
