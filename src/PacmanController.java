@@ -142,11 +142,11 @@ public class PacmanController {
 		gameObjects.add(mazePlayGround);
 		gameObjects.add(biscuits);
 		gameObjects.add(player);
-		gameObjects.add(pinkGhost);
+		//gameObjects.add(pinkGhost);
 		// gameObjects.add(blueGhost); don't add blue ghost (player 2) to
 		// separate its update and drawing
-		gameObjects.add(orangeGhost);
-		gameObjects.add(redGhost);
+		//gameObjects.add(orangeGhost);
+		//gameObjects.add(redGhost);
 
 		gameObjects.add(npc);
 
@@ -190,6 +190,17 @@ public class PacmanController {
 		});
 
 		addStuff();
+		
+		animation = new AnimationTimer() {
+			long lastUpdate;
+
+			public void handle(long now) {
+				if (now > lastUpdate + refreshRate * 1690000) {
+					lastUpdate = now;
+					update(now);
+				}
+			}
+		};
 
 		Button goHome = new Button("Go home");
 		Scene home = new Scene(goHome);
@@ -215,7 +226,6 @@ public class PacmanController {
 			}
 		});
 
-		drawCanvas();
 	}
 
 	// set different keyPressed variables based on what type of key was pressed,
@@ -240,41 +250,58 @@ public class PacmanController {
 		if (blueGhost.getGhost() == "blue" && blueGhost.isDead() && bcount == 0) {
 			bcount++;
 			blueGhost.switchGhost();
-			this.ghostKeyPressed = ghostKeyPressed.ENTER;
+			
 		} else if (!blueGhost.isDead() && bcount != 0 && redGhost.getGhost() == "red") {
 			bcount = 0;
 		}
 		if (redGhost.getGhost() == "red" && redGhost.isDead() && rcount == 0) {
 			rcount++;
 			redGhost.switchGhost();
-			this.ghostKeyPressed = ghostKeyPressed.ENTER;
+			
 		} else if (!redGhost.isDead() && rcount != 0 && orangeGhost.getGhost() == "orange") {
 			rcount = 0;
 		}
 		if (orangeGhost.getGhost() == "orange" && orangeGhost.isDead() && ocount == 0) {
 			ocount++;
 			orangeGhost.switchGhost();
-			this.ghostKeyPressed = ghostKeyPressed.ENTER;
+			
 		} else if (!orangeGhost.isDead() && ocount != 0 && pinkGhost.getGhost() == "pink") {
 			ocount = 0;
 		}
 		if (pinkGhost.getGhost() == "pink" && pinkGhost.isDead() && pcount == 0) {
 			pcount++;
 			pinkGhost.switchGhost();
-			this.ghostKeyPressed = ghostKeyPressed.ENTER;
+			
 		} else if (!pinkGhost.isDead() && pcount != 0 && blueGhost.getGhost() == "blue") {
 			pcount = 0;
 		}
-		blueGhost.update(ghostKeyPressed);
-		redGhost.update(ghostKeyPressed);
-		orangeGhost.update(ghostKeyPressed);
-		pinkGhost.update(ghostKeyPressed);
-
-		if (this.ghostKeyPressed == ghostKeyPressed.ENTER) {
-			this.ghostKeyPressed = ghostKeyPressed.C;
-		} else if (this.ghostKeyPressed != ghostKeyPressed.ENTER) {
-			this.ghostKeyPressed = this.ghostKeyPressed;
+		
+		if(blueGhost.getGhost() == "blue") {
+			blueGhost.update(ghostKeyPressed);
+		} else {
+			blueGhost.update(keyPressed);
 		}
+		
+		if(redGhost.getGhost() == "red") {
+			redGhost.update(ghostKeyPressed);
+		} else {
+			redGhost.update(keyPressed);
+		}
+		
+		if(orangeGhost.getGhost() == "orange") {
+			orangeGhost.update(ghostKeyPressed);
+		} else {
+			orangeGhost.update(keyPressed);
+		}
+		
+		if(pinkGhost.getGhost() == "pink") {
+			pinkGhost.update(ghostKeyPressed);
+		} else {
+			pinkGhost.update(keyPressed);
+		}
+		
+
+		
 		for (int i = 0; i < gameObjects.size(); i++) {
 
 			gameObjects.get(i).update(keyPressed);
@@ -322,6 +349,9 @@ public class PacmanController {
 			item.draw(g, sceneInfo);
 		}
 		blueGhost.draw(g, sceneInfo);
+		pinkGhost.draw(g, sceneInfo);
+		redGhost.draw(g, sceneInfo);
+		orangeGhost.draw(g, sceneInfo);
 
 		// biscuits.clear(g,sceneInfo);
 	}
@@ -346,17 +376,6 @@ public class PacmanController {
 	public void onPlayGamePressed(ActionEvent event) {
 		highScoreBackground.setVisible(false);
 		highScoreBackground.setMouseTransparent(true);
-
-		animation = new AnimationTimer() {
-			long lastUpdate;
-
-			public void handle(long now) {
-				if (now > lastUpdate + refreshRate * 1690000) {
-					lastUpdate = now;
-					update(now);
-				}
-			}
-		};
 
 		animation.start();
 	}
