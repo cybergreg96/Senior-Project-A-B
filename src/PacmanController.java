@@ -172,7 +172,7 @@ public class PacmanController {
 
 		// initialize game with high score screen
 		highScoreBackground.setStyle("-fx-background-color: rgba(0, 0, 0, .85)");
-		highScorePane.setStyle("-fx-background-color: rgba(200, 200, 200, 1)");
+		highScorePane.setStyle("-fx-background-color: rgba(0, 0, 0, 0)");
 
 		// set value of highScore ArrayList
 		readHighScoresFile();

@@ -114,52 +114,47 @@
       </GridPane>
       <Pane fx:id="highScoreBackground" layoutX="58.0" prefHeight="650.0" prefWidth="727.0">
          <children>
-            <Pane fx:id="highScorePane" layoutX="228.0" layoutY="163.0" prefHeight="375.0" prefWidth="272.0">
+            <ImageView fx:id="GameStartImage" fitHeight="625.0" fitWidth="500.0" layoutX="97.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@PacManImgs/Pacman%20Start%20Screen.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="highScorePane" layoutX="288.0" layoutY="265.0" prefHeight="382.0" prefWidth="240.0">
                <children>
-                  <Label alignment="CENTER" layoutY="7.0" prefHeight="18.0" prefWidth="272.0" text="Pacman">
+                  <Label fx:id="highScoreLabel" layoutX="20.0" layoutY="100.0" prefHeight="20.0" prefWidth="33.0" text="Rank">
                      <font>
-                        <Font name="System Bold" size="36.0" />
+                        <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <Label alignment="CENTER" layoutY="60.0" prefWidth="272.0" text="Top Ten">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="highScoreLabel" layoutX="15.0" layoutY="87.0" prefHeight="20.0" prefWidth="33.0" text="rank">
+                  <Label fx:id="highScoreRank" alignment="CENTER" layoutX="20.0" layoutY="117.0" prefHeight="207.0" prefWidth="33.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="highScoreRank" layoutX="15.0" layoutY="107.0" prefHeight="207.0" prefWidth="33.0">
+                  <Label fx:id="highScoreName" alignment="CENTER" layoutX="65.0" layoutY="117.0" prefHeight="207.0" prefWidth="100.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="highScoreName" layoutX="58.0" layoutY="107.0" prefHeight="207.0" prefWidth="86.0">
+                  <Label fx:id="highScoreLabel1" alignment="CENTER" layoutX="65.0" layoutY="100.0" prefHeight="20.0" prefWidth="100.0" text="Name">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreLabel2" alignment="CENTER" layoutX="160.0" layoutY="100.0" prefHeight="20.0" prefWidth="79.0" text="Score">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="highScoreDisplay" alignment="CENTER" layoutX="160.0" layoutY="117.0" prefHeight="207.0" prefWidth="79.0">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label fx:id="highScoreLabel1" layoutX="58.0" layoutY="87.0" prefHeight="20.0" prefWidth="86.0" text="name">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="highScoreLabel2" layoutX="154.0" layoutY="87.0" prefHeight="20.0" prefWidth="102.0" text="score">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Label fx:id="highScoreDisplay" layoutX="154.0" layoutY="107.0" prefHeight="207.0" prefWidth="102.0">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutY="324.0" prefHeight="60.0" prefWidth="272.0">
+                  <Pane layoutY="324.0" prefHeight="60.0" prefWidth="240.0">
                      <children>
-                        <Button fx:id="goHomeButton" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onAction="#onGoHomePressed" prefHeight="34.0" prefWidth="102.0" text="Go Home" />
-                        <Button fx:id="playGameButton" layoutX="160.0" layoutY="14.0" mnemonicParsing="false" onAction="#onPlayGamePressed" prefHeight="34.0" prefWidth="102.0" text="Play Game" />
+                        <Button fx:id="goHomeButton" layoutX="10.0" layoutY="13.0" mnemonicParsing="false" onAction="#onGoHomePressed" prefHeight="34.0" prefWidth="100.0" text="Go Home" />
+                        <Button fx:id="playGameButton" layoutX="130.0" layoutY="13.0" mnemonicParsing="false" onAction="#onPlayGamePressed" prefHeight="34.0" prefWidth="100.0" text="Play Game" />
                      </children>
                   </Pane>
                </children>
