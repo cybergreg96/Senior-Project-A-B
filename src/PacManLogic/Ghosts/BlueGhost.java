@@ -3,11 +3,12 @@ package PacManLogic.Ghosts;
 import PacManGUI.SceneInfo;
 import PacManLogic.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.awt.*;
-
-import com.sun.org.apache.xml.internal.security.keys.content.KeyValue;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Arash on 4/22/2017.
@@ -18,10 +19,40 @@ public class BlueGhost extends Ghosts implements GameObject {
 	boolean dead = false;
 	boolean caneat = false;
 	public int count = 0;
-
+	private Image blueImg, blueLeft, blueRight, deadBird, vulnLeft, vulnRight;
 	public BlueGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
-
 		super(position, map, player, biscuits);
+    	try {
+			blueLeft = new Image(new FileInputStream("src/PacManImgs/BGLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			blueRight = new Image(new FileInputStream("src/PacManImgs/BGRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			deadBird = new Image(new FileInputStream("src/PacManImgs/deadBird.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnLeft = new Image(new FileInputStream("src/PacManImgs/VulnLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnRight = new Image(new FileInputStream("src/PacManImgs/VulnRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	blueImg = blueLeft;
 	}
 
 	@Override
@@ -85,17 +116,16 @@ public class BlueGhost extends Ghosts implements GameObject {
 				break;
 
 			case LEFT:
-
+				blueImg = blueLeft;
 				moveLeft();
 				break;
 
 			case RIGHT:
-
+				blueImg = blueRight;
 				moveRight();
 				break;
 			case UP:
 				moveUp();
-
 				break;
 			}
 		}
@@ -114,7 +144,7 @@ public class BlueGhost extends Ghosts implements GameObject {
 	@Override
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
-			g.setFill(javafx.scene.paint.Color.rgb(170, 170, 170));
+			blueImg = deadBird;
 			dead = true;
 			if (getGhost() == "blue") {
 				human = true;
@@ -124,14 +154,27 @@ public class BlueGhost extends Ghosts implements GameObject {
 				human = false;
 			}
 		} else if (!isEscape()) {
-			g.setFill(javafx.scene.paint.Color.rgb(0, 30, 200));
+			switch (lastMove) {
+			case 2:
+				blueImg = blueLeft;
+				break;
+			case 4:
+				blueImg = blueRight;
+				break;
+			}
 			dead = false;
 			caneat = false;
 		} else {
-			g.setFill(javafx.scene.paint.Color.rgb(0, 155, 194));
+			switch(lastMove) {
+			case 2:
+				blueImg = vulnLeft;
+				break;
+			case 4:
+				blueImg = vulnRight;
+			}
 			caneat = true;
 		}
-		g.fillRoundRect(this.getX(), this.getY(), 20, 20, 2, 2);
+		g.drawImage(blueImg, this.getX(), this.getY());
 
 	}
 
