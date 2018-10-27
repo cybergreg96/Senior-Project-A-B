@@ -1,9 +1,12 @@
 package PacManLogic;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 import PacManGUI.SceneInfo;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
@@ -21,7 +24,7 @@ public class NonPlayerCharacter implements GameObject {
 	        return values()[random.nextInt(values().length)];
 	    }
 	};
-	
+	private Image npcImg, eatenImg;
     private int x;
     private int y;
     private MapOutline map;
@@ -36,7 +39,18 @@ public class NonPlayerCharacter implements GameObject {
     private int blue;
     
     public NonPlayerCharacter(Player player, MapOutline map){
-
+    	try {
+			npcImg = new Image(new FileInputStream("src/PacManImgs/NPC.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			eatenImg = new Image(new FileInputStream("src/PacManImgs/EatenImage.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         this.setX(x);
         this.setY(y);
         this.player = player;
@@ -111,14 +125,13 @@ public class NonPlayerCharacter implements GameObject {
         	red = 0;
         	green = 0;
         	blue = 0;
-        	g.fillRoundRect((getX() * 20) + 5, (getY() * 20) + 5, 10, 10, 0, 0);
+        	g.drawImage(eatenImg, (getX() * 20), (getY() * 20));
         	this.power = Powerup.getRandomPower();
         	obtained = true;
         	setTimer(25);
         } else {
             // Draw NPC
-        	g.setFill(Color.rgb(red,green,blue));
-            g.fillRoundRect((getX() * 20) + 5, (getY() * 20) + 5, 10, 10, 0, 0);
+            g.drawImage(npcImg, (getX() * 20), (getY() * 20));
         }
     }
 }

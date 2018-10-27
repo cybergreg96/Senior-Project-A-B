@@ -3,9 +3,12 @@ package PacManLogic.Ghosts;
 import PacManGUI.SceneInfo;
 import PacManLogic.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Arash on 4/8/2017.
@@ -17,10 +20,40 @@ public class PinkGhost extends Ghosts implements GameObject {
 	boolean dead = false;
 	boolean caneat = false;
 	int pauseCounter = 2;
-
+	private Image pinkImg, pinkLeft, pinkRight, deadBird, vulnLeft, vulnRight;
 	public PinkGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
 		super(position, map, player, biscuits);
-
+    	try {
+			pinkLeft = new Image(new FileInputStream("src/PacManImgs/PGLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			pinkRight = new Image(new FileInputStream("src/PacManImgs/PGRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			deadBird = new Image(new FileInputStream("src/PacManImgs/deadBird.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnLeft = new Image(new FileInputStream("src/PacManImgs/VulnLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnRight = new Image(new FileInputStream("src/PacManImgs/VulnRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	pinkImg = pinkLeft;
 	}
 
 	// Breadth first search starts here
@@ -384,22 +417,20 @@ public class PinkGhost extends Ghosts implements GameObject {
 		} else if (human == true && comp == false) {
 			switch (keyCode) {
 			case DOWN:
-
 				moveDown();
 				break;
 
 			case LEFT:
-
+				pinkImg = pinkLeft;
 				moveLeft();
 				break;
 
 			case RIGHT:
-
+				pinkImg = pinkRight;
 				moveRight();
 				break;
 			case UP:
 				moveUp();
-
 				break;
 			}
 		}
@@ -409,27 +440,38 @@ public class PinkGhost extends Ghosts implements GameObject {
 	@Override
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
-
-			g.setFill(javafx.scene.paint.Color.rgb(170, 170, 170));
+			pinkImg = deadBird;
 			dead = true;
-
-			if (getGhost() == "pink") {
+			if (getGhost() == "blue") {
 				human = true;
 				comp = false;
-			} else if (getGhost() != "pink") {
+			} else if (getGhost() != "blue") {
 				comp = true;
 				human = false;
 			}
-
 		} else if (!isEscape()) {
-			g.setFill(javafx.scene.paint.Color.rgb(255, 7, 102));
+			switch (lastMove) {
+			case 2:
+				pinkImg = pinkLeft;
+				break;
+			case 4:
+				pinkImg = pinkRight;
+				break;
+			}
 			dead = false;
 			caneat = false;
 		} else {
-			g.setFill(javafx.scene.paint.Color.rgb(0, 155, 194));
+			switch(lastMove) {
+			case 2:
+				pinkImg = vulnLeft;
+				break;
+			case 4:
+				pinkImg = vulnRight;
+			}
 			caneat = true;
 		}
-		g.fillRoundRect(this.getX(), this.getY(), 20, 20, 2, 2);
+		g.drawImage(pinkImg, this.getX(), this.getY());
+
 	}
 
 }

@@ -3,9 +3,12 @@ package PacManLogic.Ghosts;
 import PacManGUI.SceneInfo;
 import PacManLogic.*;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by Arash on 4/8/2017.
@@ -16,10 +19,40 @@ public class OrangeGhost extends Ghosts implements GameObject {
 	boolean dead = false;
 	boolean caneat = false;
 	boolean comp = true;
-
+	private Image orngImg, orngLeft, orngRight, deadBird, vulnLeft, vulnRight;
 	public OrangeGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
 		super(position, map, player, biscuits);
-
+    	try {
+			orngLeft = new Image(new FileInputStream("src/PacManImgs/OGLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			orngRight = new Image(new FileInputStream("src/PacManImgs/OGRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			deadBird = new Image(new FileInputStream("src/PacManImgs/deadBird.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnLeft = new Image(new FileInputStream("src/PacManImgs/VulnLeft.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	try {
+			vulnRight = new Image(new FileInputStream("src/PacManImgs/VulnRight.png"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	orngImg = orngLeft;
 	}
 
 	public boolean isDead() {
@@ -482,17 +515,16 @@ public class OrangeGhost extends Ghosts implements GameObject {
 				break;
 
 			case LEFT:
-
+				orngImg = orngLeft;
 				moveLeft();
 				break;
 
 			case RIGHT:
-
+				orngImg = orngRight;
 				moveRight();
 				break;
 			case UP:
 				moveUp();
-
 				break;
 			}
 		}
@@ -502,26 +534,37 @@ public class OrangeGhost extends Ghosts implements GameObject {
 	@Override
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
-			g.setFill(javafx.scene.paint.Color.rgb(170, 170, 170));
+			orngImg = deadBird;
 			dead = true;
-
-			if (getGhost() == "orange") {
+			if (getGhost() == "blue") {
 				human = true;
 				comp = false;
-			} else if (getGhost() != "orange") {
+			} else if (getGhost() != "blue") {
 				comp = true;
 				human = false;
 			}
-
 		} else if (!isEscape()) {
-			g.setFill(javafx.scene.paint.Color.rgb(230, 90, 10));
+			switch (lastMove) {
+			case 2:
+				orngImg = orngLeft;
+				break;
+			case 4:
+				orngImg = orngRight;
+				break;
+			}
 			dead = false;
 			caneat = false;
 		} else {
-			g.setFill(javafx.scene.paint.Color.rgb(0, 155, 194));
+			switch(lastMove) {
+			case 2:
+				orngImg = vulnLeft;
+				break;
+			case 4:
+				orngImg = vulnRight;
+			}
 			caneat = true;
 		}
-		g.fillRoundRect(this.getX(), this.getY(), 20, 20, 2, 2);
+		g.drawImage(orngImg, this.getX(), this.getY());
 	}
 
 }
