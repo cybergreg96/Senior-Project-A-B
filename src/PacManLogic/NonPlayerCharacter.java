@@ -108,7 +108,7 @@ public class NonPlayerCharacter implements GameObject {
         int y = selectRandom(map.points.length);
         
         // Check if game needs to recreate NPC
-        if((map.points[y][x] == 1) && obtained && timer == 0) {
+        if((map.points[y][x] == 1 && ((y % 9 != 0) && (x % 11 != 1))) && obtained && timer == 0) {
         	this.power = null;
         	setX(x);
         	setY(y);
