@@ -15,10 +15,6 @@ import java.io.FileNotFoundException;
  */
 public class PinkGhost extends Ghosts implements GameObject {
 
-	boolean human = false;
-	boolean comp = true;
-	boolean dead = false;
-	boolean caneat = false;
 	int pauseCounter = 2;
 	private Image pinkImg, pinkLeft, pinkRight, deadBird, vulnLeft, vulnRight;
 	public PinkGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
@@ -268,8 +264,8 @@ public class PinkGhost extends Ghosts implements GameObject {
 						setX(getX() + 20);
 						setStepX(getStepX() + 1);
 						if ((this.getX() == 540) && (this.getY() == 300)) {
-							this.setX(20);
-							setStepX(1);
+							this.setX(520);
+							setStepX(26);
 						}
 					} else if (getMap().points[getStepY() + 1][getStepX()] != 0) {
 						setY(getY() + 20);
@@ -284,8 +280,8 @@ public class PinkGhost extends Ghosts implements GameObject {
 						setX(getX() - 20);
 						setStepX(getStepX() - 1);
 						if ((this.getX() == 0) && (this.getY() == 300)) {
-							this.setX(520);
-							setStepX(26);
+							this.setX(20);
+							setStepX(1);
 						}
 					} else if (getMap().points[getStepY() - 1][getStepX()] != 0) {
 						setY(getY() - 20);
@@ -350,29 +346,8 @@ public class PinkGhost extends Ghosts implements GameObject {
 
 	// Breadth first search ends here
 
-	public boolean isDead() {
-		return dead;
-
-	}
-
-	public boolean eat() {
-		return caneat;
-
-	}
-
 	@Override
-	public void update(KeyCode keyCode) {
-
-		if (keyCode.equals(keyCode.ENTER)) {
-			switchGhost();
-			if (getGhost() == "pink") {
-				human = true;
-				comp = false;
-			} else if (getGhost() != "pink") {
-				comp = true;
-				human = false;
-			}
-		}
+	public void update(KeyCode keyCode, int ghostControl) {
 
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
@@ -402,7 +377,7 @@ public class PinkGhost extends Ghosts implements GameObject {
 			}
 
 		}
-		if (human == false && comp == true) {
+		if (ghostControl != 3) {
 			if ((getBiscuits().getTotalEatenBiscuits() < 40) && (!isEscape())) {
 				randomMovement(randomDirection());
 			} else if (!isEatenWhileEscape) {
@@ -413,20 +388,22 @@ public class PinkGhost extends Ghosts implements GameObject {
 				breadthFirstSearch(14, 15);
 				if ((getStepX() == 14) && (getStepY() == 15))
 					isEatenWhileEscape = false;
+					pinkImg = pinkLeft;
 			}
-		} else if (human == true && comp == false) {
+		} else if (ghostControl == 3) {
+			if(isEatenWhileEscape) {
+				setShouldSwitch(true);
+			}
 			switch (keyCode) {
 			case DOWN:
 				moveDown();
 				break;
 
 			case LEFT:
-				pinkImg = pinkLeft;
 				moveLeft();
 				break;
 
 			case RIGHT:
-				pinkImg = pinkRight;
 				moveRight();
 				break;
 			case UP:
@@ -441,15 +418,8 @@ public class PinkGhost extends Ghosts implements GameObject {
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
 			pinkImg = deadBird;
-			dead = true;
-			if (getGhost() == "blue") {
-				human = true;
-				comp = false;
-			} else if (getGhost() != "blue") {
-				comp = true;
-				human = false;
-			}
-		} else if (!isEscape()) {
+		}
+		else if (!isEscape()) {
 			switch (lastMove) {
 			case 2:
 				pinkImg = pinkLeft;
@@ -458,8 +428,7 @@ public class PinkGhost extends Ghosts implements GameObject {
 				pinkImg = pinkRight;
 				break;
 			}
-			dead = false;
-			caneat = false;
+
 		} else {
 			switch(lastMove) {
 			case 2:
@@ -467,8 +436,9 @@ public class PinkGhost extends Ghosts implements GameObject {
 				break;
 			case 4:
 				pinkImg = vulnRight;
+				break;
 			}
-			caneat = true;
+
 		}
 		g.drawImage(pinkImg, this.getX(), this.getY());
 

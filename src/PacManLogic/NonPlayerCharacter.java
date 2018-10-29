@@ -92,7 +92,7 @@ public class NonPlayerCharacter implements GameObject {
     }
 	
 	@Override
-    public void update(KeyCode keyCode) {
+    public void update(KeyCode keyCode, int ghostControl) {
 	}
 	
     @Override

@@ -52,7 +52,7 @@ public class MazePlayGround implements GameObject {
     	return gridImg;
     }
 
-    public void update(KeyCode keyCode) {
+    public void update(KeyCode keyCode, int ghostControl) {
 
         // There is nothing special has to be updated in the playground yet
 

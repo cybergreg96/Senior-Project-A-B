@@ -32,6 +32,7 @@ public abstract class Ghosts {
 	private Biscuits biscuits;
 	private MapOutline map;
 	int lastMove = 0;
+	private boolean shouldSwitch = false;
 
 	public Ghosts() {
 
@@ -47,6 +48,7 @@ public abstract class Ghosts {
 		setStepX(getX() / 20);
 		setStepY(getY() / 20);
 	}
+	 
 
 	// Modified repeatLastMove from Player.java to allow plyer 2 ghost to keep
 	// moving in same direction
@@ -279,47 +281,7 @@ public abstract class Ghosts {
 
 	// Random Mode Ends here
 
-	public void switchGhost() {
-		gcount++;
-		if (gcount == 4) {
-			gcount = 0;
-		}
-		if (gcount == 0) {
-			blue = true;
-			red = false;
-			orange = false;
-			pink = false;
-		} else if (gcount == 1) {
-			blue = false;
-			red = true;
-			orange = false;
-			pink = false;
-		} else if (gcount == 2) {
-			blue = false;
-			red = false;
-			orange = true;
-			pink = false;
-		} else if (gcount == 3) {
-			blue = false;
-			red = false;
-			orange = false;
-			pink = true;
-		}
-	}
-
-	public String getGhost() {
-		String ghost = "";
-		if (blue) {
-			ghost = "blue";
-		} else if (red) {
-			ghost = "red";
-		} else if (pink) {
-			ghost = "pink";
-		} else if (orange) {
-			ghost = "orange";
-		}
-		return ghost;
-	}
+	
 
 	public int getX() {
 		return X;
@@ -415,6 +377,14 @@ public abstract class Ghosts {
 
 	public void setPreviousDirection(int previousDirection) {
 		this.previousDirection = previousDirection;
+	}
+
+	public boolean shouldSwitch() {
+		return shouldSwitch;
+	}
+
+	public void setShouldSwitch(boolean shouldSwitch) {
+		this.shouldSwitch = shouldSwitch;
 	}
 
 }

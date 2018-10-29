@@ -146,7 +146,7 @@ public class Player implements GameObject{
 
 
     @Override
-    public void update(KeyCode keyCode) {
+    public void update(KeyCode keyCode, int ghostControl) {
 
         switch (keyCode)
         {

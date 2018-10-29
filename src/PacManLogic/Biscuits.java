@@ -71,7 +71,7 @@ public class Biscuits implements GameObject{
 
 
     @Override
-    public void update(KeyCode keypressed) {
+    public void update(KeyCode keypressed, int ghostControl) {
 
 
     }

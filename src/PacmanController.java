@@ -98,16 +98,14 @@ public class PacmanController {
 	@FXML
 	Label highScoreRank, highScoreName, highScoreDisplay;
 
-	private int bcount = 0;
-	private int rcount = 0;
-	private int ocount = 0;
-	private int pcount = 0;
 	private SceneInfo sceneInfo;
-	private float refreshRate = 50;
+	private float refreshRate = 70;
 	private KeyCode keyPressed = KeyCode.ALT;
 	private KeyCode ghostKeyPressed = KeyCode.ALT;
+	private int ghostControl = 0;
 
 	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
+	ArrayList<GameObject> ghostObjects = new ArrayList<GameObject>();
 	private Player player;
 	private ArrayList<PacmanScore> highScores;
 
@@ -120,6 +118,7 @@ public class PacmanController {
 	private OrangeGhost orangeGhost;
 	private RedGhost redGhost;
 	private NonPlayerCharacter npc;
+	int ghostSwitch;
 
 	MazePlayGround mazePlayGround = new MazePlayGround(0, 0, player, map);
 
@@ -142,11 +141,10 @@ public class PacmanController {
 		gameObjects.add(mazePlayGround);
 		gameObjects.add(biscuits);
 		gameObjects.add(player);
-		//gameObjects.add(pinkGhost);
-		// gameObjects.add(blueGhost); don't add blue ghost (player 2) to
-		// separate its update and drawing
-		//gameObjects.add(orangeGhost);
-		//gameObjects.add(redGhost);
+		ghostObjects.add(pinkGhost);
+		ghostObjects.add(blueGhost); 
+		ghostObjects.add(orangeGhost);
+		ghostObjects.add(redGhost);
 		gameObjects.add(npc);
 
 	}
@@ -155,8 +153,10 @@ public class PacmanController {
 		pinkGhost.setEscapeTimeCount(0);
 		pinkGhost.setEscape(false);
 		gameObjects = new ArrayList<GameObject>();
+		ghostObjects = new ArrayList<GameObject>();
 		keyPressed = KeyCode.ALT;
 		ghostKeyPressed = KeyCode.ALT;
+		ghostControl = 0;
 
 		saveHighScores();
 
@@ -169,6 +169,7 @@ public class PacmanController {
 	}
 
 	public void initialize() {
+		ghostSwitch = 0;
 
 		// initialize game with high score screen
 		highScoreBackground.setStyle("-fx-background-color: rgba(0, 0, 0, .85)");
@@ -237,67 +238,52 @@ public class PacmanController {
 			this.ghostKeyPressed = keyCode;
 		}
 		if (keyCode == keyCode.ENTER) {
-			this.ghostKeyPressed = keyCode.ENTER;
+
+			ghostControl++;
+			if(ghostControl > 3) {
+				ghostControl = 0;
+			}
 		}
 	}
 
-	private void update(long now) {
+	private void update(long now) { 
 
 		// separated the 2nd player ghost being updated with a different keyCode
 		// to fix problems with one player not being able to move when the other
 		// presses a different key
-		if (blueGhost.getGhost() == "blue" && blueGhost.isDead() && bcount == 0) {
-			bcount++;
-			blueGhost.switchGhost();
+		
 			
-		} else if (!blueGhost.isDead() && bcount != 0 && redGhost.getGhost() == "red") {
-			bcount = 0;
-		}
-		if (redGhost.getGhost() == "red" && redGhost.isDead() && rcount == 0) {
-			rcount++;
-			redGhost.switchGhost();
+			if(blueGhost.shouldSwitch()) {
+				ghostControl++;
+				blueGhost.setShouldSwitch(false);
+			} else if(redGhost.shouldSwitch()) {
+				ghostControl++;
+				redGhost.setShouldSwitch(false);
+			}else if(pinkGhost.shouldSwitch()) {
+				ghostControl++;
+				pinkGhost.setShouldSwitch(false);
+			}else if(orangeGhost.shouldSwitch()) {
+				ghostControl++;
+				orangeGhost.setShouldSwitch(false);
+			}
+				
 			
-		} else if (!redGhost.isDead() && rcount != 0 && orangeGhost.getGhost() == "orange") {
-			rcount = 0;
-		}
-		if (orangeGhost.getGhost() == "orange" && orangeGhost.isDead() && ocount == 0) {
-			ocount++;
-			orangeGhost.switchGhost();
-			
-		} else if (!orangeGhost.isDead() && ocount != 0 && pinkGhost.getGhost() == "pink") {
-			ocount = 0;
-		}
-		if (pinkGhost.getGhost() == "pink" && pinkGhost.isDead() && pcount == 0) {
-			pcount++;
-			pinkGhost.switchGhost();
-			
-		} else if (!pinkGhost.isDead() && pcount != 0 && blueGhost.getGhost() == "blue") {
-			pcount = 0;
-		}
-		
-		
-			blueGhost.update(ghostKeyPressed);
-		
-			redGhost.update(ghostKeyPressed);
-		
-			orangeGhost.update(ghostKeyPressed);
-		
-			pinkGhost.update(ghostKeyPressed);
-		
-		
+			for (int i = 0; i < ghostObjects.size(); i++) {
+
+				ghostObjects.get(i).update(ghostKeyPressed, ghostControl);
+
+			}
 
 		
 		for (int i = 0; i < gameObjects.size(); i++) {
 
-			gameObjects.get(i).update(keyPressed);
+			gameObjects.get(i).update(keyPressed, -1);
 
 		}
-		// if (pinkGhost.isEscape() == false)
-		if ((!pinkGhost.eat() && (player.getX() == pinkGhost.getX()) && (player.getY() == pinkGhost.getY()))
-				|| (!blueGhost.eat() && (player.getX() == blueGhost.getX()) && (player.getY() == blueGhost.getY()))
-				|| (!orangeGhost.eat() && (player.getX() == orangeGhost.getX())
-						&& (player.getY() == orangeGhost.getY()))
-				|| (!redGhost.eat() && (player.getX() == redGhost.getX()) && (player.getY() == redGhost.getY()))) {
+		if (pinkGhost.isEscape() == false)
+            if (((player.getX() == pinkGhost.getX()) && (player.getY() == pinkGhost.getY())) || ((player.getX() == blueGhost.getX()) && (player.getY() == blueGhost.getY())) || ((player.getX() == orangeGhost.getX()) && (player.getY() == orangeGhost.getY())) || ((player.getX() == redGhost.getX()) && (player.getY() == redGhost.getY())))
+
+            {
 			System.out.println("You lost");
 
 			animation.stop();
@@ -333,10 +319,9 @@ public class PacmanController {
 		for (GameObject item : gameObjects) {
 			item.draw(g, sceneInfo);
 		}
-		blueGhost.draw(g, sceneInfo);
-		pinkGhost.draw(g, sceneInfo);
-		redGhost.draw(g, sceneInfo);
-		orangeGhost.draw(g, sceneInfo);
+		for (GameObject item : ghostObjects) {
+			item.draw(g, sceneInfo);
+		}
 
 		// biscuits.clear(g,sceneInfo);
 	}
@@ -507,6 +492,10 @@ public class PacmanController {
 		}
 
 		return true;
+	}
+	
+	public void nextGhostControl() {
+		ghostControl++;
 	}
 
 }

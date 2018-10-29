@@ -15,10 +15,7 @@ import java.io.FileNotFoundException;
  */
 public class OrangeGhost extends Ghosts implements GameObject {
 
-	boolean human = false;
-	boolean dead = false;
-	boolean caneat = false;
-	boolean comp = true;
+	int pauseCounter = 2;
 	private Image orngImg, orngLeft, orngRight, deadBird, vulnLeft, vulnRight;
 	public OrangeGhost(Point position, MapOutline map, Player player, Biscuits biscuits) {
 		super(position, map, player, biscuits);
@@ -55,417 +52,312 @@ public class OrangeGhost extends Ghosts implements GameObject {
     	orngImg = orngLeft;
 	}
 
-	public boolean isDead() {
-		return dead;
-
-	}
-
-	public boolean eat() {
-		return caneat;
-
-	}
 
 	// Best first search starts here
 
 	int lastMove = 0;
 
-	public void bestFirstSearch(int x, int y) {
+	// Breadth first search starts here
 
-		if ((x != getStepX()) || (y != getStepY())) {
+		public void breadthFirstSearch(int x, int y) {
 
+			int checkingAdjacent = 0;
 			int totalVisited = 0;
 			int[] currentReached = new int[2];
-			int[][] myOrangeGhostPath = new int[400][];
+			Node<int[]>[] visitedPlaces = new Node[700];
+			for (int i = 0; i < visitedPlaces.length; i++) {
 
-			int firstPriority;
-			int secondPriority;
-
-			currentReached[0] = getStepX();
-			currentReached[1] = getStepY();
-
-			// Calculation of distance between the currentReached (the current
-			// searching spot) and the player
-
-			int distanceDifferenceX = x - getStepX();
-			int distanceDifferenceY = y - getStepY();
-
-			if (Math.abs(distanceDifferenceX) > Math.abs(distanceDifferenceY)) {
-
-				if (distanceDifferenceX > 0) {
-					firstPriority = 2;
-
-				} else {
-					firstPriority = 4;
-				}
-
-				if (distanceDifferenceY > 0) {
-
-					secondPriority = 3;
-				} else {
-
-					secondPriority = 1;
-				}
-
-			} else {
-
-				if (distanceDifferenceY > 0) {
-					firstPriority = 3;
-				} else {
-					firstPriority = 1;
-				}
-
-				if (distanceDifferenceX > 0) {
-
-					secondPriority = 2;
-				} else {
-
-					secondPriority = 4;
-				}
+				visitedPlaces[i] = new Node<int[]>(null);
 			}
 
-			switch (firstPriority) {
-
-			case 1:// UP
-				if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-						|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-					currentReached[0] = currentReached[0];
-					currentReached[1] = currentReached[1] - 1;
-					lastMove = 1;
-
-				} else {
-					switch (secondPriority) {
-					case 2:// RIGHT
-						if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 2;
-
-							// LEFT
-						} else if (((getMap().points[currentReached[1]][currentReached[0] - 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] - 1] == 2)) && lastMove != 2) {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-
-							// DOWN
-						} else if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-							lastMove = 3;
-						}
-						break;
-					case 4:// LEFT
-						if (((getMap().points[currentReached[1]][currentReached[0] - 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] - 1] == 2)) && lastMove != 2) {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-
-							// RIGHT
-						} else if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-
-							lastMove = 2;
-
-							// DOWN
-						} else if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-
-							lastMove = 3;
-						}
-						break;
-
-					}
-
-				}
-				break;
-
-			case 2:// RIGHT
-				if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-						|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-					currentReached[0] = currentReached[0] + 1;
-					currentReached[1] = currentReached[1];
-
-					lastMove = 2;
-				} else {
-					switch (secondPriority) {
-					case 1:// UP
-						if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-
-							lastMove = 1;
-
-							// DOWN
-						} else if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-							lastMove = 3;
-
-							// LEFT
-						} else {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-
-						}
-						break;
-					case 3:// DOWN
-						if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-							lastMove = 3;
-						} else if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-							lastMove = 3;
-						} else {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-						}
-						break;
-
-					}
-
-				}
-				break;
-
-			case 3:// DOWN
-				if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-						|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-					currentReached[0] = currentReached[0];
-					currentReached[1] = currentReached[1] + 1;
-					lastMove = 3;
-				} else {
-					switch (secondPriority) {
-					case 2:// RIGHT
-						if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 2;
-						} else if (((getMap().points[currentReached[1]][currentReached[0] - 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] - 1] == 2)) && lastMove != 2) {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-						} else if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-							lastMove = 1;
-						}
-						break;
-					case 4:// LEFT
-						if (((getMap().points[currentReached[1]][currentReached[0] - 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] - 1] == 2)) && lastMove != 2) {
-							currentReached[0] = currentReached[0] - 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 4;
-						} else if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 2;
-						} else if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-							lastMove = 1;
-						}
-						break;
-
-					}
-
-				}
-				break;
-			case 4:// LEFT
-				if (((getMap().points[currentReached[1]][currentReached[0] - 1] == 1)
-						|| (getMap().points[currentReached[1]][currentReached[0] - 1] == 2)) && lastMove != 2) {
-					currentReached[0] = currentReached[0] - 1;
-					currentReached[1] = currentReached[1];
-					lastMove = 4;
-				} else {
-					switch (secondPriority) {
-					case 1:// UP
-						if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-							lastMove = 1;
-						} else if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-							lastMove = 3;
-						} else if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 1;
-						}
-						break;
-					case 3:// DOWN
-						if (((getMap().points[currentReached[1] + 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] + 1][currentReached[0]] == 2)) && lastMove != 1) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] + 1;
-							lastMove = 1;
-						} else if (((getMap().points[currentReached[1] - 1][currentReached[0]] == 1)
-								|| (getMap().points[currentReached[1] - 1][currentReached[0]] == 2)) && lastMove != 3) {
-							currentReached[0] = currentReached[0];
-							currentReached[1] = currentReached[1] - 1;
-							lastMove = 1;
-						} else if (((getMap().points[currentReached[1]][currentReached[0] + 1] == 1)
-								|| (getMap().points[currentReached[1]][currentReached[0] + 1] == 2)) && lastMove != 4) {
-							currentReached[0] = currentReached[0] + 1;
-							currentReached[1] = currentReached[1];
-							lastMove = 2;
-						}
-						break;
-
-					}
-
-				}
-				break;
-			}
+			visitedPlaces[totalVisited] = new Node<int[]>(new int[] { getStepX(), getStepY() });
 
 			totalVisited++;
+
+			while (true) {
+
+				// check the upon adjacent point
+				if ((getMap().points[visitedPlaces[checkingAdjacent].getData()[1] - 1][visitedPlaces[checkingAdjacent]
+						.getData()[0]] == 1)
+						|| (getMap().points[visitedPlaces[checkingAdjacent].getData()[1]
+								- 1][visitedPlaces[checkingAdjacent].getData()[0]] == 2)) {
+					boolean allreadyChecked = false;
+					for (int k = 0; k < totalVisited; k++) {
+						if ((visitedPlaces[checkingAdjacent].getData()[0] == visitedPlaces[k].getData()[0])
+								&& (visitedPlaces[checkingAdjacent].getData()[1] - 1 == visitedPlaces[k].getData()[1])) {
+
+							allreadyChecked = true;
+							break;
+						}
+					}
+					if (!allreadyChecked) {
+
+						visitedPlaces[totalVisited] = new Node<int[]>(
+								new int[] { visitedPlaces[checkingAdjacent].getData()[0],
+										visitedPlaces[checkingAdjacent].getData()[1] - 1 },
+								visitedPlaces[checkingAdjacent]);
+
+						currentReached[0] = visitedPlaces[checkingAdjacent].getData()[0];
+						currentReached[1] = visitedPlaces[checkingAdjacent].getData()[1] - 1;
+						if ((currentReached[0] == x) && (currentReached[1] == y)) {
+							// visitedPlaces[totalVisited] = new Node<int[]>(new
+							// int[]{visitedPlaces[checkingAdjacent].getData()[0],visitedPlaces[checkingAdjacent].getData()[1]-1},visitedPlaces[totalVisited
+							// - adjacantCounter]);
+
+							break;
+						}
+						totalVisited++;
+
+					}
+				}
+
+				// check the right adjacent point
+				if ((getMap().points[visitedPlaces[checkingAdjacent].getData()[1]][visitedPlaces[checkingAdjacent]
+						.getData()[0] + 1] == 1)
+						|| (getMap().points[visitedPlaces[checkingAdjacent].getData()[1]][visitedPlaces[checkingAdjacent]
+								.getData()[0] + 1] == 2)) {
+					boolean allreadyChecked = false;
+					for (int k = 0; k < totalVisited; k++) {
+						if ((visitedPlaces[checkingAdjacent].getData()[0] + 1 == visitedPlaces[k].getData()[0])
+								&& (visitedPlaces[checkingAdjacent].getData()[1] == visitedPlaces[k].getData()[1])) {
+
+							allreadyChecked = true;
+							break;
+						}
+					}
+					if (!allreadyChecked) {
+
+						// Adding the found empty place to the array
+						visitedPlaces[totalVisited] = new Node<int[]>(
+								new int[] { visitedPlaces[checkingAdjacent].getData()[0] + 1,
+										visitedPlaces[checkingAdjacent].getData()[1] },
+								visitedPlaces[checkingAdjacent]);
+
+						currentReached[0] = visitedPlaces[checkingAdjacent].getData()[0] + 1;
+						currentReached[1] = visitedPlaces[checkingAdjacent].getData()[1];
+						if ((currentReached[0] == x) && (currentReached[1] == y)) {
+							// visitedPlaces[totalVisited] = new Node<int[]>(new
+							// int[]{visitedPlaces[checkingAdjacent].getData()[0]+1,visitedPlaces[checkingAdjacent].getData()[1]},visitedPlaces[totalVisited
+							// - adjacantCounter]);
+							break;
+						}
+						totalVisited++;
+
+					}
+				}
+				// check the bottom adjacent point
+				if ((getMap().points[visitedPlaces[checkingAdjacent].getData()[1] + 1][visitedPlaces[checkingAdjacent]
+						.getData()[0]] == 1)
+						|| (getMap().points[visitedPlaces[checkingAdjacent].getData()[1]
+								+ 1][visitedPlaces[checkingAdjacent].getData()[0]] == 2)) {
+					boolean allreadyChecked = false;
+					for (int k = 0; k < totalVisited; k++) {
+						if ((visitedPlaces[checkingAdjacent].getData()[0] == visitedPlaces[k].getData()[0])
+								&& (visitedPlaces[checkingAdjacent].getData()[1] + 1 == visitedPlaces[k].getData()[1])) {
+
+							allreadyChecked = true;
+							break;
+						}
+					}
+					if (!allreadyChecked) {
+
+						visitedPlaces[totalVisited] = new Node<int[]>(
+								new int[] { visitedPlaces[checkingAdjacent].getData()[0],
+										visitedPlaces[checkingAdjacent].getData()[1] + 1 },
+								visitedPlaces[checkingAdjacent]);
+
+						currentReached[0] = visitedPlaces[checkingAdjacent].getData()[0];
+						currentReached[1] = visitedPlaces[checkingAdjacent].getData()[1] + 1;
+
+						if ((currentReached[0] == x) && (currentReached[1] == y)) {
+							// visitedPlaces[totalVisited] = new Node<int[]>(new
+							// int[]{visitedPlaces[checkingAdjacent].getData()[0],visitedPlaces[checkingAdjacent].getData()[1]+1},visitedPlaces[totalVisited
+							// - adjacantCounter]);
+							break;
+						}
+
+						totalVisited++;
+					}
+				}
+				// check the left adjacent point
+				if ((getMap().points[visitedPlaces[checkingAdjacent].getData()[1]][visitedPlaces[checkingAdjacent]
+						.getData()[0] - 1] == 1)
+						|| (getMap().points[visitedPlaces[checkingAdjacent].getData()[1]][visitedPlaces[checkingAdjacent]
+								.getData()[0] - 1] == 2)) {
+					boolean allreadyChecked = false;
+					for (int k = 0; k < totalVisited; k++) {
+						if ((visitedPlaces[checkingAdjacent].getData()[0] - 1 == visitedPlaces[k].getData()[0])
+								&& (visitedPlaces[checkingAdjacent].getData()[1] == visitedPlaces[k].getData()[1])) {
+
+							allreadyChecked = true;
+							break;
+						}
+					}
+					if (!allreadyChecked) {
+
+						visitedPlaces[totalVisited] = new Node<int[]>(
+								new int[] { visitedPlaces[checkingAdjacent].getData()[0] - 1,
+										visitedPlaces[checkingAdjacent].getData()[1] },
+								visitedPlaces[checkingAdjacent]);
+
+						currentReached[0] = visitedPlaces[checkingAdjacent].getData()[0] - 1;
+						currentReached[1] = visitedPlaces[checkingAdjacent].getData()[1];
+						if ((currentReached[0] == x) && (currentReached[1] == y)) {
+							// visitedPlaces[totalVisited] = new Node<int[]>(new
+							// int[]{visitedPlaces[checkingAdjacent].getData()[0]-1,visitedPlaces[checkingAdjacent].getData()[1]},visitedPlaces[totalVisited
+							// - adjacantCounter]);
+
+							break;
+						}
+
+						totalVisited++;
+					}
+				}
+
+				checkingAdjacent++;
+
+			}
+
+			Node<int[]> myNode = visitedPlaces[totalVisited];
+			int[][] myNodesArray = new int[400][2];
+			int countMyNodes = 0;
+			int countZeros = 0;
+
+			while (myNode != null) {
+				myNodesArray[countMyNodes][0] = myNode.getData()[0];
+				myNodesArray[countMyNodes][1] = myNode.getData()[1];
+				myNode = myNode.getParent();
+				countMyNodes++;
+			}
+
+			int[][] myNodesArray2 = new int[countMyNodes][2];
+			for (int j = 0; j < myNodesArray.length; j++) {
+
+				if ((myNodesArray[j][0] != 0)) {
+
+					myNodesArray2[j][0] = myNodesArray[j][0];
+					myNodesArray2[j][1] = myNodesArray[j][1];
+				}
+
+			}
+			int[][] temp = new int[1][2];
+			for (int i = 0; i < myNodesArray2.length / 2; i++) {
+				temp[0] = myNodesArray2[i];
+				myNodesArray2[i] = myNodesArray2[myNodesArray2.length - 1 - i];
+				myNodesArray2[myNodesArray2.length - 1 - i] = temp[0];
+			}
+			myNodesArray = myNodesArray2;
 
 			setTotalSearched(totalVisited);
 
 			if ((!isEscape()) || (isEatenWhileEscape)) {
 
-				this.setStepX(currentReached[0]);
-				this.setStepY(currentReached[1]);
-				this.setX((currentReached[0]) * 20);
-				this.setY((currentReached[1]) * 20);
+				this.setStepX(myNodesArray[1][0]);
+				this.setStepY(myNodesArray[1][1]);
+				this.setX((myNodesArray[1][0]) * 20);
+				this.setY((myNodesArray[1][1]) * 20);
 
 			} else if ((isEscape()) && (!isEatenWhileEscape)) {
 
-				if (lastMove == 1) {
+				// Run Away
+				
+				if (pauseCounter == 2) {
+					this.setStepX(myNodesArray[0][0]);
+					this.setStepY(myNodesArray[0][1]);
+					if (myNodesArray[0][0] - myNodesArray[1][0] == 1) {
 
-					if ((getMap().points[getStepY() + 1][getStepX()] == 1)
-							|| (getMap().points[getStepY() + 1][getStepX()] == 2)) {
+						if (getMap().points[getStepY()][getStepX() + 1] != 0) {
+							setX(getX() + 20);
+							setStepX(getStepX() + 1);
+							if ((this.getX() == 540) && (this.getY() == 300)) {
+								this.setX(520);
+								setStepX(26);
+							}
+						} else if (getMap().points[getStepY() + 1][getStepX()] != 0) {
+							setY(getY() + 20);
+							setStepY(getStepY() + 1);
+						} else {
+							setY(getY() - 20);
+							setStepY(getStepY() - 1);
+						}
 
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() + 1);
+					} else if (myNodesArray[1][0] - myNodesArray[0][0] == 1) {
+						if (getMap().points[getStepY()][getStepX() - 1] != 0) {
+							setX(getX() - 20);
+							setStepX(getStepX() - 1);
+							if ((this.getX() == 0) && (this.getY() == 300)) {
+								this.setX(20);
+								setStepX(1);
+							}
+						} else if (getMap().points[getStepY() - 1][getStepX()] != 0) {
+							setY(getY() - 20);
+							setStepY(getStepY() - 1);
+						} else {
+							setY(getY() + 20);
+							setStepY(getStepY() + 1);
+						}
+					} else if (myNodesArray[1][1] - myNodesArray[0][1] == 1) {
+						if (getMap().points[getStepY() - 1][getStepX()] != 0) {
+							setY(getY() - 20);
+							setStepY(getStepY() - 1);
 
-					} else if ((getMap().points[getStepY()][getStepX() + 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() + 1] == 2)) {
+						} else if (getMap().points[getStepY()][getStepX() + 1] != 0) {
 
-						this.setStepX(getStepX() + 1);
-						this.setStepY(getStepY());
+							setX(getX() + 20);
+							setStepX(getStepX() + 1);
+							if ((this.getX() == 540) && (this.getY() == 300)) {
+								this.setX(20);
+								setStepX(1);
+							}
+						} else {
+							setX(getX() - 20);
+							setStepX(getStepX() - 1);
 
-					} else if ((getMap().points[getStepY()][getStepX() - 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() - 1] == 2)) {
-						this.setStepX(getStepX() - 1);
-						this.setStepY(getStepY());
+							if ((this.getX() == 0) && (this.getY() == 300)) {
+								this.setX(520);
+								setStepX(26);
+							}
+						}
 
+					} else if (myNodesArray[0][1] - myNodesArray[1][1] == 1) {
+						if (getMap().points[getStepY() + 1][getStepX()] != 0) {
+							setY(getY() + 20);
+							setStepY(getStepY() + 1);
+
+						} else if (getMap().points[getStepY()][getStepX() + 1] != 0) {
+
+							setX(getX() + 20);
+							setStepX(getStepX() + 1);
+							if ((this.getX() == 540) && (this.getY() == 300)) {
+								this.setX(20);
+								setStepX(1);
+							}
+						} else {
+							setX(getX() - 20);
+							setStepX(getStepX() - 1);
+							if ((this.getX() == 0) && (this.getY() == 300)) {
+								this.setX(520);
+								setStepX(26);
+							}
+						}
 					}
-
-				} else if (lastMove == 2) {
-
-					if ((getMap().points[getStepY()][getStepX() - 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() - 1] == 2)) {
-
-						this.setStepX(getStepX() - 1);
-						this.setStepY(getStepY());
-
-					} else if ((getMap().points[getStepY() - 1][getStepX()] == 1)
-							|| (getMap().points[getStepY() - 1][getStepX()] == 2)) {
-
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() - 1);
-
-					} else if ((getMap().points[getStepY()][getStepX() + 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() + 1] == 2)) {
-
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() + 1);
-
-					}
-
-				} else if (lastMove == 3) {
-
-					if ((getMap().points[getStepY() - 1][getStepX()] == 1)
-							|| (getMap().points[getStepY() - 1][getStepX()] == 2)) {
-
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() - 1);
-
-					} else if ((getMap().points[getStepY()][getStepX() + 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() + 1] == 2)) {
-
-						this.setStepX(getStepX() + 1);
-						this.setStepY(getStepY());
-
-					} else if ((getMap().points[getStepY()][getStepX() - 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() - 1] == 2)) {
-
-						this.setStepX(getStepX() - 1);
-						this.setStepY(getStepY());
-
-					}
-
-				} else if (lastMove == 4) {
-
-					if ((getMap().points[getStepY()][getStepX() + 1] == 1)
-							|| (getMap().points[getStepY()][getStepX() + 1] == 2)) {
-
-						this.setStepX(getStepX() + 1);
-						this.setStepY(getStepY());
-
-					}
-					if ((getMap().points[getStepY() - 1][getStepX()] == 1)
-							|| (getMap().points[getStepY() - 1][getStepX()] == 2)) {
-
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() - 1);
-
-					} else if ((getMap().points[getStepY() + 1][getStepX()] == 1)
-							|| (getMap().points[getStepY() + 1][getStepX()] == 2)) {
-						this.setStepX(getStepX());
-						this.setStepY(getStepY() + 1);
-
-					}
-
 				}
-
-				this.setX((getStepX()) * 20);
-				this.setY((getStepY()) * 20);
-
+				pauseCounter--;
+				if (pauseCounter == 0) {
+					pauseCounter = 2;
+				}
 			}
 
 		}
-	}
 
-	// Breadth first search ends here
+
+
+
+
+
 
 	@Override
-	public void update(KeyCode keyCode) {
-
-		if (keyCode.equals(keyCode.ENTER)) {
-			switchGhost();
-			if (getGhost() == "orange") {
-				human = true;
-				comp = false;
-			} else if (getGhost() != "orange") {
-				comp = true;
-				human = false;
-			}
-		}
+	public void update(KeyCode keyCode, int ghostControl) {
 
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
@@ -495,19 +387,23 @@ public class OrangeGhost extends Ghosts implements GameObject {
 			}
 
 		}
-		if (human == false && comp == true) {
+		if (ghostControl != 2) {
 			if ((getBiscuits().getTotalEatenBiscuits() < 20) && (!isEscape())) {
 				randomMovement(randomDirection());
 			} else if (!isEatenWhileEscape) {
-				bestFirstSearch(getPlayer().getStepX(), getPlayer().getStepY());
+				breadthFirstSearch(getPlayer().getStepX(), getPlayer().getStepY());
 
 			} else if (isEatenWhileEscape) {
 
-				bestFirstSearch(16, 15);
+				breadthFirstSearch(16, 15);
 				if ((getStepX() == 16) && (getStepY() == 15))
 					isEatenWhileEscape = false;
+					orngImg = orngLeft;
 			}
-		} else if (human == true && comp == false) {
+		} else if (ghostControl == 2) {
+			if(isEatenWhileEscape) {
+				setShouldSwitch(true);
+			}
 			switch (keyCode) {
 			case DOWN:
 
@@ -515,12 +411,10 @@ public class OrangeGhost extends Ghosts implements GameObject {
 				break;
 
 			case LEFT:
-				orngImg = orngLeft;
 				moveLeft();
 				break;
 
 			case RIGHT:
-				orngImg = orngRight;
 				moveRight();
 				break;
 			case UP:
@@ -535,15 +429,8 @@ public class OrangeGhost extends Ghosts implements GameObject {
 	public void draw(GraphicsContext g, SceneInfo sceneInfo) {
 		if (isEatenWhileEscape) {
 			orngImg = deadBird;
-			dead = true;
-			if (getGhost() == "blue") {
-				human = true;
-				comp = false;
-			} else if (getGhost() != "blue") {
-				comp = true;
-				human = false;
-			}
-		} else if (!isEscape()) {
+		}
+		else if (!isEscape()) {
 			switch (lastMove) {
 			case 2:
 				orngImg = orngLeft;
@@ -552,8 +439,6 @@ public class OrangeGhost extends Ghosts implements GameObject {
 				orngImg = orngRight;
 				break;
 			}
-			dead = false;
-			caneat = false;
 		} else {
 			switch(lastMove) {
 			case 2:
@@ -561,8 +446,8 @@ public class OrangeGhost extends Ghosts implements GameObject {
 				break;
 			case 4:
 				orngImg = vulnRight;
+				break;
 			}
-			caneat = true;
 		}
 		g.drawImage(orngImg, this.getX(), this.getY());
 	}
