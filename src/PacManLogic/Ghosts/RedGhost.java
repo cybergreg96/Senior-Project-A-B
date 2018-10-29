@@ -496,7 +496,11 @@ public class RedGhost extends Ghosts implements GameObject {
 
 	@Override
 	public void update(KeyCode keyCode, int ghostControl) {
-		
+		if (isEscape()) {
+			redImg = vulnLeft;
+		}else if (!isEscape()) {
+			redImg = redRight;
+		}
 
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);

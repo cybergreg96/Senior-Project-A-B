@@ -348,7 +348,11 @@ public class PinkGhost extends Ghosts implements GameObject {
 
 	@Override
 	public void update(KeyCode keyCode, int ghostControl) {
-
+		if (isEscape()) {
+			pinkImg = vulnLeft;
+		}else if (!isEscape()) {
+			pinkImg = pinkRight;
+		}
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
 			setEscapeTimeCount(getEscapeTimeCount() - 1);

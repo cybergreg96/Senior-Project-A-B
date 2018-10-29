@@ -55,6 +55,12 @@ public class BlueGhost extends Ghosts implements GameObject {
 
 	@Override
 	public void update(KeyCode keyCode, int ghostControl) {
+		
+		if (isEscape()) {
+			blueImg = vulnLeft;
+		}else if (!isEscape()) {
+			blueImg = blueRight;
+		}
 
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
@@ -182,12 +188,6 @@ public class BlueGhost extends Ghosts implements GameObject {
 
         totalVisitedA++;
         totalVisitedB++;
-
-
-
-
-
-
 
         while (true) {
 

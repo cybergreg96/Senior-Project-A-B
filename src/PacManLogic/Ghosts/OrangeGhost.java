@@ -358,7 +358,11 @@ public class OrangeGhost extends Ghosts implements GameObject {
 
 	@Override
 	public void update(KeyCode keyCode, int ghostControl) {
-
+		if (isEscape()) {
+			orngImg = vulnLeft;
+		}else if (!isEscape()) {
+			orngImg = orngRight;
+		}
 		if (getEscapeTimeCount() > 0) {
 			setEscape(true);
 			setEscapeTimeCount(getEscapeTimeCount() - 1);

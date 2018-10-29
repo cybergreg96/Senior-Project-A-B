@@ -303,6 +303,25 @@ public class PacmanController {
 				(orangeGhost.getTotalSearched() > 0 ? String.valueOf(orangeGhost.getTotalSearched()) : "Random mode"));
 		redGhostSearches.setText(
 				(redGhost.getTotalSearched() > 0 ? String.valueOf(redGhost.getTotalSearched()) : "Random mode"));
+		blueGhostSearches.setText(
+				(blueGhost.getTotalSearched() > 0 ? String.valueOf(blueGhost.getTotalSearched()) : "Random mode"));
+		switch (ghostControl) {
+		case 0:
+			blueGhostSearches.setText("HUMAN");
+			break;
+		
+		case 1:
+			redGhostSearches.setText("HUMAN");
+			break;
+			
+		case 2:
+			orangeGhostSearches.setText("HUMAN");
+			break;
+			
+		case 3:
+			pinkGhostSearches.setText("HUMAN");
+			break;
+		}
 	}
 
 	/**
