@@ -25,6 +25,7 @@ import PacManLogic.MapOutline;
 import PacManLogic.MazePlayGround;
 import PacManLogic.NonPlayerCharacter;
 import PacManLogic.Player;
+import PacManLogic.PlayerIndicator;
 import PacManLogic.Ghosts.BlueGhost;
 import PacManLogic.Ghosts.OrangeGhost;
 import PacManLogic.Ghosts.PinkGhost;
@@ -118,6 +119,7 @@ public class PacmanController {
 	private OrangeGhost orangeGhost;
 	private RedGhost redGhost;
 	private NonPlayerCharacter npc;
+	private PlayerIndicator indicator;
 	int ghostSwitch;
 
 	MazePlayGround mazePlayGround = new MazePlayGround(0, 0, player, map);
@@ -141,11 +143,14 @@ public class PacmanController {
 		gameObjects.add(mazePlayGround);
 		gameObjects.add(biscuits);
 		gameObjects.add(player);
-		ghostObjects.add(pinkGhost);
 		ghostObjects.add(blueGhost); 
-		ghostObjects.add(orangeGhost);
 		ghostObjects.add(redGhost);
+		ghostObjects.add(orangeGhost);
+		ghostObjects.add(pinkGhost);
 		gameObjects.add(npc);
+		
+		indicator = new PlayerIndicator(ghostObjects);
+		gameObjects.add(indicator);
 
 	}
 
@@ -277,7 +282,7 @@ public class PacmanController {
 		
 		for (int i = 0; i < gameObjects.size(); i++) {
 
-			gameObjects.get(i).update(keyPressed, -1);
+			gameObjects.get(i).update(keyPressed, ghostControl);
 
 		}
 		if (pinkGhost.isEscape() == false)
