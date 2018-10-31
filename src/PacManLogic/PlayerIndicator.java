@@ -29,6 +29,8 @@ public class PlayerIndicator implements GameObject {
 	}
 	public void update(KeyCode KeyPressed, int ghostControl) {
 		ctrldGhost = ghostControl;
+		if(ctrldGhost > 3)
+			ctrldGhost = 0;
 		determineIndicator();
 	}
 	
