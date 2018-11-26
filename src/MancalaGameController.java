@@ -1,3 +1,4 @@
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -15,6 +16,10 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import MancalaGame.MancalaBoard;
+import MancalaGame.MancalaHouse;
+import MancalaGame.MancalaPlayer;
 
 import static java.lang.System.exit;
 

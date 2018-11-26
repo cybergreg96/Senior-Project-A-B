@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.TimerTask;
 
+import ConcentrationGame.ConcentrationCard;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;

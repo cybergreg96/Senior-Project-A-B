@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import TankGame.TankGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
