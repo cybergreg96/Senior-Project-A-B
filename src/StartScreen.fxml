@@ -65,7 +65,12 @@
             <Font name="Courier New Bold" size="16.0" />
          </font>
       </Button>
-      <Button fx:id="PacmanButton" layoutX="354.0" layoutY="520.0" mnemonicParsing="false" onAction="#PacmanButtonClick" prefHeight="75.0" prefWidth="150.0" text="Pacman" textAlignment="CENTER">
+      <Button fx:id="PacmanButton" layoutX="258.0" layoutY="520.0" mnemonicParsing="false" onAction="#PacmanButtonClick" prefHeight="75.0" prefWidth="150.0" text="Pacman" textAlignment="CENTER">
+         <font>
+            <Font name="Courier New Bold" size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="BilliardButton" layoutX="442.0" layoutY="520.0" mnemonicParsing="false" onAction="#BilliardButtonClick" prefHeight="75.0" prefWidth="150.0" text="Billiard Bunnies" textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Courier New Bold" size="16.0" />
          </font>

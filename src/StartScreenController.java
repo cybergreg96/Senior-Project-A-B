@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
+import BilliardGame.BilliardController;
 import TankGame.TankGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +44,8 @@ public class StartScreenController implements Initializable
 	@FXML
 	private Button TankButton;
 	@FXML
+	private Button BilliardButton;
+	@FXML
 	private Button ConcentrationButton;
 	@FXML
 	private Button MancalaButton;
@@ -57,12 +60,20 @@ public class StartScreenController implements Initializable
 		//set banner background color
 		birdstufzBanner.setStyle("-fx-background-color: #FFFFFF");
 
-		//load the splashscreen if not loaded yet
-		if(!StartScreen.isSplashLoaded) 
-		{
-			loadSplashScreen();
-		}
+		
 	}  
+	
+	@FXML
+	public void BilliardButtonClick(ActionEvent event) throws IOException 
+	{
+		
+		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+		Billiard tankC = new Billiard();
+		tankC.setStage(window);
+		final BilliardController tankGame = new BilliardController(window);
+		tankGame.start();
+	}
+	
 	
 	// Event Listener on Button[#PacmanButton].onAction
 		@FXML
@@ -73,7 +84,7 @@ public class StartScreenController implements Initializable
 	        //loader.load(getClass().getResource("PacManGUI.fxml".ope));
 	        Parent root = loader.load();
 	        Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        primaryStage.setTitle("ArashPacMan");
+	        primaryStage.setTitle("PacMan");
 
 	        PacmanController controller = (PacmanController) loader.getController();
 

@@ -162,7 +162,7 @@ class Maze
 					final TankRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
-				
+				 
 				if(j==5 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10))
 				{
 					final TankRectangle upSeg = tankCell.getUpSeg();
