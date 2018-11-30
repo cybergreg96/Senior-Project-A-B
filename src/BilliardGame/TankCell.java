@@ -1,5 +1,6 @@
 package BilliardGame;
 
+import javafx.geometry.Point2D;
 /*
  * references: https://github.com/nhooyr/java-tanktank
  */
@@ -7,14 +8,11 @@ import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 
-
-
+// Cell represents a cell within the Maze.
 class TankCell 
 {
-	static final double LENGTH = 3.5 * 15;
-	
+	static final double LENGTH = 3.5 * Tank.BODY_HEIGHT;
 	private static final Color COLOR = Color.BLACK;
-	static final double THICKNESS = 1.5 * 3;
 
 	private final int row;
 	private final int column;
@@ -150,13 +148,18 @@ class TankCell
 	// gets the up segment of a tank cell
 	TankRectangle getUpSeg() 
 	{
-		return getSeg(this.up, x, y, TankCell.LENGTH, TankCell.THICKNESS);
+		return getSeg(this.up, x, y, TankCell.LENGTH, Maze.THICKNESS);
 	}
 
 	// gets the left segment of a tank cell
 	TankRectangle getLeftSeg() 
 	{
-		return getSeg(this.left, x, y, TankCell.THICKNESS, TankCell.LENGTH);
+		return getSeg(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
+	}
+	
+	TankRectangle getDiagonalSeg() 
+	{
+		return getDiagonal(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
 	}
 
 	// We add maze thickness to the lengths in the down segment and right
@@ -164,7 +167,7 @@ class TankCell
 	// where an invisible up segment or left segment would be.
 	TankRectangle getDownSeg() 
 	{
-		return getSeg(this.down, x, y + TankCell.LENGTH, TankCell.LENGTH + TankCell.THICKNESS, TankCell.THICKNESS);
+		return getSeg(this.down, x, y + TankCell.LENGTH, TankCell.LENGTH + Maze.THICKNESS, Maze.THICKNESS);
 	}
 
 	// We add maze thickness to the lengths in the down segment and right
@@ -172,7 +175,7 @@ class TankCell
 	// where an invisible down segment or right segment would be.
 	TankRectangle getRightSeg() 
 	{
-		return getSeg(this.right, x + TankCell.LENGTH, y, TankCell.THICKNESS, TankCell.LENGTH + TankCell.THICKNESS);
+		return getSeg(this.right, x + TankCell.LENGTH, y, Maze.THICKNESS, TankCell.LENGTH + Maze.THICKNESS);
 	}
 
 	// places maze segments down based on whether there visibility value is to
@@ -188,6 +191,19 @@ class TankCell
 		}
 		return rect;
 	}
+	
+	private TankRectangle getDiagonal(final MutableBoolean visibility, final double x, final double y, final double width, final double height) 
+	{
+		TankRectangle rect = null;
+		if (visibility.value) 
+		{
+			rect = new TankRectangle(x + (width/2), y + (height/2), width, height);
+			rect.rotate(new Point2D(x,y), 200);
+			rect.getPolygon().setFill(COLOR);
+		}
+		return rect;
+	}
+	
 
 	static class MutableBoolean 
 	{

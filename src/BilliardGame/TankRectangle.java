@@ -90,7 +90,7 @@ class TankRectangle
 	{
 		for (int i = 0; i < points.length; i++) 
 		{
-			points[i] = Physics.rotate(points[i], pivot, theta);
+			points[i] = TankPhysics.rotate(points[i], pivot, theta);
 		}
 		syncPolygon();
 	}

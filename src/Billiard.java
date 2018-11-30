@@ -1,7 +1,8 @@
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import BilliardGame.BilliardController;
+
+import BilliardGame.BilliardGame;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
@@ -32,7 +33,7 @@ public class Billiard implements Initializable
 
 		Stage stage = (Stage) root.getScene().getWindow();
 
-		final BilliardController tankGame = new BilliardController(stage);
+		final BilliardGame tankGame = new BilliardGame(stage);
 		tankGame.start();
 
 	}

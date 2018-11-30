@@ -1,5 +1,7 @@
 package BilliardGame;
-
+/*
+ * references: https://github.com/nhooyr/java-tanktank
+ */
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -14,9 +16,9 @@ import java.util.concurrent.TimeUnit;
 // Bullet represents a bullet emitted by a tank.
 class TankBullet
 {
-    static final double VELOCITY =  3 * 1.5; // exported for use in Maze.
+    static final double VELOCITY = Tank.VELOCITY * 1.5; // exported for use in Maze.
 
-    private static final double RADIUS = 4 * 2;
+    private static final double RADIUS = Tank.HEAD_HEIGHT * 2;
     private static final Paint COLOR = Color.RED;
     private static final long DURATION = TimeUnit.SECONDS.toNanos(15);
 
@@ -30,12 +32,12 @@ class TankBullet
         // We add the velocity and radius to the launchPoint so the Tank does not instantly die from its own bullet.
         // Since the bullet is defined to be 1.5 times faster than the tank, this guarantees that the tank will not die
         // as the tank cannot move into it.
-        final Point2D radiusForward = Physics.decomposeVector(RADIUS + VELOCITY, theta);
+        final Point2D radiusForward = TankPhysics.decomposeVector(RADIUS + VELOCITY, theta);
         launchPoint = launchPoint.add(radiusForward);
         Image carrot = new Image("/resources/carrot.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
         circle.setFill(new ImagePattern(carrot));
-        velocity = Physics.decomposeVector(VELOCITY, theta);
+        velocity = TankPhysics.decomposeVector(VELOCITY, theta);
 
         expiry = nanos + DURATION;
     }
@@ -89,7 +91,7 @@ class TankBullet
     {
         // TODO this code is copied in Tank too, we could use a shared method that accepts a Shape or something.
         for (int i = 0; i < segments.size(); i++) {
-            if (!Physics.isIntersecting(circle, segments.get(i).getPolygon())) 
+            if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) 
             {
                 // The bullet does not intersect the seg.
                 segments.remove(i);
@@ -118,7 +120,7 @@ class TankBullet
 
             for (int i = 0; i < segments.size(); i++) 
             {
-                if (!Physics.isIntersecting(circle, segments.get(i).getPolygon())) 
+                if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) 
                 {
                     seg = segments.remove(i);
                     i--;
@@ -169,10 +171,10 @@ class TankBullet
     }
     
     //returns true if the bullet hits or is intersecting with tank shape, false if otherwise
-    boolean hitTank(Player tank) 
+    boolean hitTank(Tank tank) 
     {
     	
-    	if(Physics.isIntersecting(circle,  tank.getTankShape()))
+    	if(TankPhysics.isIntersecting(circle,  tank.getTankShape()))
     	{
     		return true;
     	}

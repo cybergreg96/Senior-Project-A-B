@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 
 import javax.swing.JFrame;
 
-import BilliardGame.BilliardController;
+import BilliardGame.BilliardGame;
 import TankGame.TankGame;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -70,7 +70,7 @@ public class StartScreenController implements Initializable
 		Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
 		Billiard tankC = new Billiard();
 		tankC.setStage(window);
-		final BilliardController tankGame = new BilliardController(window);
+		final BilliardGame tankGame = new BilliardGame(window);
 		tankGame.start();
 	}
 	
