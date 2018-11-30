@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 // Bullet represents a bullet emitted by a tank.
-class TankBullet
+class FireBall
 {
-    static final double VELOCITY = Tank.VELOCITY * 1.5; // exported for use in Maze.
+    static final double VELOCITY = Bunny.VELOCITY * 1.5; // exported for use in Maze.
 
-    private static final double RADIUS = Tank.HEAD_HEIGHT * 2;
+    private static final double RADIUS = Bunny.HEAD_HEIGHT * 2;
     private static final Paint COLOR = Color.RED;
     private static final long DURATION = TimeUnit.SECONDS.toNanos(15);
 
@@ -27,17 +27,17 @@ class TankBullet
     private Point2D velocity;
 
     //tank bullet constructor
-    TankBullet(Point2D launchPoint, final double theta, final long nanos) 
+    FireBall(Point2D launchPoint, final double theta, final long nanos) 
     {
         // We add the velocity and radius to the launchPoint so the Tank does not instantly die from its own bullet.
         // Since the bullet is defined to be 1.5 times faster than the tank, this guarantees that the tank will not die
         // as the tank cannot move into it.
-        final Point2D radiusForward = TankPhysics.decomposeVector(RADIUS + VELOCITY, theta);
+        final Point2D radiusForward = Physics.decomposeVector(RADIUS + VELOCITY, theta);
         launchPoint = launchPoint.add(radiusForward);
         Image carrot = new Image("/resources/carrot.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
         circle.setFill(new ImagePattern(carrot));
-        velocity = TankPhysics.decomposeVector(VELOCITY, theta);
+        velocity = Physics.decomposeVector(VELOCITY, theta);
 
         expiry = nanos + DURATION;
     }
@@ -87,11 +87,11 @@ class TankBullet
     // or between miny-maxy of the seg. Depending on which is true, a horizontal or vertical bounce needs to occur.
     // If neither is true, then the bullet collided with a corner and we have to handle that specially. See the comments
     // below.
-    void handleMazeCollision(final ArrayList<TankRectangle> segments) 
+    void handleMazeCollision(final ArrayList<PlayerRectangle> segments) 
     {
         // TODO this code is copied in Tank too, we could use a shared method that accepts a Shape or something.
         for (int i = 0; i < segments.size(); i++) {
-            if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) 
+            if (!Physics.isIntersecting(circle, segments.get(i).getPolygon())) 
             {
                 // The bullet does not intersect the seg.
                 segments.remove(i);
@@ -106,7 +106,7 @@ class TankBullet
         }
 
         // seg will hold the final seg the object ended up colliding with, aka the first collision.
-        TankRectangle seg = null;
+        PlayerRectangle seg = null;
 
         // Backtrack.
         // Very fine because it has a big impact when it comes to hitting corners. See source below. Also, you can test
@@ -120,7 +120,7 @@ class TankBullet
 
             for (int i = 0; i < segments.size(); i++) 
             {
-                if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon())) 
+                if (!Physics.isIntersecting(circle, segments.get(i).getPolygon())) 
                 {
                     seg = segments.remove(i);
                     i--;
@@ -171,10 +171,10 @@ class TankBullet
     }
     
     //returns true if the bullet hits or is intersecting with tank shape, false if otherwise
-    boolean hitTank(Tank tank) 
+    boolean hitTank(Hero enemyTank) 
     {
     	
-    	if(TankPhysics.isIntersecting(circle,  tank.getTankShape()))
+    	if(Physics.isIntersecting(circle,  enemyTank.getTankShape()))
     	{
     		return true;
     	}

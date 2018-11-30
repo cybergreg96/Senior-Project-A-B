@@ -20,14 +20,14 @@ class Maze
 	// Given the bullet velocity itself is defined to be greater than the tank
 	// velocity, this also ensures that the tank does not
 	// punch through any walls without the collision being detected.
-	static final double THICKNESS = TankBullet.VELOCITY;
+	static final double THICKNESS = FireBall.VELOCITY;
 	static final int ROWS = 15;
 	static final int COLUMNS = 15;
 
 	private final Group group = new Group();
-	private final TankRectangle[][] horizontalSegments = new TankRectangle[COLUMNS][ROWS + 1];
-	private final TankRectangle[][] verticalSegments = new TankRectangle[COLUMNS + 1][ROWS];
-	private final TankCell[][] grid = new TankCell[COLUMNS][ROWS];
+	private final PlayerRectangle[][] horizontalSegments = new PlayerRectangle[COLUMNS][ROWS + 1];
+	private final PlayerRectangle[][] verticalSegments = new PlayerRectangle[COLUMNS + 1][ROWS];
+	private final Cell[][] grid = new Cell[COLUMNS][ROWS];
 
 	Maze() 
 	{
@@ -47,7 +47,7 @@ class Maze
 		{
 			for (int j = 0; j < ROWS; j++) 
 			{
-				TankCell.MutableBoolean left = new TankCell.MutableBoolean();
+				Cell.MutableBoolean left = new Cell.MutableBoolean();
 				// If we are not in the first column, then the left of the
 				// current cell is the right of the one left.
 				if (i > 0) 
@@ -55,24 +55,24 @@ class Maze
 					left = grid[i - 1][j].getRight();
 				}
 
-				TankCell.MutableBoolean up = new TankCell.MutableBoolean();
+				Cell.MutableBoolean up = new Cell.MutableBoolean();
 				// If we are not in the first row, then the up of the current
 				// cell is the down of the one above.
 				if (j > 0) 
 				{
 					up = grid[i][j - 1].getDown();
 				}
-				grid[i][j] = new TankCell(i, j, up, left);
+				grid[i][j] = new Cell(i, j, up, left);
 			}
 		}
 	}
 
-	private ArrayList<TankCell> getYummyCells() 
+	private ArrayList<Cell> getYummyCells() 
 	{
-		final ArrayList<TankCell> yummyCells = new ArrayList<>();
-		for (final TankCell[] cells : grid) 
+		final ArrayList<Cell> yummyCells = new ArrayList<>();
+		for (final Cell[] cells : grid) 
 		{
-			for (final TankCell tankCell : cells) 
+			for (final Cell tankCell : cells) 
 			{
 				if (tankCell.isYummy()) 
 				{
@@ -99,13 +99,13 @@ class Maze
 	private void eatGrid() 
 	{
 		final Random rand = new Random();
-		ArrayList<TankCell> yummyCells = getYummyCells();
-		TankCell tankCell = yummyCells.get(rand.nextInt(yummyCells.size()));
+		ArrayList<Cell> yummyCells = getYummyCells();
+		Cell tankCell = yummyCells.get(rand.nextInt(yummyCells.size()));
 		while (true) 
 		{
 			
 			final int i = rand.nextInt(tankCell.getYummySegments().size());
-			final TankCell.MutableBoolean seg = tankCell.getYummySegments().get(i);
+			final Cell.MutableBoolean seg = tankCell.getYummySegments().get(i);
 
 			seg.value = false;
 			tankCell.getYummySegments().remove(i);
@@ -142,7 +142,7 @@ class Maze
 		{
 			for (int j = 0; j < ROWS; j++) 
 			{
-				final TankCell tankCell = grid[i][j];
+				final Cell tankCell = grid[i][j];
 
 				if (((j == 0 || j == 1 || j == 2) && (i == 0))) 
 				{
@@ -158,25 +158,25 @@ class Maze
 				 
 				if(j==5 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10))
 				{
-					final TankRectangle upSeg = tankCell.getUpSeg();
+					final PlayerRectangle upSeg = tankCell.getUpSeg();
 					horizontalSegments[i][j] = upSeg;
 				}
 				
 				if(j==9 && (i ==7 || i==8 || i ==9 || i==5 || i==6 || i==4 || i==10))
 				{
-					final TankRectangle downSeg = tankCell.getDownSeg();
+					final PlayerRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
 				
 				if(i==4 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5))
 				{
-					final TankRectangle leftSeg = tankCell.getLeftSeg();
+					final PlayerRectangle leftSeg = tankCell.getLeftSeg();
 					verticalSegments[i][j] = leftSeg;
 				}
 				
 				if(i==10 && (j == 7 || j ==8|| j ==6 || j==9 ||j==5))
 				{
-					final TankRectangle rightSeg = tankCell.getRightSeg();
+					final PlayerRectangle rightSeg = tankCell.getRightSeg();
 					verticalSegments[i + 1][j] = rightSeg;
 				}
 				
@@ -209,36 +209,36 @@ class Maze
 				else if (i!=14)
 				{
 					if(Math.random() < 0.4) {
-					final TankRectangle rightSeg = tankCell.getDiagonalSeg();
+					final PlayerRectangle rightSeg = tankCell.getDiagonalSeg();
 					verticalSegments[i + 1][j] = rightSeg;
 					}else {
-						final TankRectangle rightSeg = tankCell.getRightSeg();
+						final PlayerRectangle rightSeg = tankCell.getRightSeg();
 						verticalSegments[i + 1][j] = rightSeg;
 					}
 				
-					final TankRectangle downSeg = tankCell.getDownSeg();
+					final PlayerRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
 			}
 		}
 
-		for (final TankRectangle[] segs : horizontalSegments)
+		for (final PlayerRectangle[] segs : horizontalSegments)
 		{
-			for (final TankRectangle seg : segs) {
+			for (final PlayerRectangle seg : segs) {
 				addSeg(seg);
 			}
 		}
 
-		for (final TankRectangle[] segs : verticalSegments) 
+		for (final PlayerRectangle[] segs : verticalSegments) 
 		{
-			for (final TankRectangle seg : segs) 
+			for (final PlayerRectangle seg : segs) 
 			{
 				addSeg(seg);
 			}
 		}
 	}
 
-	private void addSeg(final TankRectangle seg) 
+	private void addSeg(final PlayerRectangle seg) 
 	{
 		if (seg != null)
 		{
@@ -247,11 +247,11 @@ class Maze
 		}
 	}
 
-	ArrayList<TankRectangle> getCollisionCandidates(final Point2D objCenter) 
+	ArrayList<PlayerRectangle> getCollisionCandidates(final Point2D objCenter) 
 	{
 		// Coordinates if the units were cells.
-		 double cellX = objCenter.getX() / TankCell.LENGTH;
-		 double cellY = objCenter.getY() / TankCell.LENGTH;
+		 double cellX = objCenter.getX() / Cell.LENGTH;
+		 double cellY = objCenter.getY() / Cell.LENGTH;
 
 		if (cellX < 0) {
 			cellX = 0;
@@ -270,10 +270,10 @@ class Maze
 		// Closest row.
 		int row = (int) Math.round(cellY);
 
-		final ArrayList<TankRectangle> segs = new ArrayList<>(2);
+		final ArrayList<PlayerRectangle> segs = new ArrayList<>(2);
 
 		if (column < COLUMNS) {
-			final TankRectangle seg = horizontalSegments[column][row];
+			final PlayerRectangle seg = horizontalSegments[column][row];
 			if (seg != null) {
 				segs.add(seg);
 			}
@@ -283,7 +283,7 @@ class Maze
 		column--;
 		if (column >= 0) 
 		{
-			final TankRectangle seg = horizontalSegments[column][row];
+			final PlayerRectangle seg = horizontalSegments[column][row];
 			if (seg != null) 
 			{
 				segs.add(seg);
@@ -293,7 +293,7 @@ class Maze
 
 		if (row < ROWS) 
 		{
-			final TankRectangle seg = verticalSegments[column][row];
+			final PlayerRectangle seg = verticalSegments[column][row];
 			if (seg != null) 
 			{
 				segs.add(seg);
@@ -304,7 +304,7 @@ class Maze
 		row--;
 		if (row >= 0) 
 		{
-			final TankRectangle seg = verticalSegments[column][row];
+			final PlayerRectangle seg = verticalSegments[column][row];
 			if (seg != null) 
 			{
 				segs.add(seg);

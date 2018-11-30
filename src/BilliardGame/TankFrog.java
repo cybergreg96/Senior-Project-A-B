@@ -14,10 +14,10 @@ import java.util.concurrent.TimeUnit;
 public class TankFrog 
 {
 
-	static final double VELOCITY = Tank.VELOCITY * 1.5; // exported for use in
+	static final double VELOCITY = Bunny.VELOCITY * 1.5; // exported for use in
 	// Maze.
 
-	private static final double RADIUS = Tank.HEAD_HEIGHT * 8;
+	private static final double RADIUS = Bunny.HEAD_HEIGHT * 8;
 	private static final Paint COLOR = Color.GREEN;
 	private static final long DURATION = TimeUnit.SECONDS.toNanos(30);
 	private static final int durationSeconds = (int) ((Math.random() * 6) + 5);
@@ -79,13 +79,13 @@ public class TankFrog
 	// If neither is true, then the bullet collided with a corner and we have to
 	// handle that specially. See the comments
 	// below.
-	void handleMazeCollision(final ArrayList<TankRectangle> segments)
+	void handleMazeCollision(final ArrayList<PlayerRectangle> segments)
 	{
 		// TODO this code is copied in Tank too, we could use a shared method
 		// that accepts a Shape or something.
 		for (int i = 0; i < segments.size(); i++) 
 		{
-			if (!TankPhysics.isIntersecting(circle, segments.get(i).getPolygon()))
+			if (!Physics.isIntersecting(circle, segments.get(i).getPolygon()))
 			{
 				// The bullet does not intersect the seg.
 				segments.remove(i);
@@ -101,7 +101,7 @@ public class TankFrog
 
 		// seg will hold the final seg the object ended up colliding with, aka
 		// the first collision.
-		TankRectangle seg = null;
+		PlayerRectangle seg = null;
 
 		final Point2D center = getCenter();
 

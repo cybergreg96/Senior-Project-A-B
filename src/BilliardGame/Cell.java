@@ -9,9 +9,9 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 
 // Cell represents a cell within the Maze.
-class TankCell 
+class Cell 
 {
-	static final double LENGTH = 3.5 * Tank.BODY_HEIGHT;
+	static final double LENGTH = 3.5 * Bunny.BODY_HEIGHT;
 	private static final Color COLOR = Color.BLACK;
 
 	private final int row;
@@ -29,12 +29,12 @@ class TankCell
 	// tank cell constructor. used to create a 15x 15 square grid where each
 	// box/cell is initially given 4 walls. TankTank object may be placed in a
 	// cell and walls are added to and eaten off to create a maze.
-	TankCell(final int column, final int row, final MutableBoolean up, final MutableBoolean left)
+	Cell(final int column, final int row, final MutableBoolean up, final MutableBoolean left)
 	{
 		this.column = column;
 		this.row = row;
-		this.x = column * TankCell.LENGTH;
-		this.y = row * TankCell.LENGTH;
+		this.x = column * Cell.LENGTH;
+		this.y = row * Cell.LENGTH;
 
 		this.up = up;
 		this.left = left;
@@ -146,58 +146,58 @@ class TankCell
 	// maze
 
 	// gets the up segment of a tank cell
-	TankRectangle getUpSeg() 
+	PlayerRectangle getUpSeg() 
 	{
-		return getSeg(this.up, x, y, TankCell.LENGTH, Maze.THICKNESS);
+		return getSeg(this.up, x, y, Cell.LENGTH, Maze.THICKNESS);
 	}
 
 	// gets the left segment of a tank cell
-	TankRectangle getLeftSeg() 
+	PlayerRectangle getLeftSeg() 
 	{
-		return getSeg(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
+		return getSeg(this.left, x, y, Maze.THICKNESS, Cell.LENGTH);
 	}
 	
-	TankRectangle getDiagonalSeg() 
+	PlayerRectangle getDiagonalSeg() 
 	{
-		return getDiagonal(this.left, x, y, Maze.THICKNESS, TankCell.LENGTH);
+		return getDiagonal(this.left, x, y, Maze.THICKNESS, Cell.LENGTH);
 	}
 
 	// We add maze thickness to the lengths in the down segment and right
 	// segment to prevent gaping squares from appearing
 	// where an invisible up segment or left segment would be.
-	TankRectangle getDownSeg() 
+	PlayerRectangle getDownSeg() 
 	{
-		return getSeg(this.down, x, y + TankCell.LENGTH, TankCell.LENGTH + Maze.THICKNESS, Maze.THICKNESS);
+		return getSeg(this.down, x, y + Cell.LENGTH, Cell.LENGTH + Maze.THICKNESS, Maze.THICKNESS);
 	}
 
 	// We add maze thickness to the lengths in the down segment and right
 	// segment to prevent gaping squares from appearing
 	// where an invisible down segment or right segment would be.
-	TankRectangle getRightSeg() 
+	PlayerRectangle getRightSeg() 
 	{
-		return getSeg(this.right, x + TankCell.LENGTH, y, Maze.THICKNESS, TankCell.LENGTH + Maze.THICKNESS);
+		return getSeg(this.right, x + Cell.LENGTH, y, Maze.THICKNESS, Cell.LENGTH + Maze.THICKNESS);
 	}
 
 	// places maze segments down based on whether there visibility value is to
 	// true. This is where each walls color is set and where there x and y
 	// coordinates are set where they will be placed
-	private TankRectangle getSeg(final MutableBoolean visibility, final double x, final double y, final double width, final double height) 
+	private PlayerRectangle getSeg(final MutableBoolean visibility, final double x, final double y, final double width, final double height) 
 	{
-		TankRectangle rect = null;
+		PlayerRectangle rect = null;
 		if (visibility.value) 
 		{
-			rect = new TankRectangle(x, y, width, height);
+			rect = new PlayerRectangle(x, y, width, height);
 			rect.getPolygon().setFill(COLOR);
 		}
 		return rect;
 	}
 	
-	private TankRectangle getDiagonal(final MutableBoolean visibility, final double x, final double y, final double width, final double height) 
+	private PlayerRectangle getDiagonal(final MutableBoolean visibility, final double x, final double y, final double width, final double height) 
 	{
-		TankRectangle rect = null;
+		PlayerRectangle rect = null;
 		if (visibility.value) 
 		{
-			rect = new TankRectangle(x + (width/2), y + (height/2), width, height);
+			rect = new PlayerRectangle(x + (width/2), y + (height/2), width, height);
 			rect.rotate(new Point2D(x,y), 200);
 			rect.getPolygon().setFill(COLOR);
 		}

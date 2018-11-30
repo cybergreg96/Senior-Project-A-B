@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 // BulletManager manages the creation and removal of the bullets of a tank.
-class TankBulletManager 
+class FireBallManager 
 {
 	
 	private static final int MAX_BULLETS = 5;
-	private final ArrayList<TankBullet> tankBullets = new ArrayList<>(MAX_BULLETS);
+	private final ArrayList<FireBall> tankBullets = new ArrayList<>(MAX_BULLETS);
 	private final Group group = new Group();
 	private final Maze maze;
-	private Tank playerTank;
-	public Tank enemyTank;
+	private Bunny playerTank;
+	public Hero enemyTank;
 	private boolean enemyTankCreated;
 	
 	// lock prevents the manager from firing any more bullet. Used to wait for the bullet firing key to release before
 	// allowing another bullet to fire in Game.
 	private int ammoCount = 50;
 	boolean lock;
-	TankBulletManager(final Maze maze, Tank t) 
+	FireBallManager(final Maze maze, Bunny t) 
 	{
 		this.maze = maze;
 		playerTank = t;
@@ -33,9 +33,9 @@ class TankBulletManager
 	}
 
 	//sets the enemy tank as the other tank.
-	public void setEnemyTank(Tank t)
+	public void setEnemyTank(Hero tank1)
 	{
-		enemyTank = t;
+		enemyTank = tank1;
 		enemyTankCreated = true;
 	}
 
@@ -53,7 +53,7 @@ class TankBulletManager
 		{
 			return;
 		}
-		final TankBullet tankBullet = new TankBullet(launchPoint, theta, nanos);
+		final FireBall tankBullet = new FireBall(launchPoint, theta, nanos);
 		group.getChildren().add(tankBullet.getShape());
 		tankBullets.add(tankBullet);
 		ammoCount--;
@@ -62,15 +62,10 @@ class TankBulletManager
 	// update updates the position of the bullets and removes expired ones.
 	void update(final long nanos)
 	{
-		final Iterator<TankBullet> it = tankBullets.iterator();
+		final Iterator<FireBall> it = tankBullets.iterator();
 		while (it.hasNext()) {
-			final TankBullet tankBullet = it.next();
-			if (nanos > tankBullet.getExpiry() || tankBullet.hitTank(playerTank))
-			{
-				it.remove();
-				group.getChildren().remove(tankBullet.getShape());
-			} 
-			else if(enemyTankCreated && tankBullet.hitTank(enemyTank))
+			final FireBall tankBullet = it.next();
+			if(enemyTankCreated && tankBullet.hitTank(enemyTank))
 			{
 				it.remove();
 				group.getChildren().remove(tankBullet.getShape());
@@ -85,20 +80,20 @@ class TankBulletManager
 	void handleMazeCollisions() 
 	{
 		tankBullets.forEach(bullet -> {
-			final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(bullet.getCenter());
+			final ArrayList<PlayerRectangle> segs = maze.getCollisionCandidates(bullet.getCenter());
 			bullet.handleMazeCollision(segs);
 		});
 	}
 
 
 	// isDeadTank returns true if at least one bullet intersects with the tank 5 times without tank picking up health.
-	boolean isDeadTank(final Tank tank) 
+	boolean isDeadTank(final Hero tank1) 
 	{
-		if(tank.getCurrentHealth() <= .1)
+		if(tank1.getCurrentHealth() <= .1)
 			return true;
 		return false;
 	}
-	ArrayList<TankBullet> tankShots()
+	ArrayList<FireBall> tankShots()
 	{
 		return tankBullets;
 	}

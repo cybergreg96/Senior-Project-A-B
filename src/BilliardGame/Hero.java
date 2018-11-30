@@ -1,3 +1,4 @@
+
 package BilliardGame;
 /*
  * references: https://github.com/nhooyr/java-tanktank
@@ -15,7 +16,7 @@ import java.util.HashSet;
 import java.util.Random;
 
 // Tank represents the tanks in the game.
-class Tank 
+class Hero 
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -49,9 +50,9 @@ class Tank
 	private final Color headColor;
 	private final Color outOfAmmoHeadColor;
 	private final String mainColorName;
-	private final TankRectangle head = new TankRectangle(HEAD_WIDTH, HEAD_HEIGHT);
-	private final TankRectangle body = new TankRectangle(BODY_WIDTH, BODY_HEIGHT);
-	private TankBulletManager tankBulletManager;
+	private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH, HEAD_HEIGHT);
+	private final PlayerRectangle body = new PlayerRectangle(BODY_WIDTH, BODY_HEIGHT);
+
 	private final Maze maze;
 	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the
 	// handle method.
@@ -78,7 +79,7 @@ class Tank
 	 * parameters of tank name, body colors, its keycodes, intitial angle and
 	 * the max health.
 	 */
-	Tank(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor,
+	Hero(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor,
 			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) 
 	{
 		this.maze = maze;
@@ -87,8 +88,6 @@ class Tank
 		this.currentHealth = maxHealth;
 		this.bunnyExists = false;
 		this.frogExists = false;
-
-		tankBulletManager = new TankBulletManager(maze, this);
 
 		final Point2D headPoint = new Point2D(body.getWidth() - head.getWidth() / 2, body.getHeight() / 2 - head.getHeight() / 2);
 		head.moveTo(headPoint);
@@ -115,19 +114,11 @@ class Tank
 			col = Maze.COLUMNS - 1;
 			row = Maze.ROWS - 1;
 		}
-		moveBy(new Point2D(col * TankCell.LENGTH, row * TankCell.LENGTH));
+		moveBy(new Point2D(col * Cell.LENGTH, row * Cell.LENGTH));
 		moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
-		moveBy(new Point2D((TankCell.LENGTH - Maze.THICKNESS) / 2, (TankCell.LENGTH - Maze.THICKNESS) / 2));
+		moveBy(new Point2D((Cell.LENGTH - Maze.THICKNESS) / 2, (Cell.LENGTH - Maze.THICKNESS) / 2));
 		moveBy(new Point2D(-body.getWidth() / 2, -body.getHeight() / 2));
 		syncShape();
-	}
-
-	/*
-	 * creates TankBulletManager object for each tank object created
-	 */
-	TankBulletManager getBulletManager() 
-	{
-		return tankBulletManager;
 	}
 
 	Node getNode() 
@@ -139,8 +130,8 @@ class Tank
 	// The pose used by winners!
 	Node getWinPose() 
 	{
-		final TankRectangle headCopy = new TankRectangle(head);
-		final TankRectangle bodyCopy = new TankRectangle(body);
+		final PlayerRectangle headCopy = new PlayerRectangle(head);
+		final PlayerRectangle bodyCopy = new PlayerRectangle(body);
 
 		// TODO should the tank be pointing out or into the alert needs more
 		// thought. right now it faces inward.
@@ -174,8 +165,8 @@ class Tank
 		this.theta += theta;
 		body.rotate(pivot, theta);
 		head.rotate(pivot, theta);
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		syncShape();
 	}
 
@@ -190,8 +181,8 @@ class Tank
 	private void forward()
 	{
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
@@ -200,8 +191,8 @@ class Tank
 	private void back() 
 	{
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = TankPhysics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = TankPhysics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
@@ -242,23 +233,6 @@ class Tank
 		}
 	}
 
-	//gets location of point where bullet should exit. returns location of end of tank barrel on the pane.
-	private Point2D getBulletLaunchPoint() 
-	{
-		if (!bunnyExists) 
-		{
-			final Point2D topRight = head.getTopRight();
-			final Point2D bottomRight = head.getBottomRight();
-			return topRight.midpoint(bottomRight);
-		} 
-		else 
-		{
-			final Point2D topLeft = body.getTopLeft();
-			final Point2D bottomLeft = body.getBottomLeft();
-			return topLeft.midpoint(bottomLeft);
-		}
-	}
-
 	private double getTheta() 
 	{
 		return theta;
@@ -284,15 +258,15 @@ class Tank
 	//checks if tank is hitting another object such as a maze wall or circle bullet
 	private boolean checkCollision(final Shape shape) 
 	{
-		return TankPhysics.isIntersecting(getShape(), shape);
+		return Physics.isIntersecting(getShape(), shape);
 	}
 
 	//detects if a tank is hit by circle shaped bullet object
-	boolean isHit(TankBulletManager tbm)
+	boolean isHit(FireBallManager tbm)
 	{
-		for (TankBullet t : tbm.tankShots())
+		for (FireBall t : tbm.tankShots())
 		{
-			if (TankPhysics.isIntersecting(getShape(), t.getShape())) 
+			if (Physics.isIntersecting(getShape(), t.getShape())) 
 			{
 				return true;
 			}
@@ -305,7 +279,7 @@ class Tank
 	{
 		for (TankFrog f : frogs.getTankFrogs()) 
 		{
-			if (TankPhysics.isIntersecting(getShape(), f.getShape()))
+			if (Physics.isIntersecting(getShape(), f.getShape()))
 			{
 				return true;
 			}
@@ -322,7 +296,7 @@ class Tank
 	// backtrack the tank until there is no collision.
 	private void handleMazeCollisions() 
 	{
-		final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(getCenter());
+		final ArrayList<PlayerRectangle> segs = maze.getCollisionCandidates(getCenter());
 
 		for (int i = 0; i < segs.size(); i++)
 		{
@@ -342,25 +316,25 @@ class Tank
 
 		Runnable reverseOp = null;
 		// Backtrack.
-		final Tank tank = this;
+		final Hero hero = this;
 		// Need to declare this up here instead of in each case because java's
 		// switch cases share scope. So java would think
 		// we are redeclaring a variable.
 		final Point2D decomposedVelocity;
 		switch (lastMovementOp) {
 		case FORWARD:
-			decomposedVelocity = TankPhysics.decomposeVector(-1, theta);
-			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			decomposedVelocity = Physics.decomposeVector(-1, theta);
+			reverseOp = () -> hero.moveBy(decomposedVelocity);
 			break;
 		case REVERSE:
-			decomposedVelocity = TankPhysics.decomposeVector(1, theta);
-			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			decomposedVelocity = Physics.decomposeVector(1, theta);
+			reverseOp = () -> hero.moveBy(decomposedVelocity);
 			break;
 		case RIGHT:
-			reverseOp = () -> tank.rotate(-TURNING_ANGLE / 12);
+			reverseOp = () -> hero.rotate(-TURNING_ANGLE / 12);
 			break;
 		case LEFT:
-			reverseOp = () -> tank.rotate(TURNING_ANGLE / 12);
+			reverseOp = () -> hero.rotate(TURNING_ANGLE / 12);
 			break;
 		}
 		do {
@@ -388,44 +362,12 @@ class Tank
 	void handleReleased(final KeyCode keyCode)
 	{
 		final Op op = keycodes.get(keyCode);
-		if (op == Op.FIRE) 
-		{
-			tankBulletManager.lock = false;
-		}
 		activeOps.remove(op);
 	}
 
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) 
 	{
-		tankBulletManager.update(nanos);
-		// prevents even attempting to fire if out of ammo
-		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
-		{
-			// shoots backwards if bunny exists
-			if (!bunnyExists) 
-			{
-				tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
-			} 
-			else 
-			{
-				tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta() + Math.PI, nanos);
-			}
-			// ammo check
-			// System.out.println(mainColorName + " AmmoCount: " +
-			// tankBulletManager.getAmmo());
-			tankBulletManager.lock = true;
-		}
-		tankBulletManager.handleMazeCollisions();
-
-		if (tankBulletManager.isReloading() || tankBulletManager.outOfAmmo()) 
-		{
-			head.getPolygon().setFill(outOfAmmoHeadColor);
-		}
-		else 
-		{
-			head.getPolygon().setFill(headColor);
-		}
 
 		if (!bunnyExists)
 		{

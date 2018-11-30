@@ -104,7 +104,7 @@ public class TankFrogManager
 	void handleMazeCollisions()
 	{
 		tankFrogs.forEach(frog -> {
-			final ArrayList<TankRectangle> segs = maze.getCollisionCandidates(tankFrogs.get(0).getCenter());
+			final ArrayList<PlayerRectangle> segs = maze.getCollisionCandidates(tankFrogs.get(0).getCenter());
 			tankFrogs.get(0).handleMazeCollision(segs);
 		});
 	}
@@ -121,11 +121,11 @@ public class TankFrogManager
 
 	// checks whether a frog object has been hit by a tank object by look at
 	// whether frog shape is been intersected by another shape type such as tank
-	boolean isHit(Tank tank) 
+	boolean isHit(Hero tank1) 
 	{
 		for (TankFrog f : this.getTankFrogs())
 		{
-			if (TankPhysics.isIntersecting(tank.getShape(), f.getShape())) 
+			if (Physics.isIntersecting(tank1.getShape(), f.getShape())) 
 			{
 				hit = true;
 

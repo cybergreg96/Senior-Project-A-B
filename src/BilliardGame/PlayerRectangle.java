@@ -10,7 +10,7 @@ import javafx.scene.shape.Polygon;
 
 // This class creates a rectangle that will be either the body or barrel of the tank
 // Also, this class uses radians instead of degrees as the unit for rotation.
-class TankRectangle 
+class PlayerRectangle 
 {
 	private final double width;
 	private final double height;
@@ -20,7 +20,7 @@ class TankRectangle
 
 	// Cloning constructor used for cloning the winning Tank to place into the
 	// alert when a game is over.
-	TankRectangle(final TankRectangle rect) 
+	PlayerRectangle(final PlayerRectangle rect) 
 	{
 		this.points = rect.points.clone();
 		this.origin = rect.origin; // ok because Point2D is immutable.
@@ -32,7 +32,7 @@ class TankRectangle
 
 	// tank shape constructor. creates body of tank with a specified height and
 	// width and moves it to a starting point on pane.
-	TankRectangle(final double x, final double y, final double width, final double height)
+	PlayerRectangle(final double x, final double y, final double width, final double height)
 	{
 		this(width, height);
 		moveTo(new Point2D(x, y));
@@ -40,7 +40,7 @@ class TankRectangle
 
 	// tank shape constructor. creates body of tank with a specified height and
 	// width.
-	TankRectangle(final double width, final double height) 
+	PlayerRectangle(final double width, final double height) 
 	{
 		this.width = width;
 		this.height = height;
@@ -90,7 +90,7 @@ class TankRectangle
 	{
 		for (int i = 0; i < points.length; i++) 
 		{
-			points[i] = TankPhysics.rotate(points[i], pivot, theta);
+			points[i] = Physics.rotate(points[i], pivot, theta);
 		}
 		syncPolygon();
 	}

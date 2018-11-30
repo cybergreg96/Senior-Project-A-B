@@ -5,7 +5,7 @@ package BilliardGame;
 import javafx.geometry.Point2D;
 import javafx.scene.shape.Shape;
 
-class TankPhysics {
+class Physics {
     static Point2D decomposeVector(final double v, final double theta) {
         return new Point2D(Math.cos(theta) * v, Math.sin(theta) * v);
     }

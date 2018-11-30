@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 // FPSMeter is used to report the number of frames calculated in the last second to stderr.
 
-class TankFPSMeter 
+class FPSMeter 
 {
     private static final long SECOND = TimeUnit.SECONDS.toNanos(1);
     private long framesInSecond = 0;

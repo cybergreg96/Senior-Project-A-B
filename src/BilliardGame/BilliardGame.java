@@ -39,8 +39,8 @@ public class BilliardGame
 	// the final segments of the grid and they need additional space because of
 	// how the grid drawing algorithm works.
 	// See the Maze class.
-	private static final double WIDTH = TankCell.LENGTH * Maze.COLUMNS + Maze.THICKNESS;
-	private static final double HEIGHT = TankCell.LENGTH * Maze.ROWS + Maze.THICKNESS;
+	private static final double WIDTH = Cell.LENGTH * Maze.COLUMNS + Maze.THICKNESS;
+	private static final double HEIGHT = Cell.LENGTH * Maze.ROWS + Maze.THICKNESS;
 
 	private static final ButtonType PLAY_AGAIN_BUTTON_TYPE = new ButtonType("PLAY AGAIN", ButtonBar.ButtonData.YES);
 	private static final ButtonType MAIN_MENU_BUTTON_TYPE = new ButtonType("MAIN MENU", ButtonBar.ButtonData.YES);
@@ -60,12 +60,12 @@ public class BilliardGame
 	Circle h31 = new Circle(774, 725, 8, Color.RED);
 	Circle h41 = new Circle(774, 750, 8, Color.RED);
 	Circle h51 = new Circle(774, 775, 8, Color.RED);
-	private final Tank tank1 = new Tank("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Tank.KEY_CODES_2,
+	private final Hero tank1 = new Hero("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Hero.KEY_CODES_2,
 			0, 1);
-	private final Tank tank2 = new Tank("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Tank.KEY_CODES_1,
+	private final Bunny tank2 = new Bunny("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
 			Math.PI, 1);
 	private final Stage stage;
-	private final TankFPSMeter fpsMeter = new TankFPSMeter();
+	private final FPSMeter fpsMeter = new FPSMeter();
 
 	private AnimationTimer timer;
 
@@ -79,7 +79,6 @@ public class BilliardGame
 	{
 
 		frogManager = new TankFrogManager(maze, WIDTH, HEIGHT);
-		tank1.getBulletManager().setEnemyTank(tank2);
 		tank2.getBulletManager().setEnemyTank(tank1);
 
 		this.stage = stage;
@@ -88,7 +87,7 @@ public class BilliardGame
 		root.getChildren().add(maze.getNode());
 		root.getChildren().addAll(h1, h2, h3, h4, h5);
 		root.getChildren().addAll(h11, h21, h31, h41, h51);
-		root.getChildren().addAll(tank1.getNode(), tank2.getNode(), tank1.getBulletManager().getNode(),
+		root.getChildren().addAll(tank1.getNode(), tank2.getNode(),
 				tank2.getBulletManager().getNode(), frogManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
@@ -182,7 +181,7 @@ public class BilliardGame
 			String alertContent = "Wow, what a close game. It's a tie!";
 
 			Node graphic = tank1.getWinPose();
-			Tank winningTank = null;
+			Bunny winningTank = null;
 
 			if (tank1.isDead()) 
 			{
@@ -192,10 +191,6 @@ public class BilliardGame
 					graphic = tank2.getWinPose();
 				}
 			} 
-			else 
-			{
-				winningTank = tank1;
-			}
 
 			if (winningTank != null) 
 			{
@@ -240,24 +235,18 @@ public class BilliardGame
 
 		// handles when a tank is hit by bullet object and determining what tank
 		// to subtract health from.
-		if (tank1.isHit(tank1.getBulletManager()) || tank1.isHit(tank2.getBulletManager()))
+		if (tank1.isHit(tank2.getBulletManager()))
 		{
 			tank1.subtractHealth();
 		}
-		if (tank2.isHit(tank2.getBulletManager()) || tank2.isHit(tank1.getBulletManager()))
-		{
-			tank2.subtractHealth();
-		}
+		
 		// handles when a tank is hit by frog object and determining what tank
 		// to add health to.
 		if (frogManager.isHit(tank1))
 		{
 			tank1.addHealth();
 		}
-		if (frogManager.isHit(tank2)) 
-		{
-			tank2.addHealth();
-		}
+		
 
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
@@ -345,14 +334,11 @@ public class BilliardGame
 			h51.setVisible(false);
 		}
 
-		if (tank1.getBulletManager().isDeadTank(tank1) || tank2.getBulletManager().isDeadTank(tank1)) 
+		if (tank2.getBulletManager().isDeadTank(tank1)) 
 		{
 			tank1.kill();
 		}
-		if (tank1.getBulletManager().isDeadTank(tank2) || tank2.getBulletManager().isDeadTank(tank2))
-		{
-			tank2.kill();
-		}
+		
 		if (tank1.isDead() || tank2.isDead())
 		{
 			// We draw the dead tanks before we announce to the players.
