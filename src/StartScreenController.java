@@ -60,7 +60,11 @@ public class StartScreenController implements Initializable
 		//set banner background color
 		birdstufzBanner.setStyle("-fx-background-color: #FFFFFF");
 
-		
+		//load the splashscreen if not loaded yet
+		if(!StartScreen.isSplashLoaded) 
+		{
+			loadSplashScreen();
+		}
 	}  
 	
 	@FXML
@@ -84,7 +88,7 @@ public class StartScreenController implements Initializable
 	        //loader.load(getClass().getResource("PacManGUI.fxml".ope));
 	        Parent root = loader.load();
 	        Stage primaryStage = (Stage)((Node)event.getSource()).getScene().getWindow();
-	        primaryStage.setTitle("PacMan");
+	        primaryStage.setTitle("Pacman");
 
 	        PacmanController controller = (PacmanController) loader.getController();
 
@@ -180,7 +184,7 @@ public class StartScreenController implements Initializable
 			Pane pane = FXMLLoader.load(getClass().getResource(("SplashScreen.fxml")));
 			rootPane.getChildren().setAll(pane);
 
-			FadeTransition fadeIn = new FadeTransition(Duration.seconds(3), pane);
+			FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), pane);
 			fadeIn.setFromValue(0);
 			fadeIn.setToValue(1);
 			fadeIn.setCycleCount(1);
