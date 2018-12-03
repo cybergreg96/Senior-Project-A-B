@@ -445,14 +445,14 @@ class Hero
 		this.currentHealth -= .1;
 	}
 
-//	//when tank runs into a frog adds health in increments of 20%.
-//	void addHealth()
-//	{
-//		if (this.getCurrentHealth() < 1) 
-//		{
-//			this.currentHealth += .2;
-//		}
-//	}
+	//when tank runs into a frog adds health in increments of 20%.
+	void addHealth()
+	{
+		if (this.getCurrentHealth() < 1) 
+		{
+			this.currentHealth += .2;
+		}
+	}
 
 	//returns double value of tanks current health
 	double getCurrentHealth()

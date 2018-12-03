@@ -245,12 +245,12 @@ public class BilliardGame
 			tank1.subtractHealth();
 		}
 		
-//		// handles when a tank is hit by frog object and determining what tank
-//		// to add health to.
-//		if (frogManager.isHit(tank1))
-//		{
-//			tank1.addHealth();
-//		}
+		// handles when a tank is hit by frog object and determining what tank
+		// to add health to.
+		if (frogManager.isHit(tank1))
+		{
+			tank1.addHealth();
+		}
 		
 
 		// handles which health circles to be displayed based on current health
