@@ -99,11 +99,11 @@ class Bunny implements Viewable
 		this.bunnyExists = false;
 		this.frogExists = false;
 		try {
-			bunnyImage = new Image(new FileInputStream("src/PacManImgs/bunny face.png"));
+			bunnyImage = new Image(new FileInputStream("src/resources/bunny face.png"));
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		initImgView(bunnyImage, 20, 20);
+		initImgView(bunnyImage, 40, 40);
 		tankBulletManager = new FireBallManager(maze, this);
 
 		//final Point2D headPoint = new Point2D(billiardBunny.getWidth() - head.getWidth() / 2, billiardBunny.getHeight() / 2 - head.getHeight() / 2);
@@ -215,8 +215,8 @@ class Bunny implements Viewable
 	{
 		shape = billiardBunny.getCircle();
 		shapeOfTank = billiardBunny.getCircle();
-		bunnyImgView.setX(getX() - billiardBunny.getRadius());
-		bunnyImgView.setY(getY() - billiardBunny.getRadius());
+		bunnyImgView.setX(getX() - 2*billiardBunny.getRadius());
+		bunnyImgView.setY(getY() - 3*billiardBunny.getRadius());
 	}
 
 	//moves tank forward
