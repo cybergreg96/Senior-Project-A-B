@@ -176,8 +176,8 @@ class Bunny
 	{
 		this.theta += theta;
 		billiardBunny.rotate(pivot, theta);
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		syncShape();
 	}
 
@@ -192,8 +192,8 @@ class Bunny
 	private void forward()
 	{
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
@@ -202,8 +202,8 @@ class Bunny
 	private void back() 
 	{
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
