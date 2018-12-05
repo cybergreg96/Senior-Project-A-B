@@ -193,7 +193,7 @@ public class BilliardGame
 				if (!tank2.isDead()) 
 				{
 					winningTank = tank2;
-					graphic = tank2.getWinPose();
+					//graphic = tank2.getWinPose();
 				}
 			} 
 
