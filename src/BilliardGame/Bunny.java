@@ -326,9 +326,9 @@ class Bunny
 	}
 
 	//detects if a tank hits or runs into health frog
-	boolean isHit(TankFrogManager frogs)
+	boolean isHit(SeedBasketManager frogs)
 	{
-		for (TankFrog f : frogs.getTankFrogs()) 
+		for (SeedBasket f : frogs.getSeedBaskets()) 
 		{
 			if (Physics.isIntersecting(getShape(), f.getShape()))
 			{

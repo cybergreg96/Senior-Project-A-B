@@ -75,7 +75,7 @@ public class BilliardGame
 
 	private AnimationTimer timer;
 
-	private final TankFrogManager frogManager;
+	private final SeedBasketManager frogManager;
 	final Group root = new Group();
 	// tank game constructor. places all objects on pane and slowly eat away
 	// maze wall objects until just health circles, tanks, and some maze walls
@@ -83,7 +83,7 @@ public class BilliardGame
 	public BilliardGame(final Stage stage) 
 	{
 
-		frogManager = new TankFrogManager(maze, WIDTH, HEIGHT);
+		frogManager = new SeedBasketManager(maze, WIDTH, HEIGHT);
 		tank2.getBulletManager().setEnemyTank(tank1);
 
 		this.stage = stage;
@@ -342,46 +342,7 @@ public class BilliardGame
 		if(tank1.getCurrentHealth() < .01) {
 			h1.setVisible(false);
 		}
-//		
-//		if (health1.contains("1.0")) 
-//		{
-//			h1.setVisible(true);
-//			h2.setVisible(true);
-//			h3.setVisible(true);
-//			h4.setVisible(true);
-//			h5.setVisible(true);
-//		}
-//
-//		if (health1.contains(".8")) 
-//		{
-//			h1.setVisible(true);
-//			h2.setVisible(true);
-//			h3.setVisible(true);
-//			h4.setVisible(true);
-//			h5.setVisible(false);
-//		}
-//		if (health1.contains(".6")) 
-//		{
-//			h1.setVisible(true);
-//			h2.setVisible(true);
-//			h3.setVisible(true);
-//			h4.setVisible(false);
-//		}
-//		if (health1.contains(".4"))
-//		{
-//			h1.setVisible(true);
-//			h2.setVisible(true);
-//			h3.setVisible(false);
-//		}
-//		if (health1.contains(".2"))
-//		{
-//			h1.setVisible(true);
-//			h2.setVisible(false);
-//		}
-//		if (tank1.getCurrentHealth() < .01)
-//		{
-//			h1.setVisible(false);
-//		}
+
 
 		// handles which health circles to be displayed based on current health
 		// of tank2 or pink tank
