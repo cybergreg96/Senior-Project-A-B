@@ -196,7 +196,6 @@ class Bunny implements Viewable
 		moveBy(decomposedVelocity);
 	}
 
-
 	// The direction of angles is reversed because the coordinate system is
 	// reversed.
 	//rotates tank on axis
@@ -238,6 +237,51 @@ class Bunny implements Viewable
 		moveBy(decomposedVelocity);
 	}
 
+	/**
+	 * This function updates the velocity of the Bunny to have consistent speed with the other main directions
+	 * @param x		x direction
+	 * @param y		y direction
+	 */
+	private void diagonal(String x, String y)
+	{
+		double xVal, yVal;
+
+		if(y.equals("FORWARD"))
+		{
+			//bunny is moving forward
+			lastMovementOp = Op.DIAGONAL_FORWARD;
+			yVal = -2.12;
+		}
+		else
+		{
+			//bunny is moving in reverse
+			lastMovementOp = Op.DIAGONAL_REVERSE;
+			yVal = 2.12;
+		}
+
+		//move y position TODO
+		decomposedVelocity = new Point2D(0, yVal);
+		moveBy(decomposedVelocity);
+		
+		//handle collisions for first movement
+		handleMazeCollisions();
+
+		if(x.equals("RIGHT"))
+		{
+			xVal = 2.12;
+			lastMovementOp = Op.DIAGONAL_RIGHT;
+		}
+		else
+		{
+			xVal = -2.12;
+			lastMovementOp = Op.DIAGONAL_LEFT;
+		}
+
+		//move x position
+		decomposedVelocity = new Point2D(xVal, 0);
+		moveBy(decomposedVelocity);
+	}
+
 
 	private void moveBy(final Point2D point) 
 	{
@@ -267,9 +311,9 @@ class Bunny implements Viewable
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else {
-		billiardBunny.moveBy(point);
-		pivot = pivot.add(point);
-		syncShape();
+			billiardBunny.moveBy(point);
+			pivot = pivot.add(point);
+			syncShape();
 		}
 	}
 
@@ -291,7 +335,7 @@ class Bunny implements Viewable
 			return topLeft.midpoint(bottomLeft);*/
 			return billiardBunny.getCenter();
 		}
-		
+
 	}
 
 	private double getTheta() 
@@ -399,6 +443,22 @@ class Bunny implements Viewable
 			decomposedVelocity = new Point2D(3, 0);
 			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
+		case DIAGONAL_FORWARD:
+			decomposedVelocity = new Point2D(0, 2.12);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			break;
+		case DIAGONAL_REVERSE:
+			decomposedVelocity = new Point2D(0, -2.12);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			break;
+		case DIAGONAL_RIGHT:
+			decomposedVelocity = new Point2D(-2.12, 0);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			break;
+		case DIAGONAL_LEFT:
+			decomposedVelocity = new Point2D(2.12, 0);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
+			break;
 		}
 		do {
 			assert reverseOp != null;
@@ -459,7 +519,7 @@ class Bunny implements Viewable
 		}
 		double it = theta-Math.toRadians(angle);
 		if(theta!=Math.toRadians(angle))
-		rotate(-1*it);
+			rotate(-1*it);
 	}
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) 
@@ -495,54 +555,51 @@ class Bunny implements Viewable
 			billiardBunny.getCircle().setFill(headColor);
 		}
 
-		if (!bunnyExists)
+		//TODO test
+		if(activeOps.size() > 1)
 		{
+			//multiple control buttons are being pressed
+			if(activeOps.contains(Op.RIGHT) && activeOps.contains(Op.FORWARD))
+			{
+				diagonal("RIGHT", "FORWARD");
+			}
+			else if(activeOps.contains(Op.LEFT) && activeOps.contains(Op.FORWARD))
+			{
+				diagonal("LEFT", "FORWARD");
+			}
+			else if(activeOps.contains(Op.RIGHT) && activeOps.contains(Op.REVERSE))
+			{
+				diagonal("RIGHT", "REVERSE");
+			}
+			else if(activeOps.contains(Op.LEFT) && activeOps.contains(Op.REVERSE))
+			{
+				diagonal("LEFT", "REVERSE");
+			}
+			
+			handleMazeCollisions();
+		}
+		else
+		{
+
 			if (activeOps.contains(Op.RIGHT))
 			{
 				right();
 			}
-			
-			if (activeOps.contains(Op.LEFT)) 
+			else if (activeOps.contains(Op.LEFT)) 
 			{
 				left();
 			}
-			handleMazeCollisions();
-
-			if (activeOps.contains(Op.FORWARD))
+			else if (activeOps.contains(Op.FORWARD))
 			{
 				forward();
 			}
-			
-			if (activeOps.contains(Op.REVERSE))
+			else if (activeOps.contains(Op.REVERSE))
 			{
 				back();
 			}
-		}
-		else 
-		{
-			if (activeOps.contains(Op.RIGHT)) 
-			{
-				left();
-			}
-			
-			if (activeOps.contains(Op.LEFT))
-			{
-				right();
-			}
+
 			handleMazeCollisions();
-
-			if (activeOps.contains(Op.FORWARD)) 
-			{
-				back();
-			}
-			
-			if (activeOps.contains(Op.REVERSE)) 
-			{
-				forward();
-			}
 		}
-
-		handleMazeCollisions();
 	}
 
 	//method to kill tank and turn its colors to dead colors
@@ -588,9 +645,9 @@ class Bunny implements Viewable
 
 	private enum Op 
 	{
-		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
+		FORWARD, RIGHT, LEFT, REVERSE, FIRE, DIAGONAL_FORWARD, DIAGONAL_REVERSE, DIAGONAL_RIGHT, DIAGONAL_LEFT,
 	}
-	
+
 	public double getX() {
 		return billiardBunny.getCenter().getX();
 	}
