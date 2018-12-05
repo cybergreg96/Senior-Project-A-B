@@ -6,10 +6,13 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -74,6 +77,7 @@ class Bunny
 	private Op lastMovementOp;
 	private boolean dead;
 	private double currentHealth;
+	private Image bunnyImage;
 	public boolean bunnyExists;
 	public boolean frogExists;
 
@@ -91,7 +95,11 @@ class Bunny
 		this.currentHealth = maxHealth;
 		this.bunnyExists = false;
 		this.frogExists = false;
-
+		try {
+			bunnyImage = new Image(new FileInputStream("src/resources/bunny face.png"));
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		tankBulletManager = new FireBallManager(maze, this);
 
 		//final Point2D headPoint = new Point2D(billiardBunny.getWidth() - head.getWidth() / 2, billiardBunny.getHeight() / 2 - head.getHeight() / 2);
@@ -207,6 +215,7 @@ class Bunny
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
+
 	private void moveBy(final Point2D point) 
 	{
 		if(billiardBunny.getCenter().getY() < 0) {
@@ -525,7 +534,11 @@ class Bunny
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
 	}
-	public void draw(GraphicsContext g, SceneInfo s) {
-		//f.drawImage();
+	
+	public double getX() {
+		return billiardBunny.getCenter().getX();
+	}
+	public double getY() {
+		return billiardBunny.getCenter().getY();
 	}
 }

@@ -6,17 +6,22 @@ package BilliardGame;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+
 // Tank represents the tanks in the game.
-class Hero 
+class Hero
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -27,7 +32,7 @@ class Hero
 	static final HashMap<KeyCode, Op> KEY_CODES_2 = new HashMap<>();
 
 	private static final double TURNING_ANGLE = Math.PI / 36;
-	private static final double BODY_WIDTH = 20;
+	private static final double BODY_WIDTH = 10;
 	private static final double HEAD_WIDTH = BODY_WIDTH / 2;
 	private static final Color DEATH_COLOR = Color.BLACK;
 
@@ -50,36 +55,37 @@ class Hero
 	private final Color headColor;
 	private final Color outOfAmmoHeadColor;
 	private final String mainColorName;
-	private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH, HEAD_HEIGHT);
-	private final PlayerRectangle body = new PlayerRectangle(BODY_WIDTH, BODY_HEIGHT);
-
+	//private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH, HEAD_HEIGHT);
+	//private final PlayerRectangle billiardHero = new PlayerRectangle(BODY_WIDTH, BODY_HEIGHT);
+	private final PlayerCircle billiardHero = new PlayerCircle(BODY_WIDTH);
 	private final Maze maze;
 	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the
 	// handle method.
 	private final HashMap<KeyCode, Op> keycodes;
 	// Keys pressed since the last frame.
 	private final HashSet<Op> activeOps = new HashSet<>();
-	// Shape holds the union between the body and head. It is used for collision
+	// Shape holds the union between the billiardHero and head. It is used for collision
 	// detection.
 	private Shape shape;
 	private Shape shapeOfTank;
-	// Middle of body.
-	private Point2D pivot = new Point2D(body.getWidth() / 2, body.getHeight() / 2);
+	// Middle of billiardHero.
+	private Point2D pivot = new Point2D(billiardHero.getRadius() / 2, billiardHero.getRadius() / 2);
 	private double theta;
 	private Point2D decomposedVelocity;
 	private Point2D negativeDecomposedVelocity;
 	private Op lastMovementOp;
 	private boolean dead;
 	private double currentHealth;
+	private Image heroImage;
 	public boolean bunnyExists;
 	public boolean frogExists;
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
-	 * parameters of tank name, body colors, its keycodes, intitial angle and
+	 * parameters of tank name, billiardHero colors, its keycodes, intitial angle and
 	 * the max health.
 	 */
-	Hero(final String mainColorName, final Color bodyColor, final Color headColor, final Color outOfAmmoColor,
+	Hero(final String mainColorName, final Color billiardHeroColor, final Color headColor, final Color outOfAmmoColor,
 			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) 
 	{
 		this.maze = maze;
@@ -89,13 +95,18 @@ class Hero
 		this.bunnyExists = false;
 		this.frogExists = false;
 
-		final Point2D headPoint = new Point2D(body.getWidth() - head.getWidth() / 2, body.getHeight() / 2 - head.getHeight() / 2);
-		head.moveTo(headPoint);
+		try {
+			heroImage = new Image(new FileInputStream("src/PacManImgs/GoodBird.png"));
+		}catch(FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		//final Point2D headPoint = new Point2D(billiardHero.getWidth() - head.getWidth() / 2, billiardHero.getHeight() / 2 - head.getHeight() / 2);
+		//head.moveTo(headPoint);
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
-		head.getPolygon().setFill(this.headColor);
-		body.getPolygon().setFill(bodyColor);
+		//head.getPolygon().setFill(this.headColor);
+		billiardHero.getCircle().setFill(billiardHeroColor);
 
 		//rotates tank to its beginning angle.
 		rotate(initialAngle);
@@ -117,30 +128,30 @@ class Hero
 		moveBy(new Point2D(col * Cell.LENGTH, row * Cell.LENGTH));
 		moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
 		moveBy(new Point2D((Cell.LENGTH - Maze.THICKNESS) / 2, (Cell.LENGTH - Maze.THICKNESS) / 2));
-		moveBy(new Point2D(-body.getWidth() / 2, -body.getHeight() / 2));
+		moveBy(new Point2D(-billiardHero.getRadius() / 2, -billiardHero.getRadius() / 2));
 		syncShape();
 	}
 
 	Node getNode() 
 	{
 		// head added after so that you can see it in front.
-		return new Group(body.getPolygon(), head.getPolygon());
+		return new Group(billiardHero.getCircle());
 	}
 
 	// The pose used by winners!
-	Node getWinPose() 
+	/*Node getWinPose() 
 	{
 		final PlayerRectangle headCopy = new PlayerRectangle(head);
-		final PlayerRectangle bodyCopy = new PlayerRectangle(body);
+		final PlayerRectangle billiardHeroCopy = new PlayerRectangle(billiardHero);
 
 		// TODO should the tank be pointing out or into the alert needs more
 		// thought. right now it faces inward.
 		// feels more symmetric
 		headCopy.rotate(pivot, -theta + Math.PI);
-		bodyCopy.rotate(pivot, -theta + Math.PI);
+		billiardHeroCopy.rotate(pivot, -theta + Math.PI);
 
-		return new Group(bodyCopy.getPolygon(), headCopy.getPolygon());
-	}
+		return new Group(billiardHeroCopy.getPolygon(), headCopy.getPolygon());
+	}*/
 
 
 	//rotate tank clockwise if stopped and turns tank right when moving
@@ -163,8 +174,7 @@ class Hero
 	private void rotate(final double theta) 
 	{
 		this.theta += theta;
-		body.rotate(pivot, theta);
-		head.rotate(pivot, theta);
+		billiardHero.rotate(pivot, theta);
 		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
 		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		syncShape();
@@ -173,8 +183,8 @@ class Hero
 	//updates tanks shape
 	private void syncShape() 
 	{
-		shape = Shape.union(head.getPolygon(), body.getPolygon());
-		shapeOfTank = Shape.union(head.getPolygon(), body.getPolygon());
+		shape = billiardHero.getCircle();
+		shapeOfTank = billiardHero.getCircle();
 	}
 
 	//moves tank forward
@@ -200,34 +210,34 @@ class Hero
 	//moves tank shape by passed parameter point
 	private void moveBy(final Point2D point) 
 	{
-		if(body.getBottomLeft().getY() < 0) {
+		if(billiardHero.getCenter().getY() < 0) {
 			Point2D newPoint = new Point2D(point.getX(), point.getY() + 800);
-			head.moveBy(newPoint);
-			body.moveBy(newPoint);
+			//head.moveBy(newPoint);
+			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
-		}else if(body.getTopLeft().getY() > 800) {
+		}else if(billiardHero.getCenter().getY() > 800) {
 			Point2D newPoint = new Point2D(point.getX(), point.getY() - 800);
-			head.moveBy(newPoint);
-			body.moveBy(newPoint);
+			//head.moveBy(newPoint);
+			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
-		}else if(body.getBottomLeft().getX() < 0) {
+		}else if(billiardHero.getCenter().getX() < 0) {
 			Point2D newPoint = new Point2D(point.getX() + 800, point.getY() );
-			head.moveBy(newPoint);
-			body.moveBy(newPoint);
+			//head.moveBy(newPoint);
+			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}
-		else if(body.getBottomRight().getX() > 800) {
+		else if(billiardHero.getCenter().getX() > 800) {
 			Point2D newPoint = new Point2D(point.getX() - 800, point.getY() );
-			head.moveBy(newPoint);
-			body.moveBy(newPoint);
+			//head.moveBy(newPoint);
+			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else {
-		head.moveBy(point);
-		body.moveBy(point);
+		//head.moveBy(point);
+		billiardHero.moveBy(point);
 		pivot = pivot.add(point);
 		syncShape();
 		}
@@ -423,8 +433,8 @@ class Hero
 	void kill()
 	{
 		dead = true;
-		head.getPolygon().setFill(DEATH_COLOR);
-		body.getPolygon().setFill(DEATH_COLOR);
+		//head.getPolygon().setFill(DEATH_COLOR);
+		billiardHero.getCircle().setFill(DEATH_COLOR);
 	}
 
 	//returns true if tank died, false if it is still alive.
@@ -463,5 +473,11 @@ class Hero
 	private enum Op 
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
+	}
+	public double getX() {
+		return billiardHero.getCenter().getX();
+	}
+	public double getY() {
+		return billiardHero.getCenter().getY();
 	}
 }
