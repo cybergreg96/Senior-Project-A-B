@@ -17,7 +17,7 @@ public class SeedBasket
 	static final double VELOCITY = Bunny.VELOCITY * 1.5; // exported for use in
 	// Maze.
 
-	private static final double RADIUS = Bunny.HEAD_HEIGHT * 8;
+	private static final double RADIUS = Bunny.HEAD_HEIGHT * 6;
 	private static final Paint COLOR = Color.GREEN;
 	private final Circle circle;
 	private boolean hit;
