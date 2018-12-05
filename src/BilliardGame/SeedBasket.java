@@ -11,7 +11,7 @@ import javafx.scene.shape.Shape;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class TankFrog 
+public class SeedBasket 
 {
 
 	static final double VELOCITY = Bunny.VELOCITY * 1.5; // exported for use in
@@ -19,15 +19,12 @@ public class TankFrog
 
 	private static final double RADIUS = Bunny.HEAD_HEIGHT * 8;
 	private static final Paint COLOR = Color.GREEN;
-	private static final long DURATION = TimeUnit.SECONDS.toNanos(30);
-	private static final int durationSeconds = (int) ((Math.random() * 6) + 5);
 	private final Circle circle;
-	private final long expiry;
 	private boolean hit;
 
-	// tankfrog object constructor. creates a circle with frog img overlay that
+	// seed basket object constructor. creates a circle with frog img overlay that
 	// has a specific starting point on the maze and an expiration time.
-	TankFrog(Point2D launchPoint, final long nanos) 
+	SeedBasket(Point2D launchPoint, final long nanos) 
 	{
 		// We add the velocity and radius to the launchPoint so the Tank does
 		// not instantly die from its own bullet.
@@ -38,15 +35,6 @@ public class TankFrog
 		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
 		circle.setFill(new ImagePattern(carrot));
 		hit = false;
-
-		expiry = nanos + DURATION;
-	}
-
-	// returns when the frog will disappear from a maze during one of its
-	// instances.
-	long getExpiry() 
-	{
-		return expiry;
 	}
 
 	// returns whther the frog has been hit by a tank. returns true if it has
@@ -54,6 +42,13 @@ public class TankFrog
 	void hit() 
 	{
 		hit = true;
+	}
+	
+	boolean isHit() {
+		if(hit) {
+			return true;
+		}
+		return false;
 	}
 
 	// Used for collision detection and adding/removing the bullets to/from the
