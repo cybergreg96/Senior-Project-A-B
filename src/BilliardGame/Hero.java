@@ -212,26 +212,26 @@ class Hero
 	private void moveBy(final Point2D point) 
 	{
 		if(billiardHero.getCenter().getY() < 0) {
-			Point2D newPoint = new Point2D(point.getX(), point.getY() + 800);
+			Point2D newPoint = new Point2D(point.getX(), point.getY() + 5);
 			//head.moveBy(newPoint);
 			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else if(billiardHero.getCenter().getY() > 800) {
-			Point2D newPoint = new Point2D(point.getX(), point.getY() - 800);
+			Point2D newPoint = new Point2D(point.getX(), point.getY() - 5);
 			//head.moveBy(newPoint);
 			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else if(billiardHero.getCenter().getX() < 0) {
-			Point2D newPoint = new Point2D(point.getX() + 800, point.getY() );
+			Point2D newPoint = new Point2D(point.getX() + 5, point.getY() );
 			//head.moveBy(newPoint);
 			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}
 		else if(billiardHero.getCenter().getX() > 800) {
-			Point2D newPoint = new Point2D(point.getX() - 800, point.getY() );
+			Point2D newPoint = new Point2D(point.getX() - 5, point.getY() );
 			//head.moveBy(newPoint);
 			billiardHero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);

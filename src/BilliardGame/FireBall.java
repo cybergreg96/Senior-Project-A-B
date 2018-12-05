@@ -20,7 +20,7 @@ class FireBall
 
     private static final double RADIUS = Bunny.HEAD_HEIGHT * 2;
     private static final Paint COLOR = Color.RED;
-    private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
+    private static final long DURATION = TimeUnit.SECONDS.toNanos(15);
 
     private final Circle circle;
     private final long expiry;
@@ -95,6 +95,11 @@ class FireBall
     {
         velocity = new Point2D(-velocity.getX(), velocity.getY());
     }
+    
+    private void diagonalBounce() 
+    {
+        velocity = new Point2D(-velocity.getX(), -velocity.getY());
+    }
 
     // The way this works is that first we check if at least one of the candidate segments is intersecting with the bullet. If so,
     // then we need to figure out which segment the bullet collided with first and on which edge of that seg.
@@ -153,20 +158,22 @@ class FireBall
         final Point2D botLeft = seg.getBottomLeft();
         final boolean isDiagonal = seg.isDiagonal();
 
-        if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX()  && !isDiagonal)
+        if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX() && !isDiagonal )
         {
             horizontalBounce();
             return;
         } 
-        else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY() && !isDiagonal) 
+        else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY() && !isDiagonal ) 
         {
             verticalBounce();
             return;
         }
-        else if(isDiagonal) {
-        	horizontalBounce();
+        else if (isDiagonal)
+        {
+            diagonalBounce();
             return;
-        }
+        } 
+        
 
         final Point2D corner;
 
