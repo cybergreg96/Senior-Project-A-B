@@ -18,7 +18,7 @@ import java.util.Random;
 import PacManGUI.SceneInfo;
 
 // Tank represents the tanks in the game.
-class Bunny implements BObject
+class Bunny
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -207,31 +207,29 @@ class Bunny implements BObject
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
-
-	//moves tank shape by passed parameter point
 	private void moveBy(final Point2D point) 
 	{
 		if(hero.getCenter().getY() < 0) {
-			Point2D newPoint = new Point2D(point.getX(), point.getY() + 800);
+			Point2D newPoint = new Point2D(point.getX(), point.getY() + 5);
 			//head.moveBy(newPoint);
 			hero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else if(hero.getCenter().getY() > 800) {
-			Point2D newPoint = new Point2D(point.getX(), point.getY() - 800);
+			Point2D newPoint = new Point2D(point.getX(), point.getY() - 5);
 			//head.moveBy(newPoint);
 			hero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else if(hero.getCenter().getX() < 0) {
-			Point2D newPoint = new Point2D(point.getX() + 800, point.getY() );
+			Point2D newPoint = new Point2D(point.getX() + 5, point.getY() );
 			//head.moveBy(newPoint);
 			hero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}
 		else if(hero.getCenter().getX() > 800) {
-			Point2D newPoint = new Point2D(point.getX() - 800, point.getY() );
+			Point2D newPoint = new Point2D(point.getX() - 5, point.getY() );
 			//head.moveBy(newPoint);
 			hero.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
@@ -242,6 +240,7 @@ class Bunny implements BObject
 		syncShape();
 		}
 	}
+
 
 	//gets location of point where bullet should exit. returns location of end of tank barrel on the pane.
 	private Point2D getBulletLaunchPoint() 

@@ -17,6 +17,7 @@ class PlayerRectangle
 	private final Polygon polygon = new Polygon();
 	private Point2D[] points = new Point2D[4];
 	private Point2D origin = Point2D.ZERO;
+	private boolean diagonal = false;
 
 	// Cloning constructor used for cloning the winning Tank to place into the
 	// alert when a game is over.
@@ -92,9 +93,13 @@ class PlayerRectangle
 		{
 			points[i] = Physics.rotate(points[i], pivot, theta);
 		}
+		diagonal = true;
 		syncPolygon();
 	}
 
+	public boolean isDiagonal() {
+		return diagonal;
+	}
 	// Used for converting the Rectangle to a javafx Polygon for adding to the
 	// scene.
 	private Double[] getDoubles() 

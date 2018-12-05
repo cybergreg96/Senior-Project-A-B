@@ -45,8 +45,24 @@ class FireBall
     //method that specifies how fast bullet moves
     private void moveBy(final Point2D velocity) 
     {
-        circle.setCenterX(circle.getCenterX() + velocity.getX());
-        circle.setCenterY(circle.getCenterY() + velocity.getY());
+
+    	if(circle.getCenterY() < 0) {
+    		 circle.setCenterX(circle.getCenterX() + velocity.getX());
+    	     circle.setCenterY(circle.getCenterY() + velocity.getY() + 800);
+    	} else if(circle.getCenterY() > 800) {
+    		circle.setCenterX(circle.getCenterX() + velocity.getX());
+            circle.setCenterY(circle.getCenterY() + velocity.getY() - 800);
+    	} else if(circle.getCenterX() < 0) {
+    		circle.setCenterX(circle.getCenterX() + velocity.getX() + 800);
+            circle.setCenterY(circle.getCenterY() + velocity.getY());
+    	} else if(circle.getCenterX() > 800) {
+    		circle.setCenterX(circle.getCenterX() + velocity.getX() - 800);
+            circle.setCenterY(circle.getCenterY() + velocity.getY());
+    	}else {
+    		circle.setCenterX(circle.getCenterX() + velocity.getX());
+   	     circle.setCenterY(circle.getCenterY() + velocity.getY());
+    	}
+
     }
 
     //updates bullet shape
@@ -135,15 +151,20 @@ class FireBall
         final Point2D topRight = seg.getTopRight();
         final Point2D botRight = seg.getBottomRight();
         final Point2D botLeft = seg.getBottomLeft();
+        final boolean isDiagonal = seg.isDiagonal();
 
-        if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX())
+        if (center.getX() >= topLeft.getX() && center.getX() <= topRight.getX()  && !isDiagonal)
         {
             horizontalBounce();
             return;
         } 
-        else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY()) 
+        else if (center.getY() >= topLeft.getY() && center.getY() <= botLeft.getY() && !isDiagonal) 
         {
             verticalBounce();
+            return;
+        }
+        else if(isDiagonal) {
+        	horizontalBounce();
             return;
         }
 
