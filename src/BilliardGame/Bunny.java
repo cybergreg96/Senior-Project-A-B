@@ -22,7 +22,7 @@ import java.util.Random;
 import PacManGUI.SceneInfo;
 
 // Tank represents the tanks in the game.
-class Bunny
+class Bunny implements Viewable
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -99,12 +99,11 @@ class Bunny
 		this.bunnyExists = false;
 		this.frogExists = false;
 		try {
-			bunnyImage = new Image(new FileInputStream("src/resources/bunny face.png"));
+			bunnyImage = new Image(new FileInputStream("src/PacManImgs/bunny face.png"));
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		bunnyImgView = new ImageView(bunnyImage);
-		initImgView(20, 20);
+		initImgView(bunnyImage, 20, 20);
 		tankBulletManager = new FireBallManager(maze, this);
 
 		//final Point2D headPoint = new Point2D(billiardBunny.getWidth() - head.getWidth() / 2, billiardBunny.getHeight() / 2 - head.getHeight() / 2);
@@ -151,7 +150,8 @@ class Bunny
 	{
 		return new Group(billiardBunny.getCircle(), bunnyImgView);
 	}
-	private void initImgView(double width, double height) {
+	public void initImgView(Image img, double width, double height) {
+		bunnyImgView = new ImageView(img);
 		bunnyImgView.setFitWidth(width);
 		bunnyImgView.setFitHeight(height);
 	}
