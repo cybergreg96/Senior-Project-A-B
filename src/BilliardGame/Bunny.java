@@ -5,6 +5,7 @@ package BilliardGame;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -14,8 +15,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
+import PacManGUI.SceneInfo;
+
 // Tank represents the tanks in the game.
-class Bunny 
+class Bunny implements BObject
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -26,7 +29,7 @@ class Bunny
 	static final HashMap<KeyCode, Op> KEY_CODES_2 = new HashMap<>();
 
 	private static final double TURNING_ANGLE = Math.PI / 36;
-	private static final double BODY_WIDTH = 20;
+	private static final double BODY_WIDTH = 10;
 	private static final double HEAD_WIDTH = BODY_WIDTH / 2;
 	private static final Color DEATH_COLOR = Color.BLACK;
 
@@ -245,15 +248,17 @@ class Bunny
 	{
 		if (!bunnyExists) 
 		{
-			final Point2D topRight = hero.getTopRight();
+			/*final Point2D topRight = hero.getTopRight();
 			final Point2D bottomRight = hero.getBottomRight();
-			return topRight.midpoint(bottomRight);
+			return topRight.midpoint(bottomRight);*/
+			return hero.getTop();
 		} 
 		else 
 		{
-			final Point2D topLeft = hero.getTopLeft();
+			/*final Point2D topLeft = hero.getTopLeft();
 			final Point2D bottomLeft = hero.getBottomLeft();
-			return topLeft.midpoint(bottomLeft);
+			return topLeft.midpoint(bottomLeft);*/
+			return hero.getBottom();
 		}
 	}
 
@@ -519,5 +524,8 @@ class Bunny
 	private enum Op 
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
+	}
+	public void draw(GraphicsContext g, SceneInfo s) {
+		//f.drawImage();
 	}
 }

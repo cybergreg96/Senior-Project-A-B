@@ -14,7 +14,7 @@ class PlayerCircle
 {
 	private final double radius;
 	private final Circle pCirc = new Circle();
-	private Point2D[] points = new Point2D[4];
+	private Point2D[] points = new Point2D[8];
 	private Point2D origin = Point2D.ZERO;
 	private Point2D center = origin;
 	// Cloning constructor used for cloning the winning Tank to place into the
@@ -46,6 +46,11 @@ class PlayerCircle
 		points[1] = new Point2D(radius * Math.sin(.7854), radius * Math.cos(.7854)); //"Top Right"
 		points[2] = new Point2D(radius * Math.sin(5.672), radius * Math.cos(5.672)); //"Bottom Right"
 		points[3] = new Point2D(radius * Math.sin(4.887), radius * Math.cos(4.887)); //"Bottom Left"
+		points[4] = new Point2D(radius * Math.sin(1.571), radius * Math.cos(1.571)); //Top
+		points[5] = new Point2D(radius * Math.sin(0), radius * Math.cos(0)); 		 //Right
+		points[6] = new Point2D(radius * Math.sin(4.712), radius * Math.cos(4.712)); //Bottom
+		points[7] = new Point2D(radius * Math.sin(3.142), radius * Math.cos(3.142)); //Left
+		
 		//System.out.println("Location of Circle: " + this.origin + "\n " + "Radius: " + this.radius);
 		//for(Point2D p: points) {
 		//	System.out.println("Point: ( " + p.getX()+ " , " + p.getY() + " )");
@@ -101,7 +106,18 @@ class PlayerCircle
 		}
 		return doubles;
 	}
-
+	Point2D getTop() { //4
+		return points[4];
+	}
+	Point2D getBottom() { //6
+		return points[6];
+	}
+	Point2D getLeft() { //7
+		return points[7];
+	}
+	Point2D getRight() { //5
+		return points[5];
+	}
 	// returns top left corner coordinate of tank shape.
 	Point2D getTopLeft() 
 	{
