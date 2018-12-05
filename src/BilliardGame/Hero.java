@@ -141,7 +141,7 @@ class Hero implements Viewable
 	Node getNode() 
 	{
 		// head added after so that you can see it in front.
-		return new Group(billiardHero.getCircle());
+		return new Group(billiardHero.getCircle(), heroImgView);
 	}
 
 	// The pose used by winners!
@@ -191,6 +191,8 @@ class Hero implements Viewable
 	{
 		shape = billiardHero.getCircle();
 		shapeOfTank = billiardHero.getCircle();
+		heroImgView.setX(getX() - billiardHero.getRadius());
+		heroImgView.setY(getY() - billiardHero.getRadius());
 	}
 
 	//moves tank forward

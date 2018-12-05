@@ -26,7 +26,7 @@ class PlayerCircle
 		this.pCirc.setCenterX(center.getX());
 		this.pCirc.setCenterY(center.getY());
 		this.pCirc.setRadius(radius);
-		this.pCirc.setFill(circle.pCirc.getFill());
+		//this.pCirc.setFill(circle.pCirc.getFill());
 	}
 	// tank shape constructor. creates body of tank with a specified height and
 	// width and moves it to a starting point on pane.
