@@ -35,8 +35,9 @@ class PlayerCircle
 		this(radius);
 		moveTo(new Point2D(x, y));
 	}
-
-
+	/*	For points on the circumference of a circle:
+		x = cx + r * cos(a)
+		y = cy + r * sin(a)*/
 	PlayerCircle(final double radius) 
 	{
 		this.radius = radius;
