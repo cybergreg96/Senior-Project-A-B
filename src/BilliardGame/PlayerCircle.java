@@ -15,18 +15,16 @@ class PlayerCircle
 	private final double radius;
 	private final Circle pCirc = new Circle();
 	private Point2D[] points = new Point2D[4];
-	private Point2D origin = Point2D.ZERO;
-	private Point2D center = origin;
+	private Point2D center = Point2D.ZERO;
 	// Cloning constructor used for cloning the winning Tank to place into the
 	// alert when a game is over.
 	PlayerCircle(final PlayerCircle circle) 
 	{
 		this.points = circle.points.clone();
-		this.origin = circle.origin; // ok because Point2D is immutable.
 		this.center = circle.center;
 		this.radius = circle.radius;
-		this.pCirc.setCenterX(origin.getX());
-		this.pCirc.setCenterY(origin.getY());
+		this.pCirc.setCenterX(center.getX());
+		this.pCirc.setCenterY(center.getY());
 		this.pCirc.setRadius(radius);
 		this.pCirc.setFill(circle.pCirc.getFill());
 	}
@@ -87,43 +85,6 @@ class PlayerCircle
 			points[i] = Physics.rotate(points[i], pivot, theta);
 		}
 		syncPolygon();
-	}
-
-	// Used for converting the circle to a javafx circle for adding to the
-	// scene.
-	private Double[] getDoubles() 
-	{
-		final Double[] doubles = new Double[points.length * 2];
-		for (int i = 0; i < points.length; i++) 
-		{
-			final int j = i * 2;
-			doubles[j] = points[i].getX();
-			doubles[j + 1] = points[i].getY();
-		}
-		return doubles;
-	}
-	// returns top left corner coordinate of tank shape.
-	Point2D getTopLeft() 
-	{
-		return points[0];
-	}
-
-	// returns top right corner coordinate of tank shape.
-	Point2D getTopRight() 
-	{
-		return points[1];
-	}
-
-	// returns bottom right corner coordinate of tank shape.
-	Point2D getBottomRight()
-	{
-		return points[2];
-	}
-
-	// returns bottom left corner coordinate of tank shape.
-	Point2D getBottomLeft() 
-	{
-		return points[3];
 	}
 
 	// Syncs the current points array with the polygon.

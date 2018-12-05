@@ -11,6 +11,8 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
@@ -28,7 +30,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Timer;
-
 // Game represents the state of the game and acts as the glue class between all of the other components.
 
 public class BilliardGame
@@ -76,7 +77,6 @@ public class BilliardGame
 
 	private final TankFrogManager frogManager;
 	final Group root = new Group();
-
 	// tank game constructor. places all objects on pane and slowly eat away
 	// maze wall objects until just health circles, tanks, and some maze walls
 	// are present within the pane
@@ -168,13 +168,12 @@ public class BilliardGame
 		};
 		timer.start();
 	}
-
 	// handles state of a tanks death, setting winning message and winning alert
 	// box.
 	private void handle(final long nanos) 
 	{
 		fpsMeter.handle(nanos);
-
+		
 		if (tank1.isDead() || tank2.isDead()) 
 		{
 			timer.stop();
@@ -185,7 +184,7 @@ public class BilliardGame
 
 			String alertContent = "Wow, what a close game. It's a tie!";
 
-			Node graphic = tank1.getWinPose();
+			//Node graphic = tank1.getWinPose();
 			Bunny winningTank = null;
 
 			if (tank1.isDead()) 
@@ -202,7 +201,7 @@ public class BilliardGame
 				alertContent = String.format("Congratulations to the %s tank for winning!",
 						winningTank.getMainColorName());
 			}
-			alert.setGraphic(graphic);
+			//alert.setGraphic(graphic);
 			alert.setContentText(alertContent);
 
 			alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE);
@@ -443,10 +442,9 @@ public class BilliardGame
 
 		tank1.handle(nanos);
 		tank2.handle(nanos);
-		tank2.updateHero(tank1.cord());
+		tank2.updateHero(tank1.getCenter());
 		frogManager.handle(nanos);
 	}
-
 	private void handlePressed(final KeyEvent e)
 	{
 		tank1.handlePressed(e.getCode());
