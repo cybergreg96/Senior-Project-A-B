@@ -132,7 +132,7 @@ class PlayerCircle
 		pCirc.setCenterX(center.getX());
 		pCirc.setCenterY(center.getY());
 		pCirc.setRadius(radius);
-		System.out.println(center);
+		//System.out.println(center);
 	}
 
 	Circle getCircle()
