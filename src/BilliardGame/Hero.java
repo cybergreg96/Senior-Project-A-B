@@ -436,7 +436,7 @@ class Hero implements Viewable
 	{
 		dead = true;
 		//head.getPolygon().setFill(DEATH_COLOR);
-		billiardHero.getCircle().setFill(DEATH_COLOR);
+		//billiardHero.getCircle().setFill(DEATH_COLOR);
 	}
 
 	//returns true if tank died, false if it is still alive.
