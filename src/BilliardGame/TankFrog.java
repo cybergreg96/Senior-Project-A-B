@@ -34,7 +34,7 @@ public class TankFrog
 		// Since the bullet is defined to be 1.5 times faster than the tank,
 		// this guarantees that the tank will not die
 		// as the tank cannot move into it.
-		Image carrot = new Image("/resources/frog.png");
+		Image carrot = new Image("/resources/seeds.png");
 		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
 		circle.setFill(new ImagePattern(carrot));
 		hit = false;

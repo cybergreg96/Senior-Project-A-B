@@ -54,6 +54,11 @@ public class BilliardGame
 	Circle h3 = new Circle(17, 68, 8, Color.GREEN);
 	Circle h4 = new Circle(17, 93, 8, Color.GREEN);
 	Circle h5 = new Circle(17, 118, 8, Color.GREEN);
+	Circle h6 = new Circle(17, 143, 8, Color.GREEN);
+	Circle h7 = new Circle(17, 168, 8, Color.GREEN);
+	Circle h8 = new Circle(17, 193, 8, Color.GREEN);
+	Circle h9 = new Circle(17, 218, 8, Color.GREEN);
+	Circle h10 = new Circle(17, 243, 8, Color.GREEN);
 	// health circles for pink tank
 	Circle h11 = new Circle(774, 675, 8, Color.RED);
 	Circle h21 = new Circle(774, 700, 8, Color.RED);
@@ -85,7 +90,7 @@ public class BilliardGame
 
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
-		root.getChildren().addAll(h1, h2, h3, h4, h5);
+		root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
 		root.getChildren().addAll(h11, h21, h31, h41, h51);
 		root.getChildren().addAll(tank1.getNode(), tank2.getNode(),
 				tank2.getBulletManager().getNode(), frogManager.getNode());
@@ -251,45 +256,133 @@ public class BilliardGame
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
 		String health1 = Double.toString(tank1.getCurrentHealth());
-		if (health1.contains("1.0")) 
-		{
+		if(health1.contains("1.0")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(true);
+			h6.setVisible(true);
+			h7.setVisible(true);
+			h8.setVisible(true);
+			h9.setVisible(true);
+			h10.setVisible(true);
 		}
-
-		if (health1.contains(".8")) 
-		{
+		if(health1.contains(".9")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+			h6.setVisible(true);
+			h7.setVisible(true);
+			h8.setVisible(true);
+			h9.setVisible(true);
+			h10.setVisible(false);
+		}
+		if(health1.contains(".8")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+			h6.setVisible(true);
+			h7.setVisible(true);
+			h8.setVisible(true);
+			h9.setVisible(false);
+		}
+		if(health1.contains(".7")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+			h6.setVisible(true);
+			h7.setVisible(true);
+			h8.setVisible(false);
+		}
+		if(health1.contains(".6")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+			h6.setVisible(true);
+			h7.setVisible(false);
+		}
+		if(health1.contains(".5")) {
+			h1.setVisible(true);
+			h2.setVisible(true);
+			h3.setVisible(true);
+			h4.setVisible(true);
+			h5.setVisible(true);
+			h6.setVisible(false);
+		}
+		if(health1.contains(".4")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(false);
 		}
-		if (health1.contains(".6")) 
-		{
+		if(health1.contains(".3")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(false);
 		}
-		if (health1.contains(".4"))
-		{
+		if(health1.contains(".2")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(false);
 		}
-		if (health1.contains(".2"))
-		{
+		if(health1.contains(".1")) {
 			h1.setVisible(true);
 			h2.setVisible(false);
 		}
-		if (tank1.getCurrentHealth() < .01)
-		{
+		if(tank1.getCurrentHealth() < .01) {
 			h1.setVisible(false);
 		}
+//		
+//		if (health1.contains("1.0")) 
+//		{
+//			h1.setVisible(true);
+//			h2.setVisible(true);
+//			h3.setVisible(true);
+//			h4.setVisible(true);
+//			h5.setVisible(true);
+//		}
+//
+//		if (health1.contains(".8")) 
+//		{
+//			h1.setVisible(true);
+//			h2.setVisible(true);
+//			h3.setVisible(true);
+//			h4.setVisible(true);
+//			h5.setVisible(false);
+//		}
+//		if (health1.contains(".6")) 
+//		{
+//			h1.setVisible(true);
+//			h2.setVisible(true);
+//			h3.setVisible(true);
+//			h4.setVisible(false);
+//		}
+//		if (health1.contains(".4"))
+//		{
+//			h1.setVisible(true);
+//			h2.setVisible(true);
+//			h3.setVisible(false);
+//		}
+//		if (health1.contains(".2"))
+//		{
+//			h1.setVisible(true);
+//			h2.setVisible(false);
+//		}
+//		if (tank1.getCurrentHealth() < .01)
+//		{
+//			h1.setVisible(false);
+//		}
 
 		// handles which health circles to be displayed based on current health
 		// of tank2 or pink tank

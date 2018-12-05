@@ -34,7 +34,7 @@ class FireBall
         // as the tank cannot move into it.
         final Point2D radiusForward = Physics.decomposeVector(RADIUS + VELOCITY, theta);
         launchPoint = launchPoint.add(radiusForward);
-        Image carrot = new Image("/resources/carrot.png");
+        Image carrot = new Image("/resources/Fireball.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
         circle.setFill(new ImagePattern(carrot));
         velocity = Physics.decomposeVector(VELOCITY, theta);

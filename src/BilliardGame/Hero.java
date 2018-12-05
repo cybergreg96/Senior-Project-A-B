@@ -442,7 +442,7 @@ class Hero
 	//when tank is hit by any bullet subtracts health from tank in increments of 20%. 
 	void subtractHealth()
 	{
-		this.currentHealth -= .2;
+		this.currentHealth -= .1;
 	}
 
 	//when tank runs into a frog adds health in increments of 20%.
