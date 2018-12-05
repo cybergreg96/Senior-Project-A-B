@@ -167,16 +167,28 @@ class Bunny
 	//rotate tank clockwise if stopped and turns tank right when moving
 	private void right() 
 	{
+		/*		lastMovementOp = Op.RIGHT;
+		rotate(TURNING_ANGLE);*/
+
 		lastMovementOp = Op.RIGHT;
-		rotate(TURNING_ANGLE);
+		decomposedVelocity = new Point2D(3, 0);//Physics.decomposeVector(VELOCITY, 0);
+		// multiply by tankHealth to reduce speed
+		moveBy(decomposedVelocity);
 	}
+
 
 	//rotate tank counter clockwise if stopped and turns tank left when moving
 	private void left() 
 	{
+		/*		lastMovementOp = Op.LEFT;
+		rotate(-TURNING_ANGLE);*/
+
 		lastMovementOp = Op.LEFT;
-		rotate(-TURNING_ANGLE);
+		decomposedVelocity = new Point2D(-3, 0);//Physics.decomposeVector(VELOCITY, 180);
+		// multiply by tankHealth to reduce speed
+		moveBy(decomposedVelocity);
 	}
+
 
 	// The direction of angles is reversed because the coordinate system is
 	// reversed.
@@ -201,21 +213,21 @@ class Bunny
 	private void forward()
 	{
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
+		decomposedVelocity = new Point2D(0, -3);//Physics.decomposeVector(-VELOCITY, 90 / 3);
 		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
+
 
 	//moves tank backwards
 	private void back() 
 	{
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
+		decomposedVelocity = new Point2D(0, 3);//Physics.decomposeVector(VELOCITY, 90);
 		// multiply by tankHealth to reduce speed
-		moveBy(negativeDecomposedVelocity);
+		moveBy(decomposedVelocity);
 	}
+
 
 	private void moveBy(final Point2D point) 
 	{
@@ -362,18 +374,20 @@ class Bunny
 		final Point2D decomposedVelocity;
 		switch (lastMovementOp) {
 		case FORWARD:
-			decomposedVelocity = Physics.decomposeVector(-1, theta);
+			decomposedVelocity = new Point2D(0, 3);
 			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		case REVERSE:
-			decomposedVelocity = Physics.decomposeVector(1, theta);
+			decomposedVelocity = new Point2D(0, -3);
 			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		case RIGHT:
-			reverseOp = () -> tank.rotate(-TURNING_ANGLE / 12);
+			decomposedVelocity = new Point2D(-3, 0);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		case LEFT:
-			reverseOp = () -> tank.rotate(TURNING_ANGLE / 12);
+			decomposedVelocity = new Point2D(3, 0);
+			reverseOp = () -> tank.moveBy(decomposedVelocity);
 			break;
 		}
 		do {
