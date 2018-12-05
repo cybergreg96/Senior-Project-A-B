@@ -407,9 +407,9 @@ class Bunny
 		}
 		activeOps.remove(op);
 	}
-	void updateHero(double[] cord) {
-		heroCord[0] = cord[0];
-		heroCord[1] = cord[1];
+	void updateHero(Point2D point) {
+		heroCord[0] = point.getX();
+		heroCord[1] = point.getY();
 	}
 
 	public double distX() {

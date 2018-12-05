@@ -249,12 +249,6 @@ class Hero
 		return theta;
 	}
 
-	//returns center or pivot point of tank
-	private Point2D getCenter() 
-	{
-		return pivot;
-	}
-
 	Shape getShape()
 	{
 		return shape;
@@ -475,17 +469,13 @@ class Hero
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
 	}
-<<<<<<< HEAD
+	public Point2D getCenter() {
+		return billiardHero.getCenter();
+	}
 	public double getX() {
 		return billiardHero.getCenter().getX();
 	}
 	public double getY() {
 		return billiardHero.getCenter().getY();
-=======
-	public double[] cord(){
-		cord[0]= body.getPolygon().impl_getPivotX();
-		cord[1]= body.getPolygon().impl_getPivotY();
-		return cord;
->>>>>>> master
 	}
 }
