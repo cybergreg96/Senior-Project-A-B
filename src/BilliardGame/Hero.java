@@ -79,6 +79,7 @@ class Hero
 	private Image heroImage;
 	public boolean bunnyExists;
 	public boolean frogExists;
+	public double[] cord = new double[2];
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
@@ -474,10 +475,17 @@ class Hero
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
 	}
+<<<<<<< HEAD
 	public double getX() {
 		return billiardHero.getCenter().getX();
 	}
 	public double getY() {
 		return billiardHero.getCenter().getY();
+=======
+	public double[] cord(){
+		cord[0]= body.getPolygon().impl_getPivotX();
+		cord[1]= body.getPolygon().impl_getPivotY();
+		return cord;
+>>>>>>> master
 	}
 }

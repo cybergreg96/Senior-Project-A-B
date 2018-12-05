@@ -442,6 +442,7 @@ public class BilliardGame
 
 		tank1.handle(nanos);
 		tank2.handle(nanos);
+		tank2.updateHero(tank1.cord());
 		frogManager.handle(nanos);
 	}
 	private void handlePressed(final KeyEvent e)

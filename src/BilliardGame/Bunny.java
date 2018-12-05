@@ -35,6 +35,7 @@ class Bunny
 	private static final double BODY_WIDTH = 10;
 	private static final double HEAD_WIDTH = BODY_WIDTH / 2;
 	private static final Color DEATH_COLOR = Color.BLACK;
+	public double[] heroCord = new double[2];
 
 	static {
 		KEY_CODES_1.put(KeyCode.UP, Op.FORWARD);
@@ -184,8 +185,8 @@ class Bunny
 	{
 		this.theta += theta;
 		billiardBunny.rotate(pivot, theta);
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		syncShape();
 	}
 
@@ -200,8 +201,8 @@ class Bunny
 	private void forward()
 	{
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
@@ -210,8 +211,8 @@ class Bunny
 	private void back() 
 	{
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
@@ -406,10 +407,41 @@ class Bunny
 		}
 		activeOps.remove(op);
 	}
+	void updateHero(double[] cord) {
+		heroCord[0] = cord[0];
+		heroCord[1] = cord[1];
+	}
 
+	public double distX() {
+		double x = heroCord[0] - billiardBunny.getCenter().getX();
+		return x;
+	}
+
+	public double distY() {
+		double y = heroCord[1] -  billiardBunny.getCenter().getY();
+		return y;
+	}
+	public void fixTheta() {
+		if(theta>2*Math.PI){
+			theta-=2*Math.PI;
+		}else if(theta<0){
+			theta+=2*Math.PI;
+		}
+	}
+	public void autoAim() {
+		double angle = Math.toDegrees(Math.atan2(distY(), distX()));
+		if (angle < 0) {
+			angle += 360;
+		}
+		double it = theta-Math.toRadians(angle);
+		if(theta!=Math.toRadians(angle))
+		rotate(-1*it);
+	}
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) 
 	{
+		fixTheta();
+		//autoAim();
 		tankBulletManager.update(nanos);
 		// prevents even attempting to fire if out of ammo
 		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
