@@ -141,7 +141,7 @@ class Hero implements Viewable
 	Node getNode() 
 	{
 		// head added after so that you can see it in front.
-		return new Group(billiardHero.getCircle());
+		return new Group(billiardHero.getCircle(), heroImgView);
 	}
 
 	// The pose used by winners!
@@ -191,6 +191,8 @@ class Hero implements Viewable
 	{
 		shape = billiardHero.getCircle();
 		shapeOfTank = billiardHero.getCircle();
+		heroImgView.setX(getX() - billiardHero.getRadius());
+		heroImgView.setY(getY() - billiardHero.getRadius());
 	}
 
 	//moves tank forward
@@ -434,7 +436,7 @@ class Hero implements Viewable
 	{
 		dead = true;
 		//head.getPolygon().setFill(DEATH_COLOR);
-		billiardHero.getCircle().setFill(DEATH_COLOR);
+		//billiardHero.getCircle().setFill(DEATH_COLOR);
 	}
 
 	//returns true if tank died, false if it is still alive.
