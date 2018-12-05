@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -79,6 +80,7 @@ class Bunny
 	private boolean dead;
 	private double currentHealth;
 	private Image bunnyImage;
+	private ImageView bunnyImgView;
 	public boolean bunnyExists;
 	public boolean frogExists;
 
@@ -101,6 +103,8 @@ class Bunny
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
+		bunnyImgView = new ImageView(bunnyImage);
+		initImgView(20, 20);
 		tankBulletManager = new FireBallManager(maze, this);
 
 		//final Point2D headPoint = new Point2D(billiardBunny.getWidth() - head.getWidth() / 2, billiardBunny.getHeight() / 2 - head.getHeight() / 2);
@@ -145,9 +149,12 @@ class Bunny
 
 	Node getNode() 
 	{
-		return new Group(billiardBunny.getCircle());
+		return new Group(billiardBunny.getCircle(), bunnyImgView);
 	}
-
+	private void initImgView(double width, double height) {
+		bunnyImgView.setFitWidth(width);
+		bunnyImgView.setFitHeight(height);
+	}
 	// The pose used by winners!
 	/*Node getWinPose() 
 	{
@@ -187,6 +194,7 @@ class Bunny
 		billiardBunny.rotate(pivot, theta);
 		decomposedVelocity = Physics.decomposeVector(VELOCITY, this.theta);
 		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY, this.theta);
+		//bunnyImgView.setRotate(bunnyImgView.getRotate() + Math.toDegrees(theta));
 		syncShape();
 	}
 
@@ -195,6 +203,8 @@ class Bunny
 	{
 		shape = billiardBunny.getCircle();
 		shapeOfTank = billiardBunny.getCircle();
+		bunnyImgView.setX(getX() - billiardBunny.getRadius());
+		bunnyImgView.setY(getY() - billiardBunny.getRadius());
 	}
 
 	//moves tank forward
