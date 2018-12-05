@@ -73,6 +73,7 @@ class Hero
 	private double currentHealth;
 	public boolean bunnyExists;
 	public boolean frogExists;
+	public double[] cord = new double[2];
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
@@ -463,5 +464,10 @@ class Hero
 	private enum Op 
 	{
 		FORWARD, RIGHT, LEFT, REVERSE, FIRE,
+	}
+	public double[] cord(){
+		cord[0]= body.getPolygon().impl_getPivotX();
+		cord[1]= body.getPolygon().impl_getPivotY();
+		return cord;
 	}
 }

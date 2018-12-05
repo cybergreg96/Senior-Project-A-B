@@ -74,6 +74,12 @@ class FireBallManager
 			{
 				tankBullet.update();
 			}
+			if(tankBullet.getExpiry()<nanos){
+				System.out.println(nanos);
+				System.out.println(tankBullet.getExpiry());
+				it.remove();
+				group.getChildren().remove(tankBullet.getShape());
+			}
 		}
 	}
 	// handleMazeCollisions handles collisions between all of the manager's bullets and the maze.

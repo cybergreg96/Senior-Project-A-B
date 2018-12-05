@@ -20,7 +20,7 @@ class FireBall
 
     private static final double RADIUS = Bunny.HEAD_HEIGHT * 2;
     private static final Paint COLOR = Color.RED;
-    private static final long DURATION = TimeUnit.SECONDS.toNanos(15);
+    private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
 
     private final Circle circle;
     private final long expiry;
