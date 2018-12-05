@@ -19,6 +19,7 @@ public class SeedBasketManager
 	private final double height;
 	public boolean frogExists;
 	private boolean initialized;
+	private boolean win;
 
 	// spawns the tankfrog manager object to managed when frogs are visible and
 	// where on the maze they are spawned with a given width and height and a
@@ -31,6 +32,7 @@ public class SeedBasketManager
 		frogExists = false;
 		
 		initialized = false;
+		win = false;
 	}
 
 	// Used for adding the frogs to the scene.
@@ -54,26 +56,38 @@ public class SeedBasketManager
 	// update updates the position of the frogs and removes expired ones.
 	void update(final long nanos)
 	{
+		// check to see if seedsArray is not empty (not all collected yet)
 		if(!seedsArray.isEmpty()) {
+			// initialize a temp array for storing
 			ArrayList<SeedBasket> seedsTemp = new ArrayList<>();
+			// iterate thru seedsArray
 			for(SeedBasket basket: seedsArray) {
+				// check to see if seed has been collected
 				if(basket.isHit()) {
+					// remove from view
 					group.getChildren().remove(basket.getShape());
 				} else {
+					// seed hasn't been collected, so save it in temp
 					seedsTemp.add(basket);
 				}
 			}
+			// reassign temp to seedsArray (seeds haven't been collected yet)
 			seedsArray = seedsTemp;
 		} else {
+			// has the seeds been created yet?
 			if(!initialized) {
+				// create seeds in quadrants
+				// Top Left Quadrant
 				this.addFrog(new Point2D((width/2) * Math.random() + 1, (height/2) * Math.random() + 1), nanos);
+				// Top Right Quadrant
 				this.addFrog(new Point2D((width/2) * Math.random() + (width/2), (height/2) * Math.random() + 1), nanos);
+				// Bottom Left Quadrant
 				this.addFrog(new Point2D((width/2) * Math.random() + 1, (height/2) * Math.random() + (height/2)), nanos);
+				// Bottom Right Quadrant
 				this.addFrog(new Point2D((width/2) * Math.random() + (width/2), (height/2) * Math.random() + (height/2)), nanos);
 				initialized = true;
 			} else {				
-				// TODO: display the winning screen
-				System.out.println("win");
+				win = true;
 			}
 		}
 	}
@@ -87,6 +101,10 @@ public class SeedBasketManager
 			final ArrayList<PlayerRectangle> segs = maze.getCollisionCandidates(seedsArray.get(0).getCenter());
 			seedsArray.get(0).handleMazeCollision(segs);
 		});
+	}
+	
+	boolean getWinCondition() {
+		return win;
 	}
 
 	void handle(final long nanos)

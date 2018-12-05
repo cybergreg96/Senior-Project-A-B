@@ -75,7 +75,7 @@ public class BilliardGame
 
 	private AnimationTimer timer;
 
-	private final SeedBasketManager frogManager;
+	private final SeedBasketManager seedBasketManager;
 	final Group root = new Group();
 	// tank game constructor. places all objects on pane and slowly eat away
 	// maze wall objects until just health circles, tanks, and some maze walls
@@ -83,7 +83,7 @@ public class BilliardGame
 	public BilliardGame(final Stage stage) 
 	{
 
-		frogManager = new SeedBasketManager(maze, WIDTH, HEIGHT);
+		seedBasketManager = new SeedBasketManager(maze, WIDTH, HEIGHT);
 		tank2.getBulletManager().setEnemyTank(tank1);
 
 		this.stage = stage;
@@ -93,7 +93,7 @@ public class BilliardGame
 		root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
 		root.getChildren().addAll(h11, h21, h31, h41, h51);
 		root.getChildren().addAll(tank1.getNode(), tank2.getNode(),
-				tank2.getBulletManager().getNode(), frogManager.getNode());
+				tank2.getBulletManager().getNode(), seedBasketManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
@@ -174,7 +174,7 @@ public class BilliardGame
 	{
 		fpsMeter.handle(nanos);
 		
-		if (tank1.isDead() || tank2.isDead()) 
+		if (tank1.isDead() || seedBasketManager.getWinCondition()) 
 		{
 			timer.stop();
 
@@ -182,7 +182,7 @@ public class BilliardGame
 			alert.setTitle("TANK TANK");
 			alert.setHeaderText("Game Over! TANK You Very Much For Playing!!!");
 
-			String alertContent = "Wow, what a close game. It's a tie!";
+			String alertContent = "Congratulations to the Tank Player for winning!";
 
 			//Node graphic = tank1.getWinPose();
 			Bunny winningTank = null;
@@ -194,8 +194,8 @@ public class BilliardGame
 					winningTank = tank2;
 					//graphic = tank2.getWinPose();
 				}
-			} 
-
+			}
+			
 			if (winningTank != null) 
 			{
 				alertContent = String.format("Congratulations to the %s tank for winning!",
@@ -246,7 +246,7 @@ public class BilliardGame
 		
 		// handles when a tank is hit by frog object and determining what tank
 		// to add health to.
-		if (frogManager.isHit(tank1))
+		if (seedBasketManager.isHit(tank1))
 		{
 			tank1.addHealth();
 		}
@@ -404,7 +404,7 @@ public class BilliardGame
 		tank1.handle(nanos);
 		tank2.handle(nanos);
 		tank2.updateHero(tank1.getCenter());
-		frogManager.handle(nanos);
+		seedBasketManager.handle(nanos);
 	}
 	private void handlePressed(final KeyEvent e)
 	{
