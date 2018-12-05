@@ -84,22 +84,32 @@ class FireBall
         return circle;
     }
     
-    //handles how the bullet reacts to bouncing off of horizontal objects
-    private void horizontalBounce() 
+
+private int bounce = 0;
+private void horizontalBounce() 
     {
         velocity = new Point2D(velocity.getX(), -velocity.getY());
+        bounce+=1;
     }
 
-  //handles how the bullet reacts to bouncing off of vertical objects
     private void verticalBounce() 
     {
         velocity = new Point2D(-velocity.getX(), velocity.getY());
+        bounce+=1;
     }
-    
     private void diagonalBounce() 
     {
         velocity = new Point2D(-velocity.getX(), -velocity.getY());
+        bounce+=1;
     }
+    public int getBounces(){
+    	return bounce;
+    }
+    public void resetBounces(){
+    	bounce = 0;
+    }
+    
+   
 
     // The way this works is that first we check if at least one of the candidate segments is intersecting with the bullet. If so,
     // then we need to figure out which segment the bullet collided with first and on which edge of that seg.
@@ -219,5 +229,7 @@ class FireBall
     {
         return new Point2D(circle.getCenterX(), circle.getCenterY());
     }
+    
+    
 
 }
