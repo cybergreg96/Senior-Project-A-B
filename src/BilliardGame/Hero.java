@@ -8,6 +8,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
@@ -21,7 +22,7 @@ import java.util.Random;
 
 
 // Tank represents the tanks in the game.
-class Hero
+class Hero implements Viewable
 {
 	static final int VELOCITY = 3; // exported for use in Bullet.
 	static final double BODY_HEIGHT = 15; // exported for use in Cell.
@@ -77,6 +78,7 @@ class Hero
 	private boolean dead;
 	private double currentHealth;
 	private Image heroImage;
+	private ImageView heroImgView;
 	public boolean bunnyExists;
 	public boolean frogExists;
 	public double[] cord = new double[2];
@@ -101,13 +103,12 @@ class Hero
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		//final Point2D headPoint = new Point2D(billiardHero.getWidth() - head.getWidth() / 2, billiardHero.getHeight() / 2 - head.getHeight() / 2);
-		//head.moveTo(headPoint);
+		initImgView(heroImage, 20, 20);
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
 		//head.getPolygon().setFill(this.headColor);
-		billiardHero.getCircle().setFill(billiardHeroColor);
+		//billiardHero.getCircle().setFill(billiardHeroColor);
 
 		//rotates tank to its beginning angle.
 		rotate(initialAngle);
@@ -132,7 +133,11 @@ class Hero
 		moveBy(new Point2D(-billiardHero.getRadius() / 2, -billiardHero.getRadius() / 2));
 		syncShape();
 	}
-
+	public void initImgView(Image img, double width, double height) {
+		heroImgView = new ImageView(img);
+		heroImgView.setFitWidth(width);
+		heroImgView.setFitHeight(height);
+	}
 	Node getNode() 
 	{
 		// head added after so that you can see it in front.
