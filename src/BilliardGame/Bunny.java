@@ -53,8 +53,8 @@ class Bunny
 	private final Color outOfAmmoHeadColor;
 	private final String mainColorName;
 	//private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH, HEAD_HEIGHT);
-	//private final PlayerRectangle hero = new PlayerRectangle(hero_WIDTH, hero_HEIGHT);
-	private final PlayerCircle hero = new PlayerCircle(BODY_WIDTH);
+	//private final PlayerRectangle billiardBunny = new PlayerRectangle(billiardBunny_WIDTH, billiardBunny_HEIGHT);
+	private final PlayerCircle billiardBunny = new PlayerCircle(BODY_WIDTH);
 	private FireBallManager tankBulletManager;
 	private final Maze maze;
 	// Map from the keycodes to ops, see the KEY_CODES_1, KEY_CODES_2 and the
@@ -62,12 +62,12 @@ class Bunny
 	private final HashMap<KeyCode, Op> keycodes;
 	// Keys pressed since the last frame.
 	private final HashSet<Op> activeOps = new HashSet<>();
-	// Shape holds the union between the hero and head. It is used for collision
+	// Shape holds the union between the billiardBunny and head. It is used for collision
 	// detection.
 	private Shape shape;
 	private Shape shapeOfTank;
-	// Middle of hero.
-	private Point2D pivot = new Point2D(hero.getCenter().getX(), hero.getCenter().getY());
+	// Middle of billiardBunny.
+	private Point2D pivot = new Point2D(billiardBunny.getCenter().getX(), billiardBunny.getCenter().getY());
 	private double theta;
 	private Point2D decomposedVelocity;
 	private Point2D negativeDecomposedVelocity;
@@ -79,10 +79,10 @@ class Bunny
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
-	 * parameters of tank name, hero colors, its keycodes, intitial angle and
+	 * parameters of tank name, billiardBunny colors, its keycodes, intitial angle and
 	 * the max health.
 	 */
-	Bunny(final String mainColorName, final Color heroColor, final Color headColor, final Color outOfAmmoColor,
+	Bunny(final String mainColorName, final Color billiardBunnyColor, final Color headColor, final Color outOfAmmoColor,
 			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) 
 	{
 		this.maze = maze;
@@ -94,14 +94,14 @@ class Bunny
 
 		tankBulletManager = new FireBallManager(maze, this);
 
-		//final Point2D headPoint = new Point2D(hero.getWidth() - head.getWidth() / 2, hero.getHeight() / 2 - head.getHeight() / 2);
+		//final Point2D headPoint = new Point2D(billiardBunny.getWidth() - head.getWidth() / 2, billiardBunny.getHeight() / 2 - head.getHeight() / 2);
 		//head.moveTo(headPoint);
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
 		//head.getPolygon().setFill(this.headColor);
-		//hero.getPolygon().setFill(heroColor);
-		hero.getCircle().setFill(heroColor);
+		//billiardBunny.getPolygon().setFill(billiardBunnyColor);
+		billiardBunny.getCircle().setFill(billiardBunnyColor);
 		//rotates tank to its beginning angle.
 		rotate(initialAngle);
 
@@ -122,7 +122,7 @@ class Bunny
 		moveBy(new Point2D(col * Cell.LENGTH, row * Cell.LENGTH));
 		moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
 		moveBy(new Point2D((Cell.LENGTH - Maze.THICKNESS) / 2, (Cell.LENGTH - Maze.THICKNESS) / 2));
-		moveBy(new Point2D(-hero.getRadius() / 2, -hero.getRadius() / 2));
+		moveBy(new Point2D(-billiardBunny.getRadius() / 2, -billiardBunny.getRadius() / 2));
 		syncShape();
 	}
 
@@ -136,22 +136,22 @@ class Bunny
 
 	Node getNode() 
 	{
-		return new Group(hero.getCircle());
+		return new Group(billiardBunny.getCircle());
 	}
 
 	// The pose used by winners!
 	/*Node getWinPose() 
 	{
 		//final PlayerRectangle headCopy = new PlayerRectangle(head);
-		//final PlayerRectangle heroCopy = new PlayerRectangle(hero);
+		//final PlayerRectangle billiardBunnyCopy = new PlayerRectangle(billiardBunny);
 
 		// TODO should the tank be pointing out or into the alert needs more
 		// thought. right now it faces inward.
 		// feels more symmetric
 		headCopy.rotate(pivot, -theta + Math.PI);
-		heroCopy.rotate(pivot, -theta + Math.PI);
+		billiardBunnyCopy.rotate(pivot, -theta + Math.PI);
 
-		return new Group(heroCopy.getPolygon(), headCopy.getPolygon());
+		return new Group(billiardBunnyCopy.getPolygon(), headCopy.getPolygon());
 	}*/
 
 
@@ -175,7 +175,7 @@ class Bunny
 	private void rotate(final double theta) 
 	{
 		this.theta += theta;
-		hero.rotate(pivot, theta);
+		billiardBunny.rotate(pivot, theta);
 		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
 		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
 		syncShape();
@@ -184,8 +184,8 @@ class Bunny
 	//updates tanks shape
 	private void syncShape() 
 	{
-		shape = hero.getCircle();
-		shapeOfTank = hero.getCircle();
+		shape = billiardBunny.getCircle();
+		shapeOfTank = billiardBunny.getCircle();
 	}
 
 	//moves tank forward
@@ -209,33 +209,33 @@ class Bunny
 	}
 	private void moveBy(final Point2D point) 
 	{
-		if(hero.getCenter().getY() < 0) {
+		if(billiardBunny.getCenter().getY() < 0) {
 			Point2D newPoint = new Point2D(point.getX(), point.getY() + 5);
 			//head.moveBy(newPoint);
-			hero.moveBy(newPoint);
+			billiardBunny.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
-		}else if(hero.getCenter().getY() > 800) {
+		}else if(billiardBunny.getCenter().getY() > 800) {
 			Point2D newPoint = new Point2D(point.getX(), point.getY() - 5);
 			//head.moveBy(newPoint);
-			hero.moveBy(newPoint);
+			billiardBunny.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
-		}else if(hero.getCenter().getX() < 0) {
+		}else if(billiardBunny.getCenter().getX() < 0) {
 			Point2D newPoint = new Point2D(point.getX() + 5, point.getY() );
 			//head.moveBy(newPoint);
-			hero.moveBy(newPoint);
+			billiardBunny.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}
-		else if(hero.getCenter().getX() > 800) {
+		else if(billiardBunny.getCenter().getX() > 800) {
 			Point2D newPoint = new Point2D(point.getX() - 5, point.getY() );
 			//head.moveBy(newPoint);
-			hero.moveBy(newPoint);
+			billiardBunny.moveBy(newPoint);
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else {
-		hero.moveBy(point);
+		billiardBunny.moveBy(point);
 		pivot = pivot.add(point);
 		syncShape();
 		}
@@ -247,18 +247,19 @@ class Bunny
 	{
 		if (!bunnyExists) 
 		{
-			/*final Point2D topRight = hero.getTopRight();
-			final Point2D bottomRight = hero.getBottomRight();
+			/*final Point2D topRight = billiardBunny.getTopRight();
+			final Point2D bottomRight = billiardBunny.getBottomRight();
 			return topRight.midpoint(bottomRight);*/
-			return hero.getTop();
+			return billiardBunny.getCenter();
 		} 
 		else 
 		{
-			/*final Point2D topLeft = hero.getTopLeft();
-			final Point2D bottomLeft = hero.getBottomLeft();
+			/*final Point2D topLeft = billiardBunny.getTopLeft();
+			final Point2D bottomLeft = billiardBunny.getBottomLeft();
 			return topLeft.midpoint(bottomLeft);*/
-			return hero.getBottom();
+			return billiardBunny.getCenter();
 		}
+		
 	}
 
 	private double getTheta() 
@@ -422,11 +423,11 @@ class Bunny
 
 		if (tankBulletManager.isReloading() || tankBulletManager.outOfAmmo()) 
 		{
-			hero.getCircle().setFill(outOfAmmoHeadColor);
+			billiardBunny.getCircle().setFill(outOfAmmoHeadColor);
 		}
 		else 
 		{
-			hero.getCircle().setFill(headColor);
+			billiardBunny.getCircle().setFill(headColor);
 		}
 
 		if (!bunnyExists)
@@ -484,7 +485,7 @@ class Bunny
 	{
 		dead = true;
 		//head.getPolygon().setFill(DEATH_COLOR);
-		hero.getCircle().setFill(DEATH_COLOR);
+		billiardBunny.getCircle().setFill(DEATH_COLOR);
 	}
 
 	//returns true if tank died, false if it is still alive.
