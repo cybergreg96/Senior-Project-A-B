@@ -12,18 +12,12 @@ import java.util.concurrent.TimeUnit;
 public class SeedBasketManager 
 {
 
-	private final ArrayList<SeedBasket> seedsArray = new ArrayList<>();
+	private ArrayList<SeedBasket> seedsArray = new ArrayList<>();
 	private final Group group = new Group();
 	private final Maze maze;
-	private int delaySeconds;
-	private long frogTime;
 	private final double width;
 	private final double height;
 	public boolean frogExists;
-	private long delay;
-	private long frogSpawnTime;
-	private boolean hit;
-	
 	private boolean initialized;
 
 	// spawns the tankfrog manager object to managed when frogs are visible and
@@ -35,12 +29,8 @@ public class SeedBasketManager
 		width = w;
 		height = h;
 		frogExists = false;
-		hit = false;
 		
 		initialized = false;
-		delaySeconds = (int) ((Math.random() * 6) + 5);
-		delay = TimeUnit.SECONDS.toNanos(delaySeconds);
-		frogSpawnTime = System.nanoTime() + delay;
 	}
 
 	// Used for adding the frogs to the scene.
@@ -65,58 +55,27 @@ public class SeedBasketManager
 	void update(final long nanos)
 	{
 		if(!seedsArray.isEmpty()) {
+			ArrayList<SeedBasket> seedsTemp = new ArrayList<>();
 			for(SeedBasket basket: seedsArray) {
 				if(basket.isHit()) {
 					group.getChildren().remove(basket.getShape());
-					seedsArray.remove(basket);
+				} else {
+					seedsTemp.add(basket);
 				}
 			}
+			seedsArray = seedsTemp;
 		} else {
 			if(!initialized) {
-				this.addFrog(new Point2D((width/2) * Math.random(), (height/2) * Math.random()), nanos);
-				this.addFrog(new Point2D(width * Math.random() + (width/2), (height/2) * Math.random()), nanos);
-				this.addFrog(new Point2D((width/2) * Math.random(), height * Math.random() + (height/2)), nanos);
-				this.addFrog(new Point2D(width * Math.random() + (width/2), height * Math.random() + (height/2)), nanos);
+				this.addFrog(new Point2D((width/2) * Math.random() + 1, (height/2) * Math.random() + 1), nanos);
+				this.addFrog(new Point2D((width/2) * Math.random() + (width/2), (height/2) * Math.random() + 1), nanos);
+				this.addFrog(new Point2D((width/2) * Math.random() + 1, (height/2) * Math.random() + (height/2)), nanos);
+				this.addFrog(new Point2D((width/2) * Math.random() + (width/2), (height/2) * Math.random() + (height/2)), nanos);
 				initialized = true;
+			} else {				
+				// TODO: display the winning screen
+				System.out.println("win");
 			}
-			// TODO: display the winning screen
 		}
-		
-//		if (!seedsArray.isEmpty()) 
-//		{
-//
-//			SeedBasket frog = seedsArray.get(0);
-//
-//			if (hit) 
-//			{
-//
-//				group.getChildren().remove(frog.getShape());
-//				seedsArray.remove(frog);
-//				frogSpawnTime = nanos;
-//				frogExists = false;
-//				hit = false;
-//				// reset delay time with a value between 5 and 10 seconds
-//				delaySeconds = (int) ((Math.random() * 6) + 5);
-//				delay = TimeUnit.SECONDS.toNanos(delaySeconds);
-//
-//			}
-//
-//		} 
-//		else if (nanos >= frogSpawnTime + delay) 
-//		{
-//			Point2D launchPoint;
-//			// randomly selects a neutral corner to spawn
-//			if (Math.random() > 0.5) 
-//			{
-//				launchPoint = new Point2D(width * Math.random(), height * Math.random());
-//			} 
-//			else
-//			{
-//				launchPoint = new Point2D(width * Math.random(), height * Math.random());
-//			}
-//			
-//			this.addFrog(launchPoint, nanos);
-//		}
 	}
 
 	// handleMazeCollisions handles collisions between all of the manager's
