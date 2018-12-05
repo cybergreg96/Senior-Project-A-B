@@ -99,11 +99,11 @@ class Hero implements Viewable
 		this.frogExists = false;
 
 		try {
-			heroImage = new Image(new FileInputStream("src/PacManImgs/GoodBird.png"));
+			heroImage = new Image(new FileInputStream("src/PacManImgs/GoodBirdRight.png"));
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		initImgView(heroImage, 20, 20);
+		initImgView(heroImage, 30, 30);
 
 		this.headColor = headColor;
 		this.outOfAmmoHeadColor = outOfAmmoColor;
@@ -183,6 +183,7 @@ class Hero implements Viewable
 		billiardHero.rotate(pivot, theta);
 		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
 		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		heroImgView.setRotate(heroImgView.getRotate() + Math.toDegrees(theta));
 		syncShape();
 	}
 
@@ -191,8 +192,8 @@ class Hero implements Viewable
 	{
 		shape = billiardHero.getCircle();
 		shapeOfTank = billiardHero.getCircle();
-		heroImgView.setX(getX() - billiardHero.getRadius());
-		heroImgView.setY(getY() - billiardHero.getRadius());
+		heroImgView.setX(getX() - 1.5*billiardHero.getRadius());
+		heroImgView.setY(getY() - 1.5*billiardHero.getRadius());
 	}
 
 	//moves tank forward
