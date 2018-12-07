@@ -18,6 +18,7 @@ class PlayerRectangle
 	private Point2D[] points = new Point2D[4];
 	private Point2D origin = Point2D.ZERO;
 	private boolean diagonal = false;
+	public int angle;
 
 	// Cloning constructor used for cloning the winning Tank to place into the
 	// alert when a game is over.
@@ -29,6 +30,7 @@ class PlayerRectangle
 		this.height = rect.height;
 		this.polygon.getPoints().setAll(getDoubles());
 		this.polygon.setFill(rect.polygon.getFill());
+		this.angle = 0;
 	}
 
 	// tank shape constructor. creates body of tank with a specified height and

@@ -234,16 +234,28 @@ class Maze
 		{
 			for (final PlayerRectangle seg : segs) {
 				addSeg(seg);
+				
+				if(seg != null)
+				{
+					seg.angle = 0;
+				}
 			}
 		}
 
 		for (final PlayerRectangle[] segs : verticalSegments) 
 		{
-			for (final PlayerRectangle seg : segs) 
+			for (PlayerRectangle seg : segs) 
 			{
 				addSeg(seg);
+				
+				if(seg != null)
+				{
+					seg.angle = 90;
+				}
 			}
 		}
+		
+		System.out.println();
 	}
 
 	private void addSeg(final PlayerRectangle seg) 

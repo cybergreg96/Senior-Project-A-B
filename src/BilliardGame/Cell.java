@@ -210,6 +210,8 @@ class Cell
 			}
 			rect.rotate(new Point2D(x,y), theta);
 			rect.getPolygon().setFill(COLOR);
+			
+			rect.angle = theta;
 		}
 		return rect;
 	}

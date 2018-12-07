@@ -97,9 +97,16 @@ private void horizontalBounce()
         velocity = new Point2D(-velocity.getX(), velocity.getY());
         bounce+=1;
     }
-    private void diagonalBounce() 
+    private void diagonalBounce(PlayerRectangle seg) 
     {
-        velocity = new Point2D(-velocity.getX(), -velocity.getY());
+      if(seg.angle == 45)
+      {
+      	velocity = new Point2D(-velocity.getY(), -velocity.getX());
+      }
+      else
+      {
+      	velocity = new Point2D(velocity.getY(), velocity.getX());
+      }
         bounce+=1;
     }
     public int getBounces(){
@@ -180,7 +187,7 @@ private void horizontalBounce()
         }
         else if (isDiagonal)
         {
-            diagonalBounce();
+            diagonalBounce(seg);
             return;
         } 
         
