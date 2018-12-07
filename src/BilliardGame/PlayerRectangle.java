@@ -92,6 +92,13 @@ class PlayerRectangle
 		for (int i = 0; i < points.length; i++) 
 		{
 			points[i] = Physics.rotate(points[i], pivot, theta);
+			
+			if(points[i].getX() < 0)
+			{
+				//make negative value positive
+				double xHelper = points[i].getX() * -2;
+				points[i] = points[i].add(xHelper, 0);
+			}
 		}
 		diagonal = true;
 		syncPolygon();

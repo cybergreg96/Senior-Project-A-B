@@ -27,6 +27,7 @@ class Maze
 	private final Group group = new Group();
 	private final PlayerRectangle[][] horizontalSegments = new PlayerRectangle[COLUMNS][ROWS + 1];
 	private final PlayerRectangle[][] verticalSegments = new PlayerRectangle[COLUMNS + 1][ROWS];
+	private final PlayerRectangle[][] diagonalSegments = new PlayerRectangle[COLUMNS + 1][ROWS + 1]; //TODO remove?
 	private final Cell[][] grid = new Cell[COLUMNS][ROWS];
 
 	Maze() 
@@ -209,8 +210,8 @@ class Maze
 				else if (i!=14)
 				{
 					if(Math.random() < 0.4) {
-					final PlayerRectangle rightSeg = tankCell.getDiagonalSeg();
-					verticalSegments[i + 1][j] = rightSeg;
+					final PlayerRectangle diagonalSeg = tankCell.getDiagonalSeg();
+					diagonalSegments[i + 1][j] = diagonalSeg;
 					}else {
 						final PlayerRectangle rightSeg = tankCell.getRightSeg();
 						verticalSegments[i + 1][j] = rightSeg;
@@ -219,6 +220,13 @@ class Maze
 					final PlayerRectangle downSeg = tankCell.getDownSeg();
 					horizontalSegments[i][j + 1] = downSeg;
 				}
+			}
+		}
+		
+		for (final PlayerRectangle[] segs : diagonalSegments)
+		{
+			for (final PlayerRectangle seg : segs) {
+				addSeg(seg);
 			}
 		}
 
@@ -273,30 +281,50 @@ class Maze
 		final ArrayList<PlayerRectangle> segs = new ArrayList<>(2);
 
 		if (column < COLUMNS) {
-			final PlayerRectangle seg = horizontalSegments[column][row];
-			if (seg != null) {
-				segs.add(seg);
+			//check for horizontal segment
+			final PlayerRectangle hSeg = horizontalSegments[column][row];
+			if (hSeg != null) {
+				segs.add(hSeg);
+			}
+			
+			//check for diagonal segment
+			final PlayerRectangle dSeg = diagonalSegments[column][row];
+			if (dSeg != null) {
+				segs.add(dSeg);
 			}
 		}
 
-		//checks horizontal segment in the previous column.
+		//checks horizontal and diagonal segment in the previous column.
 		column--;
 		if (column >= 0) 
 		{
-			final PlayerRectangle seg = horizontalSegments[column][row];
-			if (seg != null) 
+			final PlayerRectangle hSeg = horizontalSegments[column][row];
+			if (hSeg != null) 
 			{
-				segs.add(seg);
+				segs.add(hSeg);
 			}
 		}
 		column++;
+		
+		//checks horizontal and diagonal segment in the next column.
+		column++;
+		if (column < COLUMNS) 
+		{
+			final PlayerRectangle hSeg = horizontalSegments[column][row];
+			if (hSeg != null) 
+			{
+				segs.add(hSeg);
+			}
+		}
+		column--;
 
 		if (row < ROWS) 
 		{
-			final PlayerRectangle seg = verticalSegments[column][row];
-			if (seg != null) 
+			//check for vertical segment
+			final PlayerRectangle vSeg = verticalSegments[column][row];
+			if (vSeg != null) 
 			{
-				segs.add(seg);
+				segs.add(vSeg);
 			}
 		}
 
@@ -304,13 +332,47 @@ class Maze
 		row--;
 		if (row >= 0) 
 		{
-			final PlayerRectangle seg = verticalSegments[column][row];
-			if (seg != null) 
+			//check for vertical segment
+			final PlayerRectangle vSeg = verticalSegments[column][row];
+			if (vSeg != null) 
 			{
-				segs.add(seg);
+				segs.add(vSeg);
 			}
 		}
 		row++;
+		
+		// checks the vertical segment in the next row.
+		row++;
+		if (row < ROWS) 
+		{
+			//check for vertical segment
+			final PlayerRectangle vSeg = verticalSegments[column][row];
+			if (vSeg != null) 
+			{
+				segs.add(vSeg);
+			}
+		}
+		row--;
+		
+		//making much wider sweep in cells for diagonals. We check in 3 cell radius
+		for(int i = column - 3; i < column + 3; i++)
+		{
+			if(i >= 0 && i < COLUMNS)
+			{
+				for(int j = row - 3; j < row + 3; j++)
+				{
+					if(j >= 0 && j < ROWS)
+					{
+						//check for vertical segment
+						final PlayerRectangle dSeg = diagonalSegments[i][j];
+						if (dSeg != null) 
+						{
+							segs.add(dSeg);
+						}
+					}
+				}
+			}
+		}
 
 		return segs;
 	}

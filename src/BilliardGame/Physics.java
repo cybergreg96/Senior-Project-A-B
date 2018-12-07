@@ -19,7 +19,7 @@ class Physics {
         final double c = Math.cos(theta);
         final double x = point.getX() * c - point.getY() * s;
         final double y = point.getX() * s + point.getY() * c;
-
+        
         point = new Point2D(x, y);
         return point.add(pivot);
     }

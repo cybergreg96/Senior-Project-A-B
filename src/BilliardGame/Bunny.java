@@ -402,7 +402,7 @@ class Bunny implements Viewable
 	private void handleMazeCollisions() 
 	{
 		final ArrayList<PlayerRectangle> segs = maze.getCollisionCandidates(getCenter());
-
+		
 		for (int i = 0; i < segs.size(); i++)
 		{
 			if (!checkCollision(segs.get(i).getPolygon()))

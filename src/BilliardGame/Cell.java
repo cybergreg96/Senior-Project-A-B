@@ -198,7 +198,17 @@ class Cell
 		if (visibility.value) 
 		{
 			rect = new PlayerRectangle(x + (width/2), y + (height/2), width, height);
-			rect.rotate(new Point2D(x,y), 200);
+			
+			int theta = 0;
+			if(Math.random() < .5)
+			{
+				theta = 45;
+			}
+			else
+			{
+				theta = -45;
+			}
+			rect.rotate(new Point2D(x,y), theta);
 			rect.getPolygon().setFill(COLOR);
 		}
 		return rect;

@@ -245,10 +245,10 @@ class Hero implements Viewable
 			pivot = pivot.add(newPoint);
 			syncShape();
 		}else {
-		//head.moveBy(point);
-		billiardHero.moveBy(point);
-		pivot = pivot.add(point);
-		syncShape();
+			//head.moveBy(point);
+			billiardHero.moveBy(point);
+			pivot = pivot.add(point);
+			syncShape();
 		}
 	}
 
@@ -334,35 +334,39 @@ class Hero implements Viewable
 		// switch cases share scope. So java would think
 		// we are redeclaring a variable.
 		final Point2D decomposedVelocity;
-		switch (lastMovementOp) {
-		case FORWARD:
-			decomposedVelocity = Physics.decomposeVector(-1, theta);
-			reverseOp = () -> hero.moveBy(decomposedVelocity);
-			break;
-		case REVERSE:
-			decomposedVelocity = Physics.decomposeVector(1, theta);
-			reverseOp = () -> hero.moveBy(decomposedVelocity);
-			break;
-		case RIGHT:
-			reverseOp = () -> hero.rotate(-TURNING_ANGLE / 12);
-			break;
-		case LEFT:
-			reverseOp = () -> hero.rotate(TURNING_ANGLE / 12);
-			break;
-		}
-		do {
-			assert reverseOp != null;
-			reverseOp.run();
-
-			for (int i = 0; i < segs.size(); i++) 
-			{
-				if (!checkCollision(segs.get(i).getPolygon()))
-				{
-					segs.remove(i);
-					i--;
-				}
+		
+		if(lastMovementOp != null)
+		{
+			switch (lastMovementOp) {
+			case FORWARD:
+				decomposedVelocity = Physics.decomposeVector(-1, theta);
+				reverseOp = () -> hero.moveBy(decomposedVelocity);
+				break;
+			case REVERSE:
+				decomposedVelocity = Physics.decomposeVector(1, theta);
+				reverseOp = () -> hero.moveBy(decomposedVelocity);
+				break;
+			case RIGHT:
+				reverseOp = () -> hero.rotate(-TURNING_ANGLE / 12);
+				break;
+			case LEFT:
+				reverseOp = () -> hero.rotate(TURNING_ANGLE / 12);
+				break;
 			}
-		} while (segs.size() > 0);
+			do {
+				assert reverseOp != null;
+				reverseOp.run();
+
+				for (int i = 0; i < segs.size(); i++) 
+				{
+					if (!checkCollision(segs.get(i).getPolygon()))
+					{
+						segs.remove(i);
+						i--;
+					}
+				}
+			} while (segs.size() > 0);
+		}
 	}
 
 	//handles press of a key in tank keycode
@@ -388,7 +392,7 @@ class Hero implements Viewable
 			{
 				right();
 			}
-			
+
 			if (activeOps.contains(Op.LEFT)) 
 			{
 				left();
@@ -399,7 +403,7 @@ class Hero implements Viewable
 			{
 				forward();
 			}
-			
+
 			if (activeOps.contains(Op.REVERSE))
 			{
 				back();
@@ -411,7 +415,7 @@ class Hero implements Viewable
 			{
 				left();
 			}
-			
+
 			if (activeOps.contains(Op.LEFT))
 			{
 				right();
@@ -422,7 +426,7 @@ class Hero implements Viewable
 			{
 				back();
 			}
-			
+
 			if (activeOps.contains(Op.REVERSE)) 
 			{
 				forward();
