@@ -525,7 +525,7 @@ class Bunny implements Viewable
 	void handle(final long nanos) 
 	{
 		fixTheta();
-		//autoAim();
+		autoAim();
 		tankBulletManager.update(nanos);
 		// prevents even attempting to fire if out of ammo
 		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
