@@ -70,15 +70,16 @@ class FireBallManager
 				it.remove();
 				group.getChildren().remove(tankBullet.getShape());
 			}
+
+			else if(tankBullet.getBounces()>10){
+				tankBullet.resetBounces();
+				it.remove();
+				group.getChildren().remove(tankBullet.getShape());
+			}
 			else
 			{
 				tankBullet.update();
 			}
-			if(tankBullet.getBounces()>10){
-				tankBullet.resetBounces();
-				it.remove();
-				group.getChildren().remove(tankBullet.getShape());
-				}
 		}
 	}
 	// handleMazeCollisions handles collisions between all of the manager's bullets and the maze.
