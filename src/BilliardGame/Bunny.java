@@ -769,12 +769,19 @@ class Bunny implements Viewable {
 		
 		if(isHit(getBulletManager())) {
 			double randomVariable = Math.random();
-			if (randomVariable <= 0.1 && !isGiantRat) {
+			if (randomVariable <= 0.1) {
 				System.out.println("giant rat");
-				isGiantRat = true;
-				bunnyImgView.setImage(ratImg);
-				System.out.println("Setting new Image...");
-				syncShape();
+				if(!isGiantRat) {					
+					isGiantRat = true;
+					bunnyImgView.setImage(ratImg);
+					System.out.println("Setting new Image...");
+					syncShape();
+				} else {
+					isGiantRat = false;
+					bunnyImgView.setImage(bunnyImage);
+					System.out.println("Setting old Image...");
+					syncShape();
+				}
 			} else if (randomVariable <= 0.2 && randomVariable > 0.1) {
 				// split bunny
 				System.out.println("bunny split");
