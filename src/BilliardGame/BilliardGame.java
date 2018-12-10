@@ -32,8 +32,7 @@ import java.util.Optional;
 import java.util.Timer;
 // Game represents the state of the game and acts as the glue class between all of the other components.
 
-public class BilliardGame
-{
+public class BilliardGame {
 	// WIDTH and HEIGHT of the scene.
 	// We add the thickness because at far right and bottom edges of the screen
 	// we are going to place
@@ -66,9 +65,9 @@ public class BilliardGame
 	Circle h31 = new Circle(774, 725, 8, Color.RED);
 	Circle h41 = new Circle(774, 750, 8, Color.RED);
 	Circle h51 = new Circle(774, 775, 8, Color.RED);
-	private final Hero tank1 = new Hero("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Hero.KEY_CODES_2,
+	private final Hero hero = new Hero("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Hero.KEY_CODES_2,
 			0, 1);
-	private final Bunny tank2 = new Bunny("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
+	private final Bunny bunny = new Bunny("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
 			Math.PI, 1);
 	private final Stage stage;
 	private final FPSMeter fpsMeter = new FPSMeter();
@@ -76,36 +75,36 @@ public class BilliardGame
 	private AnimationTimer timer;
 
 	private final SeedBasketManager seedBasketManager;
+
+	private ArrayList<Bunny> bunnies = new ArrayList<Bunny>();
 	final Group root = new Group();
+
 	// tank game constructor. places all objects on pane and slowly eat away
 	// maze wall objects until just health circles, tanks, and some maze walls
 	// are present within the pane
-	public BilliardGame(final Stage stage) 
-	{
+	public BilliardGame(final Stage stage) {
 
 		seedBasketManager = new SeedBasketManager(maze, WIDTH, HEIGHT);
-		tank2.getBulletManager().setEnemyTank(tank1);
-
+		bunny.getBulletManager().setEnemyTank(hero);
+		bunny.setPlayerBunny(true);
+		bunnies.add(bunny);
 		this.stage = stage;
 
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
 		root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
 		root.getChildren().addAll(h11, h21, h31, h41, h51);
-		root.getChildren().addAll(tank1.getNode(), tank2.getNode(),
-				tank2.getBulletManager().getNode(), seedBasketManager.getNode());
+		root.getChildren().addAll(hero.getNode(), bunny.getNode(), bunny.getBulletManager().getNode(),
+				seedBasketManager.getNode());
 
 		scene.addEventHandler(KeyEvent.KEY_PRESSED, this::handlePressed);
 		scene.addEventHandler(KeyEvent.KEY_RELEASED, this::handleReleased);
 
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>()
-		{
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
-			public void handle(KeyEvent event) 
-			{
+			public void handle(KeyEvent event) {
 				KeyCode code = event.getCode();
-				if (code.toString() == "ESCAPE") 
-				{
+				if (code.toString() == "ESCAPE") {
 
 					timer.stop();
 
@@ -118,29 +117,21 @@ public class BilliardGame
 
 					// If the alert had no result, then we default to showing
 					// the main menu.
-					if (buttonType.get() == MAIN_MENU_BUTTON_TYPE)
-					{
-						try 
-						{
+					if (buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
+						try {
 							Parent x = FXMLLoader.load(getClass().getClassLoader().getResource("StartScreen.fxml"));
 							x.setStyle("-fx-background-color: #a50000");
 							Scene y = new Scene(x);
 							Stage w = stage;
 							w.setResizable(false);
 							w.setScene(y);
-						} 
-						catch (IOException e1) 
-						{
+						} catch (IOException e1) {
 							e1.printStackTrace();
 						}
-					} 
-					else if (buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) 
-					{
+					} else if (buttonType.get() == PLAY_AGAIN_BUTTON_TYPE) {
 						final BilliardGame tankGame = new BilliardGame(stage);
 						tankGame.start();
-					} 
-					else if (buttonType.get() == CONT_BUTTON_TYPE) 
-					{
+					} else if (buttonType.get() == CONT_BUTTON_TYPE) {
 						alert.hide();
 						timer.start();
 					}
@@ -154,28 +145,25 @@ public class BilliardGame
 		stage.centerOnScreen();
 	}
 
-	// The game loop runs on an AnimationTimer which calls handle() about every 1/60 of a second.
-	public void start() 
-	{
+	// The game loop runs on an AnimationTimer which calls handle() about every 1/60
+	// of a second.
+	public void start() {
 		final BilliardGame g = this;
-		timer = new AnimationTimer() 
-		{
+		timer = new AnimationTimer() {
 			@Override
-			public void handle(final long now) 
-			{
+			public void handle(final long now) {
 				g.handle(now);
 			}
 		};
 		timer.start();
 	}
+
 	// handles state of a tanks death, setting winning message and winning alert
 	// box.
-	private void handle(final long nanos) 
-	{
+	private void handle(final long nanos) {
 		fpsMeter.handle(nanos);
-		
-		if (tank1.isDead() || seedBasketManager.getWinCondition()) 
-		{
+
+		if (hero.isDead() || seedBasketManager.getWinCondition()) {
 			timer.stop();
 
 			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -184,24 +172,19 @@ public class BilliardGame
 
 			String alertContent = "Congratulations to the Player for winning!";
 
-			//Node graphic = tank1.getWinPose();
+			// Node graphic = tank1.getWinPose();
 			Bunny winningTank = null;
 
-			if (tank1.isDead()) 
-			{
-				if (!tank2.isDead()) 
-				{
-					winningTank = tank2;
-					//graphic = tank2.getWinPose();
-				}
+			if (hero.isDead()) {
+				winningTank = bunny;
+				// graphic = tank2.getWinPose();
 			}
-			
-			if (winningTank != null) 
-			{
+
+			if (winningTank != null) {
 				alertContent = String.format("Congratulations to the %s player for winning!",
 						winningTank.getMainColorName());
 			}
-			//alert.setGraphic(graphic);
+			// alert.setGraphic(graphic);
 			alert.setContentText(alertContent);
 
 			alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE);
@@ -212,20 +195,16 @@ public class BilliardGame
 
 				// If the alert had no result, then we default to showing the
 				// main menu.
-				if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) 
-				{
+				if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
 
-					try
-					{
+					try {
 						Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
 						x.setStyle("-fx-background-color: #a50000");
 						Scene y = new Scene(x);
 						Stage w = stage;
 						w.setResizable(false);
 						w.setScene(y);
-					}
-					catch (IOException e1)
-					{
+					} catch (IOException e1) {
 						e1.printStackTrace();
 					}
 					return;
@@ -239,50 +218,35 @@ public class BilliardGame
 
 		// handles when a tank is hit by bullet object and determining what tank
 		// to subtract health from.
-		if (tank1.isHit(tank2.getBulletManager()))
-		{
-			tank1.subtractHealth();
+		for (Bunny b : bunnies) {
+			if (hero.isHit(b.getBulletManager())) {
+				hero.subtractHealth();
+			}
 		}
-		
-		if (tank2.isHit(tank2.getBulletManager())) {
-			double randomVariable = Math.random();
-			if(randomVariable <= 0.1) {
-				System.out.println("giant rat");
-				//giant rat
-			}else if(randomVariable <= 0.2 && randomVariable > 0.1) {
-				System.out.println("split bunny");
-				//split bunny
-			}else if(randomVariable <= 0.7 && randomVariable > 0.2) {
-				System.out.println("bunny freeze");
-				tank2.setFreeze(true);
-				new java.util.Timer().schedule( 
-				        new java.util.TimerTask() {
-				            @Override
-				            public void run() {
-				                tank2.setFreeze(false);
-				            }
-				        }, 
-				        //execute after three seconds
-				        3000 
-				);
-			}else {
-				System.out.println("do nothing");
-				//nothing
+
+		for (int i = 0; i < bunnies.size(); i ++) {
+			Bunny b = bunnies.get(i);
+			if (b.split()) {
+				b.setSplit(false);
+				Bunny splitBunny = new Bunny("red", Color.RED, Color.DARKRED, Color.LIGHTPINK, maze,
+						Bunny.KEY_CODES_1, Math.PI, 1);
+				bunnies.add(splitBunny);
+				root.getChildren().addAll(splitBunny.getNode(), splitBunny.getBulletManager().getNode());
 			}
 		}
 		
+		
+
 		// handles when a tank is hit by frog object and determining what tank
 		// to add health to.
-		if (seedBasketManager.isHit(tank1))
-		{
-			//tank1.addHealth();
+		if (seedBasketManager.isHit(hero)) {
+			// tank1.addHealth();
 		}
-		
 
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
-		String health1 = Double.toString(tank1.getCurrentHealth());
-		if(health1.contains("1.0")) {
+		String health1 = Double.toString(hero.getCurrentHealth());
+		if (health1.contains("1.0")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -294,7 +258,7 @@ public class BilliardGame
 			h9.setVisible(true);
 			h10.setVisible(true);
 		}
-		if(health1.contains(".9")) {
+		if (health1.contains(".9")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -306,7 +270,7 @@ public class BilliardGame
 			h9.setVisible(true);
 			h10.setVisible(false);
 		}
-		if(health1.contains(".8")) {
+		if (health1.contains(".8")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -317,7 +281,7 @@ public class BilliardGame
 			h8.setVisible(true);
 			h9.setVisible(false);
 		}
-		if(health1.contains(".7")) {
+		if (health1.contains(".7")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -327,7 +291,7 @@ public class BilliardGame
 			h7.setVisible(true);
 			h8.setVisible(false);
 		}
-		if(health1.contains(".6")) {
+		if (health1.contains(".6")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -336,7 +300,7 @@ public class BilliardGame
 			h6.setVisible(true);
 			h7.setVisible(false);
 		}
-		if(health1.contains(".5")) {
+		if (health1.contains(".5")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -344,38 +308,36 @@ public class BilliardGame
 			h5.setVisible(true);
 			h6.setVisible(false);
 		}
-		if(health1.contains(".4")) {
+		if (health1.contains(".4")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(true);
 			h5.setVisible(false);
 		}
-		if(health1.contains(".3")) {
+		if (health1.contains(".3")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
 			h4.setVisible(false);
 		}
-		if(health1.contains(".2")) {
+		if (health1.contains(".2")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(false);
 		}
-		if(health1.contains(".1")) {
+		if (health1.contains(".1")) {
 			h1.setVisible(true);
 			h2.setVisible(false);
 		}
-		if(tank1.getCurrentHealth() < .01) {
+		if (hero.getCurrentHealth() < .01) {
 			h1.setVisible(false);
 		}
 
-
 		// handles which health circles to be displayed based on current health
 		// of tank2 or pink tank
-		String health2 = Double.toString(tank2.getCurrentHealth());
-		if (health2.contains("1.0")) 
-		{
+		String health2 = Double.toString(bunny.getCurrentHealth());
+		if (health2.contains("1.0")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
@@ -383,44 +345,37 @@ public class BilliardGame
 			h11.setVisible(true);
 		}
 
-		if (health2.contains(".8")) 
-		{
+		if (health2.contains(".8")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(true);
 			h11.setVisible(false);
 		}
-		if (health2.contains(".6"))
-		{
+		if (health2.contains(".6")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(true);
 			h21.setVisible(false);
 		}
-		if (health2.contains(".4")) 
-		{
+		if (health2.contains(".4")) {
 			h51.setVisible(true);
 			h41.setVisible(true);
 			h31.setVisible(false);
 		}
-		if (health2.contains(".2")) 
-		{
+		if (health2.contains(".2")) {
 			h51.setVisible(true);
 			h41.setVisible(false);
 		}
-		if (tank2.getCurrentHealth() < .01) 
-		{
+		if (bunny.getCurrentHealth() < .01) {
 			h51.setVisible(false);
 		}
 
-		if (tank2.getBulletManager().isDeadTank(tank1)) 
-		{
-			tank1.kill();
+		if (bunny.getBulletManager().isDeadTank(hero)) {
+			hero.kill();
 		}
-		
-		if (tank1.isDead() || tank2.isDead())
-		{
+
+		if (hero.isDead() || bunny.isDead()) {
 			// We draw the dead tanks before we announce to the players.
 			// Otherwise if we try and prompt in this pulse, then there is a
 			// slight freeze before
@@ -428,20 +383,21 @@ public class BilliardGame
 			return;
 		}
 
-		tank1.handle(nanos);
-		tank2.handle(nanos);
-		tank2.updateHero(tank1.getCenter());
+		hero.handle(nanos);
+		for (Bunny b : bunnies) {
+			b.handle(nanos);
+			b.updateHero(hero.getCenter());
+		}
 		seedBasketManager.handle(nanos);
 	}
-	private void handlePressed(final KeyEvent e)
-	{
-		tank1.handlePressed(e.getCode());
-		tank2.handlePressed(e.getCode());
+
+	private void handlePressed(final KeyEvent e) {
+		hero.handlePressed(e.getCode());
+		bunny.handlePressed(e.getCode());
 	}
 
-	private void handleReleased(final KeyEvent e) 
-	{
-		tank1.handleReleased(e.getCode());
-		tank2.handleReleased(e.getCode());
+	private void handleReleased(final KeyEvent e) {
+		hero.handleReleased(e.getCode());
+		bunny.handleReleased(e.getCode());
 	}
 }

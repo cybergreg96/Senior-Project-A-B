@@ -89,6 +89,8 @@ class Bunny implements Viewable {
 	public boolean frogExists;
 
 	public boolean bunnyFreeze = false;
+	public boolean playerBunny = false;
+	public boolean split = false;
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
@@ -148,6 +150,22 @@ class Bunny implements Viewable {
 
 	public void setFreeze(boolean shouldFreeze) {
 		bunnyFreeze = shouldFreeze;
+	}
+	
+	public boolean split() {
+		return split;
+	}
+	
+	public void setSplit(boolean shouldSplit) {
+		split = shouldSplit;
+	}
+	
+	public void setPlayerBunny(boolean isPlayer) {
+		playerBunny = isPlayer;
+	}
+	
+	public boolean isPlayerBunny() {
+		return playerBunny;
 	}
 
 	/*
@@ -707,7 +725,7 @@ class Bunny implements Viewable {
 
 		// TODO test
 
-		if (bunnyFreeze == false) {
+		if (bunnyFreeze == false && isPlayerBunny()) {
 			if (activeOps.size() > 1) {
 				// multiple control buttons are being pressed
 				if (activeOps.contains(Op.RIGHT) && activeOps.contains(Op.FORWARD)) {
@@ -734,6 +752,32 @@ class Bunny implements Viewable {
 				}
 
 				handleMazeCollisions();
+			}
+		}
+		
+		if(isHit(getBulletManager())) {
+			double randomVariable = Math.random();
+			if (randomVariable <= 0.1) {
+				System.out.println("giant rat");
+				// giant rat
+			} else if (randomVariable <= 0.2 && randomVariable > 0.1) {
+				// split bunny
+				System.out.println("bunny split");
+				setSplit(true);
+			} else if (randomVariable <= 0.7 && randomVariable > 0.2) {
+				System.out.println("bunny freeze");
+				setFreeze(true);
+				new java.util.Timer().schedule(new java.util.TimerTask() {
+					@Override
+					public void run() {
+						setFreeze(false);
+					}
+				},
+						// execute after three seconds
+						3000);
+			} else {
+				System.out.println("do nothing");
+				// nothing
 			}
 		}
 	}
