@@ -288,6 +288,7 @@ class Hero implements Viewable
 		{
 			if (Physics.isIntersecting(getShape(), f.getShape()))
 			{
+				f.hit();
 				return true;
 			}
 		}
