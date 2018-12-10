@@ -49,7 +49,7 @@ public class BilliardGame {
 	private final Maze maze = new Maze();
 
 	// health circles for blue tank
-	Circle h1 = new Circle(17, 18, 8, Color.GREEN);
+	/*Circle h1 = new Circle(17, 18, 8, Color.GREEN);
 	Circle h2 = new Circle(17, 43, 8, Color.GREEN);
 	Circle h3 = new Circle(17, 68, 8, Color.GREEN);
 	Circle h4 = new Circle(17, 93, 8, Color.GREEN);
@@ -58,7 +58,8 @@ public class BilliardGame {
 	Circle h7 = new Circle(17, 168, 8, Color.GREEN);
 	Circle h8 = new Circle(17, 193, 8, Color.GREEN);
 	Circle h9 = new Circle(17, 218, 8, Color.GREEN);
-	Circle h10 = new Circle(17, 243, 8, Color.GREEN);
+	Circle h10 = new Circle(17, 243, 8, Color.GREEN);*/
+	HealthUI hUI = new HealthUI(17, 18);
 	private final Hero hero = new Hero("blue", maze, Hero.KEY_CODES_2, 0, 1);
 	private final Bunny bunny = new Bunny("pink", maze, Bunny.KEY_CODES_1, Math.PI, 1);
 	private final Stage stage;
@@ -87,10 +88,10 @@ public class BilliardGame {
 		bunnies.add(randomBunny2);
 		root.getChildren().addAll(randomBunny2.getNode(), randomBunny2.getBulletManager().getNode());
 		this.stage = stage;
-
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
-		root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
+		root.getChildren().add(hUI.getNode());
+		//root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
 		root.getChildren().addAll(hero.getNode(), bunny.getNode(), bunny.getBulletManager().getNode(),
 				seedBasketManager.getNode());
 
@@ -106,7 +107,7 @@ public class BilliardGame {
 					timer.stop();
 
 					final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-					alert.setTitle("TANK TANK Menu");
+					alert.setTitle("Billiard Bunnies Menu");
 					alert.setHeaderText("Paused");
 
 					alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE, CONT_BUTTON_TYPE);
@@ -241,8 +242,10 @@ public class BilliardGame {
 
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
-		String health1 = Double.toString(hero.getCurrentHealth());
-		if (health1.contains("1.0")) {
+		//String health1 = Double.toString(hero.getCurrentHealth());
+		System.out.println((int)hero.getCurrentHealth());
+		hUI.manageHealth(hero.getCurrentHealth());
+		/*if (health1.contains("1.0")) {
 			h1.setVisible(true);
 			h2.setVisible(true);
 			h3.setVisible(true);
@@ -328,7 +331,7 @@ public class BilliardGame {
 		}
 		if (hero.getCurrentHealth() < .01) {
 			h1.setVisible(false);
-		}
+		}*/
 
 		if (bunny.getBulletManager().isDeadTank(hero)) {
 			hero.kill();
