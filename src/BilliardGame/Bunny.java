@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
+import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import PacManGUI.SceneInfo;
@@ -93,10 +94,15 @@ class Bunny implements Viewable {
 	public boolean playerBunny = false;
 	public boolean split = false;
 	public boolean isGiantRat = false;
+	public boolean autoMove = true;
+	public boolean autoMoveWait = true;
+
+	Timer waitTimer = new Timer();
+
 	/*
-	 * Tank object constructor. When called creates a tank object with
-	 * parameters of tank name, billiardBunny colors, its keycodes, intitial
-	 * angle and the max health.
+	 * Tank object constructor. When called creates a tank object with parameters of
+	 * tank name, billiardBunny colors, its keycodes, intitial angle and the max
+	 * health.
 	 */
 	Bunny(final String mainColorName, final Color billiardBunnyColor, final Color headColor, final Color outOfAmmoColor,
 			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
@@ -113,7 +119,7 @@ class Bunny implements Viewable {
 		}
 		try {
 			ratImg = new Image(new FileInputStream("src/resources/giant-rat.png"));
-		}catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		initImgView(bunnyImage, 40, 40);
@@ -157,21 +163,29 @@ class Bunny implements Viewable {
 	public void setFreeze(boolean shouldFreeze) {
 		bunnyFreeze = shouldFreeze;
 	}
-	
+
 	public boolean split() {
 		return split;
 	}
-	
+
 	public void setSplit(boolean shouldSplit) {
 		split = shouldSplit;
 	}
-	
+
 	public void setPlayerBunny(boolean isPlayer) {
 		playerBunny = isPlayer;
 	}
-	
+
 	public boolean isPlayerBunny() {
 		return playerBunny;
+	}
+
+	public void setAutoMove(boolean shouldAuto) {
+		autoMove = shouldAuto;
+	}
+
+	public boolean shouldAutoMove() {
+		return autoMove;
 	}
 
 	/*
@@ -201,8 +215,7 @@ class Bunny implements Viewable {
 	 * headCopy.rotate(pivot, -theta + Math.PI); billiardBunnyCopy.rotate(pivot,
 	 * -theta + Math.PI);
 	 * 
-	 * return new Group(billiardBunnyCopy.getPolygon(), headCopy.getPolygon());
-	 * }
+	 * return new Group(billiardBunnyCopy.getPolygon(), headCopy.getPolygon()); }
 	 */
 
 	// rotate tank clockwise if stopped and turns tank right when moving
@@ -271,13 +284,11 @@ class Bunny implements Viewable {
 	}
 
 	/**
-	 * This function updates the velocity of the Bunny to have consistent speed
-	 * with the other main directions
+	 * This function updates the velocity of the Bunny to have consistent speed with
+	 * the other main directions
 	 * 
-	 * @param x
-	 *            x direction
-	 * @param y
-	 *            y direction
+	 * @param x x direction
+	 * @param y y direction
 	 */
 	private void diagonal(String x, String y) {
 		double xVal, yVal;
@@ -349,16 +360,15 @@ class Bunny implements Viewable {
 	private Point2D getBulletLaunchPoint() {
 		if (!bunnyExists) {
 			/*
-			 * final Point2D topRight = billiardBunny.getTopRight(); final
-			 * Point2D bottomRight = billiardBunny.getBottomRight(); return
+			 * final Point2D topRight = billiardBunny.getTopRight(); final Point2D
+			 * bottomRight = billiardBunny.getBottomRight(); return
 			 * topRight.midpoint(bottomRight);
 			 */
 			return billiardBunny.getCenter();
 		} else {
 			/*
-			 * final Point2D topLeft = billiardBunny.getTopLeft(); final Point2D
-			 * bottomLeft = billiardBunny.getBottomLeft(); return
-			 * topLeft.midpoint(bottomLeft);
+			 * final Point2D topLeft = billiardBunny.getTopLeft(); final Point2D bottomLeft
+			 * = billiardBunny.getBottomLeft(); return topLeft.midpoint(bottomLeft);
 			 */
 			return billiardBunny.getCenter();
 		}
@@ -528,7 +538,10 @@ class Bunny implements Viewable {
 
 	// handles press of a key in tank keycode
 	void handlePressed(final KeyCode keyCode) {
+		setAutoMove(false);
 		activeOps.add(keycodes.get(keyCode));
+		waitTimer.cancel();
+		waitTimer.purge();
 	}
 
 	// handles release of button in tank keycode
@@ -538,6 +551,15 @@ class Bunny implements Viewable {
 			tankBulletManager.lock = false;
 		}
 		activeOps.remove(op);
+		waitTimer = new Timer();
+		waitTimer.schedule(new java.util.TimerTask() {
+			@Override
+			public void run() {
+				setAutoMove(true);
+			}
+		},
+				// execute after three seconds
+				2000);
 	}
 
 	void updateHero(Point2D point) {
@@ -607,7 +629,29 @@ class Bunny implements Viewable {
 			rotate(-1 * it);
 	}
 
-	void autoMove() {
+	private int c = 0;
+	private long expiry;
+	private long elapsed;
+	private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
+	private static final long DURATION2 = TimeUnit.SECONDS.toNanos(20);
+	long first;
+	long second;
+
+	void autoMove(long nanos) {
+		if (nanos < second) {
+			randMove();
+			handleMazeCollisions();
+		} else if (nanos >= second && nanos <= elapsed) {
+			dirMove();
+			handleMazeCollisions();
+		} else if (nanos > elapsed) {
+			elapsed = nanos + DURATION2;
+			first = (long) ((elapsed - nanos) * .9);
+			second = (nanos + first);
+		}
+	}
+
+	void dirMove() {
 		double x = distX();
 		double y = distY();
 		if (Math.abs(x) > Math.abs(y)) {
@@ -623,7 +667,53 @@ class Bunny implements Viewable {
 				back();
 			}
 		}
-		handleMazeCollisions();
+	}
+
+	private int c2 = 0;
+	private int n = 0;
+
+	void randMove() {
+		Random rand = new Random();
+		if (c2 == 0) {
+			n = rand.nextInt(4) + 1;
+			c2++;
+		} else {
+			c2++;
+		}
+		if (c2 == 75) {
+			c2 = 0;
+		}
+		if (n == 1) {
+			if (getY() <= 20) {
+				n = 2;
+				back();
+			} else {
+				forward();
+			}
+
+		} else if (n == 2) {
+			if (getY() >= 770) {
+				n = 1;
+				forward();
+			} else {
+				back();
+			}
+		} else if (n == 3) {
+			if (getX() <= 20) {
+				n = 4;
+				right();
+			} else {
+				left();
+			}
+		} else if (n == 4) {
+			if (getX() >= 770) {
+				n = 3;
+				left();
+			} else {
+				right();
+			}
+		}
+
 	}
 
 	private void changeDir(Op lastMovementOp2) {
@@ -654,63 +744,35 @@ class Bunny implements Viewable {
 			}
 		}
 	}
+
 	public double dist() {
 		double z = Math.pow(distX(), 2) + Math.pow(distY(), 2);
 		double ans = Math.sqrt(z);
 		return ans;
 	}
-	private int c = 0;
-	private long expiry;
-	private long elapsed;
-	private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
-	private static final long DURATION2 = TimeUnit.SECONDS.toNanos(5);
-	long first;
-	long second;
 
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) {
 		if (c == 0) {
 			expiry = nanos + DURATION;
 			elapsed = nanos + DURATION2;
-			first = (long) ((elapsed -
-
-					nanos) * .9);
+			first = (long) ((elapsed - nanos) * .9);
 			second = (nanos + first);
 			c++;
 		}
 		fixTheta();
-		
-		if(isGiantRat) {
+
+		if (isGiantRat) {
 			GRATaim();
-		} else {			
+		} else {
 			BUNNYaim();
 		}
-
-		if (nanos < first) {
-			if (Math.abs(dist()) < 50) {
-
-			} else {
-				// autoMove();
-
-			}
-
-		} else if (nanos >= second && nanos <=
-
-		elapsed) {
-			autoMove();
-		} else if (nanos > elapsed) {
-			elapsed = nanos + DURATION2;
-			first = (long) ((elapsed -
-
-					nanos) * .9);
-			second = (nanos + first);
-
+		if (shouldAutoMove()) {
+			autoMove(nanos);
 		}
 
 		if (nanos >= expiry) {
-			tankBulletManager.addBullet
-
-			(getBulletLaunchPoint(), getTheta(), nanos);
+			tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
 			expiry = nanos + DURATION;
 		}
 		tankBulletManager.update(nanos);
@@ -766,12 +828,12 @@ class Bunny implements Viewable {
 				handleMazeCollisions();
 			}
 		}
-		
-		if(isHit(getBulletManager())) {
+
+		if (isHit(getBulletManager())) {
 			double randomVariable = Math.random();
 			if (randomVariable <= 0.1) {
 				System.out.println("giant rat");
-				if(!isGiantRat) {					
+				if (!isGiantRat) {
 					isGiantRat = true;
 					bunnyImgView.setImage(ratImg);
 					System.out.println("Setting new Image...");
