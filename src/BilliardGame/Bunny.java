@@ -56,10 +56,6 @@ class Bunny implements Viewable {
 	}
 
 	private final String mainColorName;
-	// private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH,
-	// HEAD_HEIGHT);
-	// private final PlayerRectangle billiardBunny = new
-	// PlayerRectangle(billiardBunny_WIDTH, billiardBunny_HEIGHT);
 	private final PlayerCircle billiardBunny = new PlayerCircle(BODY_WIDTH);
 	private FireBallManager tankBulletManager;
 	private final Maze maze;
@@ -68,9 +64,7 @@ class Bunny implements Viewable {
 	private final HashMap<KeyCode, Op> keycodes;
 	// Keys pressed since the last frame.
 	private final HashSet<Op> activeOps = new HashSet<>();
-	// Shape holds the union between the billiardBunny and head. It is used for
-	// collision
-	// detection.
+	// Shape holds the union between the billiardBunny and head. It is used for collision detection.
 	private Shape shape;
 	private Shape shapeOfTank;
 	// Middle of billiardBunny.
