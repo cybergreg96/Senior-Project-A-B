@@ -274,6 +274,7 @@ class Hero implements Viewable
 
 			if (Physics.isIntersecting(getShape(), t.getShape())) 
 			{
+				t.bounce = 11;
 				return true;
 			}
 		}

@@ -86,7 +86,7 @@ class FireBall
     }
     
 
-private int bounce = 0;
+public int bounce = 0;
 private void horizontalBounce() 
     {
         velocity = new Point2D(velocity.getX(), -velocity.getY());
