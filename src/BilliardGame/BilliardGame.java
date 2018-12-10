@@ -212,6 +212,8 @@ public class BilliardGame {
 				hero.subtractHealth();
 			}
 		}
+		
+		hero.isHit(seedBasketManager);
 
 		for (int i = 0; i < bunnies.size(); i ++) {
 			Bunny b = bunnies.get(i);
