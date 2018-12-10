@@ -88,6 +88,14 @@ public class BilliardGame {
 		bunny.getBulletManager().setEnemyTank(hero);
 		bunny.setPlayerBunny(true);
 		bunnies.add(bunny);
+		Bunny randomBunny = new Bunny("red", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
+				Math.PI, 1);
+		bunnies.add(randomBunny);
+		root.getChildren().addAll(randomBunny.getNode(), randomBunny.getBulletManager().getNode());
+		Bunny randomBunny2 = new Bunny("red", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
+				Math.PI, 1);
+		bunnies.add(randomBunny2);
+		root.getChildren().addAll(randomBunny2.getNode(), randomBunny2.getBulletManager().getNode());
 		this.stage = stage;
 
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
