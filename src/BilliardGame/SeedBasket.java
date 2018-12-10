@@ -2,6 +2,7 @@ package BilliardGame;
 
 import javafx.geometry.Point2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.paint.Paint;
@@ -17,23 +18,19 @@ public class SeedBasket
 	static final double VELOCITY = Bunny.VELOCITY * 1.5; // exported for use in
 	// Maze.
 
-	private static final double RADIUS = Bunny.HEAD_HEIGHT * 6;
+	private static final double RADIUS = 20;
 	private static final Paint COLOR = Color.GREEN;
 	private final Circle circle;
 	private boolean hit;
+	private Image seedImg;
+	private ImageView seedImgView;
 
-	// seed basket object constructor. creates a circle with frog img overlay that
-	// has a specific starting point on the maze and an expiration time.
 	SeedBasket(Point2D launchPoint, final long nanos) 
 	{
-		// We add the velocity and radius to the launchPoint so the Tank does
-		// not instantly die from its own bullet.
-		// Since the bullet is defined to be 1.5 times faster than the tank,
-		// this guarantees that the tank will not die
-		// as the tank cannot move into it.
-		Image carrot = new Image("/resources/seeds.png");
+
+		Image seedImg = new Image("/resources/seeds.png");
 		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
-		circle.setFill(new ImagePattern(carrot));
+		
 		hit = false;
 	}
 
@@ -50,34 +47,20 @@ public class SeedBasket
 		}
 		return false;
 	}
-
-	// Used for collision detection and adding/removing the bullets to/from the
-	// scene.
-	// TODO would be cleaner to have getNode() for adding to scene and
-	// getShape() for collision detection because they have a difference. See
-	// Tank class.
+	public void initImgView(Image img, double width, double height) {
+		seedImgView = new ImageView(img);
+		seedImgView.setFitWidth(width);
+		seedImgView.setFitHeight(height);
+	}
 	Shape getShape() 
 	{
 		return circle;
 	}
-
-	// The way this works is that first we check if at least one of the
-	// candidate segments is intersecting with the bullet. If so,
-	// then we need to figure out which segment the bullet collided with first
-	// and on which edge of that seg.
-	// So we move the bullet back until there is no collision. The last seg left
-	// before there being no collision
-	// is the seg the bullet collided with first. Then, we check if the bullet's
-	// center is between the minx-manx
-	// or between miny-maxy of the seg. Depending on which is true, a horizontal
-	// or vertical bounce needs to occur.
-	// If neither is true, then the bullet collided with a corner and we have to
-	// handle that specially. See the comments
-	// below.
+	ImageView getImageView() {
+		return seedImgView;
+	}
 	void handleMazeCollision(final ArrayList<PlayerRectangle> segments)
 	{
-		// TODO this code is copied in Tank too, we could use a shared method
-		// that accepts a Shape or something.
 		for (int i = 0; i < segments.size(); i++) 
 		{
 			if (!Physics.isIntersecting(circle, segments.get(i).getPolygon()))
