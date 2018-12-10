@@ -59,16 +59,8 @@ public class BilliardGame {
 	Circle h8 = new Circle(17, 193, 8, Color.GREEN);
 	Circle h9 = new Circle(17, 218, 8, Color.GREEN);
 	Circle h10 = new Circle(17, 243, 8, Color.GREEN);
-	// health circles for pink tank
-	Circle h11 = new Circle(774, 675, 8, Color.RED);
-	Circle h21 = new Circle(774, 700, 8, Color.RED);
-	Circle h31 = new Circle(774, 725, 8, Color.RED);
-	Circle h41 = new Circle(774, 750, 8, Color.RED);
-	Circle h51 = new Circle(774, 775, 8, Color.RED);
-	private final Hero hero = new Hero("blue", Color.SKYBLUE, Color.DARKBLUE, Color.LIGHTBLUE, maze, Hero.KEY_CODES_2,
-			0, 1);
-	private final Bunny bunny = new Bunny("pink", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
-			Math.PI, 1);
+	private final Hero hero = new Hero("blue", maze, Hero.KEY_CODES_2, 0, 1);
+	private final Bunny bunny = new Bunny("pink", maze, Bunny.KEY_CODES_1, Math.PI, 1);
 	private final Stage stage;
 	private final FPSMeter fpsMeter = new FPSMeter();
 
@@ -88,12 +80,10 @@ public class BilliardGame {
 		bunny.getBulletManager().setEnemyTank(hero);
 		bunny.setPlayerBunny(true);
 		bunnies.add(bunny);
-		Bunny randomBunny = new Bunny("red", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
-				Math.PI, 1);
+		Bunny randomBunny = new Bunny("red", maze, Bunny.KEY_CODES_1, Math.PI, 1);
 		bunnies.add(randomBunny);
 		root.getChildren().addAll(randomBunny.getNode(), randomBunny.getBulletManager().getNode());
-		Bunny randomBunny2 = new Bunny("red", Color.PINK, Color.DARKRED, Color.LIGHTPINK, maze, Bunny.KEY_CODES_1,
-				Math.PI, 1);
+		Bunny randomBunny2 = new Bunny("red", maze, Bunny.KEY_CODES_1, Math.PI, 1);
 		bunnies.add(randomBunny2);
 		root.getChildren().addAll(randomBunny2.getNode(), randomBunny2.getBulletManager().getNode());
 		this.stage = stage;
@@ -101,7 +91,6 @@ public class BilliardGame {
 		final Scene scene = new Scene(root, WIDTH, HEIGHT);
 		root.getChildren().add(maze.getNode());
 		root.getChildren().addAll(h1, h2, h3, h4, h5, h6, h7, h8, h9, h10);
-		root.getChildren().addAll(h11, h21, h31, h41, h51);
 		root.getChildren().addAll(hero.getNode(), bunny.getNode(), bunny.getBulletManager().getNode(),
 				seedBasketManager.getNode());
 
@@ -236,8 +225,7 @@ public class BilliardGame {
 			Bunny b = bunnies.get(i);
 			if (b.split()) {
 				b.setSplit(false);
-				Bunny splitBunny = new Bunny("red", Color.RED, Color.DARKRED, Color.LIGHTPINK, maze,
-						Bunny.KEY_CODES_1, Math.PI, 1);
+				Bunny splitBunny = new Bunny("red", maze, Bunny.KEY_CODES_1, Math.PI, 1);
 				bunnies.add(splitBunny);
 				root.getChildren().addAll(splitBunny.getNode(), splitBunny.getBulletManager().getNode());
 			}
@@ -340,43 +328,6 @@ public class BilliardGame {
 		}
 		if (hero.getCurrentHealth() < .01) {
 			h1.setVisible(false);
-		}
-
-		// handles which health circles to be displayed based on current health
-		// of tank2 or pink tank
-		String health2 = Double.toString(bunny.getCurrentHealth());
-		if (health2.contains("1.0")) {
-			h51.setVisible(true);
-			h41.setVisible(true);
-			h31.setVisible(true);
-			h21.setVisible(true);
-			h11.setVisible(true);
-		}
-
-		if (health2.contains(".8")) {
-			h51.setVisible(true);
-			h41.setVisible(true);
-			h31.setVisible(true);
-			h21.setVisible(true);
-			h11.setVisible(false);
-		}
-		if (health2.contains(".6")) {
-			h51.setVisible(true);
-			h41.setVisible(true);
-			h31.setVisible(true);
-			h21.setVisible(false);
-		}
-		if (health2.contains(".4")) {
-			h51.setVisible(true);
-			h41.setVisible(true);
-			h31.setVisible(false);
-		}
-		if (health2.contains(".2")) {
-			h51.setVisible(true);
-			h41.setVisible(false);
-		}
-		if (bunny.getCurrentHealth() < .01) {
-			h51.setVisible(false);
 		}
 
 		if (bunny.getBulletManager().isDeadTank(hero)) {

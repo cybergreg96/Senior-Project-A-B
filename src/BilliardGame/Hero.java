@@ -53,8 +53,6 @@ class Hero implements Viewable
 		KEY_CODES_2.put(KeyCode.V, Op.FIRE);
 	}
 
-	private final Color headColor;
-	private final Color outOfAmmoHeadColor;
 	private final String mainColorName;
 	//private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH, HEAD_HEIGHT);
 	//private final PlayerRectangle billiardHero = new PlayerRectangle(BODY_WIDTH, BODY_HEIGHT);
@@ -88,8 +86,7 @@ class Hero implements Viewable
 	 * parameters of tank name, billiardHero colors, its keycodes, intitial angle and
 	 * the max health.
 	 */
-	Hero(final String mainColorName, final Color billiardHeroColor, final Color headColor, final Color outOfAmmoColor,
-			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) 
+	Hero(final String mainColorName, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) 
 	{
 		this.maze = maze;
 		this.keycodes = keycodes;
@@ -97,18 +94,13 @@ class Hero implements Viewable
 		this.currentHealth = maxHealth;
 		this.bunnyExists = false;
 		this.frogExists = false;
-
+		billiardHero.getCircle().setFill(Color.TRANSPARENT);
 		try {
 			heroImage = new Image(new FileInputStream("src/PacManImgs/GoodBirdRight.png"));
 		}catch(FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		initImgView(heroImage, 30, 30);
-
-		this.headColor = headColor;
-		this.outOfAmmoHeadColor = outOfAmmoColor;
-		//head.getPolygon().setFill(this.headColor);
-		//billiardHero.getCircle().setFill(billiardHeroColor);
 
 		//rotates tank to its beginning angle.
 		rotate(initialAngle);

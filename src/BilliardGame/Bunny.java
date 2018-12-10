@@ -36,7 +36,7 @@ class Bunny implements Viewable {
 	private static final double TURNING_ANGLE = Math.PI / 36;
 	private static final double BODY_WIDTH = 10;
 	private static final double HEAD_WIDTH = BODY_WIDTH / 2;
-	private static final Color DEATH_COLOR = Color.BLACK;
+	private static final Color DEATH_COLOR = Color.TRANSPARENT;
 	public double[] heroCord = new double[2];
 
 	static {
@@ -55,8 +55,6 @@ class Bunny implements Viewable {
 		KEY_CODES_2.put(KeyCode.V, Op.FIRE);
 	}
 
-	private final Color headColor;
-	private final Color outOfAmmoHeadColor;
 	private final String mainColorName;
 	// private final PlayerRectangle head = new PlayerRectangle(HEAD_WIDTH,
 	// HEAD_HEIGHT);
@@ -99,8 +97,7 @@ class Bunny implements Viewable {
 	 * parameters of tank name, billiardBunny colors, its keycodes, intitial
 	 * angle and the max health.
 	 */
-	Bunny(final String mainColorName, final Color billiardBunnyColor, final Color headColor, final Color outOfAmmoColor,
-			final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
+	Bunny(final String mainColorName, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
 		this.maze = maze;
 		this.keycodes = keycodes;
 		this.mainColorName = mainColorName;
@@ -125,11 +122,9 @@ class Bunny implements Viewable {
 		// / 2);
 		// head.moveTo(headPoint);
 
-		this.headColor = headColor;
-		this.outOfAmmoHeadColor = outOfAmmoColor;
 		// head.getPolygon().setFill(this.headColor);
 		// billiardBunny.getPolygon().setFill(billiardBunnyColor);
-		billiardBunny.getCircle().setFill(billiardBunnyColor);
+		billiardBunny.getCircle().setFill(Color.TRANSPARENT);
 		// rotates tank to its beginning angle.
 		rotate(initialAngle);
 
@@ -768,14 +763,6 @@ class Bunny implements Viewable {
 			tankBulletManager.lock = true;
 		}
 		tankBulletManager.handleMazeCollisions();
-
-		if (tankBulletManager.isReloading() || tankBulletManager.outOfAmmo()) {
-			billiardBunny.getCircle().setFill(outOfAmmoHeadColor);
-		} else {
-			billiardBunny.getCircle().setFill(headColor);
-		}
-
-		// TODO test
 
 		if (bunnyFreeze == false && isPlayerBunny()) {
 			if (activeOps.size() > 1) {
