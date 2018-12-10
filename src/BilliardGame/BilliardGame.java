@@ -213,6 +213,7 @@ public class BilliardGame {
 			}
 		}
 		
+		//checks for hero colliding with baskets
 		hero.isHit(seedBasketManager);
 
 		for (int i = 0; i < bunnies.size(); i ++) {
