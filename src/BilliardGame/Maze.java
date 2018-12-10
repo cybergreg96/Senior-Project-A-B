@@ -209,7 +209,7 @@ class Maze
 				
 				else if (i!=14)
 				{
-					if(Math.random() < 0.4) {
+					if(Math.random() < 0.4 && (j != 0 || i != 0)) {
 					final PlayerRectangle diagonalSeg = tankCell.getDiagonalSeg();
 					diagonalSegments[i + 1][j] = diagonalSeg;
 					}else {

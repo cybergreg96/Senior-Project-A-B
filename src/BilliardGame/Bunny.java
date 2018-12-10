@@ -140,8 +140,8 @@ class Bunny implements Viewable {
 			col = 0;
 			row = 0;
 		} else {
-			col = Maze.COLUMNS - 1;
-			row = Maze.ROWS - 1;
+			col = Maze.COLUMNS - rand.nextInt(Maze.COLUMNS);
+			row = Maze.ROWS - rand.nextInt(Maze.COLUMNS);
 		}
 		moveBy(new Point2D(col * Cell.LENGTH, row * Cell.LENGTH));
 		moveBy(new Point2D(Maze.THICKNESS, Maze.THICKNESS));
@@ -623,6 +623,7 @@ class Bunny implements Viewable {
 				back();
 			}
 		}
+		handleMazeCollisions();
 	}
 
 	private void changeDir(Op lastMovementOp2) {
