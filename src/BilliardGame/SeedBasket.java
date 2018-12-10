@@ -31,7 +31,7 @@ public class SeedBasket
 		Image seedImg = new Image("/resources/seeds.png");
 		initImgView(seedImg, 40, 40, launchPoint);
 		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS);
-		circle.setFill(Color.BLACK);
+		circle.setFill(Color.TRANSPARENT);
 		hit = false;
 	}
 
@@ -52,8 +52,8 @@ public class SeedBasket
 		seedImgView = new ImageView(img);
 		seedImgView.setFitWidth(width);
 		seedImgView.setFitHeight(height);
-		seedImgView.setX(position.getX());
-		seedImgView.setY(position.getY());
+		seedImgView.setX(position.getX() - RADIUS);
+		seedImgView.setY(position.getY() - RADIUS);
 	}
 	Shape getShape() 
 	{

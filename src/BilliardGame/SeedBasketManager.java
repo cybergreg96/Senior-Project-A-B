@@ -61,6 +61,7 @@ public class SeedBasketManager
 				if(basket.isHit()) {
 					// remove from view
 					group.getChildren().remove(basket.getShape());
+					group.getChildren().remove(basket.getImageView());
 				} else {
 					// seed hasn't been collected, so save it in temp
 					seedsTemp.add(basket);
