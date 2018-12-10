@@ -21,9 +21,6 @@ public class SeedBasketManager
 	private boolean initialized;
 	private boolean win;
 
-	// spawns the tankfrog manager object to managed when frogs are visible and
-	// where on the maze they are spawned with a given width and height and a
-	// random amount of time to live for.
 	SeedBasketManager(final Maze maze, double w, double h) 
 	{
 		this.maze = maze;
@@ -41,15 +38,13 @@ public class SeedBasketManager
 		return group;
 	}
 
-	// addFrog creates a frog at the launchPoint moving in the direction theta.
-	// nanos is the current time and used
-	// for removing the frog when it has expired.
 	void addFrog(final Point2D launchPoint, final long nanos) 
 	{
 
-		final SeedBasket tankFrog = new SeedBasket(launchPoint, nanos);
-		group.getChildren().add(tankFrog.getShape());
-		seedsArray.add(tankFrog);
+		final SeedBasket basket = new SeedBasket(launchPoint, nanos);
+		group.getChildren().add(basket.getShape());
+		group.getChildren().add(basket.getImageView());
+		seedsArray.add(basket);
 		frogExists = true;
 	}
 
@@ -92,9 +87,6 @@ public class SeedBasketManager
 		}
 	}
 
-	// handleMazeCollisions handles collisions between all of the manager's
-	// frogs
-	// and the maze.
 	void handleMazeCollisions()
 	{
 		seedsArray.forEach(frog -> {

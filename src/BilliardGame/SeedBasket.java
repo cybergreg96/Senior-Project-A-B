@@ -29,8 +29,9 @@ public class SeedBasket
 	{
 
 		Image seedImg = new Image("/resources/seeds.png");
-		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
-		
+		initImgView(seedImg, 40, 40, launchPoint);
+		circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS);
+		circle.setFill(Color.BLACK);
 		hit = false;
 	}
 
@@ -47,16 +48,18 @@ public class SeedBasket
 		}
 		return false;
 	}
-	public void initImgView(Image img, double width, double height) {
+	public void initImgView(Image img, double width, double height, Point2D position) {
 		seedImgView = new ImageView(img);
 		seedImgView.setFitWidth(width);
 		seedImgView.setFitHeight(height);
+		seedImgView.setX(position.getX());
+		seedImgView.setY(position.getY());
 	}
 	Shape getShape() 
 	{
 		return circle;
 	}
-	ImageView getImageView() {
+	public ImageView getImageView() {
 		return seedImgView;
 	}
 	void handleMazeCollision(final ArrayList<PlayerRectangle> segments)
