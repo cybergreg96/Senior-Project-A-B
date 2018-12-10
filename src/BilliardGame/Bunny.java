@@ -93,7 +93,6 @@ class Bunny implements Viewable {
 	public boolean playerBunny = false;
 	public boolean split = false;
 	public boolean isGiantRat = false;
-
 	/*
 	 * Tank object constructor. When called creates a tank object with
 	 * parameters of tank name, billiardBunny colors, its keycodes, intitial
@@ -114,7 +113,7 @@ class Bunny implements Viewable {
 		}
 		try {
 			ratImg = new Image(new FileInputStream("src/resources/giant-rat.png"));
-		} catch (FileNotFoundException e) {
+		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		initImgView(bunnyImage, 40, 40);
@@ -158,19 +157,19 @@ class Bunny implements Viewable {
 	public void setFreeze(boolean shouldFreeze) {
 		bunnyFreeze = shouldFreeze;
 	}
-
+	
 	public boolean split() {
 		return split;
 	}
-
+	
 	public void setSplit(boolean shouldSplit) {
 		split = shouldSplit;
 	}
-
+	
 	public void setPlayerBunny(boolean isPlayer) {
 		playerBunny = isPlayer;
 	}
-
+	
 	public boolean isPlayerBunny() {
 		return playerBunny;
 	}
@@ -650,7 +649,6 @@ class Bunny implements Viewable {
 
 	private int c2 = 0;
 	private int n = 0;
-
 	void randMove() {
 		Random rand = new Random();
 		if (c2 == 0) {
@@ -664,7 +662,7 @@ class Bunny implements Viewable {
 		}
 		if (n == 1) {
 			if (getY() <= 20) {
-				n = 2;
+				n=2;
 				back();
 			} else {
 				forward();
@@ -672,21 +670,21 @@ class Bunny implements Viewable {
 
 		} else if (n == 2) {
 			if (getY() >= 770) {
-				n = 1;
+				n=1;
 				forward();
 			} else {
 				back();
 			}
 		} else if (n == 3) {
 			if (getX() <= 20) {
-				n = 4;
+				n=4;
 				right();
 			} else {
 				left();
 			}
 		} else if (n == 4) {
 			if (getX() >= 770) {
-				n = 3;
+				n=3;
 				left();
 			} else {
 				right();
@@ -740,14 +738,15 @@ class Bunny implements Viewable {
 			c++;
 		}
 		fixTheta();
+		
 
-		if (isGiantRat) {
+		if(isGiantRat) {
 			GRATaim();
-		} else {
+		} else {			
 			BUNNYaim();
 		}
-		if (bunnyFreeze == false && isPlayerBunny() == false)
-			autoMove(nanos);
+
+		autoMove(nanos);
 
 		if (nanos >= expiry) {
 			tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
@@ -792,6 +791,7 @@ class Bunny implements Viewable {
 
 				handleMazeCollisions();
 			} else {
+
 				if (activeOps.contains(Op.RIGHT)) {
 					right();
 				} else if (activeOps.contains(Op.LEFT)) {
@@ -805,12 +805,12 @@ class Bunny implements Viewable {
 				handleMazeCollisions();
 			}
 		}
-
-		if (isHit(getBulletManager())) {
+		
+		if(isHit(getBulletManager())) {
 			double randomVariable = Math.random();
 			if (randomVariable <= 0.1) {
 				System.out.println("giant rat");
-				if (!isGiantRat) {
+				if(!isGiantRat) {					
 					isGiantRat = true;
 					bunnyImgView.setImage(ratImg);
 					System.out.println("Setting new Image...");
