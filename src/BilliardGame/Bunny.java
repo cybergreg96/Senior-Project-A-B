@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
-import java.util.Timer;
 import java.util.concurrent.TimeUnit;
 
 import PacManGUI.SceneInfo;
@@ -92,15 +91,11 @@ class Bunny implements Viewable {
 	public boolean playerBunny = false;
 	public boolean split = false;
 	public boolean isGiantRat = false;
-	public boolean autoMove = true;
-	public boolean autoMoveWait = true;
-
-	Timer waitTimer = new Timer();
 
 	/*
-	 * Tank object constructor. When called creates a tank object with parameters of
-	 * tank name, billiardBunny colors, its keycodes, intitial angle and the max
-	 * health.
+	 * Tank object constructor. When called creates a tank object with
+	 * parameters of tank name, billiardBunny colors, its keycodes, intitial
+	 * angle and the max health.
 	 */
 	Bunny(final String mainColorName, final Maze maze, final HashMap<KeyCode, Op> keycodes, final double initialAngle, double maxHealth) {
 		this.maze = maze;
@@ -175,14 +170,6 @@ class Bunny implements Viewable {
 		return playerBunny;
 	}
 
-	public void setAutoMove(boolean shouldAuto) {
-		autoMove = shouldAuto;
-	}
-
-	public boolean shouldAutoMove() {
-		return autoMove;
-	}
-
 	/*
 	 * creates TankBulletManager object for each tank object created
 	 */
@@ -210,7 +197,8 @@ class Bunny implements Viewable {
 	 * headCopy.rotate(pivot, -theta + Math.PI); billiardBunnyCopy.rotate(pivot,
 	 * -theta + Math.PI);
 	 * 
-	 * return new Group(billiardBunnyCopy.getPolygon(), headCopy.getPolygon()); }
+	 * return new Group(billiardBunnyCopy.getPolygon(), headCopy.getPolygon());
+	 * }
 	 */
 
 	// rotate tank clockwise if stopped and turns tank right when moving
@@ -279,11 +267,13 @@ class Bunny implements Viewable {
 	}
 
 	/**
-	 * This function updates the velocity of the Bunny to have consistent speed with
-	 * the other main directions
+	 * This function updates the velocity of the Bunny to have consistent speed
+	 * with the other main directions
 	 * 
-	 * @param x x direction
-	 * @param y y direction
+	 * @param x
+	 *            x direction
+	 * @param y
+	 *            y direction
 	 */
 	private void diagonal(String x, String y) {
 		double xVal, yVal;
@@ -355,15 +345,16 @@ class Bunny implements Viewable {
 	private Point2D getBulletLaunchPoint() {
 		if (!bunnyExists) {
 			/*
-			 * final Point2D topRight = billiardBunny.getTopRight(); final Point2D
-			 * bottomRight = billiardBunny.getBottomRight(); return
+			 * final Point2D topRight = billiardBunny.getTopRight(); final
+			 * Point2D bottomRight = billiardBunny.getBottomRight(); return
 			 * topRight.midpoint(bottomRight);
 			 */
 			return billiardBunny.getCenter();
 		} else {
 			/*
-			 * final Point2D topLeft = billiardBunny.getTopLeft(); final Point2D bottomLeft
-			 * = billiardBunny.getBottomLeft(); return topLeft.midpoint(bottomLeft);
+			 * final Point2D topLeft = billiardBunny.getTopLeft(); final Point2D
+			 * bottomLeft = billiardBunny.getBottomLeft(); return
+			 * topLeft.midpoint(bottomLeft);
 			 */
 			return billiardBunny.getCenter();
 		}
@@ -533,10 +524,7 @@ class Bunny implements Viewable {
 
 	// handles press of a key in tank keycode
 	void handlePressed(final KeyCode keyCode) {
-		setAutoMove(false);
 		activeOps.add(keycodes.get(keyCode));
-		waitTimer.cancel();
-		waitTimer.purge();
 	}
 
 	// handles release of button in tank keycode
@@ -546,15 +534,6 @@ class Bunny implements Viewable {
 			tankBulletManager.lock = false;
 		}
 		activeOps.remove(op);
-		waitTimer = new Timer();
-		waitTimer.schedule(new java.util.TimerTask() {
-			@Override
-			public void run() {
-				setAutoMove(true);
-			}
-		},
-				// execute after three seconds
-				2000);
 	}
 
 	void updateHero(Point2D point) {
@@ -762,9 +741,8 @@ class Bunny implements Viewable {
 		} else {
 			BUNNYaim();
 		}
-		if (shouldAutoMove()) {
+		if (bunnyFreeze == false && isPlayerBunny() == false)
 			autoMove(nanos);
-		}
 
 		if (nanos >= expiry) {
 			tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
@@ -801,7 +779,6 @@ class Bunny implements Viewable {
 
 				handleMazeCollisions();
 			} else {
-
 				if (activeOps.contains(Op.RIGHT)) {
 					right();
 				} else if (activeOps.contains(Op.LEFT)) {
@@ -900,3 +877,4 @@ class Bunny implements Viewable {
 		return billiardBunny.getCenter().getY();
 	}
 }
+
