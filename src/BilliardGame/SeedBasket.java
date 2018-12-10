@@ -19,7 +19,6 @@ public class SeedBasket
 	// Maze.
 
 	private static final double RADIUS = 20;
-	private static final Paint COLOR = Color.GREEN;
 	private final Circle circle;
 	private boolean hit;
 	private Image seedImg;
