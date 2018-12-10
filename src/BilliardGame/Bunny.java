@@ -429,6 +429,12 @@ class Bunny implements Viewable {
 		// switch cases share scope. So java would think
 		// we are redeclaring a variable.
 		final Point2D decomposedVelocity;
+		
+		if(lastMovementOp == null)
+		{
+			//ensure that bunny can escape wall if it spawns on top of a wall
+			lastMovementOp = Op.FORWARD;
+		}
 		switch (lastMovementOp) {
 		case FORWARD:
 			decomposedVelocity = new Point2D(0,
