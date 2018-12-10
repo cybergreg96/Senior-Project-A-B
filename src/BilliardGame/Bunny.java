@@ -824,7 +824,7 @@ class Bunny implements Viewable {
 						// execute after three seconds
 						3000);
 			} else {
-				System.out.println("do nothing");
+				//System.out.println("do nothing");
 				// nothing
 			}
 		}
