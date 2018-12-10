@@ -169,16 +169,9 @@ public class BilliardGame {
 			alert.setHeaderText("Game Over!");
 			
 			String alertContent = "";
-
-			// Node graphic = tank1.getWinPose();
-			//Bunny winningTank = null;
 			
 			alertContent = (hUI.actualHealth == 0) ? "The bunnies won!": "The bird won!";
-			//if (hero.isDead()) {
-			//	winningTank = bunny;
-				// graphic = tank2.getWinPose();
-			//}
-			// alert.setGraphic(graphic);
+
 			alert.setContentText(alertContent);
 
 			alert.getButtonTypes().setAll(MAIN_MENU_BUTTON_TYPE, PLAY_AGAIN_BUTTON_TYPE);
@@ -229,118 +222,8 @@ public class BilliardGame {
 				root.getChildren().addAll(splitBunny.getNode(), splitBunny.getBulletManager().getNode());
 			}
 		}
-		
-		
 
-		// handles when a tank is hit by frog object and determining what tank
-		// to add health to.
-		if (seedBasketManager.isHit(hero)) {
-			// tank1.addHealth();
-		}
-
-		// handles which health circles to be displayed based on current health
-		// of tank1 or blue tank
-		//String health1 = Double.toString(hero.getCurrentHealth());
-		//System.out.println((int)(hero.getCurrentHealth() * 10));
-		System.out.println(hero.getCurrentHealth());
 		hUI.manageHealth(hero.getCurrentHealth());
-		/*if (health1.contains("1.0")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(true);
-			h7.setVisible(true);
-			h8.setVisible(true);
-			h9.setVisible(true);
-			h10.setVisible(true);
-		}
-		if (health1.contains(".9")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(true);
-			h7.setVisible(true);
-			h8.setVisible(true);
-			h9.setVisible(true);
-			h10.setVisible(false);
-		}
-		if (health1.contains(".8")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(true);
-			h7.setVisible(true);
-			h8.setVisible(true);
-			h9.setVisible(false);
-		}
-		if (health1.contains(".7")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(true);
-			h7.setVisible(true);
-			h8.setVisible(false);
-		}
-		if (health1.contains(".6")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(true);
-			h7.setVisible(false);
-		}
-		if (health1.contains(".5")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(true);
-			h6.setVisible(false);
-		}
-		if (health1.contains(".4")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(true);
-			h5.setVisible(false);
-		}
-		if (health1.contains(".3")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(true);
-			h4.setVisible(false);
-		}
-		if (health1.contains(".2")) {
-			h1.setVisible(true);
-			h2.setVisible(true);
-			h3.setVisible(false);
-		}
-		if (health1.contains(".1")) {
-			h1.setVisible(true);
-			h2.setVisible(false);
-		}
-		if (hero.getCurrentHealth() < .01) {
-			h1.setVisible(false);
-		}*/
-
-
-
-		if (hero.isDead() || bunny.isDead()) {
-			// We draw the dead tanks before we announce to the players.
-			// Otherwise if we try and prompt in this pulse, then there is a
-			// slight freeze before
-			// the dead tank can be drawn.
-			return;
-		}
 
 		hero.handle(nanos);
 		for (Bunny b : bunnies) {
