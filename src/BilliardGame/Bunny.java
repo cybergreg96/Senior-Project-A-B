@@ -91,7 +91,7 @@ class Bunny implements Viewable {
 	public boolean bunnyFreeze = false;
 	public boolean playerBunny = false;
 	public boolean split = false;
-
+	public boolean isGiantRat = false;
 	/*
 	 * Tank object constructor. When called creates a tank object with
 	 * parameters of tank name, billiardBunny colors, its keycodes, intitial
@@ -672,7 +672,12 @@ class Bunny implements Viewable {
 			c++;
 		}
 		fixTheta();
-		BUNNYaim();
+		
+		if(isGiantRat) {
+			GRATaim();
+		} else {			
+			BUNNYaim();
+		}
 
 		if (nanos < first) {
 			if (Math.abs(dist()) < 50) {
@@ -757,9 +762,20 @@ class Bunny implements Viewable {
 		
 		if(isHit(getBulletManager())) {
 			double randomVariable = Math.random();
-			if (randomVariable <= 0.1) {
+			if (randomVariable <= 0.1 && !isGiantRat) {
 				System.out.println("giant rat");
-				// giant rat
+				isGiantRat = true;
+				// JUSTIN
+				//
+				// Image switch should be right here. it will happen only once
+				// 
+//				try {
+//					bunnyImage = new Image(new FileInputStream("src/resources/giant-rat.png"));
+//				} catch (FileNotFoundException e) {
+//					e.printStackTrace();
+//				}
+//				initImgView(bunnyImage, 40, 40);
+//				syncShape();
 			} else if (randomVariable <= 0.2 && randomVariable > 0.1) {
 				// split bunny
 				System.out.println("bunny split");
