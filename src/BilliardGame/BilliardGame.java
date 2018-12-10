@@ -243,7 +243,7 @@ public class BilliardGame {
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
 		//String health1 = Double.toString(hero.getCurrentHealth());
-		System.out.println((int)hero.getCurrentHealth());
+		System.out.println((int)(hero.getCurrentHealth() * 10));
 		hUI.manageHealth(hero.getCurrentHealth());
 		/*if (health1.contains("1.0")) {
 			h1.setVisible(true);
