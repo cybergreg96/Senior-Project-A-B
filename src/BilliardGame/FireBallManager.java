@@ -14,7 +14,7 @@ class FireBallManager
 {
 	
 	private static final int MAX_BULLETS = 5;
-	private final ArrayList<FireBall> tankBullets = new ArrayList<>(MAX_BULLETS);
+	private ArrayList<FireBall> tankBullets = new ArrayList<>(MAX_BULLETS);
 	private final Group group = new Group();
 	private final Maze maze;
 	private Bunny playerTank;
@@ -102,6 +102,13 @@ class FireBallManager
 	{
 		return tankBullets;
 	}
+	
+	public void setTankShots(ArrayList<FireBall> f) 
+	{
+		tankBullets = f;
+	}
+	
+	
 	//returns true when tank is reloading, flase when tank is in normal state
 	boolean isReloading()
 	{

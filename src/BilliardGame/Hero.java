@@ -274,7 +274,11 @@ class Hero implements Viewable
 
 			if (Physics.isIntersecting(getShape(), t.getShape())) 
 			{
-				return true;
+				ArrayList<FireBall> f = tbm.tankShots();
+				f.remove(t);
+				tbm.setTankShots(f);
+				
+				return true; //TODO
 			}
 		}
 		return false;
