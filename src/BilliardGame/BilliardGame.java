@@ -198,7 +198,7 @@ public class BilliardGame {
 				if (!buttonType.isPresent() || buttonType.get() == MAIN_MENU_BUTTON_TYPE) {
 
 					try {
-						Parent x = FXMLLoader.load(getClass().getResource("StartScreen.fxml"));
+						Parent x = FXMLLoader.load(getClass().getClassLoader().getResource("StartScreen.fxml"));
 						x.setStyle("-fx-background-color: #a50000");
 						Scene y = new Scene(x);
 						Stage w = stage;
