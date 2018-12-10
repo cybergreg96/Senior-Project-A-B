@@ -83,6 +83,8 @@ class Bunny implements Viewable
 	private ImageView bunnyImgView;
 	public boolean bunnyExists;
 	public boolean frogExists;
+	
+	public boolean bunnyFreeze = false;
 
 	/*
 	 * Tank object constructor. When called creates a tank object with
@@ -136,6 +138,14 @@ class Bunny implements Viewable
 		moveBy(new Point2D((Cell.LENGTH - Maze.THICKNESS) / 2, (Cell.LENGTH - Maze.THICKNESS) / 2));
 		moveBy(new Point2D(-billiardBunny.getRadius() / 2, -billiardBunny.getRadius() / 2));
 		syncShape();
+	}
+	
+	public boolean freeze() {
+		return bunnyFreeze;
+	}
+	
+	public void setFreeze(boolean shouldFreeze) {
+		bunnyFreeze = shouldFreeze;
 	}
 
 	/*
@@ -528,7 +538,7 @@ class Bunny implements Viewable
 		autoAim();
 		tankBulletManager.update(nanos);
 		// prevents even attempting to fire if out of ammo
-		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo()) 
+		if (activeOps.contains(Op.FIRE) && !tankBulletManager.outOfAmmo() && bunnyFreeze == false) 
 		{
 			// shoots backwards if bunny exists
 			if (!bunnyExists) 
@@ -556,6 +566,8 @@ class Bunny implements Viewable
 		}
 
 		//TODO test
+		
+		if(bunnyFreeze == false) {
 		if(activeOps.size() > 1)
 		{
 			//multiple control buttons are being pressed
@@ -600,7 +612,10 @@ class Bunny implements Viewable
 
 			handleMazeCollisions();
 		}
+		}
 	}
+	
+	
 
 	//method to kill tank and turn its colors to dead colors
 	void kill()
