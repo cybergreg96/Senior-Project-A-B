@@ -161,27 +161,23 @@ public class BilliardGame {
 	private void handle(final long nanos) {
 		fpsMeter.handle(nanos);
 
-		if (hero.isDead() || seedBasketManager.getWinCondition()) {
+		if (hUI.actualHealth == 0 || seedBasketManager.getWinCondition()) {
 			timer.stop();
 
 			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
-			alert.setTitle("TANK TANK");
+			alert.setTitle("Billiard Bunnies");
 			alert.setHeaderText("Game Over!");
-
-			String alertContent = "Congratulations to the Player for winning!";
+			
+			String alertContent = "";
 
 			// Node graphic = tank1.getWinPose();
-			Bunny winningTank = null;
-
-			if (hero.isDead()) {
-				winningTank = bunny;
+			//Bunny winningTank = null;
+			
+			alertContent = (hUI.actualHealth == 0) ? "The bunnies won!": "The bird won!";
+			//if (hero.isDead()) {
+			//	winningTank = bunny;
 				// graphic = tank2.getWinPose();
-			}
-
-			if (winningTank != null) {
-				alertContent = String.format("Congratulations to the %s player for winning!",
-						winningTank.getMainColorName());
-			}
+			//}
 			// alert.setGraphic(graphic);
 			alert.setContentText(alertContent);
 
@@ -213,7 +209,9 @@ public class BilliardGame {
 			});
 			return;
 		}
-
+		if (bunny.getBulletManager().isDeadTank(hero)) {
+			hero.kill();
+		}
 		// handles when a tank is hit by bullet object and determining what tank
 		// to subtract health from.
 		for (Bunny b : bunnies) {
@@ -243,7 +241,7 @@ public class BilliardGame {
 		// handles which health circles to be displayed based on current health
 		// of tank1 or blue tank
 		//String health1 = Double.toString(hero.getCurrentHealth());
-		System.out.println((int)(hero.getCurrentHealth() * 10));
+		//System.out.println((int)(hero.getCurrentHealth() * 10));
 		hUI.manageHealth(hero.getCurrentHealth());
 		/*if (health1.contains("1.0")) {
 			h1.setVisible(true);
@@ -333,9 +331,7 @@ public class BilliardGame {
 			h1.setVisible(false);
 		}*/
 
-		if (bunny.getBulletManager().isDeadTank(hero)) {
-			hero.kill();
-		}
+
 
 		if (hero.isDead() || bunny.isDead()) {
 			// We draw the dead tanks before we announce to the players.

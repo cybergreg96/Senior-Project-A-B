@@ -13,6 +13,7 @@ public class HealthUI {
 	ImageView[] healthElements = new ImageView[10];
 	Group hGroup = new Group();
 	Image healthImg;
+	int actualHealth = 10;
 	public HealthUI(double startX, double startY) 
 	{
 		try {
@@ -36,8 +37,9 @@ public class HealthUI {
 	}
 	public void manageHealth(double value) 
 	{
-		int actualHealth = (int)value * 10;
+		actualHealth = (int)value * 10;
 		ObservableList<Node> hChildren = hGroup.getChildren();
+		//System.out.println("Health left: " + actualHealth);
 		for(int i = 0; i < actualHealth;i++) {
 			hChildren.get(i).setVisible(true);
 		}
@@ -50,5 +52,8 @@ public class HealthUI {
 	}
 	public ImageView[] getHealthElements() {
 		return healthElements;
+	}
+	public int getActualHealth() {
+		return actualHealth;
 	}
 }

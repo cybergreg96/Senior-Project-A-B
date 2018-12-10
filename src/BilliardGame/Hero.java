@@ -465,7 +465,7 @@ class Hero implements Viewable
 	}
 
 	//returns double value of tanks current health
-	double getCurrentHealth()
+	public double getCurrentHealth()
 	{
 		return currentHealth;
 	}
