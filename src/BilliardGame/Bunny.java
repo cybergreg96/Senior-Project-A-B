@@ -607,7 +607,29 @@ class Bunny implements Viewable {
 			rotate(-1 * it);
 	}
 
-	void autoMove() {
+	private int c = 0;
+	private long expiry;
+	private long elapsed;
+	private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
+	private static final long DURATION2 = TimeUnit.SECONDS.toNanos(20);
+	long first;
+	long second;
+
+	void autoMove(long nanos) {
+		if (nanos < second) {
+			randMove();
+			handleMazeCollisions();
+		} else if (nanos >= second && nanos <= elapsed) {
+			dirMove();
+			handleMazeCollisions();
+		} else if (nanos > elapsed) {
+			elapsed = nanos + DURATION2;
+			first = (long) ((elapsed - nanos) * .9);
+			second = (nanos + first);
+		}
+	}
+
+	void dirMove() {
 		double x = distX();
 		double y = distY();
 		if (Math.abs(x) > Math.abs(y)) {
@@ -623,7 +645,52 @@ class Bunny implements Viewable {
 				back();
 			}
 		}
-		handleMazeCollisions();
+	}
+
+	private int c2 = 0;
+	private int n = 0;
+	void randMove() {
+		Random rand = new Random();
+		if (c2 == 0) {
+			n = rand.nextInt(4) + 1;
+			c2++;
+		} else {
+			c2++;
+		}
+		if (c2 == 75) {
+			c2 = 0;
+		}
+		if (n == 1) {
+			if (getY() <= 20) {
+				n=2;
+				back();
+			} else {
+				forward();
+			}
+
+		} else if (n == 2) {
+			if (getY() >= 770) {
+				n=1;
+				forward();
+			} else {
+				back();
+			}
+		} else if (n == 3) {
+			if (getX() <= 20) {
+				n=4;
+				right();
+			} else {
+				left();
+			}
+		} else if (n == 4) {
+			if (getX() >= 770) {
+				n=3;
+				left();
+			} else {
+				right();
+			}
+		}
+
 	}
 
 	private void changeDir(Op lastMovementOp2) {
@@ -654,63 +721,35 @@ class Bunny implements Viewable {
 			}
 		}
 	}
+
 	public double dist() {
 		double z = Math.pow(distX(), 2) + Math.pow(distY(), 2);
 		double ans = Math.sqrt(z);
 		return ans;
 	}
-	private int c = 0;
-	private long expiry;
-	private long elapsed;
-	private static final long DURATION = TimeUnit.SECONDS.toNanos(5);
-	private static final long DURATION2 = TimeUnit.SECONDS.toNanos(5);
-	long first;
-	long second;
 
 	// handle updates the state of the tank and the tank's bullets.
 	void handle(final long nanos) {
 		if (c == 0) {
 			expiry = nanos + DURATION;
 			elapsed = nanos + DURATION2;
-			first = (long) ((elapsed -
-
-					nanos) * .9);
+			first = (long) ((elapsed - nanos) * .9);
 			second = (nanos + first);
 			c++;
 		}
 		fixTheta();
 		
+
 		if(isGiantRat) {
 			GRATaim();
 		} else {			
 			BUNNYaim();
 		}
 
-		if (nanos < first) {
-			if (Math.abs(dist()) < 50) {
-
-			} else {
-				// autoMove();
-
-			}
-
-		} else if (nanos >= second && nanos <=
-
-		elapsed) {
-			autoMove();
-		} else if (nanos > elapsed) {
-			elapsed = nanos + DURATION2;
-			first = (long) ((elapsed -
-
-					nanos) * .9);
-			second = (nanos + first);
-
-		}
+		autoMove(nanos);
 
 		if (nanos >= expiry) {
-			tankBulletManager.addBullet
-
-			(getBulletLaunchPoint(), getTheta(), nanos);
+			tankBulletManager.addBullet(getBulletLaunchPoint(), getTheta(), nanos);
 			expiry = nanos + DURATION;
 		}
 		tankBulletManager.update(nanos);
