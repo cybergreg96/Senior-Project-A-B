@@ -97,7 +97,7 @@ class PlayerCircle
 		//System.out.println(center);
 	}
 
-	Circle getCircle()
+	public Circle getCircle()
 {
 		return pCirc;
 	}
