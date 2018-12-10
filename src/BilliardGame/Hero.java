@@ -181,8 +181,8 @@ class Hero implements Viewable
 	{
 		this.theta += theta;
 		billiardHero.rotate(pivot, theta);
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(VELOCITY * 3, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-3 * currentHealth, this.theta);
 		heroImgView.setRotate(heroImgView.getRotate() + Math.toDegrees(theta));
 		syncShape();
 	}
@@ -200,8 +200,8 @@ class Hero implements Viewable
 	private void forward()
 	{
 		lastMovementOp = Op.FORWARD;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(3 * currentHealth, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-3 * currentHealth, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(decomposedVelocity);
 	}
@@ -210,8 +210,8 @@ class Hero implements Viewable
 	private void back() 
 	{
 		lastMovementOp = Op.REVERSE;
-		decomposedVelocity = Physics.decomposeVector(VELOCITY * currentHealth, this.theta);
-		negativeDecomposedVelocity = Physics.decomposeVector(-VELOCITY * currentHealth, this.theta);
+		decomposedVelocity = Physics.decomposeVector(3 * currentHealth, this.theta);
+		negativeDecomposedVelocity = Physics.decomposeVector(-3 * currentHealth, this.theta);
 		// multiply by tankHealth to reduce speed
 		moveBy(negativeDecomposedVelocity);
 	}
@@ -279,6 +279,7 @@ class Hero implements Viewable
 	{
 		for (FireBall t : tbm.tankShots())
 		{
+
 			if (Physics.isIntersecting(getShape(), t.getShape())) 
 			{
 				return true;
