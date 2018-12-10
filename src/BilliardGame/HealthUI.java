@@ -37,7 +37,7 @@ public class HealthUI {
 	}
 	public void manageHealth(double value) 
 	{
-		actualHealth = (int)value * 10;
+		actualHealth = (int)(value * 10);
 		ObservableList<Node> hChildren = hGroup.getChildren();
 		//System.out.println("Health left: " + actualHealth);
 		for(int i = 0; i < actualHealth;i++) {

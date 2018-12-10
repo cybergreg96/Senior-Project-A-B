@@ -242,6 +242,7 @@ public class BilliardGame {
 		// of tank1 or blue tank
 		//String health1 = Double.toString(hero.getCurrentHealth());
 		//System.out.println((int)(hero.getCurrentHealth() * 10));
+		System.out.println(hero.getCurrentHealth());
 		hUI.manageHealth(hero.getCurrentHealth());
 		/*if (health1.contains("1.0")) {
 			h1.setVisible(true);
