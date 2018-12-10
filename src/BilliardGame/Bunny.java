@@ -84,6 +84,7 @@ class Bunny implements Viewable {
 	private boolean dead;
 	private double currentHealth;
 	private Image bunnyImage;
+	private Image ratImg;
 	private ImageView bunnyImgView;
 	public boolean bunnyExists;
 	public boolean frogExists;
@@ -108,6 +109,11 @@ class Bunny implements Viewable {
 		try {
 			bunnyImage = new Image(new FileInputStream("src/resources/bunny face.png"));
 		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		try {
+			ratImg = new Image(new FileInputStream("src/resources/giant-rat.png"));
+		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		initImgView(bunnyImage, 40, 40);
@@ -765,17 +771,9 @@ class Bunny implements Viewable {
 			if (randomVariable <= 0.1 && !isGiantRat) {
 				System.out.println("giant rat");
 				isGiantRat = true;
-				// JUSTIN
-				//
-				// Image switch should be right here. it will happen only once
-				// 
-//				try {
-//					bunnyImage = new Image(new FileInputStream("src/resources/giant-rat.png"));
-//				} catch (FileNotFoundException e) {
-//					e.printStackTrace();
-//				}
-//				initImgView(bunnyImage, 40, 40);
-//				syncShape();
+				bunnyImgView.setImage(ratImg);
+				System.out.println("Setting new Image...");
+				syncShape();
 			} else if (randomVariable <= 0.2 && randomVariable > 0.1) {
 				// split bunny
 				System.out.println("bunny split");
