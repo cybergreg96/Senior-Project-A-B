@@ -65,7 +65,7 @@ class FireBallManager
 		final Iterator<FireBall> it = tankBullets.iterator();
 		while (it.hasNext()) {
 			final FireBall tankBullet = it.next();
-			if(enemyTankCreated && tankBullet.hitTank(enemyTank))
+			if(enemyTankCreated && tankBullet.hitTank(enemyTank) || tankBullet.hitBunny(playerTank))
 			{
 				it.remove();
 				group.getChildren().remove(tankBullet.getShape());

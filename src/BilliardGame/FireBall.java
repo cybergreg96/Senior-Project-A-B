@@ -32,7 +32,8 @@ class FireBall
         // We add the velocity and radius to the launchPoint so the Tank does not instantly die from its own bullet.
         // Since the bullet is defined to be 1.5 times faster than the tank, this guarantees that the tank will not die
         // as the tank cannot move into it.
-        final Point2D radiusForward = Physics.decomposeVector(RADIUS + VELOCITY, theta);
+        final Point2D radiusForward = Physics.decomposeVector(RADIUS + VELOCITY + 8, theta);
+        System.out.println(radiusForward);
         launchPoint = launchPoint.add(radiusForward);
         Image carrot = new Image("/resources/Fireball.png");
         circle = new Circle(launchPoint.getX(), launchPoint.getY(), RADIUS, COLOR);
@@ -225,6 +226,17 @@ private void horizontalBounce()
     	}
     	return false;
     }
+    
+    boolean hitBunny(Bunny bunny) 
+    {
+    	
+    	if(Physics.isIntersecting(circle,  bunny.getTankShape()))
+    	{
+    		return true;
+    	}
+    	return false;
+    }
+    
     // reflect reflects the velocity across the normal.
     private Point2D reflect(final Point2D velocity, final Point2D normal) 
     {

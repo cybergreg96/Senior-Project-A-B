@@ -180,9 +180,9 @@ public class BilliardGame
 
 			final Alert alert = new Alert(Alert.AlertType.INFORMATION);
 			alert.setTitle("TANK TANK");
-			alert.setHeaderText("Game Over! TANK You Very Much For Playing!!!");
+			alert.setHeaderText("Game Over!");
 
-			String alertContent = "Congratulations to the Tank Player for winning!";
+			String alertContent = "Congratulations to the Player for winning!";
 
 			//Node graphic = tank1.getWinPose();
 			Bunny winningTank = null;
@@ -198,7 +198,7 @@ public class BilliardGame
 			
 			if (winningTank != null) 
 			{
-				alertContent = String.format("Congratulations to the %s tank for winning!",
+				alertContent = String.format("Congratulations to the %s player for winning!",
 						winningTank.getMainColorName());
 			}
 			//alert.setGraphic(graphic);
@@ -244,11 +244,38 @@ public class BilliardGame
 			tank1.subtractHealth();
 		}
 		
+		if (tank2.isHit(tank2.getBulletManager())) {
+			double randomVariable = Math.random();
+			if(randomVariable <= 0.1) {
+				System.out.println("giant rat");
+				//giant rat
+			}else if(randomVariable <= 0.2 && randomVariable > 0.1) {
+				System.out.println("split bunny");
+				//split bunny
+			}else if(randomVariable <= 0.7 && randomVariable > 0.2) {
+				System.out.println("bunny freeze");
+				tank2.setFreeze(true);
+				new java.util.Timer().schedule( 
+				        new java.util.TimerTask() {
+				            @Override
+				            public void run() {
+				                tank2.setFreeze(false);
+				            }
+				        }, 
+				        //execute after three seconds
+				        3000 
+				);
+			}else {
+				System.out.println("do nothing");
+				//nothing
+			}
+		}
+		
 		// handles when a tank is hit by frog object and determining what tank
 		// to add health to.
 		if (seedBasketManager.isHit(tank1))
 		{
-			tank1.addHealth();
+			//tank1.addHealth();
 		}
 		
 
